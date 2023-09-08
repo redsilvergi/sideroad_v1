@@ -1,0 +1,326 @@
+import "./LeftBar.css";
+import React, { useState } from "react";
+// import axios from "axios";
+// import Dropdown from "./Dropdown";
+import Accordion from "./Accordion";
+import CheckboxForm from "./CheckboxForm";
+import useInfo from "../hooks/use-info";
+import Modal from "./Modal";
+import { CgFileDocument } from "react-icons/cg";
+// import { GoTriangleUp, GoTriangleDown } from "react-icons/go";
+import guide from "../img/guide.PNG";
+
+const LeftBar = () => {
+  const { setInfo } = useInfo();
+  //Modal/////////////////////////////////////////////////////////////
+  const [showModal, setShowModal] = useState(false);
+
+  const handleModOpen = () => {
+    setShowModal(true);
+  };
+
+  const handleModClose = () => {
+    setShowModal(false);
+  };
+
+  const modal = (
+    <Modal onClose={handleModClose}>
+      <img src={guide} alt="guide1" height="400%" />
+    </Modal>
+  );
+
+  ///////////////////////////////////////////////////////////////
+  //   useEffect(() => {
+  //     !isSelect &&
+  //       setInfo((prev) => ({
+  //         ...prev,
+  //         roadNo: { ...prev.roadNo, selected: null },
+  //       }));
+  //   }, [isSelect, setInfo]);
+
+  //   const fetchData = useCallback(async () => {
+  //     setLD(true);
+  //     try {
+  //       const [nroadRes, emiRes, vpRes, ppRes, bpRes] = await Promise.all([
+  //         axios.get("/nr_sorted.geojson"),
+  //         axios.get("/emi_sorted.geojson"),
+  //         axios.get("/vcount_sorted.geojson"),
+  //         axios.get("/pcount_sorted.geojson"),
+  //         axios.get("/bcount_sorted.geojson"),
+  //       ]);
+
+  //       setData((prev) => ({
+  //         ...prev,
+  //         nroad: nroadRes.data,
+  //         emiroad: emiRes.data,
+  //         vpoint: vpRes.data,
+  //         ppoint: ppRes.data,
+  //         bpoint: bpRes.data,
+  //       }));
+  //     } catch (err) {
+  //       console.error("Error fetching data:", err);
+  //     } finally {
+  //       setLD(false);
+  //       setIsFilter(true);
+  //     }
+  //   }, [setData, setIsFilter, setLD]);
+
+  //   useEffect(() => {
+  //     fetchData();
+  //   }, [fetchData]);
+
+  //   const roadNoOps = [
+  //     [1, "목포-신의주"],
+  //     [4, "부안-경주"],
+  //     [88, "영양-울진"],
+  //   ];
+
+  ///////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////
+
+  // useEffect(() => {
+  //   console.log(
+  //     "UPDATE info taasinfo depth1,2:",
+  //     info,
+  //     taasInfo,
+  //     depth1,
+  //     depth2
+  //   );
+  // }, [info, taasInfo, depth1, depth2]);
+
+  const checklist = [
+    {
+      name: "도로구분",
+      options: [
+        "지방도",
+        "특별시도",
+        "광역시도",
+        "시도",
+        "군도",
+        "구도",
+        "면리간도로",
+        "부지안도로",
+        "소로",
+      ],
+      updateInfo: (sel, chb) =>
+        setInfo((prev) => ({
+          ...prev,
+          roadOps: { ...prev.roadOps, selected: sel, checkboxes: chb },
+        })),
+    },
+    {
+      name: "차로수",
+      options: ["1", "2", "3-5", "6-10", "11-24"],
+      updateInfo: (sel, chb) =>
+        setInfo((prev) => ({
+          ...prev,
+          laneOps: { ...prev.laneOps, selected: sel, checkboxes: chb },
+        })),
+    },
+    {
+      name: "도로폭",
+      options: [
+        "3m미만",
+        "3m이상 ~ 8m미만",
+        "8m이상 ~ 10m미만",
+        "10m이상 ~ 12m미만",
+        "12m이상 ~ 15m미만",
+        "15m이상 ~ 20m미만",
+        "20m이상",
+      ],
+      updateInfo: (sel, chb) =>
+        setInfo((prev) => ({
+          ...prev,
+          widthOps: { ...prev.widthOps, selected: sel, checkboxes: chb },
+        })),
+    },
+    {
+      name: "포장재질",
+      options: [
+        "아스팔트",
+        "아스팔트콘크리트",
+        "콘크리트",
+        "블록",
+        "비포장",
+        "우레탄",
+        "고무",
+        "기타",
+      ],
+      updateInfo: (sel, chb) =>
+        setInfo((prev) => ({
+          ...prev,
+          typeOps: { ...prev.typeOps, selected: sel, checkboxes: chb },
+        })),
+    },
+    {
+      name: "중앙분리대유무",
+      options: ["유", "무"],
+      updateInfo: (sel, chb) =>
+        setInfo((prev) => ({
+          ...prev,
+          barrierOps: { ...prev.barrierOps, selected: sel, checkboxes: chb },
+        })),
+    },
+    {
+      name: "일방통행구분",
+      options: ["일방통행", "양방통행"],
+      updateInfo: (sel, chb) =>
+        setInfo((prev) => ({
+          ...prev,
+          onewayOps: { ...prev.onewayOps, selected: sel, checkboxes: chb },
+        })),
+    },
+    {
+      name: "도로사용상태",
+      options: ["건설예정", "공사중", "운영중", "폐쇄"],
+      updateInfo: (sel, chb) =>
+        setInfo((prev) => ({
+          ...prev,
+          statusOps: { ...prev.statusOps, selected: sel, checkboxes: chb },
+        })),
+    },
+  ];
+
+  const roadStatusItems = [
+    // {
+    //   id: "도로번호별",
+    //   label: "- 도로번호별",
+    //   content: (
+    //     <div>
+    //       <div className="roadNo" onClick={() => setIsSelect(!isSelect)}>
+    //         <div>
+    //           {info.roadNo.selected && info.roadNo.selected.length !== 0
+    //             ? info.roadNo.selected.length > 9
+    //               ? info.roadNo.selected.slice(0, 9).join(",") + "..."
+    //               : info.roadNo.selected.join(",")
+    //             : "선택"}
+    //         </div>
+    //         {isSelect ? <GoTriangleUp /> : <GoTriangleDown />}
+    //       </div>
+    //       {isSelect && <Dropdown options={roadNoOps} />}
+    //     </div>
+    //   ),
+    // },
+    {
+      id: "도로구분",
+      label: "- 도로구분",
+      content: (
+        <div className="road roadItem">
+          <CheckboxForm name={"도로구분"} checklist={checklist} />
+        </div>
+      ),
+    },
+    {
+      id: "차로수",
+      label: "- 차로수",
+      content: (
+        <div className="lane roadItem">
+          <CheckboxForm name={"차로수"} checklist={checklist} />
+        </div>
+      ),
+    },
+    {
+      id: "도로폭",
+      label: "- 도로폭",
+      content: (
+        <div className="width roadItem">
+          <CheckboxForm name={"도로폭"} checklist={checklist} />
+        </div>
+      ),
+    },
+    {
+      id: "포장재질",
+      label: "- 포장재질",
+      content: (
+        <div className="type roadItem">
+          <CheckboxForm name={"포장재질"} checklist={checklist} />
+        </div>
+      ),
+    },
+    {
+      id: "중앙분리대유무",
+      label: "- 중앙분리대유무",
+      content: (
+        <div className="barrier roadItem">
+          <CheckboxForm name={"중앙분리대유무"} checklist={checklist} />
+        </div>
+      ),
+    },
+    {
+      id: "일방통행구분",
+      label: "- 일방통행구분",
+      content: (
+        <div className="oneway roadItem">
+          <CheckboxForm name={"일방통행구분"} checklist={checklist} />
+        </div>
+      ),
+    },
+    {
+      id: "도로사용상태",
+      label: "- 도로사용상태",
+      content: (
+        <div className="status roadItem">
+          <CheckboxForm name={"도로사용상태"} checklist={checklist} />
+        </div>
+      ),
+    },
+  ];
+
+  ///////////////////////////////////////////////////////////////
+  const items = [
+    {
+      id: "이면도로",
+      label: "이면도로",
+      content: <Accordion items={roadStatusItems} />,
+    },
+    // {
+    //   id: "TMS",
+    //   label: "교통량(TMS)",
+    //   content: <div className="prep">- 준비중</div>,
+    // },
+    // {
+    //   id: "TAAS",
+    //   label: "교통사고(TAAS)",
+    //   content: <Accordion items={taasItems} />,
+    // },
+  ];
+  ///////////////////////////////////////////////////////////////
+
+  ///////////////////////////////////////////////////////////////
+  return (
+    <div>
+      <div className="left_column">
+        <a href="./">
+          <p>이면도로</p>
+        </a>
+        <div onClick={handleModOpen} className="guide">
+          <CgFileDocument style={{ color: "white", fontSize: "25px" }} />
+        </div>
+        <div className="guide2">데이터 설명서</div>
+      </div>
+
+      <div className="detail_div">
+        <div className="accordion_div">
+          <Accordion items={items} />
+        </div>
+
+        <div className="footnote">
+          <div className="fnt">데이터 출처</div>
+          <div>
+            · 2019, 국가교통 도로망 GIS 데이터, 국토부/KOTI 2020-2022, GIS
+          </div>
+          <div>
+            · 분석시스템: 교통사고 분석, 교통사고분석시스템(TAAS), 도로교통공단
+          </div>
+          <div>· 2023, 수치지형도(도로중심선데이터), 국토지리정보원</div>
+          <br />
+          <div>*시차로 인한 속성정보 누락구간에 유의·활용 바랍니다.</div>
+
+          {showModal && modal}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LeftBar;

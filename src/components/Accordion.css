@@ -1,0 +1,49 @@
+.d1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: #f9fafb;
+  cursor: pointer;
+}
+
+.d1:hover {
+  background-color: #e5fcf6;
+}
+
+.expanded {
+  color: #808080;
+  width: auto;
+  font-size: 10pt;
+}
+
+.icon {
+  font-size: 10pt;
+  color: #cccccc;
+  display: flex;
+}
+
+.도로번호별_accitem,
+.도로구분_accitem,
+.차로수_accitem,
+.도로폭_accitem,
+.포장재질_accitem,
+.중앙분리대유무_accitem,
+.일방통행구분_accitem,
+.도로사용상태_accitem {
+  border-bottom: solid 1px #cccccc;
+  border-top: solid 1px #cccccc;
+}
+
+.이면도로_d1,
+.TMS_d1,
+.TAAS_d1 {
+  border-bottom: solid 1px #cccccc;
+}
+
+.이면도로_exp,
+.TMS_exp,
+.TAAS_exp {
+  border-left: solid 5px #cccccc;
+  border-bottom: solid 1px #cccccc;
+}

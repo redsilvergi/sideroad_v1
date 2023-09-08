@@ -1,0 +1,34 @@
+.dropdown {
+  overflow: auto;
+  height: 130px;
+  margin: 0 10px 10px 10px;
+  padding: 5px;
+  border: solid 1px #cccccc;
+}
+
+.dropdown ul {
+  list-style-type: none;
+  padding-inline-start: 0px;
+  margin-block-start: 2px;
+  margin-block-end: 2px;
+}
+
+.option-checkbox {
+  display: none;
+}
+
+.option-label {
+  display: block;
+  padding: 3px 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.option-label:hover {
+  background-color: #e5fcf6;
+}
+
+.option-label.selected {
+  color: #e6003c;
+  font-weight: 900;
+}

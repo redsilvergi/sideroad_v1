@@ -1,0 +1,173 @@
+.left_column {
+  position: fixed;
+  background-color: #003762;
+  z-index: 2;
+  height: 100vh;
+  width: 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.left_column a {
+  text-decoration: none;
+}
+
+.left_column p {
+  color: #fcfcfd;
+  font-weight: bold;
+  font-size: 16pt;
+  text-align: center;
+  margin: 0;
+  padding: 5px;
+}
+
+.left_column p:hover {
+  cursor: pointer;
+}
+
+.detail_div {
+  position: fixed;
+  background-color: #fcfcfd;
+  opacity: 1;
+  left: 45px;
+  top: 0px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  width: 220px;
+  align-items: center;
+  border-right: solid transparent 3px;
+  border-image: linear-gradient(to right, #b3b3b3, transparent) 1 100%;
+  overflow: hidden;
+}
+
+.accordion_div {
+  width: 100%;
+  color: #333333;
+  font-size: 12pt;
+  font-weight: bold;
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.info {
+  display: block;
+  width: 85%;
+}
+
+.info > p {
+  font-size: 0.8rem;
+}
+
+.info_button:hover {
+  opacity: 0.5;
+}
+
+.info_button_div {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.prep {
+  padding: 0.75rem;
+  border-bottom: solid 1px #cccccc;
+  border-top: solid 1px #cccccc;
+}
+
+.footnote {
+  font-size: 8pt;
+  color: #cccccc;
+  padding: 20px;
+}
+
+.fnt {
+  font-weight: 900;
+}
+
+.roadNo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  border-bottom: solid #cccccc 1px;
+  margin: 10px;
+  color: #cccccc;
+}
+
+.roadNo div {
+  color: #808080;
+  font-size: 8pt;
+}
+
+.roadNo:hover {
+  background-color: #e5fcf6;
+}
+.selectRoad {
+  width: 180px;
+  margin: 10px;
+  font-size: 8pt;
+  padding: 5px;
+  border-bottom: solid #cccccc 1px;
+  border-radius: 0% !important;
+}
+.css-13cymwt-control {
+  border-radius: 0px !important;
+}
+
+.css-t3ipsp-control {
+  border-radius: 0px !important;
+  border-color: #cccccc;
+}
+
+.css-t3ipsp-control:hover {
+  border-color: #cccccc !important;
+  background-color: #e5fcf6 !important;
+  box-shadow: 0 0 0 1px #e5fcf6;
+}
+
+.css-t3ipsp-control:active {
+  border-color: #cccccc !important;
+}
+
+.css-10wo9uf-option:hover {
+  background-color: #e5fcf6 !important;
+}
+
+.guide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  margin-bottom: 15px;
+  color: white;
+  border-radius: 10%;
+}
+
+.guide:hover {
+  background-color: #af003f;
+  cursor: pointer;
+}
+
+.guide2 {
+  display: none;
+  position: fixed;
+  left: 25px;
+  bottom: 50px;
+  z-index: 2;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px 12px 5px 12px;
+  font-size: 10pt;
+  color: #808080;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.guide:hover + .guide2 {
+  display: block;
+}
