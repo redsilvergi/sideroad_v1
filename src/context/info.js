@@ -24,6 +24,10 @@ function InfoProvider({ children }) {
   const [data] = useState(
     `https://api.mapbox.com/v4/redsilver522.genz1/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}`
   );
+  const [region, setRegion] = useState({
+    city: null,
+    county: null,
+  });
 
   return (
     <InfoContext.Provider
@@ -41,6 +45,8 @@ function InfoProvider({ children }) {
         length,
         setLength,
         data,
+        region,
+        setRegion,
       }}
     >
       {children}

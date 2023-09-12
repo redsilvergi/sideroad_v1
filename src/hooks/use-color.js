@@ -235,23 +235,21 @@ const useColor = () => {
     );
   };
 
-  var len = 0;
   const getRoadColor = (d) => {
     if (conditionF(d)) {
       //   console.log(feature.properties.length);
-      len = len + d.properties.length;
       setLength((prev) => prev + d.properties.length);
 
-      return [230, 0, 60, 255 * 0.8];
+      return [0, 98, 175, 255 * 0.75];
     } else {
-      return [0, 0, 0, 255 * 0.05];
+      return [102, 135, 160, 255 * 0.35];
     }
   };
 
   const getLength = () => {
-    console.log("len:", len / 1000);
+    console.log("getLength");
   };
-  return { getRoadColor, getLength };
+  return { getRoadColor, getLength, conditionF };
 };
 
 export default useColor;

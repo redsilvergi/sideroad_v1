@@ -8,6 +8,10 @@ import useTooltip from "../hooks/use-tooltip";
 import { GiExpand } from "react-icons/gi";
 import LeftBar from "../components/LeftBar";
 import useColor from "../hooks/use-color";
+import Region from "../components/Region";
+// import axios from "axios"; // Import Axios here
+// import Pbf from "pbf";
+// import { VectorTile } from "@mapbox/vector-tile";
 
 const MAPBOX_ACCESS_TOKEN =
   "pk.eyJ1IjoicmVkc2lsdmVyNTIyIiwiYSI6ImNsaHl4enpjNzE4N3Eza3Bjemk3MTc1cDYifQ.EL1F3mAAhdlX1du8lCLDGw";
@@ -23,8 +27,16 @@ const INITIAL_VIEW_STATE = {
   pitch: 0,
 };
 function LandingPage() {
-  const { isFilter, setIsFilter, info, depth1, length, data, setLength } =
-    useInfo();
+  const {
+    isFilter,
+    setIsFilter,
+    info,
+    depth1,
+    length,
+    data,
+    setLength,
+    region,
+  } = useInfo();
   const [view, setView] = useState(INITIAL_VIEW_STATE);
   const { getTooltip } = useTooltip();
   const { getRoadColor, getLength } = useColor();
@@ -48,6 +60,46 @@ function LandingPage() {
     setBasemap(basemap);
     return;
   };
+  //useEffect///////////////////////////////////////////
+  // useEffect(() => {
+  //   const fetchVectorTile = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `https://api.mapbox.com/v4/redsilver522.genz1/0/0/0.vector.pbf?access_token=pk.eyJ1IjoicmVkc2lsdmVyNTIyIiwiYSI6ImNsaHl4enpjNzE4N3Eza3Bjemk3MTc1cDYifQ.EL1F3mAAhdlX1du8lCLDGw`,
+  //         {
+  //           responseType: "arraybuffer", // Tell Axios to treat the response as an ArrayBuffer
+  //         }
+  //       );
+  //       console.log(response);
+
+  //       // if (!response.status === 200) {
+  //       //   throw new Error("Network response was not ok");
+  //       // }
+
+  //       // const pbfdata = new Pbf(response.data);
+  //       // const tile = new VectorTile(pbfdata);
+
+  //       // // Access a specific layer (replace 'layerName' with the actual layer name)
+  //       // const layer = tile.layers["genz1"];
+
+  //       // // Iterate through features and access properties
+  //       // for (let i = 0; i < layer.length; i++) {
+  //       //   const feature = layer.feature(i);
+  //       //   const properties = feature.properties;
+
+  //       //   // Access specific properties as needed
+  //       //   const roadName = properties.ROAD_NAME;
+  //       //   console.log(roadName);
+  //       // }
+  //     } catch (error) {
+  //       console.error("Error fetching or parsing vector tile data:", error);
+  //       // console.error("Response status:", response.status); // Log th
+  //     }
+  //   };
+
+  //   // Call the function to fetch and process the vector tile when the component mounts
+  //   fetchVectorTile();
+  // }, []);
 
   //layers//////////////////////////////////////////////
   const layer1 = useMemo(() => {
@@ -98,6 +150,7 @@ function LandingPage() {
     <div className="testc">
       <LeftBar />
       <div className="container">
+        <Region />
         <div className="toggle_button_div">
           <button
             className="toggle_button"
@@ -149,7 +202,9 @@ function LandingPage() {
                 "depth1:",
                 depth1,
                 "length:",
-                length
+                length,
+                "region:",
+                region
               )
             }
           >
