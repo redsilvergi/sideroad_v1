@@ -25,8 +25,8 @@ function InfoProvider({ children }) {
     `https://api.mapbox.com/v4/redsilver522.genz1/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}`
   );
   const [region, setRegion] = useState({
-    city: null,
-    county: null,
+    city: { cd: null, name: null },
+    county: { cd: null, name: null },
   });
 
   return (

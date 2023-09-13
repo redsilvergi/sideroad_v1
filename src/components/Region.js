@@ -1,14 +1,35 @@
 import "./Region.css";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import useInfo from "../hooks/use-info";
 import Dropdown from "./Dropdown";
 import { AiOutlineClose } from "react-icons/ai";
 
 const Region = () => {
   const { region, setRegion } = useInfo();
-  const [exp, setExp] = useState(false);
+  const [exp, setExp] = useState(0);
+  const divEl = useRef();
   ///////////////////////////////////////////////////////////////
+  useEffect(() => {
+    const handler = (event) => {
+      if (!divEl.current) {
+        return;
+      }
 
+      if (!divEl.current.contains(event.target)) {
+        if (!region.city) {
+          setExp(0);
+        } else {
+          setExp(2);
+        }
+      }
+    };
+
+    document.addEventListener("click", handler, true);
+
+    return () => {
+      document.removeEventListener("click", handler);
+    };
+  }, [region.city]);
   ///////////////////////////////////////////////////////////////
   const cityOps = [
     [1, "서울특별시"],
@@ -32,7 +53,7 @@ const Region = () => {
 
   var countyOps = [];
 
-  switch (region.city) {
+  switch (region.city.cd) {
     case 1:
       countyOps = [
         [10, "강북구"],
@@ -61,66 +82,119 @@ const Region = () => {
       break;
   }
 
-  const handleCity = (cd) => {
+  const handleCity = (code, str) => {
     setRegion((prev) => {
-      if (prev.city === cd) {
-        return { ...prev, city: null };
+      if (prev.city.cd === code) {
+        return {
+          city: { cd: null, name: null },
+          county: { cd: null, name: null },
+        };
       } else {
         return {
-          ...prev,
-          city: cd,
+          city: { cd: code, name: str },
+          county: { cd: null, name: null },
         };
       }
     });
   };
-  const handleCounty = (cd) => {
+  const handleCounty = (code, str) => {
     setRegion((prev) => {
-      if (prev.county === cd) {
-        return { ...prev, county: null };
+      if (prev.county.cd === code) {
+        return { ...prev, county: { cd: null, name: null } };
       } else {
         return {
           ...prev,
-          county: cd,
+          county: { cd: code, name: str },
         };
       }
     });
   };
 
   const handleClose = () => {
-    setExp(false);
-    setRegion({ city: null, county: null });
+    setExp(0);
+    setRegion({
+      city: { cd: null, name: null },
+      county: { cd: null, name: null },
+    });
   };
   ///////////////////////////////////////////////////////////////
 
-  return exp ? (
-    <div className={`regionExp ${region.city ? "exp2" : ""}`}>
-      <div className="region" onClick={() => setExp(!exp)}>
-        지역선택
-      </div>
-      <div className="city">
-        <div>시/도</div>
-        <Dropdown options={cityOps} handleOps={handleCity} type={"city_dd"} />
-      </div>
-      {region.city && (
-        <div className="county">
-          <div>시/군/구</div>
-          <Dropdown
-            options={countyOps}
-            handleOps={handleCounty}
-            type={"coun_dd"}
+  var rendered;
+
+  switch (exp) {
+    case 1:
+      rendered = (
+        <div
+          ref={divEl}
+          className={`regionExp ${region.city.cd ? "exp1" : ""}`}
+        >
+          <div className="region" onClick={() => setExp(1)}>
+            지역선택
+          </div>
+          <div className="city">
+            <div>시/도</div>
+            <Dropdown
+              options={cityOps}
+              handleOps={handleCity}
+              type={"city_dd"}
+            />
+          </div>
+          {region.city.cd && (
+            <div className="county">
+              <div>시/군/구</div>
+              <Dropdown
+                options={countyOps}
+                handleOps={handleCounty}
+                type={"coun_dd"}
+              />
+            </div>
+          )}
+          <AiOutlineClose
+            className={`close ${region.city.cd ? "exp1" : ""}`}
+            onClick={handleClose}
           />
         </div>
-      )}
-      <AiOutlineClose
-        className={`close ${region.city ? "exp2" : ""}`}
-        onClick={handleClose}
-      />
-    </div>
-  ) : (
-    <div className="region" onClick={() => setExp(!exp)}>
-      지역선택
-    </div>
-  );
+      );
+      break;
+    case 2:
+      rendered = !region.city.cd ? (
+        <div className="region" onClick={() => setExp(1)}>
+          지역선택
+        </div>
+      ) : (
+        <div
+          ref={divEl}
+          className={`regionExp ${region.county.cd ? "exp1" : ""} exp2`}
+        >
+          <div className="region" onClick={() => setExp(1)}>
+            지역선택
+          </div>
+          <div className="city">
+            <div>{region.city.name}</div>
+          </div>
+
+          {region.county.cd && (
+            <div className="county">
+              <div>{region.county.name}</div>
+            </div>
+          )}
+          <AiOutlineClose
+            className={`close ${region.county.cd ? "exp1" : ""}`}
+            onClick={handleClose}
+          />
+        </div>
+      );
+      break;
+    default:
+      rendered = (
+        <div className="region" onClick={() => setExp(1)}>
+          지역선택
+        </div>
+      );
+      break;
+  }
+  ////////////////////////////////////////////////////////////
+  return rendered;
 };
 
 export default Region;
