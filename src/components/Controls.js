@@ -2,12 +2,14 @@ import "./Controls.css";
 import React from "react";
 import useInfo from "../hooks/use-info";
 import useColor from "../hooks/use-color";
+import useQuery from "../hooks/use-query";
 import { GiExpand } from "react-icons/gi";
 import { BiHide } from "react-icons/bi";
 
 const Controls = ({ view, setView, INITIAL_VIEW_STATE }) => {
   const { isFilter, setIsFilter, info, depth1, length, region } = useInfo();
   const { getLength } = useColor();
+  const { queryF } = useQuery();
 
   return (
     <div className="toggle_button_div">
@@ -66,6 +68,9 @@ const Controls = ({ view, setView, INITIAL_VIEW_STATE }) => {
       </button>
       <button className="toggle_button" onClick={getLength}>
         DT
+      </button>
+      <button className="toggle_button" onClick={queryF}>
+        QRY
       </button>
     </div>
   );
