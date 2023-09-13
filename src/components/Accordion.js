@@ -92,9 +92,9 @@ function Accordion({ items }) {
         return currentExpandedIndex.filter((item) => item !== nextIndex);
       } else {
         switch (items[nextIndex].id) {
-          case "이면도로":
-            setDepth1("이면도로");
-            return [nextIndex];
+          // case "이면도로":
+          //   setDepth1("이면도로");
+          //   return [nextIndex];
           case "TMS":
             reset();
             setDepth1("TMS");
@@ -114,11 +114,12 @@ function Accordion({ items }) {
   const renderedItems = items.map((item, index) => {
     const isExpanded = expandedIndex.includes(index);
 
-    const icon = (
-      <span className="icon">
-        {isExpanded ? <GoTriangleUp /> : <GoTriangleDown />}
-      </span>
-    );
+    const icon =
+      items[0].id === "이면도로" ? null : (
+        <span className="icon">
+          {isExpanded ? <GoTriangleUp /> : <GoTriangleDown />}
+        </span>
+      );
 
     return (
       <div key={item.id} className={`${item.id + "_accitem"}`}>
@@ -129,7 +130,7 @@ function Accordion({ items }) {
           {item.label}
           {icon}
         </div>
-        {isExpanded && (
+        {(items[0].id === "이면도로" || isExpanded) && (
           <div className={`expanded ${item.id + "_exp"}`}>{item.content}</div>
         )}
       </div>

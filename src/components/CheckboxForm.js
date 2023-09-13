@@ -59,7 +59,9 @@ const CheckboxForm = ({ name, checklist }) => {
                 {item}
               </div>
             ) : (
-              <div className="chk_item_div">{item}</div>
+              <div className="chk_item_div" style={{ marginBottom: "15px" }}>
+                {item}
+              </div>
             )}
           </label>
         </div>

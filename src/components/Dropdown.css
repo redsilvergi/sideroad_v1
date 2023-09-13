@@ -7,6 +7,10 @@
   text-align: center;
 }
 
+.dropdown.coun_dd {
+  width: 120px;
+}
+
 .dropdown ul {
   list-style-type: none;
   padding-inline-start: 0px;
@@ -26,7 +30,7 @@
 }
 
 .option-label:hover {
-  background-color: #e5fcf6;
+  background-color: #e5ebef;
 }
 
 .option-label.selected {

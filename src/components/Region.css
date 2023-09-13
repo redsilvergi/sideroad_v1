@@ -14,7 +14,7 @@
   font-size: 13px;
 }
 .region:hover {
-  background-color: #e5fcf6;
+  background-color: #e5ebef;
 }
 
 .regionExp {
@@ -42,7 +42,7 @@
 
 .city {
   position: absolute;
-  top: 19px;
+  top: 17px;
   left: 110px;
   width: 100px;
   /* border: solid 1px #cccccc; */
@@ -52,11 +52,16 @@
   justify-content: center;
 }
 
+.reg_ttl,
+.reg_ttl {
+  margin-right: 8px;
+}
+
 .county {
   position: absolute;
-  top: 19px;
+  top: 17px;
   left: 250px;
-  width: 100px;
+  width: 110px;
   /* border: solid 1px #cccccc; */
   display: flex;
   flex-direction: column;
@@ -66,7 +71,7 @@
 
 .close {
   position: absolute;
-  top: 12px;
+  top: 11px;
   left: 240px;
   font-size: 15px;
   color: #707070;
@@ -78,6 +83,6 @@
 }
 
 .close:hover {
-  background-color: #e5fcf6;
+  background-color: #e5ebef;
   cursor: pointer;
 }

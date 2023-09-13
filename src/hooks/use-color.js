@@ -1,7 +1,7 @@
 import useInfo from "./use-info";
 
 const useColor = () => {
-  const { info, setLength } = useInfo();
+  const { info, setLength, region } = useInfo();
 
   const conditionF = (d) => {
     const {
@@ -13,6 +13,7 @@ const useColor = () => {
       onewayOps,
       statusOps,
     } = info;
+    const { city, county } = region;
 
     if (roadOps && roadOps.checkboxes) {
       var roadConditions = roadOps.checkboxes
@@ -94,21 +95,29 @@ const useColor = () => {
               case 2:
                 return (feature) =>
                   feature.properties.ROAD_BT >= 8 &&
-                  feature.properties.ROAD_BT < 10;
+                  feature.properties.ROAD_BT < 9;
               case 3:
+                return (feature) =>
+                  feature.properties.ROAD_BT >= 9 &&
+                  feature.properties.ROAD_BT < 10;
+              case 4:
                 return (feature) =>
                   feature.properties.ROAD_BT >= 10 &&
                   feature.properties.ROAD_BT < 12;
-              case 4:
+              case 5:
                 return (feature) =>
                   feature.properties.ROAD_BT >= 12 &&
                   feature.properties.ROAD_BT < 15;
-              case 5:
+              case 6:
                 return (feature) =>
                   feature.properties.ROAD_BT >= 15 &&
                   feature.properties.ROAD_BT < 20;
-              case 6:
-                return (feature) => feature.properties.ROAD_BT >= 20;
+              case 7:
+                return (feature) =>
+                  feature.properties.ROAD_BT >= 20 &&
+                  feature.properties.ROAD_BT < 25;
+              case 8:
+                return (feature) => feature.properties.ROAD_BT >= 25;
               default:
                 return null;
             }
@@ -216,6 +225,8 @@ const useColor = () => {
     } else {
       statusConditions = [];
     }
+    //region/////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////
 
     return (
       (roadConditions.length === 0 ||
@@ -231,7 +242,13 @@ const useColor = () => {
       (onewayConditions.length === 0 ||
         onewayConditions.some((condition) => condition(d))) &&
       (statusConditions.length === 0 ||
-        statusConditions.some((condition) => condition(d)))
+        statusConditions.some((condition) => condition(d))) &&
+      (county.cd
+        ? d.properties.LEGLCD_SE === `${county.cd}`
+        : city.cd
+        ? d.properties.LEGLCD_SE.substring(0, 2) ===
+          `${city.cd}`.substring(0, 2)
+        : true)
     );
   };
 

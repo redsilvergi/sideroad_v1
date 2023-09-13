@@ -12,6 +12,12 @@
 
 .left_column a {
   text-decoration: none;
+  width: 32px;
+  height: 32px;
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .left_column p {
@@ -81,13 +87,15 @@
 }
 
 .footnote {
-  font-size: 8pt;
+  font-size: 8px;
   color: #cccccc;
   padding: 20px;
 }
 
 .fnt {
   font-weight: 900;
+  color: #003762;
+  font-size: 9px;
 }
 
 .roadNo {
@@ -99,7 +107,7 @@
   margin: 10px;
   color: #cccccc;
 }
-
+/* 
 .roadNo div {
   color: #808080;
   font-size: 8pt;
@@ -137,7 +145,7 @@
 
 .css-10wo9uf-option:hover {
   background-color: #e5fcf6 !important;
-}
+} */
 
 .guide {
   display: flex;
@@ -150,7 +158,7 @@
 }
 
 .guide:hover {
-  background-color: #af003f;
+  background-color: #e5ebef;
   cursor: pointer;
 }
 

@@ -1,33 +1,34 @@
 import "./LeftBar.css";
-import React, { useState } from "react";
+import React from "react";
 // import axios from "axios";
 // import Dropdown from "./Dropdown";
 import Accordion from "./Accordion";
 import CheckboxForm from "./CheckboxForm";
 import useInfo from "../hooks/use-info";
-import Modal from "./Modal";
-import { CgFileDocument } from "react-icons/cg";
+// import Modal from "./Modal";
+// import { CgFileDocument } from "react-icons/cg";
 // import { GoTriangleUp, GoTriangleDown } from "react-icons/go";
-import guide from "../img/guide.PNG";
+// import guide from "../img/guide.PNG";
+import nstreets from "../img/nstreets.svg";
 
 const LeftBar = () => {
   const { setInfo } = useInfo();
   //Modal/////////////////////////////////////////////////////////////
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
 
-  const handleModOpen = () => {
-    setShowModal(true);
-  };
+  // const handleModOpen = () => {
+  //   setShowModal(true);
+  // };
 
-  const handleModClose = () => {
-    setShowModal(false);
-  };
+  // const handleModClose = () => {
+  //   setShowModal(false);
+  // };
 
-  const modal = (
-    <Modal onClose={handleModClose}>
-      <img src={guide} alt="guide1" height="400%" />
-    </Modal>
-  );
+  // const modal = (
+  //   <Modal onClose={handleModClose}>
+  //     <img src={guide} alt="guide1" height="400%" />
+  //   </Modal>
+  // );
 
   ///////////////////////////////////////////////////////////////
   //   useEffect(() => {
@@ -122,11 +123,13 @@ const LeftBar = () => {
       options: [
         "3m미만",
         "3m이상 ~ 8m미만",
-        "8m이상 ~ 10m미만",
+        "8m이상 ~ 9m미만",
+        "9m이상 ~ 10m미만",
         "10m이상 ~ 12m미만",
         "12m이상 ~ 15m미만",
         "15m이상 ~ 20m미만",
-        "20m이상",
+        "20m이상 ~ 25m미만",
+        "25m이상",
       ],
       updateInfo: (sel, chb) =>
         setInfo((prev) => ({
@@ -270,7 +273,7 @@ const LeftBar = () => {
   const items = [
     {
       id: "이면도로",
-      label: "이면도로",
+      label: "도시지역 이면도로 현황",
       content: <Accordion items={roadStatusItems} />,
     },
     // {
@@ -291,12 +294,12 @@ const LeftBar = () => {
     <div>
       <div className="left_column">
         <a href="./">
-          <p>이면도로</p>
+          <img src={nstreets} alt="n-street" width="32px" height="24px" />
         </a>
-        <div onClick={handleModOpen} className="guide">
+        {/* <div onClick={handleModOpen} className="guide">
           <CgFileDocument style={{ color: "white", fontSize: "25px" }} />
         </div>
-        <div className="guide2">데이터 설명서</div>
+        <div className="guide2">데이터 설명서</div> */}
       </div>
 
       <div className="detail_div">
@@ -306,17 +309,11 @@ const LeftBar = () => {
 
         <div className="footnote">
           <div className="fnt">데이터 출처</div>
-          <div>
-            · 2019, 국가교통 도로망 GIS 데이터, 국토부/KOTI 2020-2022, GIS
-          </div>
-          <div>
-            · 분석시스템: 교통사고 분석, 교통사고분석시스템(TAAS), 도로교통공단
-          </div>
-          <div>· 2023, 수치지형도(도로중심선데이터), 국토지리정보원</div>
-          <br />
+          <div style={{ marginTop: "7px" }}>2022, 국가기본도DB (링크)</div>
+          <div>국토지리 정보원</div>
+          <div style={{ marginBottom: "7px" }}>여기에 출처 추가</div>
           <div>*시차로 인한 속성정보 누락구간에 유의·활용 바랍니다.</div>
-
-          {showModal && modal}
+          {/* {showModal && modal} */}
         </div>
       </div>
     </div>
