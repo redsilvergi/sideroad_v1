@@ -64,6 +64,17 @@
   color: #003762;
 }
 
+.lengthReq {
+  height: 38px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+}
+
+.lengthReq:hover {
+  background-color: #e5ebef;
+}
+
 /* #e6003c */
 .overlay {
   position: fixed;

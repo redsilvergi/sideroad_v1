@@ -1,9 +1,10 @@
 import useInfo from "./use-info";
+import { useCallback } from "react";
 
 const useQuery = () => {
-  const { info } = useInfo();
+  const { info, region } = useInfo();
 
-  const queryF = () => {
+  const queryF = useCallback(() => {
     const {
       roadOps,
       laneOps,
@@ -13,6 +14,9 @@ const useQuery = () => {
       onewayOps,
       statusOps,
     } = info;
+
+    const citycd = region.city.cd;
+    const countycd = region.county.cd;
 
     var query = "select sum(length) as total_length from side6 where ";
 
@@ -206,6 +210,13 @@ const useQuery = () => {
         .filter((item) => item !== null)
         .join("','");
 
+    const cityParam = citycd && Math.round(citycd / 100000000);
+
+    countycd
+      ? (query += `(LEGLCD_SE in ('${countycd}')) and `)
+      : citycd && (query += `(sido = ${cityParam}) and `);
+    // : citycd && (query += `(LEGLCD_SE like '${cityParam}%25') and `);
+
     roadQry && (query += `(ROAD_SE in ('${roadQry}')) and `);
     laneQry && (query += `(${laneQry}) and `);
     widthQry && (query += `(${widthQry}) and `);
@@ -217,9 +228,9 @@ const useQuery = () => {
     query =
       query.slice(-6) === "where " ? query.slice(0, -7) : query.slice(0, -5);
 
-    console.log("query:\n\n\n", query);
-  };
-
+    console.log("query:", "\n", query);
+    return query;
+  }, [info, region.city.cd, region.county.cd]);
   return { queryF };
 };
 

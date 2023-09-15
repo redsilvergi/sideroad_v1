@@ -1,5 +1,5 @@
 import "./LandingPage.css";
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import DeckGL, { MVTLayer } from "deck.gl";
 import { Map } from "react-map-gl"; //MapProvider
 // import "mapbox-gl/dist/mapbox-gl.css"; //remove console log error
@@ -10,6 +10,8 @@ import LeftBar from "../components/LeftBar";
 import Region from "../components/Region";
 import Basemap from "../components/Basemap.";
 import Controls from "../components/Controls";
+import useQuery from "../hooks/use-query";
+import axios from "axios";
 // import axios from "axios"; // Import Axios here
 // import Pbf from "pbf";
 // import { VectorTile } from "@mapbox/vector-tile";
@@ -27,16 +29,30 @@ const INITIAL_VIEW_STATE = {
   bearing: 0,
   pitch: 0,
 };
+
 function LandingPage() {
-  const { isFilter, info, length, data, setLength, region } = useInfo();
+  const { isFilter, info, length, data, region, LD, setLD, setLength } =
+    useInfo();
   const [view, setView] = useState(INITIAL_VIEW_STATE);
+  const [renL, setRenL] = useState(<div className="lengthSum">REQ</div>);
   const { getTooltip } = useTooltip();
   const { getRoadColor } = useColor();
+  const { queryF } = useQuery();
 
   const [basemap, setBasemap] = useState(
     "mapbox://styles/redsilver522/cli2ji9m500w901pofuyqhbtz"
   );
-  //auxiliary funcs////////////////////////////////////////
+  // AUXILIARY -----------------------------------------------
+  const handleLength = useCallback(async () => {
+    setLD(true);
+    const query = queryF();
+    console.log("query from LandingPage.js:", "\n", query);
+    const response = await axios.get(
+      `http://localhost:4000/getLength/${query}`
+    );
+    setLength(Math.round(response.data / 1000));
+    setLD(false);
+  }, [setLD, queryF, setLength]);
   // const handleMap = () => {
   // setMapExp(!mapExp);
   // const maps = [
@@ -111,10 +127,6 @@ function LandingPage() {
   //   }
   // }, [view.zoom, isFilter, depth1]); //lowz in the layer
 
-  useEffect(() => {
-    setLength(0);
-  }, [info, setLength, view]);
-
   const layer2 = useMemo(() => {
     return new MVTLayer({
       id: "mvt-layer2",
@@ -137,7 +149,26 @@ function LandingPage() {
     });
   }, [data, view.zoom, isFilter, info, getRoadColor, region]);
   const layers = [layer2];
-  //render////////////////////////////////////
+  // RENDER ITEMS ------------------------------------------------
+  useEffect(() => {
+    if (length) {
+      setRenL(
+        <div className="lengthSum">
+          선택구간 연장 <span>{length}</span> km
+        </div>
+      );
+    } else {
+      return;
+    }
+  }, [length]);
+  useEffect(() => {
+    setRenL(
+      <div className="lengthSum lengthReq" onClick={handleLength}>
+        선택구간 연장 쿼리요청
+      </div>
+    );
+  }, [region, handleLength, info]);
+  // RENDER ------------------------------------------------------------
   return (
     <div className="testc">
       <LeftBar />
@@ -152,9 +183,10 @@ function LandingPage() {
         <div className="zoom">
           줌 <span>{view ? view.zoom.toFixed(2) : "no view yet"}</span>
         </div>
-        <div className="lengthSum">
-          선택구간 연장 <span>{length ? length / 1000 : 0}</span> km
-        </div>
+        {renL}
+        {/* <div className="lengthSum">
+          선택구간 연장 <span>{length ? length : 0}</span> km
+        </div> */}
 
         <DeckGL
           initialViewState={view}
@@ -165,6 +197,12 @@ function LandingPage() {
         >
           <Map mapStyle={basemap} mapboxAccessToken={MAPBOX_ACCESS_TOKEN} />
         </DeckGL>
+
+        {LD && (
+          <div className="overlay">
+            <div className="loading-spinner"></div>
+          </div>
+        )}
       </div>
     </div>
   );

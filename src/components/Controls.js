@@ -1,15 +1,34 @@
 import "./Controls.css";
 import React from "react";
 import useInfo from "../hooks/use-info";
-import useColor from "../hooks/use-color";
 import useQuery from "../hooks/use-query";
 import { GiExpand } from "react-icons/gi";
 import { BiHide } from "react-icons/bi";
+// import axios from "axios";
 
 const Controls = ({ view, setView, INITIAL_VIEW_STATE }) => {
-  const { isFilter, setIsFilter, info, depth1, length, region } = useInfo();
-  const { getLength } = useColor();
+  const {
+    isFilter,
+    setIsFilter,
+    info,
+    depth1,
+    length,
+    // setLength,
+    region,
+    // setLD,
+  } = useInfo();
   const { queryF } = useQuery();
+
+  // const handleCondition = async () => {
+  //   setLD(true);
+  //   const query = queryF();
+  //   console.log("query from control.js:", "\n", query);
+  //   const response = await axios.get(
+  //     `http://localhost:4000/getLength/${query}`
+  //   );
+  //   setLength(Math.round(response.data / 1000));
+  //   setLD(false);
+  // };
 
   return (
     <div className="toggle_button_div">
@@ -53,25 +72,25 @@ const Controls = ({ view, setView, INITIAL_VIEW_STATE }) => {
           console.log(
             "view:",
             view,
-            "info:",
+            "\ninfo:",
             info,
-            "depth1:",
+            "\ndepth1:",
             depth1,
-            "length:",
+            "\nlength:",
             length,
-            "region:",
+            "\nregion:",
             region
           )
         }
       >
         VS
       </button>
-      <button className="toggle_button" onClick={getLength}>
-        DT
-      </button>
       <button className="toggle_button" onClick={queryF}>
         QRY
       </button>
+      {/* <button className="toggle_button" onClick={handleCondition}>
+        REQ
+      </button> */}
     </div>
   );
 };

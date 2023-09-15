@@ -20,7 +20,7 @@ function InfoProvider({ children }) {
   const [isFilter, setIsFilter] = useState(true);
   const [isSelect, setIsSelect] = useState(false);
   const [depth1, setDepth1] = useState(null);
-  const [length, setLength] = useState(0);
+  const [length, setLength] = useState(false);
   const [data] = useState(
     `https://api.mapbox.com/v4/redsilver522.genz1/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}`
   );

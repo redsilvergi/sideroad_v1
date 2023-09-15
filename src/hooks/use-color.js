@@ -1,7 +1,7 @@
 import useInfo from "./use-info";
 
 const useColor = () => {
-  const { info, setLength, region } = useInfo();
+  const { info, region } = useInfo();
 
   const conditionF = (d) => {
     const {
@@ -255,18 +255,14 @@ const useColor = () => {
   const getRoadColor = (d) => {
     if (conditionF(d)) {
       //   console.log(feature.properties.length);
-      setLength((prev) => prev + d.properties.length);
+      // setLength((prev) => prev + d.properties.length);
 
       return [0, 98, 175, 255 * 0.75];
     } else {
       return [102, 135, 160, 255 * 0.35];
     }
   };
-
-  const getLength = () => {
-    console.log("getLength");
-  };
-  return { getRoadColor, getLength, conditionF };
+  return { getRoadColor, conditionF };
 };
 
 export default useColor;
