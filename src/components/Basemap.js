@@ -21,7 +21,7 @@ const Basemap = ({ basemap, setBasemap }) => {
   }, []);
   const getBaseName = () => {
     switch (basemap) {
-      case "mapbox://styles/redsilver522/cli2ji9m500w901pofuyqhbtz":
+      case "mapbox://styles/redsilver522/clmp6c5lw01xs01r64d5v09jn":
         return "일반지도";
       case "mapbox://styles/redsilver522/cll63rilr00aj01q08hjfa03s":
         return "위성사진";
@@ -49,7 +49,7 @@ const Basemap = ({ basemap, setBasemap }) => {
             <li
               onClick={() =>
                 setBasemap(
-                  "mapbox://styles/redsilver522/cli2ji9m500w901pofuyqhbtz"
+                  "mapbox://styles/redsilver522/clmp6c5lw01xs01r64d5v09jn"
                 )
               }
             >

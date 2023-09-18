@@ -13,81 +13,6 @@ import nstreets from "../img/nstreets.svg";
 
 const LeftBar = () => {
   const { setInfo } = useInfo();
-  //Modal/////////////////////////////////////////////////////////////
-  // const [showModal, setShowModal] = useState(false);
-
-  // const handleModOpen = () => {
-  //   setShowModal(true);
-  // };
-
-  // const handleModClose = () => {
-  //   setShowModal(false);
-  // };
-
-  // const modal = (
-  //   <Modal onClose={handleModClose}>
-  //     <img src={guide} alt="guide1" height="400%" />
-  //   </Modal>
-  // );
-
-  ///////////////////////////////////////////////////////////////
-  //   useEffect(() => {
-  //     !isSelect &&
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         roadNo: { ...prev.roadNo, selected: null },
-  //       }));
-  //   }, [isSelect, setInfo]);
-
-  //   const fetchData = useCallback(async () => {
-  //     setLD(true);
-  //     try {
-  //       const [nroadRes, emiRes, vpRes, ppRes, bpRes] = await Promise.all([
-  //         axios.get("/nr_sorted.geojson"),
-  //         axios.get("/emi_sorted.geojson"),
-  //         axios.get("/vcount_sorted.geojson"),
-  //         axios.get("/pcount_sorted.geojson"),
-  //         axios.get("/bcount_sorted.geojson"),
-  //       ]);
-
-  //       setData((prev) => ({
-  //         ...prev,
-  //         nroad: nroadRes.data,
-  //         emiroad: emiRes.data,
-  //         vpoint: vpRes.data,
-  //         ppoint: ppRes.data,
-  //         bpoint: bpRes.data,
-  //       }));
-  //     } catch (err) {
-  //       console.error("Error fetching data:", err);
-  //     } finally {
-  //       setLD(false);
-  //       setIsFilter(true);
-  //     }
-  //   }, [setData, setIsFilter, setLD]);
-
-  //   useEffect(() => {
-  //     fetchData();
-  //   }, [fetchData]);
-
-  //   const roadNoOps = [
-  //     [1, "목포-신의주"],
-  //     [4, "부안-경주"],
-  //     [88, "영양-울진"],
-  //   ];
-
-  ///////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////
-
-  // useEffect(() => {
-  //   console.log(
-  //     "UPDATE info taasinfo depth1,2:",
-  //     info,
-  //     taasInfo,
-  //     depth1,
-  //     depth2
-  //   );
-  // }, [info, taasInfo, depth1, depth2]);
 
   const checklist = [
     {
@@ -309,9 +234,12 @@ const LeftBar = () => {
 
         <div className="footnote">
           <div className="fnt">데이터 출처</div>
-          <div style={{ marginTop: "7px" }}>2022, 국가기본도DB (링크)</div>
-          <div>국토지리 정보원</div>
-          <div style={{ marginBottom: "7px" }}>여기에 출처 추가</div>
+          <div style={{ marginTop: "7px" }}>
+            ㆍ2022, 국가기본도DB (도로링크 데이터), 국토지리정보원
+          </div>
+          <div style={{ marginBottom: "5px" }}>
+            ㆍ2023, 국가중점데이터(토지이용계획정보), 국가공간정보포털
+          </div>
           <div>*시차로 인한 속성정보 누락구간에 유의·활용 바랍니다.</div>
           {/* {showModal && modal} */}
         </div>

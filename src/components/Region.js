@@ -446,7 +446,11 @@ const Region = () => {
           ref={divEl}
           className={`regionExp ${region.city.cd ? "exp1" : ""}`}
         >
-          <div className="region" onClick={() => setExp(1)}>
+          <div
+            className="region"
+            style={{ border: "0px", top: "15px", left: "291px" }}
+            onClick={() => setExp(1)}
+          >
             지역선택
           </div>
           <div className="city">
@@ -488,7 +492,11 @@ const Region = () => {
           ref={divEl}
           className={`regionExp ${region.county.cd ? "exp1" : ""} exp2`}
         >
-          <div className="region" onClick={() => setExp(1)}>
+          <div
+            className="region"
+            style={{ border: "0px", top: "15px", left: "291px" }}
+            onClick={() => setExp(1)}
+          >
             지역선택
           </div>
           <div className="city">

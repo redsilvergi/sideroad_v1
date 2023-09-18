@@ -1,17 +1,20 @@
 .region {
   position: fixed;
-  top: 14px;
-  left: 290px;
+  top: 12.5px;
+  left: 289px;
   width: 92px;
   height: 41px;
   background: #f2f7fb 0% 0% no-repeat padding-box;
-  border-radius: 9px;
   z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   font-size: 13px;
+  border: 2px solid #0062af;
+  border-radius: 9px;
+  color: #0062af;
+  font: normal normal 800 14px/17px NanumSquare;
 }
 .region:hover {
   background-color: #e5ebef;
@@ -30,6 +33,7 @@
   border-radius: 9px;
   z-index: 1;
   font-size: 13px;
+  border: 2px solid #0062af;
 }
 
 .regionExp.exp1 {
@@ -45,7 +49,6 @@
   top: 17px;
   left: 110px;
   width: 100px;
-  /* border: solid 1px #cccccc; */
   display: flex;
   flex-direction: column;
   align-items: center;

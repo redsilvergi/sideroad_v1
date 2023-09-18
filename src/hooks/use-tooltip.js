@@ -95,28 +95,28 @@ const useTooltip = () => {
     return (
       op && {
         html: `
-        <div style="color: #333333; font-weight: bold; font-size: 1rem;">
+        <div style="color: #333333; font-weight: bold; font-size: 0.8rem; line-height: 2;">
           ${`도로명: (ID: ${op.NF_ID})`}
         </div>
-          <div style="color: #808080;">
+          <div style="color: #808080; font-size: 0.8rem; line-height: 2;">
             ${`· ${info.roadOps.name}: ${roadF(op.ROAD_SE)}`}
           </div>
-          <div style="color: #808080;">
+          <div style="color: #808080; font-size: 0.8rem; line-height: 2;">
           ${`· ${info.laneOps.name}: ${laneF(op.CARTRK_CO)}`}
           </div>
-          <div style="color: #808080;">
+          <div style="color: #808080; font-size: 0.8rem; line-height: 2;">
           ${`· ${info.widthOps.name}: ${widthF(op.ROAD_BT)}`}
           </div>
-          <div style="color: #808080;">
+          <div style="color: #808080; font-size: 0.8rem; line-height: 2;">
           ${`· ${info.typeOps.name}: ${typeF(op.PMTR_SE)}`}
           </div>
-          <div style="color: #808080;">
+          <div style="color: #808080; font-size: 0.8rem; line-height: 2;">
           ${`· ${info.barrierOps.name}: ${barrierF(op.EDENNC_AT)}`}
           </div>
-          <div style="color: #808080;">
+          <div style="color: #808080; font-size: 0.8rem; line-height: 2;">
           ${`· ${info.onewayOps.name}: ${onewayF(op.OSPS_SE)}`}
           </div>
-          <div style="color: #808080;">
+          <div style="color: #808080; font-size: 0.8rem; line-height: 2;">
           ${`· ${info.statusOps.name}: ${statusF(op.USGSTT_SE)}`}
           </div>
         `,
