@@ -36,7 +36,7 @@ const LeftBar = () => {
     },
     {
       name: "차로수",
-      options: ["1", "2", "3-5", "6-10", "11-24"],
+      options: ["1차선", "2차선", "3차선", "4차선", "5-8차선", "9차선 이상"],
       updateInfo: (sel, chb) =>
         setInfo((prev) => ({
           ...prev,

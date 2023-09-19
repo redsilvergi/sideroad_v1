@@ -1,23 +1,24 @@
 import "./Controls.css";
 import React from "react";
 import useInfo from "../hooks/use-info";
-import useQuery from "../hooks/use-query";
+// import useQuery from "../hooks/use-query";
 import { GiExpand } from "react-icons/gi";
 import { BiHide } from "react-icons/bi";
 // import axios from "axios";
 
-const Controls = ({ view, setView, INITIAL_VIEW_STATE }) => {
+const Controls = ({ setView, INITIAL_VIEW_STATE }) => {
   const {
     isFilter,
     setIsFilter,
-    info,
-    depth1,
-    length,
+    // info,
+    // depth1,
+    // length,
     // setLength,
-    region,
+    // region,
+    // istgl,
     // setLD,
   } = useInfo();
-  const { queryF } = useQuery();
+  // const { queryF } = useQuery();
 
   // const handleCondition = async () => {
   //   setLD(true);
@@ -66,7 +67,7 @@ const Controls = ({ view, setView, INITIAL_VIEW_STATE }) => {
       <button className="toggle_button" onClick={() => setIsFilter(!isFilter)}>
         <BiHide />
       </button>
-      <button
+      {/* <button
         className="toggle_button"
         onClick={() =>
           console.log(
@@ -79,7 +80,9 @@ const Controls = ({ view, setView, INITIAL_VIEW_STATE }) => {
             "\nlength:",
             length,
             "\nregion:",
-            region
+            region,
+            "\nistgl:",
+            istgl
           )
         }
       >
@@ -87,7 +90,7 @@ const Controls = ({ view, setView, INITIAL_VIEW_STATE }) => {
       </button>
       <button className="toggle_button" onClick={queryF}>
         QRY
-      </button>
+      </button> */}
       {/* <button className="toggle_button" onClick={handleCondition}>
         REQ
       </button> */}

@@ -1,0 +1,30 @@
+.landbase_tg {
+  position: fixed;
+  top: 20px;
+  right: 200px;
+  z-index: 1;
+  border: none;
+  border-radius: 5px;
+  /* cursor: pointer; */
+  background-color: #6687a0;
+  opacity: 0.75;
+  color: white;
+  width: 166px;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-family: "NanumSquare", sans-serif;
+  font-weight: bold;
+}
+/* .landbase_tg:hover {
+  opacity: 1;
+} */
+#landbase_tg_name {
+  margin-left: 12px;
+}
+
+.tg_div {
+  margin-right: 10px;
+}

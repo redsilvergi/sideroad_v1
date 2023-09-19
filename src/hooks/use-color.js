@@ -59,17 +59,15 @@ const useColor = () => {
               case 1:
                 return (feature) => feature.properties.CARTRK_CO === 2;
               case 2:
-                return (feature) =>
-                  feature.properties.CARTRK_CO > 2 &&
-                  feature.properties.CARTRK_CO <= 5;
+                return (feature) => feature.properties.CARTRK_CO === 3;
               case 3:
-                return (feature) =>
-                  feature.properties.CARTRK_CO > 5 &&
-                  feature.properties.CARTRK_CO <= 10;
+                return (feature) => feature.properties.CARTRK_CO === 4;
               case 4:
                 return (feature) =>
-                  feature.properties.CARTRK_CO > 10 &&
-                  feature.properties.CARTRK_CO <= 24;
+                  feature.properties.CARTRK_CO >= 5 &&
+                  feature.properties.CARTRK_CO <= 8;
+              case 5:
+                return (feature) => feature.properties.CARTRK_CO >= 9;
               default:
                 return null;
             }

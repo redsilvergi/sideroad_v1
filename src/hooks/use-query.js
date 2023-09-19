@@ -65,11 +65,13 @@ const useQuery = () => {
               case 1:
                 return "CARTRK_CO = 2";
               case 2:
-                return "CARTRK_CO > 2 and CARTRK_CO <= 5";
+                return "CARTRK_CO = 3";
               case 3:
-                return "CARTRK_CO > 5 and CARTRK_CO <= 10";
+                return "CARTRK_CO = 4";
               case 4:
-                return "CARTRK_CO > 10 and CARTRK_CO <= 24";
+                return "CARTRK_CO >= 5 and CARTRK_CO <= 8";
+              case 5:
+                return "CARTRK_CO >= 9";
               default:
                 return null;
             }
@@ -193,13 +195,13 @@ const useQuery = () => {
           if (statusOp) {
             switch (index) {
               case 0:
-                return (feature) => feature.properties.USGSTT_SE === "RUS001";
+                return "RUS001";
               case 1:
-                return (feature) => feature.properties.USGSTT_SE === "RUS002";
+                return "RUS002";
               case 2:
-                return (feature) => feature.properties.USGSTT_SE === "RUS003";
+                return "RUS003";
               case 3:
-                return (feature) => feature.properties.USGSTT_SE === "RUS004";
+                return "RUS004";
               default:
                 return null;
             }

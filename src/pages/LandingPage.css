@@ -29,6 +29,59 @@
   justify-content: center;
   align-items: center;
 }
+.landuse {
+  position: fixed;
+  z-index: 1;
+  bottom: 160px;
+  right: 20px;
+  color: #808080;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 15px;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.g1 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  color: #808080;
+  font-size: 9px;
+}
+
+.gitem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #333333;
+  font-size: 10px;
+}
+
+#b1,
+#b2,
+#b3,
+#b4 {
+  width: 29px;
+  height: 12px;
+  margin-right: 3px;
+}
+
+#b1 {
+  background-color: #e3e069;
+}
+
+#b2 {
+  background-color: #b0c5da;
+}
+
+#b3 {
+  background-color: #eeb898;
+}
+
+#b4 {
+  background-color: #bed38c;
+}
 
 .zoom {
   position: fixed;

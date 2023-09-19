@@ -28,6 +28,7 @@ function InfoProvider({ children }) {
     city: { cd: null, name: null },
     county: { cd: null, name: null },
   });
+  const [istgl, setIstgl] = useState(false);
 
   return (
     <InfoContext.Provider
@@ -47,6 +48,8 @@ function InfoProvider({ children }) {
         data,
         region,
         setRegion,
+        istgl,
+        setIstgl,
       }}
     >
       {children}

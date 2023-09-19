@@ -2,13 +2,14 @@ import "./LandingPage.css";
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import DeckGL, { MVTLayer } from "deck.gl";
 import { Map } from "react-map-gl"; //MapProvider
-// import "mapbox-gl/dist/mapbox-gl.css"; //remove console log error
+import "mapbox-gl/dist/mapbox-gl.css"; //remove console log error
 import useInfo from "../hooks/use-info";
 import useColor from "../hooks/use-color";
 import useTooltip from "../hooks/use-tooltip";
 import LeftBar from "../components/LeftBar";
 import Region from "../components/Region";
 import Basemap from "../components/Basemap";
+import Landbase from "../components/Landbase";
 import Controls from "../components/Controls";
 import useQuery from "../hooks/use-query";
 import axios from "axios";
@@ -31,7 +32,7 @@ const INITIAL_VIEW_STATE = {
 };
 
 function LandingPage() {
-  const { isFilter, info, length, data, region, LD, setLD, setLength } =
+  const { isFilter, info, length, data, region, LD, setLD, setLength, istgl } =
     useInfo();
   const [view, setView] = useState(INITIAL_VIEW_STATE);
   const [renL, setRenL] = useState(<div className="lengthSum">REQ</div>);
@@ -48,7 +49,7 @@ function LandingPage() {
     const query = queryF();
     console.log("query from LandingPage.js:", "\n", query);
     const response = await axios.get(
-      `http://localhost:4000/getLength/${query}`
+      `/getLength/${query}` // http://localhost:4000/getLength/${query}
     );
     setLength(Math.round(response.data / 1000));
     setLD(false);
@@ -96,18 +97,37 @@ function LandingPage() {
       </div>
     );
   }, [region, handleLength, info]);
+  const legend = (
+    <div className="landuse">
+      <div className="g1">지도 범례</div>
+      <div className="gitem g2">
+        <div id="b1"></div>주거지역
+      </div>
+      <div className="gitem g3">
+        <div id="b2"></div>공업지역
+      </div>
+      <div className="gitem g4">
+        <div id="b3"></div>상업지역
+      </div>
+      <div className="gitem g5">
+        <div id="b4"></div>녹지지역
+      </div>
+    </div>
+  );
   // RENDER ------------------------------------------------------------
   return (
     <div className="testc">
       <LeftBar />
       <div className="container">
         <Region />
+        <Landbase basemap={basemap} setBasemap={setBasemap} />
         <Basemap basemap={basemap} setBasemap={setBasemap} />
         <Controls
           view={view}
           setView={setView}
           INITIAL_VIEW_STATE={INITIAL_VIEW_STATE}
         />
+        {istgl && legend}
         <div className="zoom">
           줌 <span>{view ? view.zoom.toFixed(2) : "no view yet"}</span>
         </div>

@@ -1,0 +1,53 @@
+#tg_lbl {
+  position: relative;
+  display: inline-block;
+  width: 37px;
+  height: 21px;
+}
+
+#tg_input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+#tg_span {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #2c3e50;
+  transition: 0.3s;
+  border-radius: 30px;
+}
+
+#tg_span:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 3px;
+  bottom: 2.6px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+#tg_input:checked + span {
+  background-color: #0062af;
+}
+
+#tg_input:checked + span:before {
+  transform: translateX(15px);
+}
+
+#tg_str {
+  position: absolute;
+  left: 100%;
+  width: max-content;
+  line-height: 30px;
+  margin-left: 10px;
+  cursor: pointer;
+}
