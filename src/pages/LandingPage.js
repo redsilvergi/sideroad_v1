@@ -49,7 +49,7 @@ function LandingPage() {
     const query = queryF();
     console.log("query from LandingPage.js:", "\n", query);
     const response = await axios.get(
-      `/getLength/${query}` // http://localhost:4000/getLength/${query}
+      `http://localhost:4000/getLength/${query}` // /getLength/${query}
     );
     setLength(Math.round(response.data / 1000));
     setLD(false);
@@ -119,7 +119,7 @@ function LandingPage() {
     <div className="testc">
       <LeftBar />
       <div className="container">
-        <Region />
+        <Region setView={setView} />
         <Landbase basemap={basemap} setBasemap={setBasemap} />
         <Basemap basemap={basemap} setBasemap={setBasemap} />
         <Controls

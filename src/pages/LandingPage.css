@@ -196,3 +196,10 @@
 .slider {
   width: 100%;
 }
+
+.pointer-coordinates {
+  z-index: 10;
+  position: fixed;
+  right: 10px;
+  bottom: 300px;
+}

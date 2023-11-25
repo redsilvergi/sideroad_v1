@@ -8,17 +8,17 @@ const Dropdown = ({ options, handleOps, type }) => {
   return (
     <div className={`dropdown ${type}`}>
       <ul>
-        {options.map((option) => (
+        {options.map((opt) => (
           <li
-            key={option[0]}
+            key={opt[0]}
             className={`option-label ${
-              option[0] === region.city.cd || option[0] === region.county.cd
+              opt[0] === region.city.cd || opt[0] === region.county.cd
                 ? "selected"
                 : ""
             }`}
-            onClick={() => handleOps(option[0], option[1])}
+            onClick={() => handleOps(opt[0], opt[1], opt[2], opt[3], opt[4])}
           >
-            {option[1]}
+            {opt[1]}
           </li>
         ))}
       </ul>

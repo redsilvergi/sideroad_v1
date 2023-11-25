@@ -22,7 +22,7 @@ function InfoProvider({ children }) {
   const [depth1, setDepth1] = useState(null);
   const [length, setLength] = useState(false);
   const [data] = useState(
-    `https://api.mapbox.com/v4/redsilver522.genz1/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}`
+    `https://api.mapbox.com/v4/redsilver522.c1vrcxt3/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}`
   );
   const [region, setRegion] = useState({
     city: { cd: null, name: null },

@@ -6,7 +6,7 @@ import { GiExpand } from "react-icons/gi";
 import { BiHide } from "react-icons/bi";
 // import axios from "axios";
 
-const Controls = ({ setView, INITIAL_VIEW_STATE }) => {
+const Controls = ({ view, setView, INITIAL_VIEW_STATE }) => {
   const {
     isFilter,
     setIsFilter,
@@ -67,28 +67,28 @@ const Controls = ({ setView, INITIAL_VIEW_STATE }) => {
       <button className="toggle_button" onClick={() => setIsFilter(!isFilter)}>
         <BiHide />
       </button>
-      {/* <button
+      <button
         className="toggle_button"
         onClick={() =>
           console.log(
             "view:",
-            view,
-            "\ninfo:",
-            info,
-            "\ndepth1:",
-            depth1,
-            "\nlength:",
-            length,
-            "\nregion:",
-            region,
-            "\nistgl:",
-            istgl
+            view
+            // "\ninfo:",
+            // info,
+            // "\ndepth1:",
+            // depth1,
+            // "\nlength:",
+            // length,
+            // "\nregion:",
+            // region,
+            // "\nistgl:",
+            // istgl
           )
         }
       >
         VS
       </button>
-      <button className="toggle_button" onClick={queryF}>
+      {/* <button className="toggle_button" onClick={queryF}>
         QRY
       </button> */}
       {/* <button className="toggle_button" onClick={handleCondition}>
