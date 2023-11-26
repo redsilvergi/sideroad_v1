@@ -256,6 +256,8 @@ const useColor = () => {
       // setLength((prev) => prev + d.properties.length);
 
       return [0, 98, 175, 255 * 0.75];
+    } else if (!d.properties.NF_ID) {
+      return [255, 255, 255, 255 * 0.3];
     } else {
       return [102, 135, 160, 255 * 0.35];
     }

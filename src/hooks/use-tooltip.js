@@ -93,7 +93,8 @@ const useTooltip = () => {
     };
 
     return (
-      op && {
+      op &&
+      op.NF_ID && {
         html: `
         <div style="color: #333333; font-weight: bold; font-size: 0.8rem; line-height: 2;">
           ${`도로명: (ID: ${op.NF_ID})`}
