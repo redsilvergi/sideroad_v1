@@ -49,7 +49,7 @@ function LandingPage() {
     const query = queryF();
     console.log("query from LandingPage.js:", "\n", query);
     const response = await axios.get(
-      `http://localhost:4000/getLength/${query}` // /getLength/${query}
+      `/getLength/${query}` // http://localhost:4000/getLength/${query}
     );
     setLength(Math.round(response.data / 1000));
     setLD(false);
