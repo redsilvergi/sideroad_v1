@@ -1,7 +1,7 @@
 .map_toggle_button {
   position: fixed;
   top: 20px;
-  right: 20px;
+  right: 275px;
   z-index: 1;
   border: none;
   border-radius: 5px;
@@ -34,7 +34,7 @@
   position: fixed;
   z-index: 2;
   top: 61px;
-  right: 20px;
+  right: 275px;
   width: 166px;
   border: none;
   border-radius: 5px;

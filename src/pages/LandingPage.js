@@ -13,6 +13,7 @@ import Landbase from "../components/Landbase";
 import Controls from "../components/Controls";
 import useQuery from "../hooks/use-query";
 import axios from "axios";
+import RightBar from "../components/RightBar";
 // import axios from "axios"; // Import Axios here
 // import Pbf from "pbf";
 // import { VectorTile } from "@mapbox/vector-tile";
@@ -49,12 +50,13 @@ function LandingPage() {
     const query = queryF();
     console.log("query from LandingPage.js:", "\n", query);
     const response = await axios.get(
-      `/getLength/${query}` // http://localhost:4000/getLength/${query}
+      `http://localhost:4000/getLength/${query}` //  /getLength/${query}
     );
     setLength(Math.round(response.data / 1000));
     setLD(false);
   }, [setLD, queryF, setLength]);
 
+  //LAYER ---------------------------------------------------
   const layer2 = useMemo(() => {
     return new MVTLayer({
       id: "mvt-layer2",
@@ -118,6 +120,7 @@ function LandingPage() {
   return (
     <div className="testc">
       <LeftBar />
+      <RightBar />
       <div className="container">
         <Region setView={setView} />
         <Landbase basemap={basemap} setBasemap={setBasemap} />
