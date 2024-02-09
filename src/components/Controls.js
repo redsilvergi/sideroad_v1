@@ -10,6 +10,7 @@ const Controls = ({ view, setView, INITIAL_VIEW_STATE }) => {
   const {
     isFilter,
     setIsFilter,
+    right,
     // info,
     // depth1,
     // length,
@@ -32,7 +33,7 @@ const Controls = ({ view, setView, INITIAL_VIEW_STATE }) => {
   // };
 
   return (
-    <div className="toggle_button_div">
+    <div className={`toggle_button_div ${right ? "" : "rmv_control"}`}>
       <button
         className="toggle_button"
         onClick={() =>

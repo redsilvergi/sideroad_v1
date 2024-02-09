@@ -18,6 +18,9 @@
   font-family: "NanumSquare", sans-serif;
   font-weight: bold;
 }
+.rmv_landbase {
+  right: 185px;
+}
 /* .landbase_tg:hover {
   opacity: 1;
 } */

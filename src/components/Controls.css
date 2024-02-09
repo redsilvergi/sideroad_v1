@@ -7,7 +7,9 @@
   flex-direction: column;
   gap: 0.4rem;
 }
-
+.rmv_control {
+  right: 10px;
+}
 .toggle_button {
   border: none;
   border-radius: 5px;

@@ -18,6 +18,9 @@
   font-family: "NanumSquare", sans-serif;
   font-weight: bold;
 }
+.rmv_basemap {
+  right: 10px;
+}
 .map_toggle_button:hover {
   opacity: 1;
 }

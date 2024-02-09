@@ -1,7 +1,7 @@
 .region {
   position: fixed;
   top: 12.5px;
-  left: 289px;
+  left: 290px;
   width: 92px;
   height: 41px;
   background: #f2f7fb 0% 0% no-repeat padding-box;
@@ -19,7 +19,6 @@
 .region:hover {
   background-color: #e5ebef;
 }
-
 .regionExp {
   position: fixed;
   top: 8px;
@@ -35,18 +34,21 @@
   font-size: 13px;
   border: 2px solid #0062af;
 }
-
+.rmv_region {
+  left: 70px;
+}
+.rmv_regionExp {
+  left: 65px;
+}
 .regionExp.exp1 {
   width: 438px;
 }
-
 .regionExp.exp2 {
   height: 50px;
 }
-
 .city {
   position: absolute;
-  top: 17px;
+  top: 18px;
   left: 110px;
   width: 100px;
   display: flex;
@@ -54,15 +56,13 @@
   align-items: center;
   justify-content: center;
 }
-
 .reg_ttl,
 .reg_ttl {
   margin-right: 8px;
 }
-
 .county {
   position: absolute;
-  top: 17px;
+  top: 18px;
   left: 250px;
   width: 110px;
   /* border: solid 1px #cccccc; */
@@ -71,7 +71,6 @@
   align-items: center;
   justify-content: center;
 }
-
 .close {
   position: absolute;
   top: 11px;
@@ -84,7 +83,6 @@
 .close.exp1 {
   left: 380px;
 }
-
 .close:hover {
   background-color: #e5ebef;
   cursor: pointer;

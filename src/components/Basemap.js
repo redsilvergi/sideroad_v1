@@ -4,7 +4,7 @@ import { GoTriangleUp, GoTriangleDown } from "react-icons/go";
 import useInfo from "../hooks/use-info";
 
 const Basemap = ({ basemap, setBasemap }) => {
-  const { setIstgl } = useInfo();
+  const { setIstgl, right } = useInfo();
   const [mapExp, setMapExp] = useState(false);
   const divEl = useRef();
   useEffect(() => {
@@ -39,7 +39,7 @@ const Basemap = ({ basemap, setBasemap }) => {
     <div>
       <div
         ref={divEl}
-        className="map_toggle_button"
+        className={`map_toggle_button ${right ? "" : "rmv_basemap"}`}
         onClick={() => setMapExp(true)}
       >
         <div id="map_tg_name">{getBaseName()}</div>

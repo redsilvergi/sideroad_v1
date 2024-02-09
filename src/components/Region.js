@@ -5,7 +5,7 @@ import Dropdown from "./Dropdown";
 import { AiOutlineClose } from "react-icons/ai";
 
 const Region = ({ setView }) => {
-  const { region, setRegion } = useInfo();
+  const { region, setRegion, left } = useInfo();
   const [exp, setExp] = useState(0);
   const divEl = useRef();
   ///////////////////////////////////////////////////////////////
@@ -448,11 +448,13 @@ const Region = ({ setView }) => {
       rendered = (
         <div
           ref={divEl}
-          className={`regionExp ${region.city.cd ? "exp1" : ""}`}
+          className={`regionExp ${left ? "" : "rmv_regionExp"} ${
+            region.city.cd ? "exp1" : ""
+          }`}
         >
           <div
-            className="region"
-            style={{ border: "0px", top: "15px", left: "291px" }}
+            className={`region ${left ? "" : "rmv_region"}`}
+            style={{ border: "0px", top: "15px" }}
             onClick={() => setExp(1)}
           >
             지역선택
@@ -488,17 +490,22 @@ const Region = ({ setView }) => {
       break;
     case 2:
       rendered = !region.city.cd ? (
-        <div className="region" onClick={() => setExp(1)}>
+        <div
+          className={`region ${left ? "" : "rmv_region"}`}
+          onClick={() => setExp(1)}
+        >
           지역선택
         </div>
       ) : (
         <div
           ref={divEl}
-          className={`regionExp ${region.county.cd ? "exp1" : ""} exp2`}
+          className={`regionExp ${left ? "" : "rmv_regionExp"} ${
+            region.county.cd ? "exp1" : ""
+          } exp2`}
         >
           <div
-            className="region"
-            style={{ border: "0px", top: "15px", left: "291px" }}
+            className={`region ${left ? "" : "rmv_region"}`}
+            style={{ border: "0px", top: "15px" }}
             onClick={() => setExp(1)}
           >
             지역선택
@@ -521,7 +528,10 @@ const Region = ({ setView }) => {
       break;
     default:
       rendered = (
-        <div className="region" onClick={() => setExp(1)}>
+        <div
+          className={`region ${left ? "" : "rmv_region"}`}
+          onClick={() => setExp(1)}
+        >
           지역선택
         </div>
       );
