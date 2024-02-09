@@ -30,6 +30,8 @@ function InfoProvider({ children }) {
   });
   const [istgl, setIstgl] = useState(false);
   const [bar, setBar] = useState(1);
+  const [left, setLeft] = useState(false);
+  const [right, setRight] = useState(false);
 
   return (
     <InfoContext.Provider
@@ -53,6 +55,10 @@ function InfoProvider({ children }) {
         setIstgl,
         bar,
         setBar,
+        left,
+        setLeft,
+        right,
+        setRight,
       }}
     >
       {children}

@@ -10,9 +10,11 @@ import useInfo from "../hooks/use-info";
 // import { GoTriangleUp, GoTriangleDown } from "react-icons/go";
 // import guide from "../img/guide.PNG";
 import nstreets from "../img/nstreets.svg";
+import { MdStackedBarChart } from "react-icons/md";
+import { FaRoad } from "react-icons/fa6";
 
 const LeftBar = () => {
-  const { setInfo, bar, setBar } = useInfo();
+  const { setInfo, bar, setBar, left, setLeft, right, setRight } = useInfo();
 
   const checklist = [
     {
@@ -220,20 +222,57 @@ const LeftBar = () => {
       <div className="left_column">
         <a href="./">
           <img src={nstreets} alt="n-street" width="32px" height="24px" />
+          <div className="hvd_title">도시지역 이면도로 현황</div>
         </a>
+        <div className="titleline"></div>
         {/* <div onClick={handleModOpen} className="guide">
           <CgFileDocument style={{ color: "white", fontSize: "25px" }} />
         </div>
         <div className="guide2">데이터 설명서</div> */}
-        <div className="riskBT" onClick={() => setBar(1)}>
-          위험
+        <div
+          className={`riskBT ${bar === 1 ? "active" : ""}`}
+          onClick={() => setBar(1)}
+        >
+          <div className="topicons">
+            <MdStackedBarChart className="charticon" />
+          </div>
+          <div className="hvd">유형별 사고위험도</div>
         </div>
-        <div className="propBT" onClick={() => setBar(2)}>
-          속성
+        <div
+          className={`propBT ${bar === 2 ? "active" : ""}`}
+          onClick={() => setBar(2)}
+        >
+          <div className="topicons">
+            <FaRoad className="roadicon" />
+          </div>
+          <div className="hvd">이면도로 속성</div>
+        </div>
+
+        <div className="filter">
+          <div
+            className={`bottom_cont ${left ? "active" : ""}`}
+            onClick={() => setLeft(!left)}
+          >
+            <div className="bottomicons">
+              <FaRoad className="filtericon" />
+            </div>
+            <div className="hvd_bottom">필터 도구</div>
+          </div>
+        </div>
+        <div className="search">
+          <div
+            className={`bottom_cont ${right ? "active" : ""}`}
+            onClick={() => setRight(!right)}
+          >
+            <div className="bottomicons">
+              <FaRoad className="filtericon" />
+            </div>
+            <div className="hvd_bottom">속성필터</div>
+          </div>
         </div>
       </div>
 
-      {bar === 2 && (
+      {left && bar === 2 && (
         <div className="detail_div">
           <div className="accordion_div">
             <Accordion items={items} />
@@ -253,7 +292,7 @@ const LeftBar = () => {
         </div>
       )}
 
-      {bar === 1 && <div className="detail_div">사고위험도 div</div>}
+      {left && bar === 1 && <div className="detail_div">사고위험도 div</div>}
     </div>
   );
 };

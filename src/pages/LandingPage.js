@@ -33,8 +33,18 @@ const INITIAL_VIEW_STATE = {
 };
 
 function LandingPage() {
-  const { isFilter, info, length, data, region, LD, setLD, setLength, istgl } =
-    useInfo();
+  const {
+    isFilter,
+    info,
+    length,
+    data,
+    region,
+    LD,
+    setLD,
+    setLength,
+    istgl,
+    right,
+  } = useInfo();
   const [view, setView] = useState(INITIAL_VIEW_STATE);
   const [renL, setRenL] = useState(<div className="lengthSum">REQ</div>);
   const { getTooltip } = useTooltip();
@@ -120,7 +130,7 @@ function LandingPage() {
   return (
     <div className="testc">
       <LeftBar />
-      <RightBar />
+      {right && <RightBar />}
       <div className="container">
         <Region setView={setView} />
         <Landbase basemap={basemap} setBasemap={setBasemap} />
