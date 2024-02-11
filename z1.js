@@ -27,3 +27,14 @@ const layer2 = useMemo(() => {
     },
   });
 }, [view.zoom, hl]);
+
+<div className="footnote">
+  <div className="fnt">데이터 출처</div>
+  <div style={{ marginTop: "7px" }}>
+    ㆍ2022, 국가기본도DB (도로링크 데이터), 국토지리정보원
+  </div>
+  <div style={{ marginBottom: "5px" }}>
+    ㆍ2023, 국가중점데이터(토지이용계획정보), 국가공간정보포털
+  </div>
+  <div>*시차로 인한 속성정보 누락구간에 유의·활용 바랍니다.</div>
+</div>;

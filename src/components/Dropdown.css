@@ -3,36 +3,30 @@
   height: 190px;
   width: 100px;
   margin: 20px 10px 10px 10px;
-  font-size: 13px;
+  font-size: 11px;
   text-align: center;
 }
-
 .dropdown.coun_dd {
   width: 120px;
 }
-
 .dropdown ul {
   list-style-type: none;
   padding-inline-start: 0px;
   margin-block-start: 0px;
   margin-block-end: 0px;
 }
-
 .option-checkbox {
   display: none;
 }
-
 .option-label {
   display: block;
   padding: 3px 5px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
-
 .option-label:hover {
   background-color: #e5ebef;
 }
-
 .option-label.selected {
   color: #0062af;
   font-weight: 900;

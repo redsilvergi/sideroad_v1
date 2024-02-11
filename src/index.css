@@ -2,25 +2,26 @@ body {
   margin: 0;
   font-family: "NanumSquare", sans-serif;
 }
-
 .deck-tooltip {
   background-color: rgba(255, 255, 255, 0.8) !important;
   padding: 20px !important;
   border-radius: 0 !important;
   border: solid 2px #cccccc;
 }
-
 div::-webkit-scrollbar {
   width: 7px;
 }
-
 div::-webkit-scrollbar-thumb {
   background: #cccccc;
   border-radius: 100px;
   background-clip: padding-box;
   border: 2px solid transparent;
 }
-
 div::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0);
+}
+@-moz-document url-prefix() {
+  div {
+    scrollbar-width: thin;
+  }
 }

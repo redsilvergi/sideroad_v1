@@ -175,25 +175,29 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   height: 100vh;
   width: 220px;
-  align-items: center;
+  /* align-items: center; */
   border-right: solid transparent 3px;
   border-image: linear-gradient(to right, #b3b3b3, transparent) 1 100%;
   overflow: hidden;
 }
-
+.dtl_ttl {
+  height: 72px;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  margin: 0 0 0 20px;
+  color: #b9b9b9;
+}
 .accordion_div {
   width: 100%;
   color: #333333;
   font-size: 12pt;
   font-weight: bold;
   overflow-y: scroll;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
 }
-
 .info {
   display: block;
   width: 85%;
@@ -219,11 +223,11 @@
   border-top: solid 1px #cccccc;
 }
 
-.footnote {
+/* .footnote {
   font-size: 8px;
   color: #cccccc;
   padding: 20px;
-}
+} */
 
 .fnt {
   font-weight: 900;
