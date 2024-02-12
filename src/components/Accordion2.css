@@ -46,7 +46,8 @@
   font-size: 12px;
   padding: 0 20px;
 }
-.도로번호별_accitem,
+
+/* .도로번호별_accitem,
 .도로구분_accitem,
 .차로수_accitem,
 .도로폭_accitem,
@@ -54,6 +55,6 @@
 .중앙분리대유무_accitem,
 .일방통행구분_accitem,
 .도로사용상태_accitem {
-  /* border-bottom: solid 1px #cccccc; */
-  /* border-top: solid 1px #cccccc; */
-}
+  border-bottom: solid 1px #cccccc;
+  border-top: solid 1px #cccccc;
+} */

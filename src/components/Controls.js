@@ -11,7 +11,8 @@ const Controls = ({ view, setView, INITIAL_VIEW_STATE }) => {
     isFilter,
     setIsFilter,
     right,
-    // info,
+    info,
+    pick,
     // depth1,
     // length,
     // setLength,
@@ -73,9 +74,12 @@ const Controls = ({ view, setView, INITIAL_VIEW_STATE }) => {
         onClick={() =>
           console.log(
             "view:",
-            view
-            // "\ninfo:",
-            // info,
+            view,
+            "\ninfo:",
+            info,
+            "pick:",
+            pick
+
             // "\ndepth1:",
             // depth1,
             // "\nlength:",

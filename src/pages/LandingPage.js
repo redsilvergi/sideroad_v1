@@ -44,6 +44,10 @@ function LandingPage() {
     setLength,
     istgl,
     right,
+    pick,
+    setPick,
+    hov,
+    setHov,
   } = useInfo();
   const [view, setView] = useState(INITIAL_VIEW_STATE);
   const [renL, setRenL] = useState(<div className="lengthSum">REQ</div>);
@@ -62,35 +66,66 @@ function LandingPage() {
     const response = await axios.get(
       `http://localhost:4000/getLength/${query}` //  /getLength/${query}
     );
+    console.log("response from LandingPage.js:", "\n", response);
     setLength(Math.round(response.data / 1000));
     setLD(false);
   }, [setLD, queryF, setLength]);
 
   //LAYER ---------------------------------------------------
-  const layer2 = useMemo(() => {
+  const layer1 = useMemo(() => {
     return new MVTLayer({
-      id: "mvt-layer2",
+      id: "mvt-layer1",
       data,
-      // data: `https://api.mapbox.com/v4/redsilver522.blb67rex/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}`,
-      // data: `https://api.mapbox.com/v4/redsilver522.nationalroad/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}`,
-      // data: `https://tiles-sideroad.s3.ap-northeast-2.amazonaws.com/tiles_ext2/{z}/{x}/{y}.pbf`,
       // lineWidthScale: 20,
-      lineWidthMinPixels: view.zoom <= 8 ? 3 : 1,
-      lineWidthMaxPixels: view.zoom < 14 ? 2 : view.zoom < 17 ? 5 : 10,
-      getLineWidth: 500,
+      lineWidthMinPixels:
+        view.zoom <= 10 ? 3 : view.zoom < 15 ? 2 : view.zoom < 16 ? 4 : 1,
+      lineWidthMaxPixels: view.zoom < 14 ? 4 : view.zoom < 17 ? 20 : 30,
+      getLineWidth: (obj) => {
+        if (obj.properties.NF_ID && hov === obj.properties.NF_ID) {
+          return 10;
+        } else {
+          return 6;
+        }
+      },
       pickable: true,
       visible: isFilter && view.zoom >= 6 && view.zoom <= 20,
-      getLineColor: (d) => {
-        return getRoadColor(d);
+      getLineColor: (obj) => {
+        return getRoadColor(obj);
       },
-      onClick: (d) => console.log(d.object.properties),
+      onClick:
+        view.zoom > 16
+          ? (d) => {
+              setPick(d.object.properties.NF_ID);
+            }
+          : null,
+      onHover:
+        view.zoom > 16
+          ? (d) => {
+              d.object ? setHov(d.object.properties.NF_ID) : setHov(null);
+            }
+          : null,
       updateTriggers: {
-        getLineColor: [info, region],
+        getLineColor: [info, region, pick, hov],
+        getLineWidth: [hov],
       },
     });
-  }, [data, view.zoom, isFilter, info, getRoadColor, region]);
-  const layers = [layer2];
+  }, [
+    data,
+    view.zoom,
+    isFilter,
+    info,
+    getRoadColor,
+    region,
+    pick,
+    setPick,
+    hov,
+    setHov,
+  ]);
+  const layers = [layer1];
   // RENDER ITEMS ------------------------------------------------
+  useEffect(() => {
+    setPick(null);
+  }, [setPick, region, info]);
   useEffect(() => {
     if (length) {
       setRenL(
@@ -154,7 +189,12 @@ function LandingPage() {
           onViewStateChange={({ viewState }) => setView(viewState)}
           controller={true}
           layers={layers}
-          getTooltip={getTooltip}
+          getTooltip={view.zoom >= 16 ? getTooltip : null}
+          onClick={(event) => {
+            if (!event.object) {
+              setPick(null);
+            }
+          }}
         >
           <Map mapStyle={basemap} mapboxAccessToken={MAPBOX_ACCESS_TOKEN} />
         </DeckGL>

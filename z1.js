@@ -28,6 +28,7 @@ const layer2 = useMemo(() => {
   });
 }, [view.zoom, hl]);
 
+//footnote -----------------------------------------------------
 <div className="footnote">
   <div className="fnt">데이터 출처</div>
   <div style={{ marginTop: "7px" }}>
@@ -38,3 +39,28 @@ const layer2 = useMemo(() => {
   </div>
   <div>*시차로 인한 속성정보 누락구간에 유의·활용 바랍니다.</div>
 </div>;
+
+//LAYER ---------------------------------------------------
+const layer2 = useMemo(() => {
+  return new MVTLayer({
+    id: "mvt-layer2",
+    data,
+    // data: `https://api.mapbox.com/v4/redsilver522.blb67rex/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}`,
+    // data: `https://api.mapbox.com/v4/redsilver522.nationalroad/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}`,
+    // data: `https://tiles-sideroad.s3.ap-northeast-2.amazonaws.com/tiles_ext2/{z}/{x}/{y}.pbf`,
+    // lineWidthScale: 20,
+    lineWidthMinPixels: view.zoom <= 8 ? 3 : 1,
+    lineWidthMaxPixels: view.zoom < 14 ? 2 : view.zoom < 17 ? 5 : 10,
+    getLineWidth: 500,
+    pickable: true,
+    visible: isFilter && view.zoom >= 6 && view.zoom <= 20,
+    getLineColor: (d) => {
+      return getRoadColor(d);
+    },
+    onClick: (d) => console.log(d.object.properties),
+    updateTriggers: {
+      getLineColor: [info, region],
+    },
+  });
+}, [data, view.zoom, isFilter, info, getRoadColor, region]);
+const layers = [layer2];

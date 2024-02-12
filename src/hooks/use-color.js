@@ -1,9 +1,9 @@
 import useInfo from "./use-info";
 
 const useColor = () => {
-  const { info, region } = useInfo();
+  const { info, region, pick } = useInfo();
 
-  const conditionF = (d) => {
+  const conditionF = (obj) => {
     const {
       roadOps,
       laneOps,
@@ -226,39 +226,41 @@ const useColor = () => {
     //region/////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////
 
-    return (
-      (roadConditions.length === 0 ||
-        roadConditions.some((condition) => condition(d))) &&
-      (laneConditions.length === 0 ||
-        laneConditions.some((condition) => condition(d))) &&
-      (widthConditions.length === 0 ||
-        widthConditions.some((condition) => condition(d))) &&
-      (typeConditions.length === 0 ||
-        typeConditions.some((condition) => condition(d))) &&
-      (barrierConditions.length === 0 ||
-        barrierConditions.some((condition) => condition(d))) &&
-      (onewayConditions.length === 0 ||
-        onewayConditions.some((condition) => condition(d))) &&
-      (statusConditions.length === 0 ||
-        statusConditions.some((condition) => condition(d))) &&
-      (county.cd
-        ? d.properties.LEGLCD_SE === `${county.cd}`
-        : city.cd
-        ? d.properties.LEGLCD_SE.substring(0, 2) ===
-          `${city.cd}`.substring(0, 2)
-        : true)
-    );
+    return pick
+      ? pick === obj.properties.NF_ID
+      : (roadConditions.length === 0 ||
+          roadConditions.some((condition) => condition(obj))) &&
+          (laneConditions.length === 0 ||
+            laneConditions.some((condition) => condition(obj))) &&
+          (widthConditions.length === 0 ||
+            widthConditions.some((condition) => condition(obj))) &&
+          (typeConditions.length === 0 ||
+            typeConditions.some((condition) => condition(obj))) &&
+          (barrierConditions.length === 0 ||
+            barrierConditions.some((condition) => condition(obj))) &&
+          (onewayConditions.length === 0 ||
+            onewayConditions.some((condition) => condition(obj))) &&
+          (statusConditions.length === 0 ||
+            statusConditions.some((condition) => condition(obj))) &&
+          (county.cd
+            ? obj.properties.LEGLCD_SE === `${county.cd}`
+            : city.cd
+            ? obj.properties.LEGLCD_SE.substring(0, 2) ===
+              `${city.cd}`.substring(0, 2)
+            : true);
   };
 
-  const getRoadColor = (d) => {
-    if (conditionF(d)) {
+  const getRoadColor = (obj) => {
+    if (!obj.properties.NF_ID) {
+      ////////for int points
+      return [255, 0, 0, 255 * 0.3];
+    } else if (conditionF(obj)) {
+      ////////for selected info(filter)
       //   console.log(feature.properties.length);
       // setLength((prev) => prev + d.properties.length);
-
       return [0, 98, 175, 255 * 0.75];
-    } else if (!d.properties.NF_ID) {
-      return [255, 255, 255, 255 * 0.3];
     } else {
+      ////////for unselected info(filter)
       return [102, 135, 160, 255 * 0.35];
     }
   };
