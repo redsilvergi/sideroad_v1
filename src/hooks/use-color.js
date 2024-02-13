@@ -253,15 +253,21 @@ const useColor = () => {
   const getRoadColor = (obj) => {
     if (!obj.properties.NF_ID) {
       ////////for int points
-      return [255, 0, 0, 255 * 0.3];
+      return [255, 255, 255];
     } else if (conditionF(obj)) {
       ////////for selected info(filter)
-      //   console.log(feature.properties.length);
-      // setLength((prev) => prev + d.properties.length);
+      // if (hov === obj.properties.NF_ID) {
+      //   return [0, 255, 0];
+      // } else {
       return [0, 98, 175, 255 * 0.75];
+      // }
     } else {
       ////////for unselected info(filter)
+      // if (hov === obj.properties.NF_ID) {
+      //   return [0, 255, 0];
+      // } else {
       return [102, 135, 160, 255 * 0.35];
+      // }
     }
   };
   return { getRoadColor, conditionF };

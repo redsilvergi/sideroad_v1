@@ -47,7 +47,7 @@ function LandingPage() {
     pick,
     setPick,
     hov,
-    setHov,
+    // setHov,
   } = useInfo();
   const [view, setView] = useState(INITIAL_VIEW_STATE);
   const [renL, setRenL] = useState(<div className="lengthSum">REQ</div>);
@@ -76,37 +76,48 @@ function LandingPage() {
     return new MVTLayer({
       id: "mvt-layer1",
       data,
-      // lineWidthScale: 20,
-      lineWidthMinPixels:
-        view.zoom <= 10 ? 3 : view.zoom < 15 ? 2 : view.zoom < 16 ? 4 : 1,
-      lineWidthMaxPixels: view.zoom < 14 ? 4 : view.zoom < 17 ? 20 : 30,
-      getLineWidth: (obj) => {
-        if (obj.properties.NF_ID && hov === obj.properties.NF_ID) {
-          return 10;
-        } else {
-          return 6;
-        }
-      },
+      // lineWidthScale: 1,
+      lineWidthMinPixels: view.zoom < 9 ? 3 : 2,
+      lineWidthMaxPixels:
+        view.zoom < 7
+          ? 2
+          : view.zoom < 9
+          ? 3
+          : view.zoom < 14
+          ? 2
+          : view.zoom < 15
+          ? 3
+          : 10,
+      getLineWidth: (obj) =>
+        obj.properties.NF_ID ? 7 : view.zoom < 15 ? 1 : 4,
+      getRadius: 0,
+      // (obj) => {
+      //   return obj.properties.NF_ID && hov === obj.properties.NF_ID ? 10 : 6;
+      // },
       pickable: true,
       visible: isFilter && view.zoom >= 6 && view.zoom <= 20,
       getLineColor: (obj) => {
         return getRoadColor(obj);
       },
       onClick:
-        view.zoom > 16
+        view.zoom > 15
           ? (d) => {
               setPick(d.object.properties.NF_ID);
+              setView((prev) => ({
+                ...prev,
+                longitude: d.coordinate[0],
+                latitude: d.coordinate[1],
+              }));
             }
           : null,
-      onHover:
-        view.zoom > 16
-          ? (d) => {
-              d.object ? setHov(d.object.properties.NF_ID) : setHov(null);
-            }
-          : null,
+      // onHover:
+      //   view.zoom > 15
+      //     ? (d) => {
+      //         d.object ? setHov(d.object.properties.NF_ID) : setHov(null);
+      //       }
+      //     : null,
       updateTriggers: {
         getLineColor: [info, region, pick, hov],
-        getLineWidth: [hov],
       },
     });
   }, [
@@ -119,13 +130,17 @@ function LandingPage() {
     pick,
     setPick,
     hov,
-    setHov,
   ]);
   const layers = [layer1];
   // RENDER ITEMS ------------------------------------------------
   useEffect(() => {
     setPick(null);
   }, [setPick, region, info]);
+  // useEffect(() => {
+  //   if (view.zoom < 16) {
+  //     setHov(null);
+  //   }
+  // }, [view.zoom, setHov]);
   useEffect(() => {
     if (length) {
       setRenL(
@@ -189,12 +204,23 @@ function LandingPage() {
           onViewStateChange={({ viewState }) => setView(viewState)}
           controller={true}
           layers={layers}
-          getTooltip={view.zoom >= 16 ? getTooltip : null}
+          getTooltip={view.zoom >= 15 ? getTooltip : null}
           onClick={(event) => {
             if (!event.object) {
               setPick(null);
             }
           }}
+          // onHover={
+          //   view.zoom >= 16
+          //     ? (info) => {
+          //         if (info.object) {
+          //           setHov(info.object.properties.NF_ID);
+          //         } else {
+          //           setHov(null);
+          //         }
+          //       }
+          //     : null
+          // }
         >
           <Map mapStyle={basemap} mapboxAccessToken={MAPBOX_ACCESS_TOKEN} />
         </DeckGL>
