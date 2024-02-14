@@ -1,10 +1,10 @@
 import { useState } from "react";
-import "./Accordion2.css";
-import useInfo from "../hooks/use-info";
-import CheckboxForm from "./CheckboxForm";
+import "./AccrdRsk2b.css";
+import useInfo from "../../hooks/use-info";
+import CheckboxForm from "../auxiliary/CheckboxForm";
 import { FiPlus, FiMinus } from "react-icons/fi";
 
-const Accordion2 = () => {
+const AccrdRsk2b = () => {
   const { setInfo } = useInfo();
   const [expandedIndex, setExpandedIndex] = useState([]);
 
@@ -251,12 +251,7 @@ const Accordion2 = () => {
     );
   });
 
-  return (
-    <div className={`accordion`}>
-      <div className="dtl_sbttl">속성 선택</div>
-      {renderedItems}
-    </div>
-  );
+  return <div className={`accordion`}>{renderedItems}</div>;
 };
 
-export default Accordion2;
+export default AccrdRsk2b;

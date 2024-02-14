@@ -1,6 +1,6 @@
 import "./Dropdown.css";
 import React from "react";
-import useInfo from "../hooks/use-info";
+import useInfo from "../../hooks/use-info";
 
 const Dropdown = ({ options, handleOps, type }) => {
   const { region } = useInfo();

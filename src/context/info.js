@@ -47,6 +47,7 @@ function InfoProvider({ children }) {
   const [right, setRight] = useState(false);
   const [pick, setPick] = useState(null);
   const [hov, setHov] = useState(null);
+  const [rsk, setRsk] = useState("교통사고");
 
   return (
     <InfoContext.Provider
@@ -77,6 +78,8 @@ function InfoProvider({ children }) {
         setPick,
         hov,
         setHov,
+        rsk,
+        setRsk,
       }}
     >
       {children}

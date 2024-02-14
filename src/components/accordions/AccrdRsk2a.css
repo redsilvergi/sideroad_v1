@@ -1,22 +1,15 @@
-.dtl_sbttl {
-  height: 50px;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  margin: 0 0 0 20px;
-  font-weight: 800;
-}
-.d1 {
+.rsk2a_d1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px 10px 30px;
+  padding: 0 0 0 6px;
+  margin: 0 0 0 20px;
   cursor: pointer;
   font-size: 12px;
   color: #0062af;
   font-weight: bolder;
 }
-.d1:hover {
+.rsk2a_d1:hover {
   background-color: #e5ebef;
 }
 .acclabel {
@@ -47,14 +40,20 @@
   padding: 0 20px;
 }
 
+.rsk2a_test {
+  cursor: pointer;
+}
+.rsk2a_test:hover {
+  background-color: yellow;
+}
 /* .도로번호별_accitem,
-.도로구분_accitem,
-.차로수_accitem,
-.도로폭_accitem,
-.포장재질_accitem,
-.중앙분리대유무_accitem,
-.일방통행구분_accitem,
-.도로사용상태_accitem {
-  border-bottom: solid 1px #cccccc;
-  border-top: solid 1px #cccccc;
-} */
+    .도로구분_accitem,
+    .차로수_accitem,
+    .도로폭_accitem,
+    .포장재질_accitem,
+    .중앙분리대유무_accitem,
+    .일방통행구분_accitem,
+    .도로사용상태_accitem {
+      border-bottom: solid 1px #cccccc;
+      border-top: solid 1px #cccccc;
+    } */

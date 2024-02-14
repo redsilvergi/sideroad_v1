@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 import "./Accordion.css";
-import useInfo from "../hooks/use-info";
+import useInfo from "../../hooks/use-info";
 
 function Accordion({ items }) {
   const { setInfo, setIsSelect, setDepth1, setLength } = useInfo();

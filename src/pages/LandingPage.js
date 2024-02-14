@@ -6,14 +6,14 @@ import "mapbox-gl/dist/mapbox-gl.css"; //remove console log error
 import useInfo from "../hooks/use-info";
 import useColor from "../hooks/use-color";
 import useTooltip from "../hooks/use-tooltip";
-import LeftBar from "../components/LeftBar";
-import Region from "../components/Region";
-import Basemap from "../components/Basemap";
-import Landbase from "../components/Landbase";
-import Controls from "../components/Controls";
+import LeftBar from "../components/bars/LeftBar";
+import Region from "../components/tools/Region";
+import Basemap from "../components/bases/Basemap";
+import Landbase from "../components/bases/Landbase";
+import Controls from "../components/tools/Controls";
 import useQuery from "../hooks/use-query";
 import axios from "axios";
-import RightBar from "../components/RightBar";
+import RightBar from "../components/bars/RightBar";
 // import axios from "axios"; // Import Axios here
 // import Pbf from "pbf";
 // import { VectorTile } from "@mapbox/vector-tile";

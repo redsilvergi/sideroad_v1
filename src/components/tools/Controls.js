@@ -1,6 +1,6 @@
 import "./Controls.css";
 import React from "react";
-import useInfo from "../hooks/use-info";
+import useInfo from "../../hooks/use-info";
 // import useQuery from "../hooks/use-query";
 import { GiExpand } from "react-icons/gi";
 import { BiHide } from "react-icons/bi";

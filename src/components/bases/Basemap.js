@@ -1,7 +1,7 @@
 import "./Basemap.css";
 import React, { useState, useEffect, useRef } from "react";
 import { GoTriangleUp, GoTriangleDown } from "react-icons/go";
-import useInfo from "../hooks/use-info";
+import useInfo from "../../hooks/use-info";
 
 const Basemap = ({ basemap, setBasemap }) => {
   const { setIstgl, right } = useInfo();

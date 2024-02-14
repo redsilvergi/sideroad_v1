@@ -1,5 +1,5 @@
 import "./Toggle.css";
-import useInfo from "../hooks/use-info";
+import useInfo from "../../hooks/use-info";
 
 const Toggle = ({ handleTgl }) => {
   const { istgl } = useInfo();

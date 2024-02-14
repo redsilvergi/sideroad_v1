@@ -1,6 +1,6 @@
 import "./Landbase.css";
-import Toggle from "./Toggle";
-import useInfo from "../hooks/use-info";
+import Toggle from "../auxiliary/Toggle";
+import useInfo from "../../hooks/use-info";
 
 const Landbase = ({ setBasemap }) => {
   const { istgl, setIstgl, right } = useInfo();

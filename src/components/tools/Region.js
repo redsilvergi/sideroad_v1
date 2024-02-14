@@ -1,6 +1,6 @@
 import "./Region.css";
 import React, { useState, useEffect, useRef } from "react";
-import useInfo from "../hooks/use-info";
+import useInfo from "../../hooks/use-info";
 import Dropdown from "./Dropdown";
 import { AiOutlineClose } from "react-icons/ai";
 

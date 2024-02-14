@@ -1,7 +1,7 @@
 import "./RightBar.css";
 import React, { useEffect, useState, useCallback } from "react";
-import useInfo from "../hooks/use-info";
-import useQuery from "../hooks/use-query";
+import useInfo from "../../hooks/use-info";
+import useQuery from "../../hooks/use-query";
 import axios from "axios";
 
 const RightBar = () => {

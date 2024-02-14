@@ -1,0 +1,45 @@
+.rsk1_d1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0 0 6px;
+  margin: 0 0 0 14px;
+  cursor: pointer;
+  color: #0062af;
+  font-weight: bolder;
+}
+.rsk1_d1:hover {
+  background-color: #e5ebef;
+}
+.rsklbl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  color: black;
+  font-size: 14px;
+  font-weight: 800;
+}
+.rsk1_icon {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 5px 0 0;
+  color: #6687a0;
+}
+.rsk1_line {
+  height: 1px;
+  background-color: gray;
+  opacity: 30%;
+  display: flex;
+  align-items: center;
+  width: 87.5%;
+  margin: 0 0 0 20px;
+}
+.rsk1_expanded {
+  color: #333333;
+  width: auto;
+  font-size: 12px;
+  padding: 0 20px;
+}
