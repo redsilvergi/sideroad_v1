@@ -1,0 +1,60 @@
+.rsk2b_d1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0 0 6px;
+  margin: 0 0 0 20px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #0062af;
+  font-weight: bolder;
+}
+.rsk2b_d1:hover {
+  background-color: #e5ebef;
+}
+.rsk2b_label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+}
+.rsk2b_line {
+  height: 1px;
+  background-color: gray;
+  opacity: 30%;
+  display: flex;
+  align-items: center;
+  flex-grow: 0.8;
+}
+.rsk2b_icon {
+  font-size: 10pt;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+  color: #6687a0;
+}
+.rsk2b_expanded {
+  color: #333333;
+  width: auto;
+  font-size: 12px;
+  padding: 0 20px;
+}
+
+.rsk2b_test {
+  cursor: pointer;
+}
+.rsk2b_test:hover {
+  background-color: yellow;
+}
+/* .도로번호별_accitem,
+      .도로구분_accitem,
+      .차로수_accitem,
+      .도로폭_accitem,
+      .포장재질_accitem,
+      .중앙분리대유무_accitem,
+      .일방통행구분_accitem,
+      .도로사용상태_accitem {
+        border-bottom: solid 1px #cccccc;
+        border-top: solid 1px #cccccc;
+      } */

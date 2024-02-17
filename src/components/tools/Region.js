@@ -4,8 +4,8 @@ import useInfo from "../../hooks/use-info";
 import Dropdown from "./Dropdown";
 import { AiOutlineClose } from "react-icons/ai";
 
-const Region = ({ setView }) => {
-  const { region, setRegion, left } = useInfo();
+const Region = () => {
+  const { region, setRegion, left, setView } = useInfo();
   const [exp, setExp] = useState(0);
   const divEl = useRef();
   ///////////////////////////////////////////////////////////////

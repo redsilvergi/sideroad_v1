@@ -12,13 +12,13 @@
 .rsk2a_d1:hover {
   background-color: #e5ebef;
 }
-.acclabel {
+.rsk2a_label {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 20px;
 }
-.acc2line {
+.rsk2a_line {
   height: 1px;
   background-color: gray;
   opacity: 30%;
@@ -26,25 +26,44 @@
   align-items: center;
   flex-grow: 0.8;
 }
-.icon {
+.rsk2a_icon {
   font-size: 10pt;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 1px;
+  color: #6687a0;
 }
-.expanded {
+.rsk2a_expanded {
   color: #333333;
   width: auto;
   font-size: 12px;
-  padding: 0 20px;
+  padding: 0 2px;
 }
-
-.rsk2a_test {
+.rsk2a_dwnld {
+  background-color: #e6ebef;
+  color: #0062af;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 30px;
   cursor: pointer;
 }
-.rsk2a_test:hover {
-  background-color: yellow;
+.rsk2a_dwnld:hover {
+  background-color: antiquewhite;
+}
+.rsk2a_csvdwn {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.rsk2a_csvdwn:hover {
+  background-color: #e5ebef;
+}
+.rsk2a_comp {
+  color: #b9b9b9;
 }
 /* .도로번호별_accitem,
     .도로구분_accitem,

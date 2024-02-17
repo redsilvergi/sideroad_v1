@@ -24,16 +24,10 @@ const MAPBOX_ACCESS_TOKEN =
 // const MAP_STYLE = "mapbox://styles/redsilver522/cli2ji9m500w901pofuyqhbtz"; //lowz in the layer
 // const MAP_STYLE = "mapbox://styles/redsilver522/clm61py9g00i301of6dv76f2e"; //lowz in the style
 
-const INITIAL_VIEW_STATE = {
-  longitude: 127.25161672437677,
-  latitude: 35.86497806027222,
-  zoom: 6.0,
-  bearing: 0,
-  pitch: 0,
-};
-
 function LandingPage() {
   const {
+    view,
+    setView,
     isFilter,
     info,
     length,
@@ -47,9 +41,10 @@ function LandingPage() {
     pick,
     setPick,
     hov,
+    // geoJ,
     // setHov,
   } = useInfo();
-  const [view, setView] = useState(INITIAL_VIEW_STATE);
+
   const [renL, setRenL] = useState(<div className="lengthSum">REQ</div>);
   const { getTooltip } = useTooltip();
   const { getRoadColor } = useColor();
@@ -130,8 +125,32 @@ function LandingPage() {
     pick,
     setPick,
     hov,
+    setView,
   ]);
-  const layers = [layer1];
+  // const layer2 = useMemo(() => {
+  //   return new ScatterplotLayer({
+  //     id: "layer2",
+  //     data: geoJ,
+  //     filled: true,
+  //     // getFillColor: [160, 160, 180, 200],
+  //     opacity: 1,
+  //     stroked: true,
+  //     filled: true,
+  //     radiusScale: 1,
+  //     // radiusMinPixels: 1,
+  //     // radiusMaxPixels: 1,
+  //     lineWidthMinPixels: 1,
+  //     lineWidthMaxPixels: 10,
+  //     getPosition: (d) => d.position,
+  //     getRadius: 10,
+  //     getFillColor: [255, 0, 0, 0],
+  //     getLineColor: [255, 0, 0, 255 * 0.7],
+  //     // pickable: true,
+  //     // autoHighlight: true,
+  //     // onClick: (d) => console.log(d.object),
+  //   });
+  // }, [geoJ]);
+  const layers = [layer1]; //layer2
   // RENDER ITEMS ------------------------------------------------
   useEffect(() => {
     setPick(null);
@@ -182,14 +201,10 @@ function LandingPage() {
       <LeftBar />
       {right && <RightBar />}
       <div className="container">
-        <Region setView={setView} />
+        <Region />
         <Landbase basemap={basemap} setBasemap={setBasemap} />
         <Basemap basemap={basemap} setBasemap={setBasemap} />
-        <Controls
-          view={view}
-          setView={setView}
-          INITIAL_VIEW_STATE={INITIAL_VIEW_STATE}
-        />
+        <Controls />
         {istgl && legend}
         <div className="zoom">
           줌 <span>{view ? view.zoom.toFixed(2) : "no view yet"}</span>

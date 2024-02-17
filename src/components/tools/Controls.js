@@ -6,13 +6,15 @@ import { GiExpand } from "react-icons/gi";
 import { BiHide } from "react-icons/bi";
 // import axios from "axios";
 
-const Controls = ({ view, setView, INITIAL_VIEW_STATE }) => {
+const Controls = () => {
   const {
     isFilter,
     setIsFilter,
     right,
     info,
     pick,
+    view,
+    setView,
     // depth1,
     // length,
     // setLength,
@@ -61,7 +63,15 @@ const Controls = ({ view, setView, INITIAL_VIEW_STATE }) => {
       </button>
       <button
         className="toggle_button"
-        onClick={() => setView(INITIAL_VIEW_STATE)}
+        onClick={() =>
+          setView({
+            longitude: 127.25161672437677,
+            latitude: 35.86497806027222,
+            zoom: 6.0,
+            bearing: 0,
+            pitch: 0,
+          })
+        }
       >
         <GiExpand />
       </button>

@@ -24,7 +24,7 @@ import { FaRoad, FaFilter, FaMagnifyingGlassChart } from "react-icons/fa6";
 import { CgFileDocument } from "react-icons/cg";
 
 const LeftBar = () => {
-  const { bar, setBar, left, setLeft, right, setRight } = useInfo();
+  const { bar, setBar, left, setLeft, right, setRight, setRsk } = useInfo();
   //Modal/////////////////////////////////////////////////////////////
   const [showModal, setShowModal] = useState(false);
 
@@ -54,7 +54,10 @@ const LeftBar = () => {
 
         <div
           className={`riskBT ${bar === 1 ? "active" : ""}`}
-          onClick={() => setBar(1)}
+          onClick={() => {
+            setBar(1);
+            setRsk("교통사고");
+          }}
         >
           <div className="topicons">
             <MdStackedBarChart className="charticon" />
@@ -75,7 +78,12 @@ const LeftBar = () => {
         <div className="filter">
           <div
             className={`bottom_cont ${left ? "active" : ""}`}
-            onClick={() => setLeft(!left)}
+            onClick={() => {
+              if (!left) {
+                setRsk("교통사고");
+              }
+              setLeft(!left);
+            }}
           >
             <div className="bottomicons">
               <FaFilter className="filtericon" />

@@ -5,6 +5,13 @@ const InfoContext = createContext();
 function InfoProvider({ children }) {
   const MAPBOX_ACCESS_TOKEN =
     "pk.eyJ1IjoicmVkc2lsdmVyNTIyIiwiYSI6ImNsaHl4enpjNzE4N3Eza3Bjemk3MTc1cDYifQ.EL1F3mAAhdlX1du8lCLDGw";
+  const [view, setView] = useState({
+    longitude: 127.25161672437677,
+    latitude: 35.86497806027222,
+    zoom: 6.0,
+    bearing: 0,
+    pitch: 0,
+  });
   const [info, setInfo] = useState({
     // roadNo: { name: "도로번호", selected: null },
     roadOps: { name: "도로구분", selected: null, checkboxes: null },
@@ -43,15 +50,20 @@ function InfoProvider({ children }) {
   });
   const [istgl, setIstgl] = useState(false);
   const [bar, setBar] = useState(1);
-  const [left, setLeft] = useState(false);
+  const [left, setLeft] = useState(true);
   const [right, setRight] = useState(false);
   const [pick, setPick] = useState(null);
   const [hov, setHov] = useState(null);
   const [rsk, setRsk] = useState("교통사고");
+  const [accRsk2a, setAccRsk2a] = useState(true);
+  // const [geoJ, setGeoJ] = useState(null);
+  const [nfid, setNfid] = useState(null);
 
   return (
     <InfoContext.Provider
       value={{
+        view,
+        setView,
         info,
         setInfo,
         reset,
@@ -80,6 +92,12 @@ function InfoProvider({ children }) {
         setHov,
         rsk,
         setRsk,
+        accRsk2a,
+        setAccRsk2a,
+        // geoJ,
+        // setGeoJ,
+        nfid,
+        setNfid,
       }}
     >
       {children}
