@@ -1,18 +1,27 @@
 import "./CheckboxForm.css";
 import React, { useCallback, useEffect, useState, useRef } from "react";
+import useInfo from "../../hooks/use-info";
 
 // import { BsDashSquareFill } from "react-icons/bs";
 
 const CheckboxForm = ({ name, checklist }) => {
+  const { rsk } = useInfo();
   const objRef = useRef(checklist.filter((item) => item.name === name)[0]);
   const obj = objRef.current;
   const list = obj.options;
 
   const [checkboxes, setCheckboxes] = useState(() => {
     const initialCheckboxes = {};
-    for (let i = 1; i <= list.length; i++) {
-      initialCheckboxes[`checkbox${i}`] = false;
+    if (rsk) {
+      for (let i = 1; i <= list.length; i++) {
+        initialCheckboxes[`checkbox${i}`] = true;
+      }
+    } else {
+      for (let i = 1; i <= list.length; i++) {
+        initialCheckboxes[`checkbox${i}`] = false;
+      }
     }
+
     return initialCheckboxes;
   });
 

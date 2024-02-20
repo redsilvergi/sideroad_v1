@@ -24,7 +24,8 @@ import { FaRoad, FaFilter, FaMagnifyingGlassChart } from "react-icons/fa6";
 import { CgFileDocument } from "react-icons/cg";
 
 const LeftBar = () => {
-  const { bar, setBar, left, setLeft, right, setRight, setRsk } = useInfo();
+  const { bar, setBar, left, setLeft, right, setRight, setRsk, reset } =
+    useInfo();
   //Modal/////////////////////////////////////////////////////////////
   const [showModal, setShowModal] = useState(false);
 
@@ -57,6 +58,7 @@ const LeftBar = () => {
           onClick={() => {
             setBar(1);
             setRsk("교통사고");
+            reset();
           }}
         >
           <div className="topicons">
@@ -67,7 +69,11 @@ const LeftBar = () => {
 
         <div
           className={`propBT ${bar === 2 ? "active" : ""}`}
-          onClick={() => setBar(2)}
+          onClick={() => {
+            setBar(2);
+            reset();
+            setRsk(null);
+          }}
         >
           <div className="topicons">
             <FaRoad className="roadicon" />

@@ -21,6 +21,8 @@ const Controls = () => {
     // region,
     // istgl,
     // setLD,
+    rsk,
+    rnfo,
   } = useInfo();
   // const { queryF } = useQuery();
 
@@ -87,9 +89,12 @@ const Controls = () => {
             view,
             "\ninfo:",
             info,
-            "pick:",
-            pick
-
+            "\npick:",
+            pick,
+            "\nrsk:",
+            rsk,
+            "\nrnfo:",
+            rnfo
             // "\ndepth1:",
             // depth1,
             // "\nlength:",

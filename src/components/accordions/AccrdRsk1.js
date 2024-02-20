@@ -1,13 +1,13 @@
 import { useState } from "react";
 import "./AccrdRsk1.css";
-// import useInfo from "../../hooks/use-info";
+import useInfo from "../../hooks/use-info";
 // import CheckboxForm from "../auxiliary/CheckboxForm";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import AccrdRsk2a from "./AccrdRsk2a";
 import AccrdRsk2b from "./AccrdRsk2b";
 
 const AccrdRsk1 = () => {
-  //   const { setInfo } = useInfo();
+  const { reset } = useInfo();
   const [expandedIndex, setExpandedIndex] = useState([0, 1]);
 
   ///////////////////////////////////////////////////////////////
@@ -186,6 +186,9 @@ const AccrdRsk1 = () => {
         return [...currentExpandedIndex, nextIndex];
       }
     });
+    if (nextIndex === 1) {
+      reset();
+    }
   };
 
   const renderedItems = items.map((item, index) => {

@@ -1,7 +1,7 @@
 import useInfo from "./use-info";
 
 const useColor = () => {
-  const { info, region, pick } = useInfo();
+  const { info, region, pick, rnfo, rsk } = useInfo();
 
   const conditionF = (obj) => {
     const {
@@ -223,8 +223,6 @@ const useColor = () => {
     } else {
       statusConditions = [];
     }
-    //region/////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////
 
     return pick
       ? pick === obj.properties.NF_ID
@@ -250,24 +248,126 @@ const useColor = () => {
             : true);
   };
 
-  const getRoadColor = (obj) => {
-    if (!obj.properties.NF_ID) {
-      ////////for int points
-      return [255, 255, 255];
-    } else if (conditionF(obj)) {
-      ////////for selected info(filter)
-      // if (hov === obj.properties.NF_ID) {
-      //   return [0, 255, 0];
-      // } else {
-      return [0, 98, 175, 255 * 0.75];
-      // }
+  //getRskClr/////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////
+  const getRskClr = (obj) => {
+    const { rskOps } = rnfo;
+    const check = rskOps.checkboxes;
+    const { city, county } = region;
+    var rskVal;
+    switch (rsk) {
+      case "교통사고":
+        rskVal = obj.properties.PEDAC_RK;
+        break;
+      case "재해사고":
+        rskVal = obj.properties.FLOOD_RK;
+        break;
+      case "범죄사고":
+        rskVal = obj.properties.CRIME_RK;
+        break;
+      case "밀집사고":
+        rskVal = obj.properties.CRWDAC_RK;
+        break;
+      case "낙상사고":
+        rskVal = obj.properties.FALLAC_RK;
+        break;
+      default:
+        break;
+    }
+    if (pick) {
+      if (obj.properties.NF_ID === pick) {
+        if (rskVal === 5) {
+          return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+        } else if (rskVal === 4) {
+          return check[1] ? [233, 141, 120, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+        } else if (rskVal === 3) {
+          return check[2] ? [242, 212, 146, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+        } else if (rskVal === 2) {
+          return check[3] ? [121, 194, 165, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+        } else if (rskVal === 1) {
+          return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+        }
+      } else {
+        return [0, 0, 0, 255 * 0.05];
+      }
+    } else if (county.cd) {
+      if (obj.properties.LEGLCD_SE === `${county.cd}`) {
+        if (rskVal === 5) {
+          return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+        } else if (rskVal === 4) {
+          return check[1] ? [233, 141, 120, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+        } else if (rskVal === 3) {
+          return check[2] ? [242, 212, 146, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+        } else if (rskVal === 2) {
+          return check[3] ? [121, 194, 165, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+        } else if (rskVal === 1) {
+          return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+        }
+      } else {
+        return [0, 0, 0, 255 * 0.05];
+      }
+    } else if (city.cd) {
+      if (
+        obj.properties.LEGLCD_SE.substring(0, 2) ===
+        `${city.cd}`.substring(0, 2)
+      ) {
+        if (rskVal === 5) {
+          return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+        } else if (rskVal === 4) {
+          return check[1] ? [233, 141, 120, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+        } else if (rskVal === 3) {
+          return check[2] ? [242, 212, 146, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+        } else if (rskVal === 2) {
+          return check[3] ? [121, 194, 165, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+        } else if (rskVal === 1) {
+          return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+        }
+      } else {
+        return [0, 0, 0, 255 * 0.05];
+      }
     } else {
-      ////////for unselected info(filter)
-      // if (hov === obj.properties.NF_ID) {
-      //   return [0, 255, 0];
-      // } else {
-      return [102, 135, 160, 255 * 0.35];
-      // }
+      if (rskVal === 5) {
+        return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+      } else if (rskVal === 4) {
+        return check[1] ? [233, 141, 120, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+      } else if (rskVal === 3) {
+        return check[2] ? [242, 212, 146, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+      } else if (rskVal === 2) {
+        return check[3] ? [121, 194, 165, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+      } else if (rskVal === 1) {
+        return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+      }
+    }
+  };
+  /////////////////////////////////////////////////////////////////////////////////
+  const getRoadColor = (obj) => {
+    if (rsk) {
+      if (!obj.properties.NF_ID) {
+        ////////for int points
+        return [255, 255, 255];
+      } else {
+        ////////for selected info(filter)
+        return getRskClr(obj);
+      }
+    } else {
+      if (!obj.properties.NF_ID) {
+        ////////for int points
+        return [255, 255, 255];
+      } else if (conditionF(obj)) {
+        ////////for selected info(filter)
+        // if (hov === obj.properties.NF_ID) {
+        //   return [0, 255, 0];
+        // } else {
+        return [0, 98, 175, 255 * 0.75];
+        // }
+      } else {
+        ////////for unselected info(filter)
+        // if (hov === obj.properties.NF_ID) {
+        //   return [0, 255, 0];
+        // } else {
+        return [102, 135, 160, 255 * 0.35];
+        // }
+      }
     }
   };
   return { getRoadColor, conditionF };

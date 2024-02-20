@@ -12,6 +12,10 @@ function InfoProvider({ children }) {
     bearing: 0,
     pitch: 0,
   });
+  const [LD, setLD] = useState(false);
+  const [data] = useState(
+    `https://api.mapbox.com/v4/redsilver522.9c8f22nr/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}` //redsilver522.c1vrcxt3 / redsilver522.9c8f22nr
+  );
   const [info, setInfo] = useState({
     // roadNo: { name: "도로번호", selected: null },
     roadOps: { name: "도로구분", selected: null, checkboxes: null },
@@ -33,17 +37,27 @@ function InfoProvider({ children }) {
       onewayOps: { name: "일방통행구분", selected: null, checkboxes: null },
       statusOps: { name: "도로사용상태", selected: null, checkboxes: null },
     });
+    setRnfo({
+      rskOps: {
+        name: "위험도",
+        selected: ["매우 나쁨", "나쁨", "보통", "좋음", "매우 좋음"],
+        checkboxes: [true, true, true, true, true],
+      },
+    });
     setLength(0);
   };
+  const [rnfo, setRnfo] = useState({
+    rskOps: {
+      name: "위험도",
+      selected: ["매우 나쁨", "나쁨", "보통", "좋음", "매우 좋음"],
+      checkboxes: [true, true, true, true, true],
+    },
+  });
 
-  const [LD, setLD] = useState(false);
   const [isFilter, setIsFilter] = useState(true);
   // const [isSelect, setIsSelect] = useState(false);
   const [depth1, setDepth1] = useState(null);
   const [length, setLength] = useState(false);
-  const [data] = useState(
-    `https://api.mapbox.com/v4/redsilver522.9c8f22nr/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}` //redsilver522.c1vrcxt3 / redsilver522.9c8f22nr
-  );
   const [region, setRegion] = useState({
     city: { cd: null, name: null },
     county: { cd: null, name: null },
@@ -64,18 +78,20 @@ function InfoProvider({ children }) {
       value={{
         view,
         setView,
+        LD,
+        setLD,
+        data,
         info,
         setInfo,
         reset,
-        LD,
-        setLD,
+        rnfo,
+        setRnfo,
         isFilter,
         setIsFilter,
         depth1,
         setDepth1,
         length,
         setLength,
-        data,
         region,
         setRegion,
         istgl,

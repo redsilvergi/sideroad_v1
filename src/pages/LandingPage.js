@@ -41,6 +41,7 @@ function LandingPage() {
     pick,
     setPick,
     hov,
+    rnfo,
     // geoJ,
     // setHov,
   } = useInfo();
@@ -103,6 +104,7 @@ function LandingPage() {
                 longitude: d.coordinate[0],
                 latitude: d.coordinate[1],
               }));
+              console.log(d.object.properties);
             }
           : null,
       // onHover:
@@ -112,7 +114,7 @@ function LandingPage() {
       //       }
       //     : null,
       updateTriggers: {
-        getLineColor: [info, region, pick, hov],
+        getLineColor: [info, region, pick, hov, rnfo],
       },
     });
   }, [
@@ -126,6 +128,7 @@ function LandingPage() {
     setPick,
     hov,
     setView,
+    rnfo,
   ]);
   // const layer2 = useMemo(() => {
   //   return new ScatterplotLayer({

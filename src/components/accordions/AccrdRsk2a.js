@@ -102,7 +102,7 @@ const AccrdRsk2a = () => {
       default:
         break;
     }
-    const query = `select NF_ID from side9 order by ${qryClmn} limit 5;`;
+    const query = `select NF_ID from side9 order by ${qryClmn} desc limit 5;`;
     const response = await axios.get(
       `http://localhost:4000/getNFID/${query}` //  /getLength/${query}
     );
