@@ -18,7 +18,7 @@ const useQuery = () => {
     const citycd = region.city.cd;
     const countycd = region.county.cd;
 
-    var query = "select sum(length) as total_length from side9 where ";
+    var query = "select sum(ROAD_LT) as total_length from side10 where ";
 
     const roadQry =
       roadOps.checkboxes &&

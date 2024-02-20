@@ -14,7 +14,7 @@ const AccrdRsk2a = () => {
   // const [setExpandedIndex] = useState([0]);
   const { setView, rsk, setLD, accRsk2a, setAccRsk2a, setPick } = useInfo();
   const [csvDiv, setCsvDiv] = useState(null);
-  const [csvDwnList, setCsvDwnList] = useState([]);
+  const [nfList, setNfList] = useState([]);
 
   // AUXILIARY -----------------------------------------------
   const components = useMemo(() => {
@@ -34,35 +34,24 @@ const AccrdRsk2a = () => {
     },
     [components]
   );
-  const handleCsvDwn = useCallback(
+  const getCord = useCallback(
     async (item) => {
       console.log(item);
-      const response = await axios.get(`http://localhost:4000/getGeoJ/${item}`);
+      const response = await axios.get(`http://localhost:4000/getCord/${item}`);
       console.log(response.data);
-      // setGeoJ([
-      //   {
-      //     position: [response.data.long, response.data.lat],
-      //   },
-      // ]);
       setPick(item);
       setView({
         longitude: response.data.long,
         latitude: response.data.lat,
         zoom: 19.5,
       });
-      // setGeoJ(jsonData);
-
-      // const selectedObj = data.features.find(
-      //   (obj) => obj.properties.NF_ID === item
-      // );
-      // console.log(selectedObj);
     },
     [setPick, setView]
   );
   const handleCsvListDwn = useCallback(async () => {
     setLD(true);
-    // console.log("csvDwnList: ", csvDwnList);
-    const nf_ids = csvDwnList.map((item) => `'${item}'`).join(",");
+    // console.log("nfList: ", nfList);
+    const nf_ids = nfList.map((item) => `'${item}'`).join(",");
     // console.log("nf_ids: ", nf_ids);
     const query = `select * from side9 where NF_ID in (${nf_ids})`;
     // console.log("query: ", query);
@@ -79,44 +68,69 @@ const AccrdRsk2a = () => {
     link.click();
 
     setLD(false);
-  }, [csvDwnList, rsk, setLD]);
+  }, [nfList, rsk, setLD]);
   const handleCsvList = useCallback(async () => {
-    setLD(true);
-    let qryClmn;
+    let nfidLi;
     switch (rsk) {
       case "교통사고":
-        qryClmn = "PEDAC_RK";
+        nfidLi = [
+          "TRN18000000ABNXPA",
+          "TRN18000000ABO0I7",
+          "TRN18000000ABR06Y",
+          "TRN18000000ABSSSD",
+          "TRN18000000ABSUOB",
+        ];
         break;
       case "재해사고":
-        qryClmn = "FLOOD_RK";
+        nfidLi = [
+          "TRN18000000AB0FWC",
+          "TRN18000000AB168G",
+          "TRN18000000AB1F2J",
+          "TRN18000000AB1IG0",
+          "TRN18000000AC5NRL",
+        ];
         break;
       case "범죄사고":
-        qryClmn = "CRIME_RK";
+        nfidLi = [
+          "TRN18000000MFIN3P",
+          "TRN18000000AA2O5V",
+          "TRN18000000AB1GWE",
+          "TRN18000000AB1H5O",
+          "TRN18000000AB1H6P",
+        ];
         break;
       case "밀집사고":
-        qryClmn = "CRWDAC_RK";
+        nfidLi = [
+          "TRN18000000AA1WQN",
+          "TRN18000000AA2HP8",
+          "TRN18000000ABBI71",
+          "TRN18000000ABBK73",
+          "TRN18000000ABC0YB",
+        ];
         break;
       case "낙상사고":
-        qryClmn = "FALLAC_RK";
+        nfidLi = [
+          "TRN18000000AC7CN8",
+          "TRN18000000LTW7PM",
+          "TRN18000000LTWF6B",
+          "TRN18000000LUO1L5",
+          "TRN18000001ZRSD3F",
+        ];
         break;
       default:
         break;
     }
-    const query = `select NF_ID from side9 order by ${qryClmn} desc limit 5;`;
-    const response = await axios.get(
-      `http://localhost:4000/getNFID/${query}` //  /getLength/${query}
-    );
-    setCsvDwnList(response.data);
-    const csvList = response.data.map((item, id) => {
+    setNfList(nfidLi);
+    const csvList = nfidLi.map((item, id) => {
       return (
-        <div className="rsk2a_csvdwn" onClick={() => handleCsvDwn(item)}>
+        <div className="rsk2a_csvdwn" onClick={() => getCord(item)}>
           {handleNoIcon(id + 1)} {item} <FaExternalLinkAlt />
         </div>
       );
     });
     setCsvDiv(csvList);
     setLD(false);
-  }, [handleNoIcon, rsk, setLD, handleCsvDwn]);
+  }, [handleNoIcon, rsk, setLD, getCord]);
   // USEEFFECT -----------------------------------------------
   // useEffect(() => {
   //   if (bar === 1) {

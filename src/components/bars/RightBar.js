@@ -18,6 +18,8 @@ const RightBar = () => {
     const response = await axios.get(
       `http://localhost:4000/getLength/${query}` // /getLength/${query}
     );
+    console.log("response.data: ", response.data);
+    console.log("response.data type: ", typeof response.data);
     setLength(Math.round(response.data / 1000));
     setLD(false);
   }, [setLD, queryF, setLength]);

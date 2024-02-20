@@ -257,34 +257,34 @@ const useColor = () => {
     var rskVal;
     switch (rsk) {
       case "교통사고":
-        rskVal = obj.properties.PEDAC_RK;
+        rskVal = Number(obj.properties.PEDAC_RK[5]);
         break;
       case "재해사고":
-        rskVal = obj.properties.FLOOD_RK;
+        rskVal = Number(obj.properties.FLOOD_RK[5]);
         break;
       case "범죄사고":
-        rskVal = obj.properties.CRIME_RK;
+        rskVal = Number(obj.properties.CRIME_RK[5]);
         break;
       case "밀집사고":
-        rskVal = obj.properties.CRWDAC_RK;
+        rskVal = Number(obj.properties.CRWDAC_RK[5]);
         break;
       case "낙상사고":
-        rskVal = obj.properties.FALLAC_RK;
+        rskVal = Number(obj.properties.FALLAC_RK[5]);
         break;
       default:
         break;
     }
     if (pick) {
       if (obj.properties.NF_ID === pick) {
-        if (rskVal === 5) {
+        if (rskVal === 1) {
           return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else if (rskVal === 4) {
+        } else if (rskVal === 2) {
           return check[1] ? [233, 141, 120, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
         } else if (rskVal === 3) {
           return check[2] ? [242, 212, 146, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else if (rskVal === 2) {
+        } else if (rskVal === 4) {
           return check[3] ? [121, 194, 165, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else if (rskVal === 1) {
+        } else if (rskVal === 5) {
           return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
         }
       } else {
@@ -292,15 +292,15 @@ const useColor = () => {
       }
     } else if (county.cd) {
       if (obj.properties.LEGLCD_SE === `${county.cd}`) {
-        if (rskVal === 5) {
+        if (rskVal === 1) {
           return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else if (rskVal === 4) {
+        } else if (rskVal === 2) {
           return check[1] ? [233, 141, 120, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
         } else if (rskVal === 3) {
           return check[2] ? [242, 212, 146, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else if (rskVal === 2) {
+        } else if (rskVal === 4) {
           return check[3] ? [121, 194, 165, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else if (rskVal === 1) {
+        } else if (rskVal === 5) {
           return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
         }
       } else {
@@ -311,30 +311,30 @@ const useColor = () => {
         obj.properties.LEGLCD_SE.substring(0, 2) ===
         `${city.cd}`.substring(0, 2)
       ) {
-        if (rskVal === 5) {
+        if (rskVal === 1) {
           return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else if (rskVal === 4) {
+        } else if (rskVal === 2) {
           return check[1] ? [233, 141, 120, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
         } else if (rskVal === 3) {
           return check[2] ? [242, 212, 146, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else if (rskVal === 2) {
+        } else if (rskVal === 4) {
           return check[3] ? [121, 194, 165, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else if (rskVal === 1) {
+        } else if (rskVal === 5) {
           return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
         }
       } else {
         return [0, 0, 0, 255 * 0.05];
       }
     } else {
-      if (rskVal === 5) {
+      if (rskVal === 1) {
         return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-      } else if (rskVal === 4) {
+      } else if (rskVal === 2) {
         return check[1] ? [233, 141, 120, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
       } else if (rskVal === 3) {
         return check[2] ? [242, 212, 146, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-      } else if (rskVal === 2) {
+      } else if (rskVal === 4) {
         return check[3] ? [121, 194, 165, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-      } else if (rskVal === 1) {
+      } else if (rskVal === 5) {
         return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
       }
     }

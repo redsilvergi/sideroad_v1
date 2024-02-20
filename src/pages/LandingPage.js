@@ -164,7 +164,7 @@ function LandingPage() {
   //   }
   // }, [view.zoom, setHov]);
   useEffect(() => {
-    if (length) {
+    if (length || length === 0) {
       setRenL(
         <div className="lengthSum">
           선택구간 연장 <span>{length}</span> km

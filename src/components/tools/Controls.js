@@ -16,7 +16,7 @@ const Controls = () => {
     view,
     setView,
     // depth1,
-    // length,
+    length,
     // setLength,
     // region,
     // istgl,
@@ -94,11 +94,11 @@ const Controls = () => {
             "\nrsk:",
             rsk,
             "\nrnfo:",
-            rnfo
+            rnfo,
             // "\ndepth1:",
             // depth1,
-            // "\nlength:",
-            // length,
+            "\nlength:",
+            length
             // "\nregion:",
             // region,
             // "\nistgl:",
