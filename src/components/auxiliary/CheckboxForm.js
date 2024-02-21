@@ -60,10 +60,12 @@ const CheckboxForm = ({ name, checklist }) => {
               onChange={handleCheckboxChange}
             />
             {index !== list.length - 1 ? (
-              <div className="chk_item_div">{item}</div>
+              <div className="chk_item_div">
+                {rsk && <div className={`rskC rskCbox${index}`}></div>} {item}
+              </div>
             ) : (
               <div className="chk_item_div" style={{ marginBottom: "10px" }}>
-                {item}
+                {rsk && <div className={`rskC rskCbox${index}`}></div>} {item}
               </div>
             )}
           </label>

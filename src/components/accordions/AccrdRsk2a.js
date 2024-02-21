@@ -36,6 +36,7 @@ const AccrdRsk2a = () => {
   );
   const getCord = useCallback(
     async (item) => {
+      setLD(true);
       console.log(item);
       const response = await axios.get(`http://localhost:4000/getCord/${item}`);
       console.log(response.data);
@@ -45,15 +46,16 @@ const AccrdRsk2a = () => {
         latitude: response.data.lat,
         zoom: 19.5,
       });
+      setLD(false);
     },
-    [setPick, setView]
+    [setPick, setView, setLD]
   );
   const handleCsvListDwn = useCallback(async () => {
     setLD(true);
     // console.log("nfList: ", nfList);
     const nf_ids = nfList.map((item) => `'${item}'`).join(",");
     // console.log("nf_ids: ", nf_ids);
-    const query = `select * from side9 where NF_ID in (${nf_ids})`;
+    const query = `select * from side10 where NF_ID in (${nf_ids})`;
     // console.log("query: ", query);
     const response = await axios.get(`http://localhost:4000/getCsv/${query}`);
     console.log("csvlistdwn: ", response.data);
@@ -154,68 +156,6 @@ const AccrdRsk2a = () => {
       content: csvDiv,
     },
   ];
-
-  // const updateInfoState = (nextIndex) => {
-  //   switch (items[nextIndex].id) {
-  //     case "도로구분":
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         roadOps: { ...prev.roadOps, selected: null, checkboxes: null },
-  //       }));
-  //       break;
-  //     case "차로수":
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         laneOps: { ...prev.laneOps, selected: null, checkboxes: null },
-  //       }));
-  //       break;
-  //     case "도로폭":
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         widthOps: { ...prev.widthOps, selected: null, checkboxes: null },
-  //       }));
-  //       break;
-  //     case "포장재질":
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         typeOps: { ...prev.typeOps, selected: null, checkboxes: null },
-  //       }));
-  //       break;
-  //     case "중앙분리대유무":
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         barrierOps: { ...prev.barrierOps, selected: null, checkboxes: null },
-  //       }));
-  //       break;
-
-  //     case "일방통행구분":
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         onewayOps: { ...prev.onewayOps, selected: null, checkboxes: null },
-  //       }));
-  //       break;
-  //     case "도로사용상태":
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         statusOps: { ...prev.statusOps, selected: null, checkboxes: null },
-  //       }));
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
-
-  // const handleClick = (nextIndex) => {
-  //   setExpandedIndex((currentExpandedIndex) => {
-  //     if (currentExpandedIndex.includes(nextIndex)) {
-  //       // updateInfoState(nextIndex);
-  //       // setCsvDiv(null);
-  //       return currentExpandedIndex.filter((item) => item !== nextIndex);
-  //     } else {
-  //       return [...currentExpandedIndex, nextIndex];
-  //     }
-  //   });
-  // };
 
   const renderedItems = items.map((item, index) => {
     return rsk ? (

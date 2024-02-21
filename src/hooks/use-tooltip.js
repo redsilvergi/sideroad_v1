@@ -1,7 +1,7 @@
-import useInfo from "./use-info";
+// import useInfo from "./use-info";
 
 const useTooltip = () => {
-  const { info } = useInfo();
+  // const { info } = useInfo();
   const getTooltip = ({ object }) => {
     const op = object && object.properties;
     const roadF = (code) => {
@@ -77,20 +77,20 @@ const useTooltip = () => {
           return "N/A";
       }
     };
-    const statusF = (usgstt_se) => {
-      switch (usgstt_se) {
-        case "RUS001":
-          return "건설예정";
-        case "RUS002":
-          return "공사중";
-        case "RUS003":
-          return "운영중";
-        case "RUS004":
-          return "폐쇄";
-        default:
-          return "N/A";
-      }
-    };
+    // const statusF = (usgstt_se) => {
+    //   switch (usgstt_se) {
+    //     case "RUS001":
+    //       return "건설예정";
+    //     case "RUS002":
+    //       return "공사중";
+    //     case "RUS003":
+    //       return "운영중";
+    //     case "RUS004":
+    //       return "폐쇄";
+    //     default:
+    //       return "N/A";
+    //   }
+    // };
 
     return (
       op &&
@@ -100,25 +100,22 @@ const useTooltip = () => {
           ${`도로명: (ID: ${op.NF_ID})`}
         </div>
           <div style="color: #808080; font-size: 0.8rem; line-height: 2;">
-            ${`· ${info.roadOps.name}: ${roadF(op.ROAD_SE)}`}
+            ${`· 도로구분: ${roadF(op.ROAD_SE)}`}
           </div>
           <div style="color: #808080; font-size: 0.8rem; line-height: 2;">
-          ${`· ${info.laneOps.name}: ${laneF(op.CARTRK_CO)}`}
+          ${`· 차로수: ${laneF(op.CARTRK_CO)}`}
           </div>
           <div style="color: #808080; font-size: 0.8rem; line-height: 2;">
-          ${`· ${info.widthOps.name}: ${widthF(op.ROAD_BT)}`}
+          ${`· 도로폭원: ${widthF(op.ROAD_BT)}`}
           </div>
           <div style="color: #808080; font-size: 0.8rem; line-height: 2;">
-          ${`· ${info.typeOps.name}: ${typeF(op.PMTR_SE)}`}
+          ${`· 포장재질: ${typeF(op.PMTR_SE)}`}
           </div>
           <div style="color: #808080; font-size: 0.8rem; line-height: 2;">
-          ${`· ${info.barrierOps.name}: ${barrierF(op.EDENNC_AT)}`}
+          ${`· 분리대유무: ${barrierF(op.EDENNC_AT)}`}
           </div>
           <div style="color: #808080; font-size: 0.8rem; line-height: 2;">
-          ${`· ${info.onewayOps.name}: ${onewayF(op.OSPS_SE)}`}
-          </div>
-          <div style="color: #808080; font-size: 0.8rem; line-height: 2;">
-          ${`· ${info.statusOps.name}: ${statusF(op.USGSTT_SE)}`}
+          ${`· 일방통행구분: ${onewayF(op.OSPS_SE)}`}
           </div>
         `,
       }

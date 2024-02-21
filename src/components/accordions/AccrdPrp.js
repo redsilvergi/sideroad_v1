@@ -4,131 +4,135 @@ import useInfo from "../../hooks/use-info";
 import CheckboxForm from "../auxiliary/CheckboxForm";
 import { FiPlus, FiMinus } from "react-icons/fi";
 
-const Accordion2 = () => {
+const AccrdPrp = () => {
   const { setInfo } = useInfo();
   const [expandedIndex, setExpandedIndex] = useState([]);
 
   ///////////////////////////////////////////////////////////////
   const checklist = [
     {
-      name: "도로구분",
+      name: "도로폭원",
       options: [
-        "지방도",
-        "특별시도",
-        "광역시도",
-        "시도",
-        "군도",
-        "구도",
-        "면리간도로",
-        "부지안도로",
-        "소로",
-      ],
-      updateInfo: (sel, chb) =>
-        setInfo((prev) => ({
-          ...prev,
-          roadOps: { ...prev.roadOps, selected: sel, checkboxes: chb },
-        })),
-    },
-    {
-      name: "차로수",
-      options: ["1차선", "2차선", "3차선", "4차선", "5-8차선", "9차선 이상"],
-      updateInfo: (sel, chb) =>
-        setInfo((prev) => ({
-          ...prev,
-          laneOps: { ...prev.laneOps, selected: sel, checkboxes: chb },
-        })),
-    },
-    {
-      name: "도로폭",
-      options: [
-        "3m미만",
+        "3m 미만",
         "3m이상 ~ 8m미만",
         "8m이상 ~ 9m미만",
         "9m이상 ~ 10m미만",
         "10m이상 ~ 12m미만",
-        "12m이상 ~ 15m미만",
-        "15m이상 ~ 20m미만",
-        "20m이상 ~ 25m미만",
-        "25m이상",
       ],
       updateInfo: (sel, chb) =>
         setInfo((prev) => ({
           ...prev,
-          widthOps: { ...prev.widthOps, selected: sel, checkboxes: chb },
+          rdbtOps: { ...prev.rdbtOps, selected: sel, checkboxes: chb },
+        })),
+    },
+    {
+      name: "경사도",
+      options: [
+        "10.00 초과",
+        "6.00 ~ 10.00",
+        "3.00 ~ 6.00",
+        "1.00 ~ 3.00",
+        "0.00 ~ 1.00",
+      ],
+      updateInfo: (sel, chb) =>
+        setInfo((prev) => ({
+          ...prev,
+          slopeOps: { ...prev.slopeOps, selected: sel, checkboxes: chb },
         })),
     },
     {
       name: "포장재질",
+      options: ["아스팔트", "콘크리트", "블록", "비포장", "우레탄 등"],
+      updateInfo: (sel, chb) =>
+        setInfo((prev) => ({
+          ...prev,
+          pmtrOps: { ...prev.pmtrOps, selected: sel, checkboxes: chb },
+        })),
+    },
+    {
+      name: "네트워크접근성",
       options: [
-        "아스팔트",
-        "아스팔트콘크리트",
-        "콘크리트",
-        "블록",
-        "비포장",
-        "우레탄",
-        "고무",
-        "기타",
+        "1.35초과",
+        "1.14 ~ 1.35",
+        "0.98 ~ 1.14",
+        "0.82 ~ 0.98",
+        "0.00 ~ 0.82",
       ],
       updateInfo: (sel, chb) =>
         setInfo((prev) => ({
           ...prev,
-          typeOps: { ...prev.typeOps, selected: sel, checkboxes: chb },
+          rdnetOps: { ...prev.rdnetOps, selected: sel, checkboxes: chb },
         })),
     },
     {
-      name: "중앙분리대유무",
-      options: ["유", "무"],
+      name: "대중교통접근성",
+      options: ["500 초과", "350 ~ 500", "200 ~ 350", "100 ~ 200", "0 ~ 100"],
       updateInfo: (sel, chb) =>
         setInfo((prev) => ({
           ...prev,
-          barrierOps: { ...prev.barrierOps, selected: sel, checkboxes: chb },
+          pubtrOps: { ...prev.pubtrOps, selected: sel, checkboxes: chb },
         })),
     },
     {
-      name: "일방통행구분",
-      options: ["일방통행", "양방통행"],
+      name: "근생시설연면적",
+      options: [
+        "2000 이상",
+        "1000 ~ 2000",
+        "500 ~ 1000",
+        "100 ~ 500",
+        "0 ~ 100",
+      ],
       updateInfo: (sel, chb) =>
         setInfo((prev) => ({
           ...prev,
-          onewayOps: { ...prev.onewayOps, selected: sel, checkboxes: chb },
+          pbuldOps: { ...prev.pbuldOps, selected: sel, checkboxes: chb },
         })),
     },
     {
-      name: "도로사용상태",
-      options: ["건설예정", "공사중", "운영중", "폐쇄"],
+      name: "건물출입구밀도",
+      options: ["20개 이상", "11~20개", "6~10개", "1~5개", "출입구 없음 (0)"],
       updateInfo: (sel, chb) =>
         setInfo((prev) => ({
           ...prev,
-          statusOps: { ...prev.statusOps, selected: sel, checkboxes: chb },
+          buldeOps: { ...prev.buldeOps, selected: sel, checkboxes: chb },
+        })),
+    },
+    {
+      name: "계단",
+      options: ["설치", "미설치"],
+      updateInfo: (sel, chb) =>
+        setInfo((prev) => ({
+          ...prev,
+          stairOps: { ...prev.stairOps, selected: sel, checkboxes: chb },
+        })),
+    },
+    {
+      name: "보도",
+      options: ["단측 설치", "양측 설치", "미설치"],
+      updateInfo: (sel, chb) =>
+        setInfo((prev) => ({
+          ...prev,
+          sdwkOps: { ...prev.sdwkOps, selected: sel, checkboxes: chb },
         })),
     },
   ];
 
   const items = [
     {
-      id: "도로구분",
-      label: "도로구분",
+      id: "도로폭원",
+      label: "도로폭원",
       content: (
-        <div className="road roadItem">
-          <CheckboxForm name={"도로구분"} checklist={checklist} />
+        <div className="roadItem">
+          <CheckboxForm name={"도로폭원"} checklist={checklist} />
         </div>
       ),
     },
     {
-      id: "차로수",
-      label: "차로수",
+      id: "경사도",
+      label: "경사도",
       content: (
-        <div className="lane roadItem">
-          <CheckboxForm name={"차로수"} checklist={checklist} />
-        </div>
-      ),
-    },
-    {
-      id: "도로폭",
-      label: "도로폭",
-      content: (
-        <div className="width roadItem">
-          <CheckboxForm name={"도로폭"} checklist={checklist} />
+        <div className="roadItem">
+          <CheckboxForm name={"경사도"} checklist={checklist} />
         </div>
       ),
     },
@@ -136,35 +140,62 @@ const Accordion2 = () => {
       id: "포장재질",
       label: "포장재질",
       content: (
-        <div className="type roadItem">
+        <div className="roadItem">
           <CheckboxForm name={"포장재질"} checklist={checklist} />
         </div>
       ),
     },
     {
-      id: "중앙분리대유무",
-      label: "중앙분리대유무",
+      id: "네트워크접근성",
+      label: "네트워크 접근성",
       content: (
-        <div className="barrier roadItem">
-          <CheckboxForm name={"중앙분리대유무"} checklist={checklist} />
+        <div className="roadItem">
+          <CheckboxForm name={"네트워크접근성"} checklist={checklist} />
         </div>
       ),
     },
     {
-      id: "일방통행구분",
-      label: "일방통행구분",
+      id: "대중교통접근성",
+      label: "대중교통 접근성",
       content: (
-        <div className="oneway roadItem">
-          <CheckboxForm name={"일방통행구분"} checklist={checklist} />
+        <div className="roadItem">
+          <CheckboxForm name={"대중교통접근성"} checklist={checklist} />
         </div>
       ),
     },
     {
-      id: "도로사용상태",
-      label: "도로사용상태",
+      id: "근생시설연면적",
+      label: "근생시설 연면적",
       content: (
-        <div className="status roadItem">
-          <CheckboxForm name={"도로사용상태"} checklist={checklist} />
+        <div className="roadItem">
+          <CheckboxForm name={"근생시설연면적"} checklist={checklist} />
+        </div>
+      ),
+    },
+    {
+      id: "건물출입구밀도",
+      label: "건물 출입구 밀도",
+      content: (
+        <div className="roadItem">
+          <CheckboxForm name={"건물출입구밀도"} checklist={checklist} />
+        </div>
+      ),
+    },
+    {
+      id: "계단",
+      label: "계단",
+      content: (
+        <div className="roadItem">
+          <CheckboxForm name={"계단"} checklist={checklist} />
+        </div>
+      ),
+    },
+    {
+      id: "보도",
+      label: "보도",
+      content: (
+        <div className="roadItem">
+          <CheckboxForm name={"보도"} checklist={checklist} />
         </div>
       ),
     },
@@ -172,47 +203,59 @@ const Accordion2 = () => {
 
   const updateInfoState = (nextIndex) => {
     switch (items[nextIndex].id) {
-      case "도로구분":
+      case "도로폭원":
         setInfo((prev) => ({
           ...prev,
-          roadOps: { ...prev.roadOps, selected: null, checkboxes: null },
+          rdbtOps: { ...prev.rdbtOps, selected: null, checkboxes: null },
         }));
         break;
-      case "차로수":
+      case "경사도":
         setInfo((prev) => ({
           ...prev,
-          laneOps: { ...prev.laneOps, selected: null, checkboxes: null },
-        }));
-        break;
-      case "도로폭":
-        setInfo((prev) => ({
-          ...prev,
-          widthOps: { ...prev.widthOps, selected: null, checkboxes: null },
+          slopeOps: { ...prev.slopeOps, selected: null, checkboxes: null },
         }));
         break;
       case "포장재질":
         setInfo((prev) => ({
           ...prev,
-          typeOps: { ...prev.typeOps, selected: null, checkboxes: null },
+          pmtrOps: { ...prev.pmtrOps, selected: null, checkboxes: null },
         }));
         break;
-      case "중앙분리대유무":
+      case "네트워크접근성":
         setInfo((prev) => ({
           ...prev,
-          barrierOps: { ...prev.barrierOps, selected: null, checkboxes: null },
+          rdnetOps: { ...prev.rdnetOps, selected: null, checkboxes: null },
+        }));
+        break;
+      case "대중교통접근성":
+        setInfo((prev) => ({
+          ...prev,
+          pubtrOps: { ...prev.pubtrOps, selected: null, checkboxes: null },
         }));
         break;
 
-      case "일방통행구분":
+      case "근생시설연면적":
         setInfo((prev) => ({
           ...prev,
-          onewayOps: { ...prev.onewayOps, selected: null, checkboxes: null },
+          pbuldOps: { ...prev.pbuldOps, selected: null, checkboxes: null },
         }));
         break;
-      case "도로사용상태":
+      case "건물출입구밀도":
         setInfo((prev) => ({
           ...prev,
-          statusOps: { ...prev.statusOps, selected: null, checkboxes: null },
+          buldeOps: { ...prev.buldeOps, selected: null, checkboxes: null },
+        }));
+        break;
+      case "계단":
+        setInfo((prev) => ({
+          ...prev,
+          stairOps: { ...prev.stairOps, selected: null, checkboxes: null },
+        }));
+        break;
+      case "보도":
+        setInfo((prev) => ({
+          ...prev,
+          sdwkOps: { ...prev.sdwkOps, selected: null, checkboxes: null },
         }));
         break;
       default:
@@ -263,4 +306,4 @@ const Accordion2 = () => {
   );
 };
 
-export default Accordion2;
+export default AccrdPrp;

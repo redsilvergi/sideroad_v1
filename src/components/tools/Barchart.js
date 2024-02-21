@@ -1,32 +1,140 @@
 import "./Barchart.css";
 import React, { useState } from "react";
-
+import useInfo from "../../hooks/use-info";
 import ReactApexChart from "react-apexcharts";
 
 const Barchart = () => {
-  const [chartData] = useState({
-    series: [
-      {
-        name: "매우나쁨",
-        data: [15],
-      },
-      {
-        name: "나쁨",
-        data: [20],
-      },
-      {
-        name: "보통",
-        data: [45],
-      },
-      {
-        name: "좋음",
-        data: [15],
-      },
-      {
-        name: "매우좋음",
-        data: [5],
-      },
-    ],
+  const { rsk } = useInfo();
+
+  var seriesOp;
+  switch (rsk) {
+    case "교통사고":
+      seriesOp = [
+        {
+          name: "매우나쁨",
+          data: [0.05],
+        },
+        {
+          name: "나쁨",
+          data: [0.09],
+        },
+        {
+          name: "보통",
+          data: [1.25],
+        },
+        {
+          name: "좋음",
+          data: [2.3],
+        },
+        {
+          name: "매우좋음",
+          data: [96.31],
+        },
+      ];
+      break;
+    case "재해사고":
+      seriesOp = [
+        {
+          name: "매우나쁨",
+          data: [0.15],
+        },
+        {
+          name: "나쁨",
+          data: [2.29],
+        },
+        {
+          name: "보통",
+          data: [2.66],
+        },
+        {
+          name: "좋음",
+          data: [6.24],
+        },
+        {
+          name: "매우좋음",
+          data: [88.66],
+        },
+      ];
+      break;
+    case "범죄사고":
+      seriesOp = [
+        {
+          name: "매우나쁨",
+          data: [1.25],
+        },
+        {
+          name: "나쁨",
+          data: [4.85],
+        },
+        {
+          name: "보통",
+          data: [9.74],
+        },
+        {
+          name: "좋음",
+          data: [17.54],
+        },
+        {
+          name: "매우좋음",
+          data: [66.62],
+        },
+      ];
+      break;
+    case "밀집사고":
+      seriesOp = [
+        {
+          name: "매우나쁨",
+          data: [1.8],
+        },
+        {
+          name: "나쁨",
+          data: [18.99],
+        },
+        {
+          name: "보통",
+          data: [16.16],
+        },
+        {
+          name: "좋음",
+          data: [2.98],
+        },
+        {
+          name: "매우좋음",
+          data: [60.07],
+        },
+      ];
+      break;
+    case "낙상사고":
+      seriesOp = [
+        {
+          name: "매우나쁨",
+          data: [0.002],
+        },
+        {
+          name: "나쁨",
+          data: [0.008],
+        },
+        {
+          name: "보통",
+          data: [0.112],
+        },
+        {
+          name: "좋음",
+          data: [1.368],
+        },
+        {
+          name: "매우좋음",
+          data: [98.51],
+        },
+      ];
+      break;
+
+    default:
+      break;
+  }
+
+  const config = {
+    series: seriesOp,
     options: {
       chart: {
         type: "bar",
@@ -108,7 +216,9 @@ const Barchart = () => {
         enabled: false, // This line ensures that no data labels will be displayed on the bars
       },
     },
-  });
+  };
+
+  const [chartData] = useState(config);
   return (
     <div>
       <div id="chart">

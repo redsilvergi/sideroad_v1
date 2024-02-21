@@ -17,25 +17,27 @@ function InfoProvider({ children }) {
     `https://api.mapbox.com/v4/redsilver522.59bd8ljy/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}` //redsilver522.c1vrcxt3 / redsilver522.9c8f22nr /redsilver522.59bd8ljy
   );
   const [info, setInfo] = useState({
-    // roadNo: { name: "도로번호", selected: null },
-    roadOps: { name: "도로구분", selected: null, checkboxes: null },
-    laneOps: { name: "차로수", selected: null, checkboxes: null },
-    widthOps: { name: "도로폭", selected: null, checkboxes: null },
-    typeOps: { name: "포장재질", selected: null, checkboxes: null },
-    barrierOps: { name: "중앙분리대유무", selected: null, checkboxes: null },
-    onewayOps: { name: "일방통행구분", selected: null, checkboxes: null },
-    statusOps: { name: "도로사용상태", selected: null, checkboxes: null },
+    rdbtOps: { name: "도로폭원", selected: null, checkboxes: null },
+    slopeOps: { name: "경사도", selected: null, checkboxes: null },
+    pmtrOps: { name: "포장재질", selected: null, checkboxes: null },
+    rdnetOps: { name: "네트워크접근성", selected: null, checkboxes: null },
+    pubtrOps: { name: "대중교통접근성", selected: null, checkboxes: null },
+    pbuldOps: { name: "근생시설연면적", selected: null, checkboxes: null },
+    buldeOps: { name: "건물출입구밀도", selected: null, checkboxes: null },
+    stairOps: { name: "계단", selected: null, checkboxes: null },
+    sdwkOps: { name: "보도", selected: null, checkboxes: null },
   });
   const reset = () => {
     setInfo({
-      // roadNo: { name: "도로번호", selected: null },
-      roadOps: { name: "도로구분", selected: null, checkboxes: null },
-      laneOps: { name: "차로수", selected: null, checkboxes: null },
-      widthOps: { name: "도로폭", selected: null, checkboxes: null },
-      typeOps: { name: "포장재질", selected: null, checkboxes: null },
-      barrierOps: { name: "중앙분리대유무", selected: null, checkboxes: null },
-      onewayOps: { name: "일방통행구분", selected: null, checkboxes: null },
-      statusOps: { name: "도로사용상태", selected: null, checkboxes: null },
+      rdbtOps: { name: "도로폭원", selected: null, checkboxes: null },
+      slopeOps: { name: "경사도", selected: null, checkboxes: null },
+      pmtrOps: { name: "포장재질", selected: null, checkboxes: null },
+      rdnetOps: { name: "네트워크접근성", selected: null, checkboxes: null },
+      pubtrOps: { name: "대중교통접근성", selected: null, checkboxes: null },
+      pbuldOps: { name: "근생시설연면적", selected: null, checkboxes: null },
+      buldeOps: { name: "건물출입구밀도", selected: null, checkboxes: null },
+      stairOps: { name: "계단", selected: null, checkboxes: null },
+      sdwkOps: { name: "보도", selected: null, checkboxes: null },
     });
     setRnfo({
       rskOps: {

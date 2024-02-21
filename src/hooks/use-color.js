@@ -5,84 +5,22 @@ const useColor = () => {
 
   const conditionF = (obj) => {
     const {
-      roadOps,
-      laneOps,
-      widthOps,
-      typeOps,
-      barrierOps,
-      onewayOps,
-      statusOps,
+      rdbtOps,
+      slopeOps,
+      pmtrOps,
+      rdnetOps,
+      pubtrOps,
+      pbuldOps,
+      buldeOps,
+      stairOps,
+      sdwkOps,
     } = info;
     const { city, county } = region;
 
-    if (roadOps && roadOps.checkboxes) {
-      var roadConditions = roadOps.checkboxes
-        .map((roadOp, index) => {
-          if (roadOp) {
-            switch (index) {
-              case 0:
-                return (feature) => feature.properties.ROAD_SE === "RDC003";
-              case 1:
-                return (feature) => feature.properties.ROAD_SE === "RDC004";
-              case 2:
-                return (feature) => feature.properties.ROAD_SE === "RDC005";
-              case 3:
-                return (feature) => feature.properties.ROAD_SE === "RDC006";
-              case 4:
-                return (feature) => feature.properties.ROAD_SE === "RDC007";
-              case 5:
-                return (feature) => feature.properties.ROAD_SE === "RDC008";
-              case 6:
-                return (feature) => feature.properties.ROAD_SE === "RDC010";
-              case 7:
-                return (feature) => feature.properties.ROAD_SE === "RDC011";
-              case 8:
-                return (feature) => feature.properties.ROAD_SE === "RDC014";
-              default:
-                return null;
-            }
-          } else {
-            return null;
-          }
-        })
-        .filter((condition) => condition !== null);
-    } else {
-      roadConditions = [];
-    }
-    if (laneOps && laneOps.checkboxes) {
-      var laneConditions = laneOps.checkboxes
-        .map((laneOp, index) => {
-          if (laneOp) {
-            switch (index) {
-              case 0:
-                return (feature) => feature.properties.CARTRK_CO === 1;
-              case 1:
-                return (feature) => feature.properties.CARTRK_CO === 2;
-              case 2:
-                return (feature) => feature.properties.CARTRK_CO === 3;
-              case 3:
-                return (feature) => feature.properties.CARTRK_CO === 4;
-              case 4:
-                return (feature) =>
-                  feature.properties.CARTRK_CO >= 5 &&
-                  feature.properties.CARTRK_CO <= 8;
-              case 5:
-                return (feature) => feature.properties.CARTRK_CO >= 9;
-              default:
-                return null;
-            }
-          } else {
-            return null;
-          }
-        })
-        .filter((condition) => condition !== null);
-    } else {
-      laneConditions = [];
-    }
-    if (widthOps && widthOps.checkboxes) {
-      var widthConditions = widthOps.checkboxes
-        .map((widthOp, index) => {
-          if (widthOp) {
+    if (rdbtOps && rdbtOps.checkboxes) {
+      var rdbtConditions = rdbtOps.checkboxes
+        .map((rdbtOp, index) => {
+          if (rdbtOp) {
             switch (index) {
               case 0:
                 return (feature) => feature.properties.ROAD_BT < 3;
@@ -102,20 +40,6 @@ const useColor = () => {
                 return (feature) =>
                   feature.properties.ROAD_BT >= 10 &&
                   feature.properties.ROAD_BT < 12;
-              case 5:
-                return (feature) =>
-                  feature.properties.ROAD_BT >= 12 &&
-                  feature.properties.ROAD_BT < 15;
-              case 6:
-                return (feature) =>
-                  feature.properties.ROAD_BT >= 15 &&
-                  feature.properties.ROAD_BT < 20;
-              case 7:
-                return (feature) =>
-                  feature.properties.ROAD_BT >= 20 &&
-                  feature.properties.ROAD_BT < 25;
-              case 8:
-                return (feature) => feature.properties.ROAD_BT >= 25;
               default:
                 return null;
             }
@@ -125,93 +49,61 @@ const useColor = () => {
         })
         .filter((condition) => condition !== null);
     } else {
-      widthConditions = [];
+      rdbtConditions = [];
     }
-    if (typeOps && typeOps.checkboxes) {
-      var typeConditions = typeOps.checkboxes
-        .map((typeOp, index) => {
-          if (typeOp) {
+    if (slopeOps && slopeOps.checkboxes) {
+      var slopeConditions = slopeOps.checkboxes
+        .map((slopeOp, index) => {
+          if (slopeOp) {
+            switch (index) {
+              case 0:
+                return (feature) => feature.properties.SLOPE_LG >= 10;
+              case 1:
+                return (feature) =>
+                  feature.properties.SLOPE_LG >= 6 &&
+                  feature.properties.SLOPE_LG < 10;
+              case 2:
+                return (feature) =>
+                  feature.properties.SLOPE_LG >= 3 &&
+                  feature.properties.SLOPE_LG < 6;
+              case 3:
+                return (feature) =>
+                  feature.properties.SLOPE_LG >= 1 &&
+                  feature.properties.SLOPE_LG < 3;
+              case 4:
+                return (feature) =>
+                  feature.properties.SLOPE_LG >= 0 &&
+                  feature.properties.SLOPE_LG < 1;
+              default:
+                return null;
+            }
+          } else {
+            return null;
+          }
+        })
+        .filter((condition) => condition !== null);
+    } else {
+      slopeConditions = [];
+    }
+    if (pmtrOps && pmtrOps.checkboxes) {
+      var pmtrConditions = pmtrOps.checkboxes
+        .map((pmtrOp, index) => {
+          if (pmtrOp) {
             switch (index) {
               case 0:
                 return (feature) => feature.properties.PMTR_SE === "PVM001";
               case 1:
-                return (feature) => feature.properties.PMTR_SE === "PVM002";
-              case 2:
                 return (feature) => feature.properties.PMTR_SE === "PVM003";
-              case 3:
-                return (feature) => feature.properties.PMTR_SE === "PVM004";
-              case 4:
-                return (feature) => feature.properties.PMTR_SE === "PVM005";
-              case 5:
-                return (feature) => feature.properties.PMTR_SE === "PVM006";
-              case 6:
-                return (feature) => feature.properties.PMTR_SE === "PVM007";
-              case 7:
-                return (feature) => feature.properties.PMTR_SE === "PVM999";
-              default:
-                return null;
-            }
-          } else {
-            return null;
-          }
-        })
-        .filter((condition) => condition !== null);
-    } else {
-      typeConditions = [];
-    }
-    if (barrierOps && barrierOps.checkboxes) {
-      var barrierConditions = barrierOps.checkboxes
-        .map((barrierOp, index) => {
-          if (barrierOp) {
-            switch (index) {
-              case 0:
-                return (feature) => feature.properties.EDENNC_AT === "1";
-              case 1:
-                return (feature) => feature.properties.EDENNC_AT === "0";
-              default:
-                return null;
-            }
-          } else {
-            return null;
-          }
-        })
-        .filter((condition) => condition !== null);
-    } else {
-      barrierConditions = [];
-    }
-    if (onewayOps && onewayOps.checkboxes) {
-      var onewayConditions = onewayOps.checkboxes
-        .map((onewayOp, index) => {
-          if (onewayOp) {
-            switch (index) {
-              case 0:
-                return (feature) => feature.properties.OSPS_SE === "OWI001";
-              case 1:
-                return (feature) => feature.properties.OSPS_SE === "OWI002";
-              default:
-                return null;
-            }
-          } else {
-            return null;
-          }
-        })
-        .filter((condition) => condition !== null);
-    } else {
-      onewayConditions = [];
-    }
-    if (statusOps && statusOps.checkboxes) {
-      var statusConditions = statusOps.checkboxes
-        .map((statusOp, index) => {
-          if (statusOp) {
-            switch (index) {
-              case 0:
-                return (feature) => feature.properties.USGSTT_SE === "RUS001";
-              case 1:
-                return (feature) => feature.properties.USGSTT_SE === "RUS002";
               case 2:
-                return (feature) => feature.properties.USGSTT_SE === "RUS003";
+                return (feature) => feature.properties.PMTR_SE === "PVM004";
               case 3:
-                return (feature) => feature.properties.USGSTT_SE === "RUS004";
+                return (feature) => feature.properties.PMTR_SE === "PVM005";
+              case 4:
+                return (feature) =>
+                  feature.properties.PMTR_SE !== "PVM001" &&
+                  feature.properties.PMTR_SE !== "PVM003" &&
+                  feature.properties.PMTR_SE !== "PVM004" &&
+                  feature.properties.PMTR_SE !== "PVM005";
               default:
                 return null;
             }
@@ -221,25 +113,205 @@ const useColor = () => {
         })
         .filter((condition) => condition !== null);
     } else {
-      statusConditions = [];
+      pmtrConditions = [];
+    }
+    if (rdnetOps && rdnetOps.checkboxes) {
+      var rdnetConditions = rdnetOps.checkboxes
+        .map((rdnetOp, index) => {
+          if (rdnetOp) {
+            switch (index) {
+              case 0:
+                return (feature) => feature.properties.RDNET_AC >= 1.35;
+              case 1:
+                return (feature) =>
+                  feature.properties.RDNET_AC >= 1.14 &&
+                  feature.properties.RDNET_AC < 1.35;
+              case 2:
+                return (feature) =>
+                  feature.properties.RDNET_AC >= 0.98 &&
+                  feature.properties.RDNET_AC < 1.14;
+              case 3:
+                return (feature) =>
+                  feature.properties.RDNET_AC >= 0.82 &&
+                  feature.properties.RDNET_AC < 0.98;
+              case 4:
+                return (feature) =>
+                  feature.properties.RDNET_AC >= 0.0 &&
+                  feature.properties.RDNET_AC < 0.82;
+              default:
+                return null;
+            }
+          } else {
+            return null;
+          }
+        })
+        .filter((condition) => condition !== null);
+    } else {
+      rdnetConditions = [];
+    }
+    if (pubtrOps && pubtrOps.checkboxes) {
+      var pubtrConditions = pubtrOps.checkboxes
+        .map((pubtrOp, index) => {
+          if (pubtrOp) {
+            switch (index) {
+              case 0:
+                return (feature) => feature.properties.PUBTR_AC >= 500;
+              case 1:
+                return (feature) =>
+                  feature.properties.PUBTR_AC >= 350 &&
+                  feature.properties.PUBTR_AC < 500;
+              case 2:
+                return (feature) =>
+                  feature.properties.PUBTR_AC >= 200 &&
+                  feature.properties.PUBTR_AC < 350;
+              case 3:
+                return (feature) =>
+                  feature.properties.PUBTR_AC >= 100 &&
+                  feature.properties.PUBTR_AC < 200;
+              case 4:
+                return (feature) =>
+                  feature.properties.PUBTR_AC >= 0 &&
+                  feature.properties.PUBTR_AC < 100;
+              default:
+                return null;
+            }
+          } else {
+            return null;
+          }
+        })
+        .filter((condition) => condition !== null);
+    } else {
+      pubtrConditions = [];
+    }
+    if (pbuldOps && pbuldOps.checkboxes) {
+      var pbuldConditions = pbuldOps.checkboxes
+        .map((pbuldOp, index) => {
+          if (pbuldOp) {
+            switch (index) {
+              case 0:
+                return (feature) => feature.properties.PBULD_FA >= 2000;
+              case 1:
+                return (feature) =>
+                  feature.properties.PBULD_FA >= 1000 &&
+                  feature.properties.PBULD_FA < 2000;
+              case 2:
+                return (feature) =>
+                  feature.properties.PBULD_FA >= 500 &&
+                  feature.properties.PBULD_FA < 1000;
+              case 3:
+                return (feature) =>
+                  feature.properties.PBULD_FA >= 100 &&
+                  feature.properties.PBULD_FA < 500;
+              case 4:
+                return (feature) =>
+                  feature.properties.PBULD_FA >= 0 &&
+                  feature.properties.PBULD_FA < 100;
+              default:
+                return null;
+            }
+          } else {
+            return null;
+          }
+        })
+        .filter((condition) => condition !== null);
+    } else {
+      pbuldConditions = [];
+    }
+    if (buldeOps && buldeOps.checkboxes) {
+      var buldeConditions = buldeOps.checkboxes
+        .map((buldeOp, index) => {
+          if (buldeOp) {
+            switch (index) {
+              case 0:
+                return (feature) => feature.properties.BULDE_DE >= 20;
+              case 1:
+                return (feature) =>
+                  feature.properties.BULDE_DE >= 11 &&
+                  feature.properties.BULDE_DE < 20;
+              case 2:
+                return (feature) =>
+                  feature.properties.BULDE_DE >= 6 &&
+                  feature.properties.BULDE_DE < 11;
+              case 3:
+                return (feature) =>
+                  feature.properties.BULDE_DE >= 1 &&
+                  feature.properties.BULDE_DE < 6;
+              case 4:
+                return (feature) => feature.properties.BULDE_DE < 1;
+              default:
+                return null;
+            }
+          } else {
+            return null;
+          }
+        })
+        .filter((condition) => condition !== null);
+    } else {
+      buldeConditions = [];
+    }
+    if (stairOps && stairOps.checkboxes) {
+      var stairConditions = stairOps.checkboxes
+        .map((stairOp, index) => {
+          if (stairOp) {
+            switch (index) {
+              case 0:
+                return (feature) => feature.properties.STAIR_AT === "1";
+              case 1:
+                return (feature) => feature.properties.STAIR_AT === "0";
+              default:
+                return null;
+            }
+          } else {
+            return null;
+          }
+        })
+        .filter((condition) => condition !== null);
+    } else {
+      stairConditions = [];
+    }
+    if (sdwkOps && sdwkOps.checkboxes) {
+      var sdwkConditions = sdwkOps.checkboxes
+        .map((sdwkOp, index) => {
+          if (sdwkOp) {
+            switch (index) {
+              case 0:
+                return (feature) => feature.properties.SDWK_SE === "SDW002";
+              case 1:
+                return (feature) => feature.properties.SDWK_SE === "SDW003";
+              case 2:
+                return (feature) => feature.properties.SDWK_SE === "SDW001";
+              default:
+                return null;
+            }
+          } else {
+            return null;
+          }
+        })
+        .filter((condition) => condition !== null);
+    } else {
+      sdwkConditions = [];
     }
 
     return pick
       ? pick === obj.properties.NF_ID
-      : (roadConditions.length === 0 ||
-          roadConditions.some((condition) => condition(obj))) &&
-          (laneConditions.length === 0 ||
-            laneConditions.some((condition) => condition(obj))) &&
-          (widthConditions.length === 0 ||
-            widthConditions.some((condition) => condition(obj))) &&
-          (typeConditions.length === 0 ||
-            typeConditions.some((condition) => condition(obj))) &&
-          (barrierConditions.length === 0 ||
-            barrierConditions.some((condition) => condition(obj))) &&
-          (onewayConditions.length === 0 ||
-            onewayConditions.some((condition) => condition(obj))) &&
-          (statusConditions.length === 0 ||
-            statusConditions.some((condition) => condition(obj))) &&
+      : (rdbtConditions.length === 0 ||
+          rdbtConditions.some((condition) => condition(obj))) &&
+          (slopeConditions.length === 0 ||
+            slopeConditions.some((condition) => condition(obj))) &&
+          (pmtrConditions.length === 0 ||
+            pmtrConditions.some((condition) => condition(obj))) &&
+          (rdnetConditions.length === 0 ||
+            rdnetConditions.some((condition) => condition(obj))) &&
+          (pubtrConditions.length === 0 ||
+            pubtrConditions.some((condition) => condition(obj))) &&
+          (pbuldConditions.length === 0 ||
+            pbuldConditions.some((condition) => condition(obj))) &&
+          (buldeConditions.length === 0 ||
+            buldeConditions.some((condition) => condition(obj))) &&
+          (stairConditions.length === 0 ||
+            stairConditions.some((condition) => condition(obj))) &&
+          (sdwkConditions.length === 0 ||
+            sdwkConditions.some((condition) => condition(obj))) &&
           (county.cd
             ? obj.properties.LEGLCD_SE === `${county.cd}`
             : city.cd
@@ -302,6 +374,8 @@ const useColor = () => {
           return check[3] ? [121, 194, 165, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
         } else if (rskVal === 5) {
           return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+        } else {
+          return [0, 0, 0, 255 * 1];
         }
       } else {
         return [0, 0, 0, 255 * 0.05];
@@ -321,6 +395,8 @@ const useColor = () => {
           return check[3] ? [121, 194, 165, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
         } else if (rskVal === 5) {
           return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+        } else {
+          return [0, 0, 0, 255 * 1];
         }
       } else {
         return [0, 0, 0, 255 * 0.05];
@@ -336,6 +412,8 @@ const useColor = () => {
         return check[3] ? [121, 194, 165, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
       } else if (rskVal === 5) {
         return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+      } else {
+        return [0, 0, 0, 255 * 0.05];
       }
     }
   };
