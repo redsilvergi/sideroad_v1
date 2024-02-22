@@ -1,25 +1,16 @@
-import "./CheckboxForm.css";
+import "./CbxPrp.css";
 import React, { useCallback, useEffect, useState, useRef } from "react";
-import useInfo from "../../hooks/use-info";
 
-// import { BsDashSquareFill } from "react-icons/bs";
-
-const CheckboxForm = ({ name, checklist }) => {
-  const { rsk } = useInfo();
+const CbxPrp = ({ name, checklist }) => {
   const objRef = useRef(checklist.filter((item) => item.name === name)[0]);
   const obj = objRef.current;
   const list = obj.options;
 
   const [checkboxes, setCheckboxes] = useState(() => {
     const initialCheckboxes = {};
-    if (rsk) {
-      for (let i = 1; i <= list.length; i++) {
-        initialCheckboxes[`checkbox${i}`] = true;
-      }
-    } else {
-      for (let i = 1; i <= list.length; i++) {
-        initialCheckboxes[`checkbox${i}`] = false;
-      }
+
+    for (let i = 1; i <= list.length; i++) {
+      initialCheckboxes[`checkbox${i}`] = false;
     }
 
     return initialCheckboxes;
@@ -51,21 +42,19 @@ const CheckboxForm = ({ name, checklist }) => {
     <form>
       {list.map((item, index) => (
         <div key={`checkbox${index + 1}`}>
-          <label className="chk_lb">
+          <label className="prp_chk_lb">
             <input
-              className="custom_cb"
+              className="prp_custom_cb"
               type="checkbox"
               name={`checkbox${index + 1}`}
               checked={checkboxes[`checkbox${index + 1}`]}
               onChange={handleCheckboxChange}
             />
             {index !== list.length - 1 ? (
-              <div className="chk_item_div">
-                {rsk && <div className={`rskC rskCbox${index}`}></div>} {item}
-              </div>
+              <div className="prp_chk_item">{item}</div>
             ) : (
-              <div className="chk_item_div" style={{ marginBottom: "10px" }}>
-                {rsk && <div className={`rskC rskCbox${index}`}></div>} {item}
+              <div className="prp_chk_item" style={{ marginBottom: "10px" }}>
+                {item}
               </div>
             )}
           </label>
@@ -75,4 +64,4 @@ const CheckboxForm = ({ name, checklist }) => {
   );
 };
 
-export default CheckboxForm;
+export default CbxPrp;

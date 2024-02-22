@@ -1,5 +1,5 @@
-import { useState } from "react";
 import "./AccrdRsk1.css";
+import { useState } from "react";
 import useInfo from "../../hooks/use-info";
 // import CheckboxForm from "../auxiliary/CheckboxForm";
 import { FiPlus, FiMinus } from "react-icons/fi";

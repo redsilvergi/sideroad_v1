@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./AccrdPrp.css";
 import useInfo from "../../hooks/use-info";
-import CheckboxForm from "../auxiliary/CheckboxForm";
+import CbxPrp from "../auxiliary/CbxPrp";
 import { FiPlus, FiMinus } from "react-icons/fi";
 
 const AccrdPrp = () => {
@@ -123,7 +123,7 @@ const AccrdPrp = () => {
       label: "도로폭원",
       content: (
         <div className="roadItem">
-          <CheckboxForm name={"도로폭원"} checklist={checklist} />
+          <CbxPrp name={"도로폭원"} checklist={checklist} />
         </div>
       ),
     },
@@ -132,7 +132,7 @@ const AccrdPrp = () => {
       label: "경사도",
       content: (
         <div className="roadItem">
-          <CheckboxForm name={"경사도"} checklist={checklist} />
+          <CbxPrp name={"경사도"} checklist={checklist} />
         </div>
       ),
     },
@@ -141,7 +141,7 @@ const AccrdPrp = () => {
       label: "포장재질",
       content: (
         <div className="roadItem">
-          <CheckboxForm name={"포장재질"} checklist={checklist} />
+          <CbxPrp name={"포장재질"} checklist={checklist} />
         </div>
       ),
     },
@@ -150,7 +150,7 @@ const AccrdPrp = () => {
       label: "네트워크 접근성",
       content: (
         <div className="roadItem">
-          <CheckboxForm name={"네트워크접근성"} checklist={checklist} />
+          <CbxPrp name={"네트워크접근성"} checklist={checklist} />
         </div>
       ),
     },
@@ -159,7 +159,7 @@ const AccrdPrp = () => {
       label: "대중교통 접근성",
       content: (
         <div className="roadItem">
-          <CheckboxForm name={"대중교통접근성"} checklist={checklist} />
+          <CbxPrp name={"대중교통접근성"} checklist={checklist} />
         </div>
       ),
     },
@@ -168,7 +168,7 @@ const AccrdPrp = () => {
       label: "근생시설 연면적",
       content: (
         <div className="roadItem">
-          <CheckboxForm name={"근생시설연면적"} checklist={checklist} />
+          <CbxPrp name={"근생시설연면적"} checklist={checklist} />
         </div>
       ),
     },
@@ -177,7 +177,7 @@ const AccrdPrp = () => {
       label: "건물 출입구 밀도",
       content: (
         <div className="roadItem">
-          <CheckboxForm name={"건물출입구밀도"} checklist={checklist} />
+          <CbxPrp name={"건물출입구밀도"} checklist={checklist} />
         </div>
       ),
     },
@@ -186,7 +186,7 @@ const AccrdPrp = () => {
       label: "계단",
       content: (
         <div className="roadItem">
-          <CheckboxForm name={"계단"} checklist={checklist} />
+          <CbxPrp name={"계단"} checklist={checklist} />
         </div>
       ),
     },
@@ -195,7 +195,7 @@ const AccrdPrp = () => {
       label: "보도",
       content: (
         <div className="roadItem">
-          <CheckboxForm name={"보도"} checklist={checklist} />
+          <CbxPrp name={"보도"} checklist={checklist} />
         </div>
       ),
     },

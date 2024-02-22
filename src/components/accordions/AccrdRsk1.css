@@ -2,8 +2,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 0 0 6px;
-  margin: 0 0 0 14px;
+  padding: 0 0 0 15px;
+  margin: 0 0 0 5px;
   cursor: pointer;
   color: #0062af;
   font-weight: bolder;
@@ -42,4 +42,7 @@
   width: auto;
   font-size: 12px;
   padding: 0 20px;
+}
+.유형별위험도구성비_rsk1_exp {
+  margin: 0 0 20px 0;
 }

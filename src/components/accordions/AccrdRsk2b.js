@@ -1,7 +1,7 @@
 // import { useState } from "react";
 import "./AccrdRsk2b.css";
 import useInfo from "../../hooks/use-info";
-import CheckboxForm from "../auxiliary/CheckboxForm";
+import CbxRsk from "../auxiliary/CbxRsk";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import Barchart from "../tools/Barchart";
 
@@ -29,7 +29,7 @@ const AccrdRsk2b = () => {
       content: (
         <div className="crwdac">
           <Barchart />
-          <CheckboxForm name={"위험도"} checklist={checklist} />
+          <CbxRsk name={"위험도"} checklist={checklist} />
         </div>
       ),
     },
@@ -39,7 +39,7 @@ const AccrdRsk2b = () => {
       content: (
         <div className="crwdac">
           <Barchart />
-          <CheckboxForm name={"위험도"} checklist={checklist} />
+          <CbxRsk name={"위험도"} checklist={checklist} />
         </div>
       ),
     },
@@ -49,7 +49,7 @@ const AccrdRsk2b = () => {
       content: (
         <div className="crwdac">
           <Barchart />
-          <CheckboxForm name={"위험도"} checklist={checklist} />
+          <CbxRsk name={"위험도"} checklist={checklist} />
         </div>
       ),
     },
@@ -59,7 +59,7 @@ const AccrdRsk2b = () => {
       content: (
         <div className="crwdac">
           <Barchart />
-          <CheckboxForm name={"위험도"} checklist={checklist} />
+          <CbxRsk name={"위험도"} checklist={checklist} />
         </div>
       ),
     },
@@ -69,7 +69,7 @@ const AccrdRsk2b = () => {
       content: (
         <div className="crwdac">
           <Barchart />
-          <CheckboxForm name={"위험도"} checklist={checklist} />
+          <CbxRsk name={"위험도"} checklist={checklist} />
         </div>
       ),
     },
@@ -151,7 +151,7 @@ const AccrdRsk2b = () => {
             {isExpanded ? <FiMinus /> : <FiPlus />}
           </div>
         </div>
-        {rsk === item.id && (
+        {isExpanded && (
           <div className={`rsk2b_expanded ${item.id + "_rsk2b_exp"}`}>
             {item.content}
           </div>

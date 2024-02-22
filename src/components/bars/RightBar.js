@@ -3,6 +3,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import useInfo from "../../hooks/use-info";
 import useQuery from "../../hooks/use-query";
 import axios from "axios";
+import Rsrch from "../accordions/Rsrch";
 
 const RightBar = () => {
   const { length, info, region, setLD, setLength } = useInfo();
@@ -28,8 +29,11 @@ const RightBar = () => {
   useEffect(() => {
     if (length) {
       setRenL(
-        <div className="lengthSum2">
-          선택구간연장 <span>{length}</span>km
+        <div className="lngthS">
+          <div className="lngthS_txt">선택구간 연장</div>
+          <div className="km">
+            <span>{length}</span> km
+          </div>
         </div>
       );
     } else {
@@ -38,20 +42,27 @@ const RightBar = () => {
   }, [length]);
   useEffect(() => {
     setRenL(
-      <div className="lengthSum2 lengthReq2" onClick={handleLength}>
-        선택구간연장요청
+      <div className="lngthS lngthReq" onClick={handleLength}>
+        <div className="lngthS_txt">선택구간 연장요청</div>
+        <div className="km">--- km</div>
       </div>
     );
   }, [region, handleLength, info]);
 
   return (
     <div className="rightbar">
-      <div className="id_finder">id finder</div>
-      <div className="separation">-- 도로속성 --</div>
-      {renl}
+      <div className="id_finder">
+        <Rsrch />
+      </div>
+      <div className="separation">
+        <div className="rb_line"></div>
+        <div className="sep_txt">도로속성</div>
+        <div className="rb_line"></div>
+      </div>
+      <div className="lngth_div">{renl}</div>
       {/* <div className="length">선택연장구간</div> */}
-      <div className="roadprop">roadprop</div>
-      <div className="risk">risk</div>
+      <div className="rb_prp">roadprop</div>
+      <div className="rb_rsk">risk</div>
       <div className="bottomright">
         <div className="zoomlevel">ZOOM LEVEL:</div>
         <div className="tag">@Mapbox @OpenStreetMap</div>

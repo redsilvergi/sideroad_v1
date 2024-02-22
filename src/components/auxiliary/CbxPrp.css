@@ -1,0 +1,32 @@
+.prp_custom_cb {
+  display: none;
+}
+
+.prp_custom_cb + .prp_chk_item::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-left: 10px;
+  margin-right: 8px;
+  background: white;
+  border: 1px solid #ccc;
+  vertical-align: middle;
+}
+
+.prp_custom_cb:checked + .prp_chk_item::before {
+  background-color: #0062af;
+  border: 1px solid #0062af;
+}
+
+.prp_chk_item {
+  display: flex;
+  align-items: center;
+  height: auto;
+  line-height: 12px; /*same value with font-size*/
+  padding: 6px 0 6px 0;
+}
+
+.prp_chk_item:hover {
+  background-color: #e5ebef;
+}

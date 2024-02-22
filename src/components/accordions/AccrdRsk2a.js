@@ -126,7 +126,11 @@ const AccrdRsk2a = () => {
     const csvList = nfidLi.map((item, id) => {
       return (
         <div className="rsk2a_csvdwn" onClick={() => getCord(item)}>
-          {handleNoIcon(id + 1)} {item} <FaExternalLinkAlt />
+          <div className="csvdwn_indside1">{handleNoIcon(id + 1)}</div>
+          <div className="csvdwn_indside2">{item}</div>
+          <div className="csvdwn_indside3">
+            <FaExternalLinkAlt />
+          </div>
         </div>
       );
     });
@@ -180,7 +184,7 @@ const AccrdRsk2a = () => {
         )}
       </div>
     ) : (
-      <div>아래 사고유형을 선택하세요</div>
+      <div style={{ margin: "10px 0 10px 0" }}>아래 사고유형을 선택하세요</div>
     );
   });
 
