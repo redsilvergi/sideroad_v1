@@ -45,7 +45,7 @@ const Controls = () => {
           setView((prev) => {
             return {
               ...prev,
-              zoom: prev.zoom < 20 ? prev.zoom + 1 : prev.zoom,
+              zoom: prev.zoom < 20 ? prev.zoom + 0.2 : prev.zoom,
             };
           })
         }
@@ -57,7 +57,7 @@ const Controls = () => {
         onClick={() =>
           setView((prev) => ({
             ...prev,
-            zoom: prev.zoom > 0.87 ? prev.zoom - 1 : prev.zoom,
+            zoom: prev.zoom > 0.87 ? prev.zoom - 0.2 : prev.zoom,
           }))
         }
       >
@@ -69,7 +69,7 @@ const Controls = () => {
           setView({
             longitude: 127.25161672437677,
             latitude: 35.86497806027222,
-            zoom: 6.0,
+            zoom: 6.5,
             bearing: 0,
             pitch: 0,
           })

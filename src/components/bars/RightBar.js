@@ -51,21 +51,23 @@ const RightBar = () => {
 
   return (
     <div className="rightbar">
-      <div className="id_finder">
-        <Rsrch />
-      </div>
-      <div className="separation">
-        <div className="rb_line"></div>
-        <div className="sep_txt">도로속성</div>
-        <div className="rb_line"></div>
-      </div>
-      <div className="lngth_div">{renl}</div>
-      {/* <div className="length">선택연장구간</div> */}
-      <div className="rb_prp">roadprop</div>
-      <div className="rb_rsk">risk</div>
-      <div className="bottomright">
-        <div className="zoomlevel">ZOOM LEVEL:</div>
-        <div className="tag">@Mapbox @OpenStreetMap</div>
+      <div className="rb_accordion_div">
+        <div className="id_finder">
+          <Rsrch />
+        </div>
+        <div className="separation">
+          <div className="rb_line"></div>
+          <div className="sep_txt">도로속성</div>
+          <div className="rb_line"></div>
+        </div>
+        <div className="lngth_div">{renl}</div>
+        {/* <div className="length">선택연장구간</div> */}
+        <div className="rb_prp">roadprop</div>
+        <div className="rb_rsk">risk</div>
+        <div className="bottomright">
+          <div className="zoomlevel">ZOOM LEVEL:</div>
+          <div className="tag">@Mapbox @OpenStreetMap</div>
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import "./AccrdRsk2a.css";
 import useInfo from "../../hooks/use-info";
-import axios from "axios";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { TbSquareRoundedNumber1Filled } from "react-icons/tb";
@@ -9,12 +8,14 @@ import { TbSquareRoundedNumber2Filled } from "react-icons/tb";
 import { TbSquareRoundedNumber3Filled } from "react-icons/tb";
 import { TbSquareRoundedNumber4Filled } from "react-icons/tb";
 import { TbSquareRoundedNumber5Filled } from "react-icons/tb";
+import useDb from "../../hooks/use-db";
 
 const AccrdRsk2a = () => {
   // const [setExpandedIndex] = useState([0]);
-  const { setView, rsk, setLD, accRsk2a, setAccRsk2a, setPick } = useInfo();
+  const { rsk, accRsk2a, setAccRsk2a } = useInfo();
   const [csvDiv, setCsvDiv] = useState(null);
   const [nfList, setNfList] = useState([]);
+  const { getCord, getCsv } = useDb();
 
   // AUXILIARY -----------------------------------------------
   const components = useMemo(() => {
@@ -34,44 +35,28 @@ const AccrdRsk2a = () => {
     },
     [components]
   );
-  const getCord = useCallback(
-    async (item) => {
-      setLD(true);
-      console.log(item);
-      const response = await axios.get(`http://localhost:4000/getCord/${item}`);
-      console.log(response.data);
-      setPick(item);
-      setView({
-        longitude: response.data.long,
-        latitude: response.data.lat,
-        zoom: 19.5,
-      });
-      setLD(false);
-    },
-    [setPick, setView, setLD]
-  );
-  const handleCsvListDwn = useCallback(async () => {
-    setLD(true);
-    // console.log("nfList: ", nfList);
-    const nf_ids = nfList.map((item) => `'${item}'`).join(",");
-    // console.log("nf_ids: ", nf_ids);
-    const query = `select * from side10 where NF_ID in (${nf_ids})`;
-    // console.log("query: ", query);
-    const response = await axios.get(`http://localhost:4000/getCsv/${query}`);
-    console.log("csvlistdwn: ", response.data);
-    const csvContent =
-      "data:test/csv;charset=utf-8," +
-      response.data.map((row) => row.join(",")).join("\n");
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `${rsk}_top5.csv`);
-    document.body.appendChild(link); //required for firefox
-    link.click();
+  // const getCsv = useCallback(async () => {
+  //   setLD(true);
+  //   // console.log("nfList: ", nfList);
+  //   const nf_ids = nfList.map((item) => `'${item}'`).join(",");
+  //   // console.log("nf_ids: ", nf_ids);
+  //   const query = `select * from side10 where NF_ID in (${nf_ids})`;
+  //   // console.log("query: ", query);
+  //   const response = await axios.get(`http://localhost:4000/getCsv/${query}`);
+  //   console.log("csvlistdwn: ", response.data);
+  //   const csvContent =
+  //     "data:test/csv;charset=utf-8," +
+  //     response.data.map((row) => row.join(",")).join("\n");
+  //   const encodedUri = encodeURI(csvContent);
+  //   const link = document.createElement("a");
+  //   link.setAttribute("href", encodedUri);
+  //   link.setAttribute("download", `${rsk}_top5.csv`);
+  //   document.body.appendChild(link); //required for firefox
+  //   link.click();
 
-    setLD(false);
-  }, [nfList, rsk, setLD]);
-  const handleCsvList = useCallback(async () => {
+  //   setLD(false);
+  // }, [nfList, rsk, setLD]);
+  const handleCsvList = useCallback(() => {
     let nfidLi;
     switch (rsk) {
       case "교통사고":
@@ -125,7 +110,11 @@ const AccrdRsk2a = () => {
     setNfList(nfidLi);
     const csvList = nfidLi.map((item, id) => {
       return (
-        <div className="rsk2a_csvdwn" onClick={() => getCord(item)}>
+        <div
+          key={id}
+          className="rsk2a_csvdwn"
+          onClick={async () => await getCord(item)}
+        >
           <div className="csvdwn_indside1">{handleNoIcon(id + 1)}</div>
           <div className="csvdwn_indside2">{item}</div>
           <div className="csvdwn_indside3">
@@ -135,8 +124,7 @@ const AccrdRsk2a = () => {
       );
     });
     setCsvDiv(csvList);
-    setLD(false);
-  }, [handleNoIcon, rsk, setLD, getCord]);
+  }, [handleNoIcon, rsk, getCord]);
   // USEEFFECT -----------------------------------------------
   // useEffect(() => {
   //   if (bar === 1) {
@@ -177,7 +165,10 @@ const AccrdRsk2a = () => {
         {accRsk2a && (
           <div className={`rsk2a_expanded ${item.id + "_rsk2a_exp"}`}>
             {item.content}
-            <div className="rsk2a_dwnld" onClick={handleCsvListDwn}>
+            <div
+              className="rsk2a_dwnld"
+              onClick={async () => await getCsv(nfList)}
+            >
               CSV 데이터 다운로드
             </div>
           </div>

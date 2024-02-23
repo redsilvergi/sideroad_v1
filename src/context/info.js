@@ -8,7 +8,7 @@ function InfoProvider({ children }) {
   const [view, setView] = useState({
     longitude: 127.25161672437677,
     latitude: 35.86497806027222,
-    zoom: 6.0,
+    zoom: 6.5,
     bearing: 0,
     pitch: 0,
   });
@@ -67,7 +67,7 @@ function InfoProvider({ children }) {
   const [istgl, setIstgl] = useState(false);
   const [bar, setBar] = useState(1);
   const [left, setLeft] = useState(true);
-  const [right, setRight] = useState(false);
+  const [right, setRight] = useState(true);
   const [pick, setPick] = useState(null);
   const [hov, setHov] = useState(null);
   const [rsk, setRsk] = useState("교통사고");

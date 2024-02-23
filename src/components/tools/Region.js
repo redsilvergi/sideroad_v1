@@ -498,7 +498,6 @@ const Region = () => {
         </div>
       ) : (
         <div
-          ref={divEl}
           className={`regionExp ${left ? "" : "rmv_regionExp"} ${
             region.county.cd ? "exp1" : ""
           } exp2`}
