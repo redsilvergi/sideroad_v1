@@ -34,7 +34,8 @@
 .rsrch_lbl {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 800;
   margin: 0 0 0 15px;
 }
 .rsrch_icon {

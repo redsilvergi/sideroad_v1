@@ -1,5 +1,5 @@
 import "./LandingPage.css";
-import React, { useEffect, useMemo, useState, useCallback } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import DeckGL, { MVTLayer } from "deck.gl";
 import { Map } from "react-map-gl"; //MapProvider
 import "mapbox-gl/dist/mapbox-gl.css"; //remove console log error
@@ -11,8 +11,8 @@ import Region from "../components/tools/Region";
 import Basemap from "../components/bases/Basemap";
 import Landbase from "../components/bases/Landbase";
 import Controls from "../components/tools/Controls";
-import useQuery from "../hooks/use-query";
-import axios from "axios";
+// import useQuery from "../hooks/use-query";
+// import axios from "axios";
 import RightBar from "../components/bars/RightBar";
 // import axios from "axios"; // Import Axios here
 // import Pbf from "pbf";
@@ -30,12 +30,12 @@ function LandingPage() {
     setView,
     isFilter,
     info,
-    length,
+    // length,
     data,
     region,
     LD,
-    setLD,
-    setLength,
+    // setLD,
+    // setLength,
     istgl,
     right,
     pick,
@@ -44,28 +44,29 @@ function LandingPage() {
     rnfo,
     // geoJ,
     // setHov,
+    setPnfo,
   } = useInfo();
 
-  const [renL, setRenL] = useState(<div className="lengthSum">REQ</div>);
+  // const [renL, setRenL] = useState(<div className="lengthSum">REQ</div>);
   const { getTooltip } = useTooltip();
   const { getRoadColor } = useColor();
-  const { queryF } = useQuery();
+  // const { queryF } = useQuery();
 
   const [basemap, setBasemap] = useState(
     "mapbox://styles/redsilver522/clmp6c5lw01xs01r64d5v09jn"
   );
   // AUXILIARY -----------------------------------------------
-  const handleLength = useCallback(async () => {
-    setLD(true);
-    const query = queryF();
-    console.log("query from LandingPage.js:", "\n", query);
-    const response = await axios.get(
-      `http://localhost:4000/getLength/${query}` //  /getLength/${query}
-    );
-    console.log("response from LandingPage.js:", "\n", response);
-    setLength(Math.round(response.data / 1000));
-    setLD(false);
-  }, [setLD, queryF, setLength]);
+  // const handleLength = useCallback(async () => {
+  //   setLD(true);
+  //   const query = queryF();
+  //   console.log("query from LandingPage.js:", "\n", query);
+  //   const response = await axios.get(
+  //     `http://localhost:4000/getLength/${query}` //  /getLength/${query}
+  //   );
+  //   console.log("response from LandingPage.js:", "\n", response);
+  //   setLength(Math.round(response.data / 1000));
+  //   setLD(false);
+  // }, [setLD, queryF, setLength]);
 
   //LAYER ---------------------------------------------------
   const layer1 = useMemo(() => {
@@ -98,13 +99,35 @@ function LandingPage() {
       onClick:
         view.zoom > 15
           ? (d) => {
-              setPick(d.object.properties.NF_ID);
+              const prp = d.object.properties;
+              setPick(prp.NF_ID);
               setView((prev) => ({
                 ...prev,
                 longitude: d.coordinate[0],
                 latitude: d.coordinate[1],
               }));
-              console.log(d.object.properties);
+              console.log(prp);
+              setPnfo({
+                road_se: prp.ROAD_SE,
+                cartrk_co: prp.CARTRK_CO,
+                road_bt: prp.ROAD_BT,
+                pmtr_se: prp.PMTR_SE,
+                osps_se: prp.OSPS_SE,
+                road_lt: prp.ROAD_LT,
+                slope_lg: prp.SLOPE_LG,
+                sdwk_se: prp.SDWK_SE,
+                rdnet_ac: prp.RDNET_AC,
+                pbuld_fa: prp.PBULD_FA,
+                bulde_de: prp.BULDE_DE,
+                pubtr_ac: prp.PUBTR_AC,
+                stair_at: prp.STAIR_AT,
+                edennc_at: prp.EDENNC_AT,
+                pedac_rk: prp.PEDAC_RK,
+                crime_rk: prp.CRIME_RK,
+                flood_rk: prp.FLOOD_RK,
+                crwdac_rk: prp.CRWDAC_RK,
+                fallac_rk: prp.FALLAC_RK,
+              });
             }
           : null,
       // onHover:
@@ -129,6 +152,7 @@ function LandingPage() {
     hov,
     setView,
     rnfo,
+    setPnfo,
   ]);
   // const layer2 = useMemo(() => {
   //   return new ScatterplotLayer({
@@ -163,24 +187,24 @@ function LandingPage() {
   //     setHov(null);
   //   }
   // }, [view.zoom, setHov]);
-  useEffect(() => {
-    if (length || length === 0) {
-      setRenL(
-        <div className="lengthSum">
-          선택구간 연장 <span>{length}</span> km
-        </div>
-      );
-    } else {
-      return;
-    }
-  }, [length]);
-  useEffect(() => {
-    setRenL(
-      <div className="lengthSum lengthReq" onClick={handleLength}>
-        선택구간 연장 쿼리요청
-      </div>
-    );
-  }, [region, handleLength, info]);
+  // useEffect(() => {
+  //   if (length || length === 0) {
+  //     setRenL(
+  //       <div className="lengthSum">
+  //         선택구간 연장 <span>{length}</span> km
+  //       </div>
+  //     );
+  //   } else {
+  //     return;
+  //   }
+  // }, [length]);
+  // useEffect(() => {
+  //   setRenL(
+  //     <div className="lengthSum lengthReq" onClick={handleLength}>
+  //       선택구간 연장 쿼리요청
+  //     </div>
+  //   );
+  // }, [region, handleLength, info]);
   const legend = (
     <div className="landuse">
       <div className="g1">지도 범례</div>
@@ -209,10 +233,10 @@ function LandingPage() {
         <Basemap basemap={basemap} setBasemap={setBasemap} />
         <Controls />
         {istgl && legend}
-        <div className="zoom">
+        {/* <div className="zoom">
           줌 <span>{view ? view.zoom.toFixed(2) : "no view yet"}</span>
-        </div>
-        {renL}
+        </div> */}
+        {/* {renL} */}
         {/* <div className="lengthSum">
           선택구간 연장 <span>{length ? length : 0}</span> km
         </div> */}

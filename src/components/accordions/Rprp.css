@@ -1,0 +1,126 @@
+.rprp_d1 {
+  /* width: 230px;
+  height: auto; */
+  /* border-radius: 15px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center; */
+  /* padding: ; */
+  /* font-size: 13px; */
+  /* font-weight: 800; */
+  margin: 0 0 10px 0;
+  background-color: #ffffff;
+  border-radius: 15px;
+  width: 230px;
+}
+.rprp_d2_x {
+  width: 230px;
+  height: 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 15px;
+  color: #b9b9b9;
+}
+.rprp_d2 {
+  width: 230px;
+  height: 45px;
+  /* padding: 13.3px 0 13.3px 0; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+
+  border-radius: 15px;
+}
+.rprp_d2:hover {
+  background-color: #e5ebef;
+}
+.rprp_lbl {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 800;
+  margin: 0 0 0 15px;
+}
+.rprp_icon {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  margin: 0 15px 0 0;
+}
+.rprp_exp {
+  background-color: #ffffff;
+  font-size: 12px;
+  padding: 13.5px 10px 13.5px 10px;
+  border-radius: 15px;
+}
+.rprp_wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.rprp_acc_d1 {
+  width: 194px;
+}
+.rprp_line {
+  height: 1px;
+  background-color: gray;
+  opacity: 30%;
+  display: flex;
+  align-items: center;
+  /* width: 87.5%; */
+  /* margin: 0 0 0 20px; */
+}
+.rprp_acc_d2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 35px;
+  padding: 0px 10px;
+}
+.rprp_acc_d2:hover {
+  background-color: #e5ebef;
+}
+
+.rprp_acc_lbl {
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  /* height: 11px; */
+  font-weight: 600;
+  margin: 3px 0 0 0px;
+}
+.rprp_acc_icon {
+  font-size: 13px;
+  width: 13px;
+  height: 13px;
+}
+
+.rprp_itms1,
+.rprp_itms2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 11px;
+}
+.rprp_itm1 {
+  width: 175px;
+  display: flex;
+  justify-content: space-between;
+  color: #6687a0;
+}
+
+.rprp_itm2_sqr {
+  width: 175px;
+}
+.rprp_itms2_cnt {
+  display: flex;
+  flex-direction: column;
+}
+.rprp_itm2 {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 0 30px;
+}

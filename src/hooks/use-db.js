@@ -4,19 +4,40 @@ import axios from "axios";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
 const useDb = () => {
-  const { setLD, setPick, setView, rsk } = useInfo();
+  const { setLD, setPick, setView, rsk, setPnfo } = useInfo();
   /////////////////////////////////////////////////////////
   const getCord = useCallback(
     async (item) => {
       setLD(true);
       console.log(item);
-      const response = await axios.get(`http://localhost:4000/getCord/${item}`);
-      console.log(response.data);
+      const { data } = await axios.get(`http://localhost:4000/getCord/${item}`);
+      console.log(data);
       setPick(item);
       setView({
-        longitude: response.data.long,
-        latitude: response.data.lat,
+        longitude: data.long,
+        latitude: data.lat,
         zoom: 19.5,
+      });
+      setPnfo({
+        road_se: data.road_se,
+        cartrk_co: data.cartrk_co,
+        road_bt: data.road_bt,
+        pmtr_se: data.pmtr_se,
+        osps_se: data.osps_se,
+        road_lt: data.road_lt,
+        slope_lg: data.slope_lg,
+        sdwk_se: data.sdwk_se,
+        rdnet_ac: data.rdnet_ac,
+        pbuld_fa: data.pbuld_fa,
+        bulde_de: data.bulde_de,
+        pubtr_ac: data.pubtr_ac,
+        stair_at: data.stair_at,
+        edennc_at: data.edennc_at,
+        pedac_rk: data.pedac_rk,
+        crime_rk: data.crime_rk,
+        flood_rk: data.flood_rk,
+        crwdac_rk: data.crwdac_rk,
+        fallac_rk: data.fallac_rk,
       });
       setLD(false);
     },

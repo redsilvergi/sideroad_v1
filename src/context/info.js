@@ -55,6 +55,27 @@ function InfoProvider({ children }) {
       checkboxes: [true, true, true, true, true],
     },
   });
+  const [pnfo, setPnfo] = useState({
+    road_se: null,
+    cartrk_co: null,
+    road_bt: null,
+    pmtr_se: null,
+    osps_se: null,
+    road_lt: null,
+    slope_lg: null,
+    sdwk_se: null,
+    rdnet_ac: null,
+    pbuld_fa: null,
+    bulde_de: null,
+    pubtr_ac: null,
+    stair_at: null,
+    edennc_at: null,
+    pedac_rk: null,
+    crime_rk: null,
+    flood_rk: null,
+    crwdac_rk: null,
+    fallac_rk: null,
+  });
 
   const [isFilter, setIsFilter] = useState(true);
   // const [isSelect, setIsSelect] = useState(false);
@@ -116,6 +137,8 @@ function InfoProvider({ children }) {
         // setGeoJ,
         nfid,
         setNfid,
+        pnfo,
+        setPnfo,
       }}
     >
       {children}

@@ -4,6 +4,8 @@ import useInfo from "../../hooks/use-info";
 import useQuery from "../../hooks/use-query";
 import axios from "axios";
 import Rsrch from "../accordions/Rsrch";
+import Rprp from "../accordions/Rprp";
+import Rrsk from "../accordions/Rrsk";
 
 const RightBar = () => {
   const { length, info, region, setLD, setLength } = useInfo();
@@ -62,8 +64,12 @@ const RightBar = () => {
         </div>
         <div className="lngth_div">{renl}</div>
         {/* <div className="length">선택연장구간</div> */}
-        <div className="rb_prp">roadprop</div>
-        <div className="rb_rsk">risk</div>
+        <div className="rb_prp">
+          <Rprp />
+        </div>
+        <div className="rb_rsk">
+          <Rrsk />
+        </div>
         <div className="bottomright">
           <div className="zoomlevel">ZOOM LEVEL:</div>
           <div className="tag">@Mapbox @OpenStreetMap</div>
