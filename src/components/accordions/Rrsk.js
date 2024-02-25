@@ -2,15 +2,28 @@ import "./Rrsk.css";
 import { useEffect, useState } from "react";
 import useInfo from "../../hooks/use-info";
 import { FiPlus, FiMinus } from "react-icons/fi";
+import { RxTriangleDown } from "react-icons/rx";
 
 const Rrsk = () => {
   const { pick, pnfo } = useInfo();
   const [open, setOpen] = useState(false);
-  const [acc1, setAcc1] = useState(false);
-  const [acc2, setAcc2] = useState(false);
+  const [acc, setAcc] = useState({
+    acc1: false,
+    acc2: false,
+    acc3: false,
+    acc4: false,
+    acc5: false,
+  });
+  // const [acc2, setAcc2] = useState(false);
 
   ////
-  const [rating, setRating] = useState(3); // Default rating
+  const [scr, setScr] = useState({
+    scr1: null,
+    scr2: null,
+    scr3: null,
+    scr4: null,
+    scr5: null,
+  }); // Default Score
   const labels = ["매우좋음", "좋음", "보통", "나쁨", "매우나쁨"];
 
   ////
@@ -18,14 +31,63 @@ const Rrsk = () => {
   useEffect(() => {
     if (pick) {
       setOpen(true);
-      setAcc1(true);
-      setAcc2(true);
+      setAcc({
+        acc1: true,
+        acc2: true,
+        acc3: true,
+        acc4: true,
+        acc5: true,
+      });
+      setScr({
+        scr1: pnfo.pedac_rk[5],
+        scr2: pnfo.crime_rk[5],
+        scr3: pnfo.flood_rk[5],
+        scr4: pnfo.crwdac_rk[5],
+        scr5: pnfo.fallac_rk[5],
+      });
     } else {
       setOpen(false);
-      setAcc1(false);
-      setAcc2(false);
+      setAcc({
+        acc1: false,
+        acc2: false,
+        acc3: false,
+        acc4: false,
+        acc5: false,
+      });
+      setScr({
+        scr1: null,
+        scr2: null,
+        scr3: null,
+        scr4: null,
+        scr5: null,
+      });
     }
-  }, [pick]);
+  }, [
+    pick,
+    pnfo.pedac_rk,
+    pnfo.crime_rk,
+    pnfo.flood_rk,
+    pnfo.crwdac_rk,
+    pnfo.fallac_rk,
+  ]);
+  ////////////////////////////////////////////////////////////
+  const cnvrtRate = (no) => {
+    const int = parseInt(no);
+    switch (int) {
+      case 1:
+        return 5;
+      case 2:
+        return 4;
+      case 3:
+        return 3;
+      case 4:
+        return 2;
+      case 5:
+        return 1;
+      default:
+        break;
+    }
+  };
   ////////////////////////////////////////////////////////////
   return (
     <div className="rrsk_accitem">
@@ -49,36 +111,52 @@ const Rrsk = () => {
               <div className="rrsk_acc_d1">
                 <div className="rrsk_line"></div>
 
-                <div className="rrsk_acc_d2" onClick={() => setAcc1(!acc1)}>
+                <div
+                  className="rrsk_acc_d2"
+                  onClick={() =>
+                    setAcc((prev) => ({ ...prev, acc1: !acc.acc1 }))
+                  }
+                >
                   <div className="rrsk_acc_lbl">교통사고</div>
                   <div className="rrsk_acc_icon">
-                    {acc1 ? <FiMinus /> : <FiPlus />}
+                    {acc.acc1 ? <FiMinus /> : <FiPlus />}
                   </div>
                 </div>
 
-                {acc1 && <div className="rrsk_line"></div>}
+                {acc.acc1 && <div className="rrsk_line"></div>}
 
-                {acc1 && (
+                {acc.acc1 && (
                   <div className="rrsk_acc1_exp">
-                    <div className="rating_wrap">
-                      <div className="rating-container">
+                    <div className="rrsk_scr_wrap">
+                      <div className="rrsk_scr_container">
                         {labels.map((label, index) => (
-                          <div className="rating_no_lbl">
+                          <div className="rrsk_scr_no_lbl">
+                            <div className="indctr_wrap">
+                              <div className="indcatr">
+                                {cnvrtRate(scr.scr1) === index + 1 && (
+                                  <RxTriangleDown className="indcatr_trngl" />
+                                )}
+                              </div>
+                            </div>
                             <div
                               key={index}
-                              className={`rating-item ritem${index + 1}`}
+                              className={`rrsk_scr_item ritem${index + 1}`}
                             >
-                              <div className="rating-number">{index + 1}</div>
+                              <div className="rrsk_scr_number">{index + 1}</div>
                             </div>
-                            <div className={`rating-lbl ratinglbl${index + 1}`}>
+                            <div
+                              className={`rrsk_scr_lbl rrsk_scrlbl${index + 1}`}
+                            >
                               {label}
                             </div>
                           </div>
                         ))}
-                        <div
-                          className="rating-indicator"
-                          style={{ left: `${rating * 10}%` }}
-                        ></div>
+                      </div>
+                      <div className="rrsk_emid">
+                        <div className="rrsk_emid_lbl">
+                          교통사고 사망지수 환산값 EMid ?
+                        </div>
+                        <div className="rrsk_emid_v">3.2</div>
                       </div>
                     </div>
                   </div>
@@ -87,69 +165,190 @@ const Rrsk = () => {
               <div className="rrsk_acc_d1">
                 <div className="rrsk_line"></div>
 
-                <div className="rrsk_acc_d2" onClick={() => setAcc2(!acc2)}>
+                <div
+                  className="rrsk_acc_d2"
+                  onClick={() =>
+                    setAcc((prev) => ({ ...prev, acc2: !acc.acc2 }))
+                  }
+                >
+                  <div className="rrsk_acc_lbl">범죄사고</div>
+                  <div className="rrsk_acc_icon">
+                    {acc.acc2 ? <FiMinus /> : <FiPlus />}
+                  </div>
+                </div>
+
+                {acc.acc2 && <div className="rrsk_line"></div>}
+
+                {acc.acc2 && (
+                  <div className="rrsk_acc1_exp">
+                    <div className="rrsk_scr_wrap_x">
+                      <div className="rrsk_scr_container">
+                        {labels.map((label, index) => (
+                          <div className="rrsk_scr_no_lbl">
+                            <div className="indctr_wrap">
+                              <div className="indcatr">
+                                {cnvrtRate(scr.scr2) === index + 1 && (
+                                  <RxTriangleDown className="indcatr_trngl" />
+                                )}
+                              </div>
+                            </div>
+                            <div
+                              key={index}
+                              className={`rrsk_scr_item ritem${index + 1}`}
+                            >
+                              <div className="rrsk_scr_number">{index + 1}</div>
+                            </div>
+                            <div
+                              className={`rrsk_scr_lbl rrsk_scrlbl${index + 1}`}
+                            >
+                              {label}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className="rrsk_acc_d1">
+                <div className="rrsk_line"></div>
+
+                <div
+                  className="rrsk_acc_d2"
+                  onClick={() =>
+                    setAcc((prev) => ({ ...prev, acc3: !acc.acc3 }))
+                  }
+                >
                   <div className="rrsk_acc_lbl">재해사고</div>
                   <div className="rrsk_acc_icon">
-                    {acc2 ? <FiMinus /> : <FiPlus />}
+                    {acc.acc3 ? <FiMinus /> : <FiPlus />}
+                  </div>
+                </div>
+
+                {acc.acc3 && <div className="rrsk_line"></div>}
+
+                {acc.acc3 && (
+                  <div className="rrsk_acc1_exp">
+                    <div className="rrsk_scr_wrap_x">
+                      <div className="rrsk_scr_container">
+                        {labels.map((label, index) => (
+                          <div className="rrsk_scr_no_lbl">
+                            <div className="indctr_wrap">
+                              <div className="indcatr">
+                                {cnvrtRate(scr.scr3) === index + 1 && (
+                                  <RxTriangleDown className="indcatr_trngl" />
+                                )}
+                              </div>
+                            </div>
+                            <div
+                              key={index}
+                              className={`rrsk_scr_item ritem${index + 1}`}
+                            >
+                              <div className="rrsk_scr_number">{index + 1}</div>
+                            </div>
+                            <div
+                              className={`rrsk_scr_lbl rrsk_scrlbl${index + 1}`}
+                            >
+                              {label}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className="rrsk_acc_d1">
+                <div className="rrsk_line"></div>
+
+                <div
+                  className="rrsk_acc_d2"
+                  onClick={() =>
+                    setAcc((prev) => ({ ...prev, acc4: !acc.acc4 }))
+                  }
+                >
+                  <div className="rrsk_acc_lbl">밀집사고</div>
+                  <div className="rrsk_acc_icon">
+                    {acc.acc4 ? <FiMinus /> : <FiPlus />}
+                  </div>
+                </div>
+
+                {acc.acc4 && <div className="rrsk_line"></div>}
+
+                {acc.acc4 && (
+                  <div className="rrsk_acc1_exp">
+                    <div className="rrsk_scr_wrap_x">
+                      <div className="rrsk_scr_container">
+                        {labels.map((label, index) => (
+                          <div className="rrsk_scr_no_lbl">
+                            <div className="indctr_wrap">
+                              <div className="indcatr">
+                                {cnvrtRate(scr.scr4) === index + 1 && (
+                                  <RxTriangleDown className="indcatr_trngl" />
+                                )}
+                              </div>
+                            </div>
+                            <div
+                              key={index}
+                              className={`rrsk_scr_item ritem${index + 1}`}
+                            >
+                              <div className="rrsk_scr_number">{index + 1}</div>
+                            </div>
+                            <div
+                              className={`rrsk_scr_lbl rrsk_scrlbl${index + 1}`}
+                            >
+                              {label}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className="rrsk_acc_d1">
+                <div className="rrsk_line"></div>
+
+                <div
+                  className="rrsk_acc_d2"
+                  onClick={() =>
+                    setAcc((prev) => ({ ...prev, acc5: !acc.acc5 }))
+                  }
+                >
+                  <div className="rrsk_acc_lbl">낙상사고</div>
+                  <div className="rrsk_acc_icon">
+                    {acc.acc5 ? <FiMinus /> : <FiPlus />}
                   </div>
                 </div>
 
                 <div className="rrsk_line"></div>
 
-                {acc2 && (
-                  <div className="rrsk_acc2_exp">
-                    <div className="rrsk_itms2">
-                      <div className="rrsk_itm2_sqr">
-                        <div className="rrsk_itms2_ttl">■ 도로기하</div>
-                        <div className="rrsk_itms2_cnt">
-                          <div className="rrsk_itm2">
-                            <div>- 경사도</div>
-                            <div>{pnfo.slope_lg}</div>
+                {acc.acc5 && (
+                  <div className="rrsk_acc1_exp">
+                    <div className="rrsk_scr_wrap_x">
+                      <div className="rrsk_scr_container">
+                        {labels.map((label, index) => (
+                          <div className="rrsk_scr_no_lbl">
+                            <div className="indctr_wrap">
+                              <div className="indcatr">
+                                {cnvrtRate(scr.scr5) === index + 1 && (
+                                  <RxTriangleDown className="indcatr_trngl" />
+                                )}
+                              </div>
+                            </div>
+                            <div
+                              key={index}
+                              className={`rrsk_scr_item ritem${index + 1}`}
+                            >
+                              <div className="rrsk_scr_number">{index + 1}</div>
+                            </div>
+                            <div
+                              className={`rrsk_scr_lbl rrsk_scrlbl${index + 1}`}
+                            >
+                              {label}
+                            </div>
                           </div>
-                          <div className="rrsk_itm2">
-                            <div>- 보도설치 여부</div>
-                            <div>{pnfo.sdwk_se}</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="rrsk_itm2_sqr">
-                        <div className="rrsk_itms2_ttl">■ 네트워크</div>
-                        <div className="rrsk_itms2_cnt">
-                          <div className="rrsk_itm2">
-                            <div>- 중심성</div>
-                            <div>{pnfo.rdnet_ac}</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="rrsk_itm2_sqr">
-                        <div className="rrsk_itms2_ttl">■ 토지이용</div>
-                        <div className="rrsk_itms2_cnt">
-                          <div className="rrsk_itm2">
-                            <div>- 용도별 연면적</div>
-                            <div>{pnfo.pbuld_fa}</div>
-                          </div>
-                          <div className="rrsk_itm2">
-                            <div>- 건물출입구밀도</div>
-                            <div>{pnfo.bulde_de}</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="rrsk_itm2_sqr">
-                        <div className="rrsk_itms2_ttl">■ 시설물</div>
-                        <div className="rrsk_itms2_cnt">
-                          <div className="rrsk_itm2">
-                            <div>- 대중교통</div>
-                            <div>{pnfo.pubtr_ac}</div>
-                          </div>
-                          <div className="rrsk_itm2">
-                            <div>- 계단</div>
-                            <div>{pnfo.stair_at}</div>
-                          </div>
-                          <div className="rrsk_itm2">
-                            <div>- 분리대</div>
-                            <div>{pnfo.edennc_at === 1 ? "유" : "무"}</div>
-                          </div>
-                        </div>
+                        ))}
                       </div>
                     </div>
                   </div>
