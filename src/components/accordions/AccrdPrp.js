@@ -5,7 +5,7 @@ import CbxPrp from "../auxiliary/CbxPrp";
 import { FiPlus, FiMinus } from "react-icons/fi";
 
 const AccrdPrp = () => {
-  const { setInfo } = useInfo();
+  const { setInfo, setLength } = useInfo();
   const [expandedIndex, setExpandedIndex] = useState([]);
 
   ///////////////////////////////////////////////////////////////
@@ -264,6 +264,7 @@ const AccrdPrp = () => {
   };
 
   const handleClick = (nextIndex) => {
+    setLength(null);
     setExpandedIndex((currentExpandedIndex) => {
       if (currentExpandedIndex.includes(nextIndex)) {
         updateInfoState(nextIndex);
@@ -273,6 +274,15 @@ const AccrdPrp = () => {
       }
     });
   };
+
+  // const handlePrps = () => {
+  //   if (prpall) {
+  //     reset();
+  //   } else {
+  //     allset();
+  //   }
+  //   setPrpall(!prpall);
+  // };
 
   const renderedItems = items.map((item, index) => {
     const isExpanded = expandedIndex.includes(index);
@@ -300,7 +310,13 @@ const AccrdPrp = () => {
 
   return (
     <div className={`accordion`}>
-      <div className="prp_sbttl">속성 선택</div>
+      <div className="prp_sbttl">
+        <div>속성 선택</div>
+        {/* <div
+          className={`prp_btn_all ${prpall ? "prp_all" : ""}`}
+          onClick={handlePrps}
+        ></div> */}
+      </div>
       {renderedItems}
     </div>
   );

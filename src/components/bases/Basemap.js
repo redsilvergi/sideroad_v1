@@ -48,7 +48,10 @@ const Basemap = ({ basemap, setBasemap }) => {
         </div>
       </div>
       {mapExp && (
-        <div ref={divEl} id="map_exp">
+        <div
+          ref={divEl}
+          className={`basemap_exp ${right ? "" : "rmv_basemap_exp"}`}
+        >
           <ul>
             <li
               onClick={() => {

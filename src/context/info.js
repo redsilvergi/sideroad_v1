@@ -46,8 +46,94 @@ function InfoProvider({ children }) {
         checkboxes: [true, true, true, true, true],
       },
     });
-    setLength(0);
+    setLength(null);
   };
+  const allset = () => {
+    setInfo({
+      rdbtOps: {
+        name: "도로폭원",
+        selected: [
+          "3m 미만",
+          "3m이상 ~ 8m미만",
+          "8m이상 ~ 9m미만",
+          "9m이상 ~ 10m미만",
+          "10m이상 ~ 12m미만",
+        ],
+        checkboxes: [true, true, true, true, true],
+      },
+      slopeOps: {
+        name: "경사도",
+        selected: [
+          "10.00 초과",
+          "6.00 ~ 10.00",
+          "3.00 ~ 6.00",
+          "1.00 ~ 3.00",
+          "0.00 ~ 1.00",
+        ],
+        checkboxes: [true, true, true, true, true],
+      },
+      pmtrOps: {
+        name: "포장재질",
+        selected: ["아스팔트", "콘크리트", "블록", "비포장", "우레탄 등"],
+        checkboxes: [true, true, true, true, true],
+      },
+      rdnetOps: {
+        name: "네트워크접근성",
+        selected: [
+          "1.35초과",
+          "1.14 ~ 1.35",
+          "0.98 ~ 1.14",
+          "0.82 ~ 0.98",
+          "0.00 ~ 0.82",
+        ],
+        checkboxes: [true, true, true, true, true],
+      },
+      pubtrOps: {
+        name: "대중교통접근성",
+        selected: [
+          "500 초과",
+          "350 ~ 500",
+          "200 ~ 350",
+          "100 ~ 200",
+          "0 ~ 100",
+        ],
+        checkboxes: [true, true, true, true, true],
+      },
+      pbuldOps: {
+        name: "근생시설연면적",
+        selected: [
+          "2000 이상",
+          "1000 ~ 2000",
+          "500 ~ 1000",
+          "100 ~ 500",
+          "0 ~ 100",
+        ],
+        checkboxes: [true, true, true, true, true],
+      },
+      buldeOps: {
+        name: "건물출입구밀도",
+        selected: [
+          "20개 이상",
+          "11~20개",
+          "6~10개",
+          "1~5개",
+          "출입구 없음 (0)",
+        ],
+        checkboxes: [true, true, true, true, true],
+      },
+      stairOps: {
+        name: "계단",
+        selected: ["설치", "미설치"],
+        checkboxes: [true, true],
+      },
+      sdwkOps: {
+        name: "보도",
+        selected: ["단측 설치", "양측 설치", "미설치"],
+        checkboxes: [true, true, true],
+      },
+    });
+  };
+
   const [rnfo, setRnfo] = useState({
     rskOps: {
       name: "위험도",
@@ -95,6 +181,7 @@ function InfoProvider({ children }) {
   const [accRsk2a, setAccRsk2a] = useState(true);
   // const [geoJ, setGeoJ] = useState(null);
   const [nfid, setNfid] = useState(null);
+  const [prpall, setPrpall] = useState(false);
 
   return (
     <InfoContext.Provider
@@ -139,6 +226,9 @@ function InfoProvider({ children }) {
         setNfid,
         pnfo,
         setPnfo,
+        prpall,
+        setPrpall,
+        allset,
       }}
     >
       {children}

@@ -35,7 +35,7 @@ function LandingPage() {
     region,
     LD,
     // setLD,
-    // setLength,
+    setLength,
     istgl,
     right,
     pick,
@@ -128,6 +128,7 @@ function LandingPage() {
                 crwdac_rk: prp.CRWDAC_RK,
                 fallac_rk: prp.FALLAC_RK,
               });
+              // setLength(Math.round(prp.ROAD_LT * 1000) / 1000000);
             }
           : null,
       // onHover:
@@ -250,6 +251,7 @@ function LandingPage() {
           onClick={(event) => {
             if (!event.object) {
               setPick(null);
+              setLength(null);
             }
           }}
           // onHover={

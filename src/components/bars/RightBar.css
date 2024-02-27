@@ -46,13 +46,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer;
+
   margin: 0 0 10px 0;
 }
 .lngthS_txt {
   font-size: 13px;
   color: #b9b9b9;
   margin: 0 0 0 15px;
+  font-weight: 800;
 }
 .km {
   font-size: 13px;
@@ -61,6 +62,9 @@
 }
 .lngthS_txt span {
   color: red;
+}
+.lngthReq {
+  cursor: pointer;
 }
 .lngthReq:hover {
   background-color: #e5ebef;

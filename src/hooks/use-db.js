@@ -1,10 +1,12 @@
 import useInfo from "./use-info";
+import useQuery from "./use-query";
 import { useCallback } from "react";
 import axios from "axios";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
 const useDb = () => {
-  const { setLD, setPick, setView, rsk, setPnfo } = useInfo();
+  const { setLD, setPick, setView, rsk, setPnfo, setLength, rnfo } = useInfo();
+  const { queryF, queryR } = useQuery();
   /////////////////////////////////////////////////////////
   const getCord = useCallback(
     async (item) => {
@@ -39,9 +41,10 @@ const useDb = () => {
         crwdac_rk: data.crwdac_rk,
         fallac_rk: data.fallac_rk,
       });
+      // setLength(Math.round(data.road_lt * 1000) / 1000000);
       setLD(false);
     },
-    [setPick, setView, setLD]
+    [setPick, setView, setLD, setPnfo]
   );
   /////////////////////////////////////////////////////////
   const getCsv = useCallback(
@@ -97,7 +100,27 @@ const useDb = () => {
     },
     [getCord]
   );
-  return { getCord, getCsv, getSrchId };
+
+  /////////////////////////////////////////////////////////////////
+  const getLength = useCallback(async () => {
+    setLD(true);
+    if (rnfo.rskOps.checkboxes.every((v) => v === false)) {
+      setLength(0);
+    } else {
+      const query = rsk ? queryR() : queryF();
+      console.log("query from RightBar.js:", "\n", query);
+      const response = await axios.get(
+        `http://localhost:4000/getLength/${query}` // /getLength/${query}
+      );
+      console.log("response.data: ", response.data / 1000);
+      console.log("response.data type: ", typeof response.data);
+      setLength(response.data / 1000);
+    }
+
+    setLD(false);
+  }, [setLD, queryF, setLength, queryR, rnfo.rskOps.checkboxes, rsk]);
+
+  return { getCord, getCsv, getSrchId, getLength };
 };
 
 export default useDb;

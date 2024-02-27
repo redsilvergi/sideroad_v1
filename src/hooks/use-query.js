@@ -2,91 +2,31 @@ import useInfo from "./use-info";
 import { useCallback } from "react";
 
 const useQuery = () => {
-  const { info, region } = useInfo();
+  const { info, region, rnfo, rsk } = useInfo();
 
   const queryF = useCallback(() => {
     const {
-      roadOps,
-      laneOps,
-      widthOps,
-      typeOps,
-      barrierOps,
-      onewayOps,
-      statusOps,
+      rdbtOps,
+      slopeOps,
+      pmtrOps,
+      rdnetOps,
+      pubtrOps,
+      pbuldOps,
+      buldeOps,
+      stairOps,
+      sdwkOps,
     } = info;
 
     const citycd = region.city.cd;
     const countycd = region.county.cd;
 
-    var query = "select sum(ROAD_LT) as total_length from side10 where ";
+    var query = "select sum(length) as total_length from side10p where ";
 
-    const roadQry =
-      roadOps.checkboxes &&
-      roadOps.checkboxes
-        .map((roadOp, index) => {
-          if (roadOp) {
-            switch (index) {
-              case 0:
-                return "RDC003";
-              case 1:
-                return "RDC004";
-              case 2:
-                return "RDC005";
-              case 3:
-                return "RDC006";
-              case 4:
-                return "RDC007";
-              case 5:
-                return "RDC008";
-              case 6:
-                return "RDC010";
-              case 7:
-                return "RDC011";
-              case 8:
-                return "RDC014";
-              default:
-                return null;
-            }
-          } else {
-            return null;
-          }
-        })
-        .filter((item) => item !== null)
-        .join("','");
-
-    const laneQry =
-      laneOps.checkboxes &&
-      laneOps.checkboxes
-        .map((laneOp, index) => {
-          if (laneOp) {
-            switch (index) {
-              case 0:
-                return "CARTRK_CO = 1";
-              case 1:
-                return "CARTRK_CO = 2";
-              case 2:
-                return "CARTRK_CO = 3";
-              case 3:
-                return "CARTRK_CO = 4";
-              case 4:
-                return "CARTRK_CO >= 5 and CARTRK_CO <= 8";
-              case 5:
-                return "CARTRK_CO >= 9";
-              default:
-                return null;
-            }
-          } else {
-            return null;
-          }
-        })
-        .filter((item) => item !== null)
-        .join(" or ");
-
-    const widthQry =
-      widthOps.checkboxes &&
-      widthOps.checkboxes
-        .map((widthOp, index) => {
-          if (widthOp) {
+    const rdbtQry =
+      rdbtOps.checkboxes &&
+      rdbtOps.checkboxes
+        .map((rdbtOp, index) => {
+          if (rdbtOp) {
             switch (index) {
               case 0:
                 return "ROAD_BT < 3";
@@ -95,17 +35,9 @@ const useQuery = () => {
               case 2:
                 return "ROAD_BT >= 8 and ROAD_BT < 9";
               case 3:
-                return "ROAD_BT >= 9 and ROAD_BT < 10 ";
+                return "ROAD_BT >= 9 and ROAD_BT < 10";
               case 4:
                 return "ROAD_BT >= 10 and ROAD_BT < 12";
-              case 5:
-                return "ROAD_BT >= 12 and ROAD_BT < 15";
-              case 6:
-                return "ROAD_BT >= 15 and ROAD_BT < 20";
-              case 7:
-                return "ROAD_BT >= 20 and ROAD_BT < 25";
-              case 8:
-                return "ROAD_BT >= 25";
               default:
                 return null;
             }
@@ -116,28 +48,48 @@ const useQuery = () => {
         .filter((item) => item !== null)
         .join(" or ");
 
-    const typeQry =
-      typeOps.checkboxes &&
-      typeOps.checkboxes
-        .map((typeOp, index) => {
-          if (typeOp) {
+    const slopeQry =
+      slopeOps.checkboxes &&
+      slopeOps.checkboxes
+        .map((slopeOp, index) => {
+          if (slopeOp) {
+            switch (index) {
+              case 0:
+                return "SLOPE_LG >= 10 ";
+              case 1:
+                return "SLOPE_LG >= 6 and SLOPE_LG < 10";
+              case 2:
+                return "SLOPE_LG >= 3 and SLOPE_LG < 6";
+              case 3:
+                return "SLOPE_LG >= 1 and SLOPE_LG < 3";
+              case 4:
+                return "SLOPE_LG >= 0 and SLOPE_LG < 1";
+              default:
+                return null;
+            }
+          } else {
+            return null;
+          }
+        })
+        .filter((item) => item !== null)
+        .join(" or ");
+
+    const pmtrQry =
+      pmtrOps.checkboxes &&
+      pmtrOps.checkboxes
+        .map((pmtrOp, index) => {
+          if (pmtrOp) {
             switch (index) {
               case 0:
                 return "PVM001";
               case 1:
-                return "PVM002";
-              case 2:
                 return "PVM003";
-              case 3:
+              case 2:
                 return "PVM004";
-              case 4:
+              case 3:
                 return "PVM005";
-              case 5:
-                return "PVM006";
-              case 6:
-                return "PVM007";
-              case 7:
-                return "PVM999";
+              case 4:
+                return "PVM002, PVM006, PVM007, PVM999";
               default:
                 return null;
             }
@@ -148,11 +100,115 @@ const useQuery = () => {
         .filter((item) => item !== null)
         .join("','");
 
-    const barrierQry =
-      barrierOps.checkboxes &&
-      barrierOps.checkboxes
-        .map((barrierOp, index) => {
-          if (barrierOp) {
+    const rdnetQry =
+      rdnetOps.checkboxes &&
+      rdnetOps.checkboxes
+        .map((rdnetOp, index) => {
+          if (rdnetOp) {
+            switch (index) {
+              case 0:
+                return "RDNET_AC >= 1.35";
+              case 1:
+                return "RDNET_AC >= 1.14 and RDNET_AC < 1.35";
+              case 2:
+                return "RDNET_AC >= 0.98 and RDNET_AC < 1.14";
+              case 3:
+                return "RDNET_AC >= 0.82 and RDNET_AC < 0.98";
+              case 4:
+                return "RDNET_AC >= 0.0 and RDNET_AC < 0.82";
+              default:
+                return null;
+            }
+          } else {
+            return null;
+          }
+        })
+        .filter((item) => item !== null)
+        .join(" or ");
+
+    const pubtrQry =
+      pubtrOps.checkboxes &&
+      pubtrOps.checkboxes
+        .map((pubtrOp, index) => {
+          if (pubtrOp) {
+            switch (index) {
+              case 0:
+                return "PUBTR_AC >= 500";
+              case 1:
+                return "PUBTR_AC >= 350 and PUBTR_AC < 500";
+              case 2:
+                return "PUBTR_AC >= 200 and PUBTR_AC < 350";
+              case 3:
+                return "PUBTR_AC >= 100 and PUBTR_AC < 200";
+              case 4:
+                return "PUBTR_AC >= 0 and PUBTR_AC < 100";
+              default:
+                return null;
+            }
+          } else {
+            return null;
+          }
+        })
+        .filter((item) => item !== null)
+        .join(" or ");
+
+    const pbuldQry =
+      pbuldOps.checkboxes &&
+      pbuldOps.checkboxes
+        .map((pbuldOp, index) => {
+          if (pbuldOp) {
+            switch (index) {
+              case 0:
+                return "PBULD_FA >= 2000";
+              case 1:
+                return "PBULD_FA >= 1000 and PBULD_FA < 2000";
+              case 2:
+                return "PBULD_FA >= 500 and PBULD_FA < 1000";
+              case 3:
+                return "PBULD_FA >= 100 and PBULD_FA < 500";
+              case 4:
+                return "PBULD_FA >= 0 and PBULD_FA < 100";
+              default:
+                return null;
+            }
+          } else {
+            return null;
+          }
+        })
+        .filter((item) => item !== null)
+        .join(" or ");
+
+    const buldeQry =
+      buldeOps.checkboxes &&
+      buldeOps.checkboxes
+        .map((buldeOp, index) => {
+          if (buldeOp) {
+            switch (index) {
+              case 0:
+                return "BULDE_DE >= 20";
+              case 1:
+                return "BULDE_DE >= 11 and BULDE_DE < 20";
+              case 2:
+                return "BULDE_DE >= 6 and BULDE_DE < 11";
+              case 3:
+                return "BULDE_DE >= 1 and BULDE_DE < 6";
+              case 4:
+                return "BULDE_DE < 1";
+              default:
+                return null;
+            }
+          } else {
+            return null;
+          }
+        })
+        .filter((item) => item !== null)
+        .join(" or ");
+
+    const stairQry =
+      stairOps.checkboxes &&
+      stairOps.checkboxes
+        .map((stairOp, index) => {
+          if (stairOp) {
             switch (index) {
               case 0:
                 return "1";
@@ -168,40 +224,18 @@ const useQuery = () => {
         .filter((item) => item !== null)
         .join("','");
 
-    const onewayQry =
-      onewayOps.checkboxes &&
-      onewayOps.checkboxes
-        .map((onewayOp, index) => {
-          if (onewayOp) {
+    const sdwkQry =
+      sdwkOps.checkboxes &&
+      sdwkOps.checkboxes
+        .map((sdwkOp, index) => {
+          if (sdwkOp) {
             switch (index) {
               case 0:
-                return "OWI001";
+                return "SDW002";
               case 1:
-                return "OWI002";
-              default:
-                return null;
-            }
-          } else {
-            return null;
-          }
-        })
-        .filter((item) => item !== null)
-        .join("','");
-
-    const statusQry =
-      statusOps.checkboxes &&
-      statusOps.checkboxes
-        .map((statusOp, index) => {
-          if (statusOp) {
-            switch (index) {
-              case 0:
-                return "RUS001";
-              case 1:
-                return "RUS002";
+                return "SDW003";
               case 2:
-                return "RUS003";
-              case 3:
-                return "RUS004";
+                return "SDW001";
               default:
                 return null;
             }
@@ -216,16 +250,18 @@ const useQuery = () => {
 
     countycd
       ? (query += `(LEGLCD_SE in ('${countycd}')) and `)
-      : citycd && (query += `(sido = ${cityParam}) and `);
+      : citycd && (query += `(sido = ${cityParam}) and `); //: citycd && (query += `(sido = ${cityParam}) and `); //: citycd && (query += `(left(LEGLCD_SE,2) = '${cityParam}') and `);
     // : citycd && (query += `(LEGLCD_SE like '${cityParam}%25') and `);
 
-    roadQry && (query += `(ROAD_SE in ('${roadQry}')) and `);
-    laneQry && (query += `(${laneQry}) and `);
-    widthQry && (query += `(${widthQry}) and `);
-    typeQry && (query += `(PMTR_SE in ('${typeQry}')) and `);
-    barrierQry && (query += `(EDENNC_AT in ('${barrierQry}')) and `);
-    onewayQry && (query += `(OSPS_SE in ('${onewayQry}')) and `);
-    statusQry && (query += `(USGSTT_SE in ('${statusQry}')) and `);
+    rdbtQry && (query += `(${rdbtQry}) and `);
+    slopeQry && (query += `(${slopeQry}) and `);
+    pmtrQry && (query += `(PMTR_SE in ('${pmtrQry}')) and `);
+    rdnetQry && (query += `(${rdnetQry}) and `);
+    pubtrQry && (query += `(${pubtrQry}) and `);
+    pbuldQry && (query += `(${pbuldQry}) and `);
+    buldeQry && (query += `(${buldeQry}) and `);
+    stairQry && (query += `(STAIR_AT in ('${stairQry}')) and `);
+    sdwkQry && (query += `(SDWK_SE in ('${sdwkQry}')) and `);
 
     query =
       query.slice(-6) === "where " ? query.slice(0, -7) : query.slice(0, -5);
@@ -233,7 +269,81 @@ const useQuery = () => {
     console.log("query:", "\n", query);
     return query;
   }, [info, region.city.cd, region.county.cd]);
-  return { queryF };
+
+  const queryR = useCallback(() => {
+    const { rskOps } = rnfo;
+    const chbxs = rskOps && rskOps.checkboxes;
+
+    const citycd = region.city.cd;
+    const countycd = region.county.cd;
+    const cityParam = citycd && Math.round(citycd / 100000000);
+    var query = "select sum(length) as total_length from side10r where ";
+    countycd
+      ? (query += `(LEGLCD_SE in ('${countycd}')) and `)
+      : citycd && (query += `(sido = ${cityParam}) and `);
+
+    var rskType;
+    var rskcol;
+    switch (rsk) {
+      case "교통사고":
+        rskcol = "PEDAC_RK";
+        rskType = "PDA";
+        break;
+      case "범죄사고":
+        rskcol = "CRIME_RK";
+        rskType = "CRA";
+        break;
+      case "재해사고":
+        rskcol = "FLOOD_RK";
+        rskType = "FLA";
+        break;
+      case "밀집사고":
+        rskcol = "CRWDAC_RK";
+        rskType = "PDA";
+        break;
+      case "낙상사고":
+        rskcol = "FALLAC_RK";
+        rskType = "CWA";
+        break;
+      default:
+        break;
+    }
+
+    const rskQry =
+      chbxs &&
+      chbxs
+        .map((Op, index) => {
+          if (Op) {
+            switch (index) {
+              case 0:
+                return `${rskType}001`;
+              case 1:
+                return `${rskType}002`;
+              case 2:
+                return `${rskType}003`;
+              case 3:
+                return `${rskType}004`;
+              case 4:
+                return `${rskType}005`;
+              default:
+                return null;
+            }
+          } else {
+            return null;
+          }
+        })
+        .filter((item) => item !== null)
+        .join("','");
+
+    rskQry && (query += `(${rskcol} in ('${rskQry}')) and `);
+
+    query =
+      query.slice(-6) === "where " ? query.slice(0, -7) : query.slice(0, -5);
+
+    console.log("queryRsk:", "\n", query);
+    return query;
+  }, [region.city.cd, region.county.cd, rnfo, rsk]);
+  return { queryF, queryR };
 };
 
 export default useQuery;

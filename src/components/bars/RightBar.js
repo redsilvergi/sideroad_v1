@@ -1,55 +1,73 @@
 import "./RightBar.css";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import useInfo from "../../hooks/use-info";
-import useQuery from "../../hooks/use-query";
-import axios from "axios";
+import useDb from "../../hooks/use-db";
 import Rsrch from "../accordions/Rsrch";
 import Rprp from "../accordions/Rprp";
 import Rrsk from "../accordions/Rrsk";
 
 const RightBar = () => {
-  const { length, info, region, setLD, setLength } = useInfo();
-  const { queryF } = useQuery();
+  const { length, info, region, setLength, rsk, rnfo, pick, pnfo } = useInfo();
+  const { getLength } = useDb();
   const [renl, setRenL] = useState(
     <div className="lengthSum2 lengthReq2">선택구간연장요청</div>
   );
   //AUXILIARY---------------------------------------------------
-  const handleLength = useCallback(async () => {
-    setLD(true);
-    const query = queryF();
-    console.log("query from RightBar.js:", "\n", query);
-    const response = await axios.get(
-      `http://localhost:4000/getLength/${query}` // /getLength/${query}
-    );
-    console.log("response.data: ", response.data);
-    console.log("response.data type: ", typeof response.data);
-    setLength(Math.round(response.data / 1000));
-    setLD(false);
-  }, [setLD, queryF, setLength]);
+  // const handleLength = useCallback(async () => {
+  //   setLD(true);
+  //   if (rnfo.rskOps.checkboxes.every((v) => v === false)) {
+  //     setLength(0);
+  //   } else {
+  //     const query = rsk ? queryR() : queryF();
+  //     console.log("query from RightBar.js:", "\n", query);
+  //     const response = await axios.get(
+  //       `http://localhost:4000/getLength/${query}` // /getLength/${query}
+  //     );
+  //     console.log("response.data: ", response.data / 1000);
+  //     console.log("response.data type: ", typeof response.data);
+  //     setLength(response.data / 1000);
+  //   }
+
+  //   setLD(false);
+  // }, [setLD, queryF, setLength, queryR, rnfo.rskOps.checkboxes, rsk]);
 
   //RENDER ITEMS-------------------------------------------------
   useEffect(() => {
-    if (length) {
+    if (pick) {
+      setLength(Math.round(pnfo.road_lt * 1000) / 1000000);
+    } else {
+      setLength(null);
+    }
+  }, [info, rnfo, pick, region, rsk, pnfo.road_lt, setLength]);
+  useEffect(() => {
+    if (length || length === 0) {
       setRenL(
-        <div className="lngthS">
-          <div className="lngthS_txt">선택구간 연장</div>
+        <div className="lngthS isLngth">
+          <div className="lngthS_txt" style={{ color: "black" }}>
+            선택구간 연장
+          </div>
           <div className="km">
-            <span>{length}</span> km
+            <span style={{ color: "black", fontWeight: 800 }}>{length}</span> km
           </div>
         </div>
       );
     } else {
-      return;
+      setRenL(
+        <div className="lngthS lngthReq" onClick={getLength}>
+          <div className="lngthS_txt">선택구간 연장요청</div>
+          <div className="km">--- km</div>
+        </div>
+      );
     }
-  }, [length]);
-  useEffect(() => {
-    setRenL(
-      <div className="lngthS lngthReq" onClick={handleLength}>
-        <div className="lngthS_txt">선택구간 연장요청</div>
-        <div className="km">--- km</div>
-      </div>
-    );
-  }, [region, handleLength, info]);
+  }, [length, region, getLength, info]);
+  // useEffect(() => {
+  //   setRenL(
+  //     <div className="lngthS lngthReq" onClick={handleLength}>
+  //       <div className="lngthS_txt">선택구간 연장요청</div>
+  //       <div className="km">--- km</div>
+  //     </div>
+  //   );
+  // }, [region, handleLength, info]);
 
   return (
     <div className="rightbar">

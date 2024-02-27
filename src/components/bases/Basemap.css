@@ -18,9 +18,7 @@
   font-family: "NanumSquare", sans-serif;
   font-weight: bold;
 }
-.rmv_basemap {
-  right: 10px;
-}
+
 .map_toggle_button:hover {
   opacity: 1;
 }
@@ -33,7 +31,10 @@
   justify-content: center;
   align-items: center;
 }
-#map_exp {
+.rmv_basemap {
+  right: 10px;
+}
+.basemap_exp {
   position: fixed;
   z-index: 2;
   top: 61px;
@@ -45,7 +46,7 @@
   opacity: 0.75;
   color: white;
 }
-#map_exp ul {
+.basemap_exp ul {
   list-style-type: none;
   padding-inline-start: 18px;
   margin-block-start: 15px;
@@ -53,11 +54,14 @@
   font-size: 13px;
   font-weight: bold;
 }
-#map_exp li {
+.basemap_exp li {
   padding: 5px 5px;
 }
 
-#map_exp li:hover {
+.basemap_exp li:hover {
   color: #0062af;
   cursor: pointer;
+}
+.rmv_basemap_exp {
+  right: 10px;
 }
