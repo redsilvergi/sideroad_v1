@@ -24,8 +24,18 @@ import { FaRoad, FaFilter, FaMagnifyingGlassChart } from "react-icons/fa6";
 import { CgFileDocument } from "react-icons/cg";
 
 const LeftBar = () => {
-  const { bar, setBar, left, setLeft, right, setRight, setRsk, reset } =
-    useInfo();
+  const {
+    bar,
+    setBar,
+    left,
+    setLeft,
+    right,
+    setRight,
+    setRsk,
+    reset,
+    allset,
+    setPrpall,
+  } = useInfo();
   //Modal/////////////////////////////////////////////////////////////
   const [showModal, setShowModal] = useState(false);
 
@@ -73,6 +83,8 @@ const LeftBar = () => {
             setBar(2);
             reset();
             setRsk(null);
+            allset();
+            setPrpall(true);
           }}
         >
           <div className="topicons">

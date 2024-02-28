@@ -108,15 +108,18 @@ const useDb = () => {
       setLength(0);
     } else {
       const query = rsk ? queryR() : queryF();
-      console.log("query from RightBar.js:", "\n", query);
-      const response = await axios.get(
-        `http://localhost:4000/getLength/${query}` // /getLength/${query}
-      );
-      console.log("response.data: ", response.data / 1000);
-      console.log("response.data type: ", typeof response.data);
-      setLength(response.data / 1000);
+      if (query === 0) {
+        setLength(0);
+      } else {
+        // console.log("query from use-db.js:", "\n", query);
+        const response = await axios.get(
+          `http://localhost:4000/getLength/${query}` // /getLength/${query}
+        );
+        console.log("response.data: ", response.data / 1000);
+        console.log("response.data type: ", typeof response.data);
+        setLength(response.data / 1000);
+      }
     }
-
     setLD(false);
   }, [setLD, queryF, setLength, queryR, rnfo.rskOps.checkboxes, rsk]);
 

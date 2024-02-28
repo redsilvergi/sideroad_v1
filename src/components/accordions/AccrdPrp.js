@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./AccrdPrp.css";
 import useInfo from "../../hooks/use-info";
 import CbxPrp from "../auxiliary/CbxPrp";
 import { FiPlus, FiMinus } from "react-icons/fi";
 
 const AccrdPrp = () => {
-  const { setInfo, setLength } = useInfo();
-  const [expandedIndex, setExpandedIndex] = useState([]);
+  const { setInfo, setLength, prpall, setPrpall, reset, allset } = useInfo();
+  const [expandedIndex, setExpandedIndex] = useState([
+    0, 1, 2, 3, 4, 5, 6, 7, 8,
+  ]);
+
+  useEffect(() => {
+    setExpandedIndex([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+  }, [prpall]);
 
   ///////////////////////////////////////////////////////////////
   const checklist = [
@@ -275,14 +281,14 @@ const AccrdPrp = () => {
     });
   };
 
-  // const handlePrps = () => {
-  //   if (prpall) {
-  //     reset();
-  //   } else {
-  //     allset();
-  //   }
-  //   setPrpall(!prpall);
-  // };
+  const handlePrps = () => {
+    if (prpall) {
+      reset();
+    } else {
+      allset();
+    }
+    setPrpall(!prpall);
+  };
 
   const renderedItems = items.map((item, index) => {
     const isExpanded = expandedIndex.includes(index);
@@ -312,10 +318,10 @@ const AccrdPrp = () => {
     <div className={`accordion`}>
       <div className="prp_sbttl">
         <div>속성 선택</div>
-        {/* <div
+        <div
           className={`prp_btn_all ${prpall ? "prp_all" : ""}`}
           onClick={handlePrps}
-        ></div> */}
+        ></div>
       </div>
       {renderedItems}
     </div>

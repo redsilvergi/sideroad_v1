@@ -7,7 +7,8 @@ import Rprp from "../accordions/Rprp";
 import Rrsk from "../accordions/Rrsk";
 
 const RightBar = () => {
-  const { length, info, region, setLength, rsk, rnfo, pick, pnfo } = useInfo();
+  const { length, info, region, setLength, rsk, rnfo, pick, pnfo, view } =
+    useInfo();
   const { getLength } = useDb();
   const [renl, setRenL] = useState(
     <div className="lengthSum2 lengthReq2">선택구간연장요청</div>
@@ -60,14 +61,6 @@ const RightBar = () => {
       );
     }
   }, [length, region, getLength, info]);
-  // useEffect(() => {
-  //   setRenL(
-  //     <div className="lngthS lngthReq" onClick={handleLength}>
-  //       <div className="lngthS_txt">선택구간 연장요청</div>
-  //       <div className="km">--- km</div>
-  //     </div>
-  //   );
-  // }, [region, handleLength, info]);
 
   return (
     <div className="rightbar">
@@ -81,7 +74,6 @@ const RightBar = () => {
           <div className="rb_line"></div>
         </div>
         <div className="lngth_div">{renl}</div>
-        {/* <div className="length">선택연장구간</div> */}
         <div className="rb_prp">
           <Rprp />
         </div>
@@ -89,7 +81,7 @@ const RightBar = () => {
           <Rrsk />
         </div>
         <div className="bottomright">
-          <div className="zoomlevel">ZOOM LEVEL:</div>
+          <div className="zoomlevel">ZOOM LEVEL: {view.zoom.toFixed(2)}</div>
           <div className="tag">@Mapbox @OpenStreetMap</div>
         </div>
       </div>

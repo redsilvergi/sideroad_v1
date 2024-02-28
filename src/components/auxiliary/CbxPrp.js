@@ -1,34 +1,59 @@
 import "./CbxPrp.css";
-import React, { useCallback, useEffect, useState, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import useInfo from "../../hooks/use-info";
 
 const CbxPrp = ({ name, checklist }) => {
   const objRef = useRef(checklist.filter((item) => item.name === name)[0]);
   const obj = objRef.current;
   const list = obj.options;
+  const { prpall } = useInfo();
+  const [prpcbxes, setPrpcbxes] = useState(() => {
+    const initialprpcbxes = {};
 
-  const [checkboxes, setCheckboxes] = useState(() => {
-    const initialCheckboxes = {};
-
-    for (let i = 1; i <= list.length; i++) {
-      initialCheckboxes[`checkbox${i}`] = false;
+    for (let i = 0; i < list.length; i++) {
+      initialprpcbxes[`checkbox${i + 1}`] = true;
     }
 
-    return initialCheckboxes;
+    return initialprpcbxes;
   });
 
+  useEffect(() => {
+    if (prpall) {
+      setPrpcbxes(() => {
+        const boxes = {};
+
+        for (let i = 0; i < list.length; i++) {
+          boxes[`checkbox${i + 1}`] = true;
+        }
+
+        return boxes;
+      });
+    } else {
+      setPrpcbxes(() => {
+        const boxes = {};
+
+        for (let i = 0; i < list.length; i++) {
+          boxes[`checkbox${i + 1}`] = false;
+        }
+
+        return boxes;
+      });
+    }
+  }, [prpall]);
+
   const updateF = useCallback(() => {
-    const sortedItems = Object.values(checkboxes).reduce((acc, val, i) => {
+    const sortedItems = Object.values(prpcbxes).reduce((acc, val, i) => {
       if (val) {
         acc.push([...list][i]);
       }
       return acc;
     }, []);
-    obj.updateInfo(sortedItems, Object.values(checkboxes));
-  }, [checkboxes, obj, list]);
+    obj.updateInfo(sortedItems, Object.values(prpcbxes));
+  }, [prpcbxes, obj, list]);
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
-    setCheckboxes((prevCheckboxes) => ({
+    setPrpcbxes((prevCheckboxes) => ({
       ...prevCheckboxes,
       [name]: checked,
     }));
@@ -47,7 +72,7 @@ const CbxPrp = ({ name, checklist }) => {
               className="prp_custom_cb"
               type="checkbox"
               name={`checkbox${index + 1}`}
-              checked={checkboxes[`checkbox${index + 1}`]}
+              checked={prpcbxes[`checkbox${index + 1}`]}
               onChange={handleCheckboxChange}
             />
             {index !== list.length - 1 ? (

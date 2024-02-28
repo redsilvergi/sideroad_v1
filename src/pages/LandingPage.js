@@ -182,7 +182,7 @@ function LandingPage() {
   // RENDER ITEMS ------------------------------------------------
   useEffect(() => {
     setPick(null);
-  }, [setPick, region, info]);
+  }, [setPick, region, info, rnfo]);
   // useEffect(() => {
   //   if (view.zoom < 16) {
   //     setHov(null);

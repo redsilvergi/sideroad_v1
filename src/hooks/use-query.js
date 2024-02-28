@@ -263,10 +263,24 @@ const useQuery = () => {
     stairQry && (query += `(STAIR_AT in ('${stairQry}')) and `);
     sdwkQry && (query += `(SDWK_SE in ('${sdwkQry}')) and `);
 
-    query =
-      query.slice(-6) === "where " ? query.slice(0, -7) : query.slice(0, -5);
+    if (
+      rdbtQry &&
+      slopeQry &&
+      pmtrQry &&
+      rdnetQry &&
+      pubtrQry &&
+      pbuldQry &&
+      buldeQry &&
+      stairQry &&
+      sdwkQry
+    ) {
+      query =
+        query.slice(-6) === "where " ? query.slice(0, -7) : query.slice(0, -5);
+    } else {
+      query = 0;
+    }
 
-    console.log("query:", "\n", query);
+    console.log("query from use-query.js:", "\n", query);
     return query;
   }, [info, region.city.cd, region.county.cd]);
 

@@ -294,24 +294,24 @@ const useColor = () => {
 
     return pick
       ? pick === obj.properties.NF_ID
-      : (rdbtConditions.length === 0 ||
-          rdbtConditions.some((condition) => condition(obj))) &&
-          (slopeConditions.length === 0 ||
-            slopeConditions.some((condition) => condition(obj))) &&
-          (pmtrConditions.length === 0 ||
-            pmtrConditions.some((condition) => condition(obj))) &&
-          (rdnetConditions.length === 0 ||
-            rdnetConditions.some((condition) => condition(obj))) &&
-          (pubtrConditions.length === 0 ||
-            pubtrConditions.some((condition) => condition(obj))) &&
-          (pbuldConditions.length === 0 ||
-            pbuldConditions.some((condition) => condition(obj))) &&
-          (buldeConditions.length === 0 ||
-            buldeConditions.some((condition) => condition(obj))) &&
-          (stairConditions.length === 0 ||
-            stairConditions.some((condition) => condition(obj))) &&
-          (sdwkConditions.length === 0 ||
-            sdwkConditions.some((condition) => condition(obj))) &&
+      : rdbtConditions.length !== 0 &&
+          rdbtConditions.some((condition) => condition(obj)) &&
+          slopeConditions.length !== 0 &&
+          slopeConditions.some((condition) => condition(obj)) &&
+          pmtrConditions.length !== 0 &&
+          pmtrConditions.some((condition) => condition(obj)) &&
+          rdnetConditions.length !== 0 &&
+          rdnetConditions.some((condition) => condition(obj)) &&
+          pubtrConditions.length !== 0 &&
+          pubtrConditions.some((condition) => condition(obj)) &&
+          pbuldConditions.length !== 0 &&
+          pbuldConditions.some((condition) => condition(obj)) &&
+          buldeConditions.length !== 0 &&
+          buldeConditions.some((condition) => condition(obj)) &&
+          stairConditions.length !== 0 &&
+          stairConditions.some((condition) => condition(obj)) &&
+          sdwkConditions.length !== 0 &&
+          sdwkConditions.some((condition) => condition(obj)) &&
           (county.cd
             ? obj.properties.LEGLCD_SE === `${county.cd}`
             : city.cd
@@ -349,15 +349,17 @@ const useColor = () => {
     if (pick) {
       if (obj.properties.NF_ID === pick) {
         if (rskVal === 1) {
-          return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+          return [221, 0, 22, 255 * 0.8];
         } else if (rskVal === 2) {
-          return check[1] ? [233, 141, 120, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+          return [233, 141, 120, 255 * 0.8];
         } else if (rskVal === 3) {
-          return check[2] ? [242, 212, 146, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+          return [242, 212, 146, 255 * 0.8];
         } else if (rskVal === 4) {
-          return check[3] ? [121, 194, 165, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+          return [121, 194, 165, 255 * 0.8];
         } else if (rskVal === 5) {
-          return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+          return [0, 175, 185, 255 * 0.8];
+        } else {
+          return [0, 0, 0, 255 * 0.05];
         }
       } else {
         return [0, 0, 0, 255 * 0.05];

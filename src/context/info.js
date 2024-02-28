@@ -16,6 +16,7 @@ function InfoProvider({ children }) {
   const [data] = useState(
     `https://api.mapbox.com/v4/redsilver522.59bd8ljy/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}` //redsilver522.c1vrcxt3 / redsilver522.9c8f22nr /redsilver522.59bd8ljy
   );
+
   const [info, setInfo] = useState({
     rdbtOps: { name: "도로폭원", selected: null, checkboxes: null },
     slopeOps: { name: "경사도", selected: null, checkboxes: null },
