@@ -4,7 +4,7 @@ import AccrdRsk1 from "../accordions/AccrdRsk1";
 import AccrdPrp from "../accordions/AccrdPrp";
 import useInfo from "../../hooks/use-info";
 import Modal from "../tools/Modal";
-import guide from "../../img/guide.PNG";
+import guide from "../../img/guide2.png";
 import nstreets from "../../img/nstreets.svg";
 //icons//////////////////////////////////////////////////////////////////////////////////////////
 // import {TbSquareRoundedNumber1Filled} from 'react-icons/tb'

@@ -1,7 +1,4 @@
-// import useInfo from "./use-info";
-
 const useTooltip = () => {
-  // const { info } = useInfo();
   const getTooltip = ({ object }) => {
     const op = object && object.properties;
     const roadF = (code) => {
@@ -31,7 +28,6 @@ const useTooltip = () => {
     const laneF = (cartrk_co) => {
       return cartrk_co;
     };
-
     const widthF = (road_bt) => {
       return `${road_bt.toFixed(1)}m`;
     };
@@ -77,21 +73,6 @@ const useTooltip = () => {
           return "N/A";
       }
     };
-    // const statusF = (usgstt_se) => {
-    //   switch (usgstt_se) {
-    //     case "RUS001":
-    //       return "건설예정";
-    //     case "RUS002":
-    //       return "공사중";
-    //     case "RUS003":
-    //       return "운영중";
-    //     case "RUS004":
-    //       return "폐쇄";
-    //     default:
-    //       return "N/A";
-    //   }
-    // };
-
     return (
       op &&
       op.NF_ID && {

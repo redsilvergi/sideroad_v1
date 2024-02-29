@@ -5,42 +5,49 @@ import axios from "axios";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
 const useDb = () => {
-  const { setLD, setPick, setView, rsk, setPnfo, setLength, rnfo } = useInfo();
+  const { setLD, setPick, setView, rsk, setPnfo, setLength, rnfo, region } =
+    useInfo();
   const { queryF, queryR } = useQuery();
   /////////////////////////////////////////////////////////
   const getCord = useCallback(
     async (item) => {
       setLD(true);
       console.log(item);
-      const { data } = await axios.get(`http://localhost:4000/getCord/${item}`);
-      console.log(data);
+      const response = await axios.get(`http://localhost:4000/getCord/${item}`);
+      console.log("getCord response at use-de.js: ", response);
       setPick(item);
-      setView({
-        longitude: data.long,
-        latitude: data.lat,
-        zoom: 19.5,
-      });
-      setPnfo({
-        road_se: data.road_se,
-        cartrk_co: data.cartrk_co,
-        road_bt: data.road_bt,
-        pmtr_se: data.pmtr_se,
-        osps_se: data.osps_se,
-        road_lt: data.road_lt,
-        slope_lg: data.slope_lg,
-        sdwk_se: data.sdwk_se,
-        rdnet_ac: data.rdnet_ac,
-        pbuld_fa: data.pbuld_fa,
-        bulde_de: data.bulde_de,
-        pubtr_ac: data.pubtr_ac,
-        stair_at: data.stair_at,
-        edennc_at: data.edennc_at,
-        pedac_rk: data.pedac_rk,
-        crime_rk: data.crime_rk,
-        flood_rk: data.flood_rk,
-        crwdac_rk: data.crwdac_rk,
-        fallac_rk: data.fallac_rk,
-      });
+      if (response.data) {
+        const data = response.data;
+        setView({
+          longitude: data.long,
+          latitude: data.lat,
+          zoom: 19.5,
+        });
+        setPnfo({
+          road_se: data.road_se,
+          cartrk_co: data.cartrk_co,
+          road_bt: data.road_bt,
+          pmtr_se: data.pmtr_se,
+          osps_se: data.osps_se,
+          road_lt: data.road_lt,
+          slope_lg: data.slope_lg,
+          sdwk_se: data.sdwk_se,
+          rdnet_ac: data.rdnet_ac,
+          pbuld_fa: data.pbuld_fa,
+          bulde_de: data.bulde_de,
+          pubtr_ac: data.pubtr_ac,
+          stair_at: data.stair_at,
+          edennc_at: data.edennc_at,
+          pedac_rk: data.pedac_rk,
+          crime_rk: data.crime_rk,
+          flood_rk: data.flood_rk,
+          crwdac_rk: data.crwdac_rk,
+          fallac_rk: data.fallac_rk,
+        });
+      } else {
+        console.log("no data fetched from getCord at use-db.js");
+      }
+
       // setLength(Math.round(data.road_lt * 1000) / 1000000);
       setLD(false);
     },
@@ -53,20 +60,23 @@ const useDb = () => {
       // console.log("nfList: ", nfList);
       const nf_ids = nfList.map((item) => `'${item}'`).join(",");
       // console.log("nf_ids: ", nf_ids);
-      const query = `select * from side10 where NF_ID in (${nf_ids})`;
+      const query = `select NF_ID, ROAD_NM, ROAD_SE, PMTR_SE, EDENNC_AT, CARTRK_CO, ROAD_BT, OSPS_SE, SLOPE_LG, PBULD_FA, BULDE_DE, SDWK_SE, STAIR_AT, RDNET_AC, PEDAC_RK, CRIME_RK, FLOOD_RK, CRWDAC_RK, FALLAC_RK, PUBTR_AC, ROAD_LT from side10 where NF_ID in (${nf_ids})`;
       // console.log("query: ", query);
       const response = await axios.get(`http://localhost:4000/getCsv/${query}`);
       console.log("csvlistdwn: ", response.data);
-      const csvContent =
-        "data:test/csv;charset=utf-8," +
-        response.data.map((row) => row.join(",")).join("\n");
-      const encodedUri = encodeURI(csvContent);
+      // Construct CSV string and Adding BOM(Byte Order Mark) for UTF-8 Encoding
+      const BOM = "\uFEFF";
+      const csvRows = response.data.map((row) => row.join(",")).join("\n");
+      const csvContent = BOM + csvRows; // Prepend BOM
+      // Using Blob for potentially large data sets or special characters
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
+      link.setAttribute("href", url);
       link.setAttribute("download", `${rsk}_top5.csv`);
       document.body.appendChild(link); //required for firefox
       link.click();
-
+      URL.revokeObjectURL(url); // Clean up to avoid memory leaks
       setLD(false);
     },
     [rsk, setLD]
@@ -100,7 +110,6 @@ const useDb = () => {
     },
     [getCord]
   );
-
   /////////////////////////////////////////////////////////////////
   const getLength = useCallback(async () => {
     setLD(true);
@@ -122,8 +131,70 @@ const useDb = () => {
     }
     setLD(false);
   }, [setLD, queryF, setLength, queryR, rnfo.rskOps.checkboxes, rsk]);
-
-  return { getCord, getCsv, getSrchId, getLength };
+  /////////////////////////////////////////////////////////
+  const getTop5 = useCallback(async () => {
+    setLD(true);
+    const rskType = () => {
+      switch (rsk) {
+        case "교통사고":
+          return "PEDAC";
+        case "범죄사고":
+          return "CRIME";
+        case "재해사고":
+          return "FLOOD";
+        case "밀집사고":
+          return "CRWD";
+        case "낙상사고":
+          return "FALLAC";
+        default:
+          break;
+      }
+    };
+    const qryF = () => {
+      if (region.county.cd) {
+        return `select ROAD_NM, NF_ID from aclogdbf where LEGLCD_SE = '${
+          region.county.cd
+        }' order by ${rskType()} desc limit 5`;
+      } else if (region.city.cd) {
+        return `select ROAD_NM, NF_ID from aclogdbf where sido = ${Number(
+          String(region.city.cd).substring(0, 2)
+        )} order by ${rskType()} desc limit 5`;
+      } else {
+        return `select ROAD_NM, NF_ID from aclogdbf order by ${rskType()} desc limit 5`;
+      }
+    };
+    const response = await axios.get(`http://localhost:4000/getTop5/${qryF()}`);
+    const rtrvdLst = response.data;
+    console.log("rsrch getTop5: ", rtrvdLst);
+    // const top5 = rtrvdLst.map((item, id) => {
+    //   if (!item.road_nm) {
+    //     return `NA (${item.nf_id})`;
+    //   } else {
+    //     return `${item.road_nm} (${item.nf_id})`;
+    //   }
+    // });
+    // return top5
+    // const nfidLst = rtrvdLst.map((item, id) => {
+    //   return (
+    //     <div
+    //       key={id}
+    //       className="rsrch_nfid_row"
+    //       onClick={async () => await getCord(item.nf_id)}
+    //     >
+    //       <div className="rsrch_nfid1">{`${id + 1}`}</div>
+    //       <div className="rsrch_nfid2">{item.nf_id}</div>
+    //       <div className="rsrch_nfid3">
+    //         <FaExternalLinkAlt />
+    //       </div>
+    //     </div>
+    //   );
+    // });
+    // return nfidLst;
+    setLD(false);
+    return rtrvdLst;
+  }, [rsk]);
+  /////////////////////////////////////////////////////////
+  return { getCord, getCsv, getSrchId, getLength, getTop5 };
 };
 
 export default useDb;

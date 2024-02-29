@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import useInfo from "../../hooks/use-info";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import { RxTriangleDown } from "react-icons/rx";
+import { BsQuestionCircleFill } from "react-icons/bs";
 
 const Rrsk = () => {
   const { pick, pnfo } = useInfo();
@@ -15,7 +16,6 @@ const Rrsk = () => {
     acc5: false,
   });
   // const [acc2, setAcc2] = useState(false);
-
   ////
   const [scr, setScr] = useState({
     scr1: null,
@@ -24,6 +24,8 @@ const Rrsk = () => {
     scr4: null,
     scr5: null,
   }); // Default Score
+  const [tmpDv, setTmpDv] = useState(false);
+
   const labels = ["매우좋음", "좋음", "보통", "나쁨", "매우나쁨"];
 
   ////
@@ -88,6 +90,29 @@ const Rrsk = () => {
         break;
     }
   };
+  const mover = () => {
+    setTmpDv(true);
+  };
+  const mout = () => {
+    setTmpDv(false);
+  };
+  // const showEMI = () => {
+  //   const int = parseInt(scr.scr1);
+  //   switch (int) {
+  //     case 1:
+  //       return "0.647-2.264";
+  //     case 2:
+  //       return "0.285-0.647";
+  //     case 3:
+  //       return "0.09-0.285";
+  //     case 4:
+  //       return "0.014-0.09";
+  //     case 5:
+  //       return "0";
+  //     default:
+  //       break;
+  //   }
+  // };
   ////////////////////////////////////////////////////////////
   return (
     <div className="rrsk_accitem">
@@ -154,9 +179,37 @@ const Rrsk = () => {
                       </div>
                       <div className="rrsk_emid">
                         <div className="rrsk_emid_lbl">
-                          교통사고 사망지수 환산값 EMid ?
+                          교통사고 사망지수 환산값 EMId&nbsp;
+                          <div
+                            className="rrsk_qmrk"
+                            onMouseOver={mover}
+                            onMouseOut={mout}
+                          >
+                            <BsQuestionCircleFill />
+                          </div>
+                          {tmpDv && (
+                            <div className="rrsk_qmrk_div">
+                              <div className="rrsk_qmrk_txt1">
+                                ※ 교통사고 위험도 산출 방식
+                              </div>
+                              <div className="rrsk_qmrk_txt2">
+                                각 도로구간에서 발생한 보행자 교통사고 심각도에
+                                기반, '최소인명피해환산계수' EMI (Equivalent
+                                Minor Injuries)를 산출하고 이를 다시 사망자
+                                계수(70.2)로 나눈{" "}
+                                <span>'총 사망자수 환산값'</span>을 사고위험도
+                                지표로 활용하였습니다.
+                              </div>
+                              <div className="rrsk_qmrk_txt3">
+                                교통사고 위험도(EMId) = (사망자수 × 70.2 +
+                                중상자수 × 13.46 + 경상자수 × 1.26 +
+                                부상신고자수 × 1) ÷ 70.2
+                              </div>
+                            </div>
+                          )}
                         </div>
-                        <div className="rrsk_emid_v">3.2</div>
+
+                        {/* <div className="rrsk_emid_v">{showEMI()}</div> */}
                       </div>
                     </div>
                   </div>

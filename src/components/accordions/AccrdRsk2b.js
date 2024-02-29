@@ -1,12 +1,14 @@
-// import { useState } from "react";
+import { useState } from "react";
 import "./AccrdRsk2b.css";
 import useInfo from "../../hooks/use-info";
 import CbxRsk from "../auxiliary/CbxRsk";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import Barchart from "../tools/Barchart";
+import { BsQuestionCircleFill } from "react-icons/bs";
 
 const AccrdRsk2b = () => {
   const { setRnfo, rsk, setRsk, setAccRsk2a, reset } = useInfo();
+  const [tmpDv, setTmpDv] = useState(false);
   // const [expandedIndex, setExpandedIndex] = useState([]);
 
   ///////////////////////////////////////////////////////////////
@@ -125,6 +127,7 @@ const AccrdRsk2b = () => {
   //   }
   // };
 
+  ///////////////////////////////////////////////////////////////////
   const handleClick = (itemId) => {
     setAccRsk2a(true);
     if (rsk === itemId) {
@@ -134,6 +137,14 @@ const AccrdRsk2b = () => {
     }
     reset();
   };
+  const mover = () => {
+    setTmpDv(true);
+  };
+  const mout = () => {
+    setTmpDv(false);
+  };
+
+  ///////////////////////////////////////////////////////////////////
 
   const renderedItems = items.map((item, index) => {
     // const isExpanded = expandedIndex.includes(index);
@@ -145,7 +156,34 @@ const AccrdRsk2b = () => {
           className={`rsk2b_d1 ${item.id + "_rsk2b_d1"}`}
           onClick={() => handleClick(item.id)}
         >
-          <div className="rsk2b_label">{item.label}</div>
+          {item.label === "교통사고" ? (
+            <div className="rsk2b_label">
+              {item.label}&nbsp;
+              <div className="rsk2b_qmrk" onMouseOver={mover} onMouseOut={mout}>
+                <BsQuestionCircleFill />
+              </div>
+              {tmpDv && (
+                <div className={`rsk2b_qmrk_div ${!rsk && "rsk2b_qmrk_div2"}`}>
+                  <div className="rsk2b_qmrk_txt1">
+                    ※ 교통사고 위험도 산출 방식
+                  </div>
+                  <div className="rsk2b_qmrk_txt2">
+                    각 도로구간에서 발생한 보행자 교통사고 심각도에 기반,
+                    '최소인명피해환산계수' EMI (Equivalent Minor Injuries)를
+                    산출하고 이를 다시 사망자 계수(70.2)로 나눈{" "}
+                    <span>'총 사망자수 환산값'</span>을 사고위험도 지표로
+                    활용하였습니다.
+                  </div>
+                  <div className="rsk2b_qmrk_txt3">
+                    교통사고 위험도(EMId) = (사망자수 × 70.2 + 중상자수 × 13.46
+                    + 경상자수 × 1.26 + 부상신고자수 × 1) ÷ 70.2
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="rsk2b_label">{item.label}</div>
+          )}
           <div className="rsk2b_line"></div>
           <div className="rsk2b_icon">
             {isExpanded ? <FiMinus /> : <FiPlus />}
