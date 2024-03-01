@@ -12,6 +12,9 @@ const Landbase = ({ setBasemap }) => {
     }
     setIstgl(!istgl);
   };
+  // const handleTgl = () => {
+  //   setIstgl(!istgl);
+  // };
 
   return (
     <div className={`landbase_tg ${right ? "" : "rmv_landbase"}`}>

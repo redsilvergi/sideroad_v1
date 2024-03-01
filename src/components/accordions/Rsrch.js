@@ -74,7 +74,7 @@ const Rsrch = () => {
       inputRef.current.blur(); // Blur the input field
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
-      console.log("arrowdown: ", sid);
+      // console.log("arrowdown: ", sid);
       if (sid < fltItms.length - 1) {
         setSval(fltItms[sid + 1]);
       } else {
@@ -83,7 +83,7 @@ const Rsrch = () => {
       setSid((prvid) => (prvid < fltItms.length - 1 ? prvid + 1 : -1));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      console.log("arrowup: ", sid);
+      // console.log("arrowup: ", sid);
       if (sid === -1) {
         setSval(fltItms[fltItms.length - 1]);
       } else if (sid === 0) {
@@ -102,7 +102,7 @@ const Rsrch = () => {
     setIsDrop(false);
     const rtrvd = await getSrchId(v);
     setNfidLst(rtrvd);
-    console.log("Searching for: ", v); //to be erased
+    // console.log("Searching for: ", v); //to be erased
     setLD(false);
   };
   const handleCloseInput = () => {

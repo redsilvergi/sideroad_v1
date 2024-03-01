@@ -1,6 +1,6 @@
 import "./LandingPage.css";
 import React, { useEffect, useMemo, useState } from "react";
-import DeckGL, { MVTLayer } from "deck.gl";
+import DeckGL, { MVTLayer, TileLayer, BitmapLayer } from "deck.gl";
 import { Map } from "react-map-gl"; //MapProvider
 import "mapbox-gl/dist/mapbox-gl.css"; //remove console log error
 import useInfo from "../hooks/use-info";
@@ -11,18 +11,10 @@ import Region from "../components/tools/Region";
 import Basemap from "../components/bases/Basemap";
 import Landbase from "../components/bases/Landbase";
 import Controls from "../components/tools/Controls";
-// import useQuery from "../hooks/use-query";
-// import axios from "axios";
 import RightBar from "../components/bars/RightBar";
-// import axios from "axios"; // Import Axios here
-// import Pbf from "pbf";
-// import { VectorTile } from "@mapbox/vector-tile";
 
 const MAPBOX_ACCESS_TOKEN =
   "pk.eyJ1IjoicmVkc2lsdmVyNTIyIiwiYSI6ImNsbTYwaHVoazJ1ZHgza3M2ZWJpYXdueXQifQ.vg0BobV69pbNLJdKAv856Q";
-
-// const MAP_STYLE = "mapbox://styles/redsilver522/cli2ji9m500w901pofuyqhbtz"; //lowz in the layer
-// const MAP_STYLE = "mapbox://styles/redsilver522/clm61py9g00i301of6dv76f2e"; //lowz in the style
 
 function LandingPage() {
   const {
@@ -30,11 +22,9 @@ function LandingPage() {
     setView,
     isFilter,
     info,
-    // length,
     data,
     region,
     LD,
-    // setLD,
     setLength,
     istgl,
     right,
@@ -42,32 +32,15 @@ function LandingPage() {
     setPick,
     hov,
     rnfo,
-    // geoJ,
-    // setHov,
     setPnfo,
   } = useInfo();
-
-  // const [renL, setRenL] = useState(<div className="lengthSum">REQ</div>);
   const { getTooltip } = useTooltip();
   const { getRoadColor } = useColor();
-  // const { queryF } = useQuery();
 
   const [basemap, setBasemap] = useState(
     "mapbox://styles/redsilver522/clmp6c5lw01xs01r64d5v09jn"
   );
   // AUXILIARY -----------------------------------------------
-  // const handleLength = useCallback(async () => {
-  //   setLD(true);
-  //   const query = queryF();
-  //   console.log("query from LandingPage.js:", "\n", query);
-  //   const response = await axios.get(
-  //     `http://localhost:4000/getLength/${query}` //  /getLength/${query}
-  //   );
-  //   console.log("response from LandingPage.js:", "\n", response);
-  //   setLength(Math.round(response.data / 1000));
-  //   setLD(false);
-  // }, [setLD, queryF, setLength]);
-
   //LAYER ---------------------------------------------------
   const layer1 = useMemo(() => {
     return new MVTLayer({
@@ -87,7 +60,7 @@ function LandingPage() {
           : 10,
       getLineWidth: (obj) =>
         obj.properties.NF_ID ? 7 : view.zoom < 15 ? 1 : 4,
-      getRadius: 0,
+      getPointRadius: 0, //getRadius
       // (obj) => {
       //   return obj.properties.NF_ID && hov === obj.properties.NF_ID ? 10 : 6;
       // },
@@ -178,34 +151,61 @@ function LandingPage() {
   //     // onClick: (d) => console.log(d.object),
   //   });
   // }, [geoJ]);
-  const layers = [layer1]; //layer2
+
+  const baselayer = useMemo(() => {
+    return (
+      !basemap &&
+      new TileLayer({
+        id: "baselayer",
+        data: "http://api.vworld.kr/req/wmts/1.0.0/EE923334-C29E-3907-BCA8-15D3CF0A5B3B/Satellite/{z}/{y}/{x}.jpeg",
+        minZoom: 0,
+        maxZoom: 19,
+        tileSize: 256,
+        renderSubLayers: (props) => {
+          const {
+            bbox: { west, south, east, north },
+          } = props.tile;
+          return new BitmapLayer(props, {
+            data: null,
+            image: props.data,
+            bounds: [west, south, east, north],
+            // visible: basemap ? false : true,
+          });
+        },
+      })
+    );
+  }, [basemap]);
+
+  // const landuse = useMemo(() => {
+  //   return (
+  //     istgl &&
+  //     new MVTLayer({
+  //       id: "landuselayer",
+  //       data: `https://api.mapbox.com/v4/redsilver522.lu_mim/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}`,
+  //       getLineColor: [255, 255, 255],
+  //       getFillColor: (obj) => {
+  //         switch (obj.properties.LANDUSE1) {
+  //           case "UQA1":
+  //             return [227, 224, 105, 114.75]; //255*0.45
+  //           case "UQA2":
+  //             return [238, 184, 152, 114.75];
+  //           case "UQA3":
+  //             return [176, 197, 218, 114.75];
+  //           case "UQA4":
+  //             return [190, 211, 140, 114.75];
+  //           default:
+  //             return [184, 184, 184, 114.75];
+  //         }
+  //       },
+  //     })
+  //   );
+  // }, [istgl]);
+
+  const layers = [baselayer, layer1]; // landuse
   // RENDER ITEMS ------------------------------------------------
   useEffect(() => {
     setPick(null);
   }, [setPick, region, info, rnfo]);
-  // useEffect(() => {
-  //   if (view.zoom < 16) {
-  //     setHov(null);
-  //   }
-  // }, [view.zoom, setHov]);
-  // useEffect(() => {
-  //   if (length || length === 0) {
-  //     setRenL(
-  //       <div className="lengthSum">
-  //         선택구간 연장 <span>{length}</span> km
-  //       </div>
-  //     );
-  //   } else {
-  //     return;
-  //   }
-  // }, [length]);
-  // useEffect(() => {
-  //   setRenL(
-  //     <div className="lengthSum lengthReq" onClick={handleLength}>
-  //       선택구간 연장 쿼리요청
-  //     </div>
-  //   );
-  // }, [region, handleLength, info]);
   const legend = (
     <div className="landuse">
       <div className="g1">지도 범례</div>
@@ -234,14 +234,7 @@ function LandingPage() {
         <Basemap basemap={basemap} setBasemap={setBasemap} />
         <Controls />
         {istgl && legend}
-        {/* <div className="zoom">
-          줌 <span>{view ? view.zoom.toFixed(2) : "no view yet"}</span>
-        </div> */}
-        {/* {renL} */}
-        {/* <div className="lengthSum">
-          선택구간 연장 <span>{length ? length : 0}</span> km
-        </div> */}
-
+        {/* <MapComponent view={view} /> */}
         <DeckGL
           initialViewState={view}
           onViewStateChange={({ viewState }) => setView(viewState)}
@@ -266,7 +259,9 @@ function LandingPage() {
           //     : null
           // }
         >
-          <Map mapStyle={basemap} mapboxAccessToken={MAPBOX_ACCESS_TOKEN} />
+          {basemap && (
+            <Map mapStyle={basemap} mapboxAccessToken={MAPBOX_ACCESS_TOKEN} />
+          )}
         </DeckGL>
 
         {LD && (
