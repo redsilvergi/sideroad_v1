@@ -3,7 +3,7 @@
 }
 
 .prp_custom_cb + .prp_chk_item::before {
-  content: "";
+  content: "🗸";
   display: inline-block;
   width: 10px;
   height: 10px;
@@ -11,7 +11,8 @@
   margin-right: 8px;
   background: white;
   border: 1px solid #ccc;
-  vertical-align: middle;
+  color: white;
+  line-height: 15px;
 }
 
 .prp_custom_cb:checked + .prp_chk_item::before {

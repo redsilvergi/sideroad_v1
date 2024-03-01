@@ -7,17 +7,35 @@
   margin: 0 0 0 20px;
   font-weight: 800;
 }
+.prp_sbtt1_rgt {
+  display: flex;
+  align-items: center;
+  padding: 10px 10px 10px 10px;
+  margin: 0 10px 0 0;
+  cursor: pointer;
+}
+.prp_sbtt1_rgt:hover {
+  background-color: #e5ebef;
+}
+.prp_sbtt1_rgt_lbl {
+  margin: 1.4px 5px 0 0;
+  font-size: 9px;
+}
 .prp_btn_all {
-  margin: 1px 20px 0 0;
+  margin: 1px 0 0 0;
   height: 10px;
   width: 10px;
   background-color: white;
-  border: #0062af solid 1px;
-  cursor: pointer;
+  border: 1px solid #ccc;
 }
 .prp_all {
   background-color: #0062af;
   border: #0062af solid 1px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  line-height: 15px;
 }
 .prp_d1 {
   display: flex;

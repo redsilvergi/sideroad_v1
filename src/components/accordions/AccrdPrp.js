@@ -318,10 +318,12 @@ const AccrdPrp = () => {
     <div className={`accordion`}>
       <div className="prp_sbttl">
         <div>속성 선택</div>
-        <div
-          className={`prp_btn_all ${prpall ? "prp_all" : ""}`}
-          onClick={handlePrps}
-        ></div>
+        <div className="prp_sbtt1_rgt" onClick={handlePrps}>
+          <div className="prp_sbtt1_rgt_lbl">전체선택</div>
+          <div className={`prp_btn_all ${prpall ? "prp_all" : ""}`}>
+            {prpall && "🗸"}
+          </div>
+        </div>
       </div>
       {renderedItems}
     </div>
