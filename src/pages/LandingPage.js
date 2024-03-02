@@ -33,6 +33,10 @@ function LandingPage() {
     hov,
     rnfo,
     setPnfo,
+    scrn,
+    setScrn,
+    setLeft,
+    setRight,
   } = useInfo();
   const { getTooltip } = useTooltip();
   const { getRoadColor } = useColor();
@@ -41,6 +45,30 @@ function LandingPage() {
     "mapbox://styles/redsilver522/clmp6c5lw01xs01r64d5v09jn"
   );
   // AUXILIARY -----------------------------------------------
+  useEffect(() => {
+    const handleResize = () => {
+      setScrn(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  useEffect(() => {
+    if (scrn < 1015) {
+      setLeft(false);
+      setRight(false);
+      setView({
+        longitude: 127.5176755984492,
+        latitude: 36.87856478678846,
+        zoom: 5,
+        bearing: 0,
+        pitch: 0,
+      });
+    }
+  }, []);
   //LAYER ---------------------------------------------------
   const layer1 = useMemo(() => {
     return new MVTLayer({
@@ -65,7 +93,7 @@ function LandingPage() {
       //   return obj.properties.NF_ID && hov === obj.properties.NF_ID ? 10 : 6;
       // },
       pickable: true,
-      visible: isFilter && view.zoom >= 6 && view.zoom <= 20,
+      visible: isFilter && view.zoom >= 5 && view.zoom <= 20,
       getLineColor: (obj) => {
         return getRoadColor(obj);
       },
@@ -101,6 +129,7 @@ function LandingPage() {
                 crwdac_rk: prp.CRWDAC_RK,
                 fallac_rk: prp.FALLAC_RK,
               });
+              setRight(true);
               // setLength(Math.round(prp.ROAD_LT * 1000) / 1000000);
             }
           : null,
@@ -229,7 +258,9 @@ function LandingPage() {
       <LeftBar />
       {right && <RightBar />}
       <div className="container">
-        <Region />
+        <div id="region">
+          <Region />
+        </div>
         <Landbase basemap={basemap} setBasemap={setBasemap} />
         <Basemap basemap={basemap} setBasemap={setBasemap} />
         <Controls />
@@ -245,6 +276,10 @@ function LandingPage() {
             if (!event.object) {
               setPick(null);
               setLength(null);
+              if (scrn < 1015) {
+                setRight(false);
+                setLeft(false);
+              }
             }
           }}
           // onHover={

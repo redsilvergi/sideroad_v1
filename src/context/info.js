@@ -5,9 +5,10 @@ const InfoContext = createContext();
 function InfoProvider({ children }) {
   const MAPBOX_ACCESS_TOKEN =
     "pk.eyJ1IjoicmVkc2lsdmVyNTIyIiwiYSI6ImNsaHl4enpjNzE4N3Eza3Bjemk3MTc1cDYifQ.EL1F3mAAhdlX1du8lCLDGw";
+  const [scrn, setScrn] = useState(window.innerWidth);
   const [view, setView] = useState({
-    longitude: 127.25161672437677,
-    latitude: 35.86497806027222,
+    longitude: 128.05161672437677,
+    latitude: 36.06497806027222,
     zoom: 6.5,
     bearing: 0,
     pitch: 0,
@@ -165,7 +166,6 @@ function InfoProvider({ children }) {
   });
 
   const [isFilter, setIsFilter] = useState(true);
-  // const [isSelect, setIsSelect] = useState(false);
   const [depth1, setDepth1] = useState(null);
   const [length, setLength] = useState(false);
   const [region, setRegion] = useState({
@@ -180,7 +180,6 @@ function InfoProvider({ children }) {
   const [hov, setHov] = useState(null);
   const [rsk, setRsk] = useState("교통사고");
   const [accRsk2a, setAccRsk2a] = useState(true);
-  // const [geoJ, setGeoJ] = useState(null);
   const [nfid, setNfid] = useState(null);
   const [prpall, setPrpall] = useState(false);
 
@@ -230,6 +229,8 @@ function InfoProvider({ children }) {
         prpall,
         setPrpall,
         allset,
+        scrn,
+        setScrn,
       }}
     >
       {children}

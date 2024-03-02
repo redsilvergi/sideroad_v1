@@ -21,7 +21,7 @@ const useDb = () => {
         setView({
           longitude: data.long,
           latitude: data.lat,
-          zoom: 19.5,
+          zoom: 19,
         });
         setPnfo({
           road_se: data.road_se,

@@ -10,6 +10,7 @@
 .left_column:hover {
   width: 250px;
 }
+
 .left_column a {
   display: flex;
   font-size: 17px;
@@ -316,3 +317,18 @@
 /* .guide:hover + .guide2 {
   display: block;
 } */
+
+@media (hover: none) {
+  .left_column:hover {
+    width: 50px;
+  }
+  .left_column:hover .hvd_title {
+    display: none;
+  }
+  .left_column:hover .hvd {
+    display: none;
+  }
+  .left_column:hover .hvd_bottom {
+    display: none;
+  }
+}

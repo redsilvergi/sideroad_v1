@@ -1,6 +1,6 @@
 .map_toggle_button {
   position: fixed;
-  top: 20px;
+  top: 5px;
   right: 275px;
   z-index: 1;
   border: none;
@@ -18,7 +18,6 @@
   font-family: "NanumSquare", sans-serif;
   font-weight: bold;
 }
-
 .map_toggle_button:hover {
   opacity: 1;
 }
@@ -37,7 +36,7 @@
 .basemap_exp {
   position: fixed;
   z-index: 2;
-  top: 61px;
+  top: 46px;
   right: 275px;
   width: 166px;
   border: none;
@@ -64,4 +63,15 @@
 }
 .rmv_basemap_exp {
   right: 10px;
+}
+
+@media (max-width: 1015px) {
+  .map_toggle_button {
+    top: 51px;
+    width: 126px;
+  }
+  .basemap_exp {
+    top: 92px;
+    width: 126px;
+  }
 }

@@ -1,6 +1,6 @@
 .landbase_tg {
   position: fixed;
-  top: 20px;
+  top: 5px;
   right: 450px;
   z-index: 1;
   border: none;
@@ -30,4 +30,14 @@
 
 .tg_div {
   margin-right: 10px;
+}
+
+@media (max-width: 1015px) {
+  .landbase_tg {
+    right: 275px;
+    width: 150px;
+  }
+  .rmv_landbase {
+    right: 10px;
+  }
 }

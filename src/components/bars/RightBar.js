@@ -81,8 +81,11 @@ const RightBar = () => {
           <Rrsk />
         </div>
         <div className="bottomright">
+          <div>
+            longlat: {view.longitude}, {view.latitude}
+          </div>
           <div className="zoomlevel">ZOOM LEVEL: {view.zoom.toFixed(2)}</div>
-          <div className="tag">@Mapbox @OpenStreetMap</div>
+          <div className="tag">@Mapbox @OpenStreetMap @VWorld</div>
         </div>
       </div>
     </div>

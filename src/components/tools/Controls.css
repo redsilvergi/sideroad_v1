@@ -1,6 +1,6 @@
 .toggle_button_div {
   position: fixed;
-  top: 76px;
+  top: 55px;
   right: 275px;
   z-index: 1;
   display: flex;
@@ -26,4 +26,10 @@
 
 .toggle_button:hover {
   opacity: 1;
+}
+
+@media (max-width: 1015px) {
+  .toggle_button_div {
+    top: 101px;
+  }
 }

@@ -60,19 +60,27 @@
   /* width: 194px; */
   font-size: 13px;
 }
+.test333 {
+  width: 190px;
+}
 .rsrch_input {
   padding: 11.2px 15px 11.2px 15px;
-  border: 1px solid #ffffff;
+  border: none;
   /* border-radius: 4px; */
   font-size: 13px;
+  /* width: 100px; */
+  width: 105px;
+  /* line-height: 11px; */
 }
 
 .rsrch_input:focus {
   outline: none;
-  border: 1px solid #5f9ac9;
+  /* border: 1px solid #5f9ac9; */
   /* box-shadow: 0 0 10px #719ece; */
 }
-
+.test333.input-focused {
+  border: 1px solid #5f9ac9;
+}
 .srchbtn {
   position: absolute;
   right: 5px;

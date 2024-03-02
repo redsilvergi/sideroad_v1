@@ -23,6 +23,7 @@ const Controls = () => {
     // setLD,
     rsk,
     rnfo,
+    scrn,
   } = useInfo();
   // const { queryF } = useQuery();
 
@@ -65,15 +66,25 @@ const Controls = () => {
       </button>
       <button
         className="toggle_button"
-        onClick={() =>
-          setView({
-            longitude: 127.25161672437677,
-            latitude: 35.86497806027222,
-            zoom: 6.5,
-            bearing: 0,
-            pitch: 0,
-          })
-        }
+        onClick={() => {
+          if (scrn < 1015) {
+            setView({
+              longitude: 127.5176755984492,
+              latitude: 36.87856478678846,
+              zoom: 5,
+              bearing: 0,
+              pitch: 0,
+            });
+          } else {
+            setView({
+              longitude: 128.05161672437677,
+              latitude: 36.06497806027222,
+              zoom: 6.5,
+              bearing: 0,
+              pitch: 0,
+            });
+          }
+        }}
       >
         <GiExpand />
       </button>
@@ -100,9 +111,11 @@ const Controls = () => {
             "\nlength:",
             length,
             "\nregion:",
-            region
+            region,
             // "\nistgl:",
             // istgl
+            "\nscrn",
+            scrn
           )
         }
       >

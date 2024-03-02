@@ -6,21 +6,8 @@ import useInfo from "../../hooks/use-info";
 import Modal from "../tools/Modal";
 import guide from "../../img/guide2.png";
 import nstreets from "../../img/nstreets.svg";
-//icons//////////////////////////////////////////////////////////////////////////////////////////
-// import {TbSquareRoundedNumber1Filled} from 'react-icons/tb'
-// import {TbSquareRoundedNumber2Filled} from 'react-icons/tb'
-// import {TbSquareRoundedNumber3Filled} from 'react-icons/tb'
-// import {TbSquareRoundedNumber4Filled} from 'react-icons/tb'
-// import {TbSquareRoundedNumber5Filled} from 'react-icons/tb'
-// import {TbSquareRoundedNumber6Filled} from 'react-icons/tb'
-// import {TbSquareRoundedNumber7Filled} from 'react-icons/tb'
-// import {FiPlus} from 'react-icons/fi'
-// import { FaRegWindowMinimize, FaExternalLinkAlt } from "react-icons/fa";
 import { MdStackedBarChart } from "react-icons/md";
 import { FaRoad, FaFilter, FaMagnifyingGlassChart } from "react-icons/fa6";
-// import { BsQuestionCircleFill } from "react-icons/bs";
-// import {IoCloseSharp} from 'react-icons/io5';
-// import {AiOutlineEnter} from 'react-icons/ai'
 import { CgFileDocument } from "react-icons/cg";
 
 const LeftBar = () => {
@@ -35,6 +22,7 @@ const LeftBar = () => {
     reset,
     allset,
     setPrpall,
+    scrn,
   } = useInfo();
   //Modal/////////////////////////////////////////////////////////////
   const [showModal, setShowModal] = useState(false);
@@ -97,10 +85,15 @@ const LeftBar = () => {
           <div
             className={`bottom_cont ${left ? "active" : ""}`}
             onClick={() => {
-              if (!left) {
-                setRsk("교통사고");
+              // if (!left) {
+              //   setRsk("교통사고");
+              // }
+              if (scrn < 1015) {
+                setRight(false);
+                setLeft(!left);
+              } else {
+                setLeft(!left);
               }
-              setLeft(!left);
             }}
           >
             <div className="bottomicons">
@@ -113,7 +106,14 @@ const LeftBar = () => {
         <div className="search">
           <div
             className={`bottom_cont ${right ? "active" : ""}`}
-            onClick={() => setRight(!right)}
+            onClick={() => {
+              if (scrn < 1015) {
+                setLeft(false);
+                setRight(!right);
+              } else {
+                setRight(!right);
+              }
+            }}
           >
             <div className="bottomicons">
               <FaMagnifyingGlassChart className="searchicon" />

@@ -110,7 +110,15 @@ const Rsrch = () => {
     setSvaltmp("");
     setNfidLst([]);
   };
+  const handleFocus = () => {
+    const parentDiv = inputRef.current.parentNode;
+    parentDiv.classList.add("input-focused");
+  };
 
+  const handleBlur = () => {
+    const parentDiv = inputRef.current.parentNode;
+    parentDiv.classList.remove("input-focused");
+  };
   return (
     <div className="rsrch_accitem">
       <div className={`rsrch_d1 ${open && "rsrch_d1_expanded"}`}>
@@ -121,16 +129,20 @@ const Rsrch = () => {
         {open && (
           <div className="rsrch_expanded">
             <div className="rsrch_srch">
-              <input
-                ref={inputRef}
-                className="rsrch_input"
-                type="text"
-                placeholder="ex. 마로니에길"
-                onChange={handleChange}
-                value={sval}
-                onClick={handleClick}
-                onKeyDown={handleKeyDown}
-              />
+              <div className="test333">
+                <input
+                  ref={inputRef}
+                  className="rsrch_input"
+                  type="text"
+                  placeholder="ex. 마로니에길"
+                  onChange={handleChange}
+                  value={sval}
+                  onClick={handleClick}
+                  onKeyDown={handleKeyDown}
+                  onFocus={handleFocus} // Added onFocus event handler
+                  onBlur={handleBlur}
+                />
+              </div>
               <div className="srchbtn" onClick={() => onSearch(sval)}>
                 <div className="btn_ic">
                   <AiOutlineEnter />
