@@ -313,11 +313,11 @@ const useQuery = () => {
         break;
       case "밀집사고":
         rskcol = "CRWDAC_RK";
-        rskType = "PDA";
+        rskType = "CWA";
         break;
       case "낙상사고":
         rskcol = "FALLAC_RK";
-        rskType = "CWA";
+        rskType = "FAA";
         break;
       default:
         break;
