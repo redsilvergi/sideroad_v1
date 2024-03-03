@@ -37,7 +37,7 @@ const LeftBar = () => {
 
   const modal = (
     <Modal onClose={handleModClose}>
-      <img src={guide} alt="guide1" height="400%" />
+      <img src={guide} alt="guide1" height={scrn < 1015 ? "250%" : "400%"} />
     </Modal>
   );
   ///////////////////////////////////////////////////////////////
@@ -85,9 +85,6 @@ const LeftBar = () => {
           <div
             className={`bottom_cont ${left ? "active" : ""}`}
             onClick={() => {
-              // if (!left) {
-              //   setRsk("교통사고");
-              // }
               if (scrn < 1015) {
                 setRight(false);
                 setLeft(!left);

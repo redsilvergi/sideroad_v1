@@ -34,7 +34,6 @@
   color: white;
   display: flex;
   justify-content: center;
-  /* align-items: center; */
   line-height: 15px;
 }
 .prp_d1 {
@@ -78,15 +77,3 @@
   font-size: 12px;
   padding: 0 20px;
 }
-
-/* .도로번호별_accitem,
-.도로구분_accitem,
-.차로수_accitem,
-.도로폭_accitem,
-.포장재질_accitem,
-.중앙분리대유무_accitem,
-.일방통행구분_accitem,
-.도로사용상태_accitem {
-  border-bottom: solid 1px #cccccc;
-  border-top: solid 1px #cccccc;
-} */

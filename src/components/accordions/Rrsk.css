@@ -1,13 +1,4 @@
 .rrsk_d1 {
-  /* width: 230px;
-  height: auto; */
-  /* border-radius: 15px;
-  background-color: #ffffff;
-  display: flex;
-  align-items: center; */
-  /* padding: ; */
-  /* font-size: 13px; */
-  /* font-weight: 800; */
   margin: 0 0 10px 0;
   background-color: #ffffff;
   border-radius: 15px;
@@ -26,7 +17,6 @@
 .rrsk_d2 {
   width: 230px;
   height: 45px;
-  /* padding: 13.3px 0 13.3px 0; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -71,8 +61,6 @@
   opacity: 30%;
   display: flex;
   align-items: center;
-  /* width: 87.5%; */
-  /* margin: 0 0 0 20px; */
 }
 .rrsk_acc_d2 {
   display: flex;
@@ -89,7 +77,6 @@
   display: flex;
   align-items: center;
   font-size: 11px;
-  /* height: 11px; */
   font-weight: 600;
   margin: 3px 0 0 0px;
 }
@@ -145,12 +132,8 @@
 }
 .rrsk_scr_container {
   display: flex;
-  /* position: relative; */
-  /* border-radius: 25px; */
   overflow: hidden;
-  height: auto; /* Adjusted for additional text */
-  /* width: 210px; */
-  /* width: 174px; */
+  height: auto;
 }
 .rrsk_scr_no_lbl {
   display: flex;
@@ -158,11 +141,9 @@
   justify-content: center;
 }
 .rrsk_scr_item {
-  /* flex: 1; */
   width: 33.6px;
   height: 15px;
   display: flex;
-  /* flex-direction: column; */
   align-items: center;
   justify-content: center;
 }
@@ -173,12 +154,11 @@
 }
 
 .rrsk_scr_lbl {
-  font-size: 8px; /* Small font size for labels */
+  font-size: 8px;
   color: #6687a0;
   width: 33.6px;
   height: 15px;
   display: flex;
-  /* flex-direction: column; */
   align-items: center;
   justify-content: center;
   border-left: 1px solid #e4e4e4;
@@ -220,23 +200,11 @@
   z-index: 5;
   width: 20px;
   height: 20px;
-  /* font-size: 15px; */
 }
 .indcatr_trngl {
   width: 20px;
   height: 20px;
   color: #0062af;
-}
-.indcatr.active {
-  /* display: block; */
-  /* position: relative; */
-  /* top: -20px; */
-  /* left: 50px; */
-  /* z-index: 5; */
-  /* width: 12px;/ */
-  /* height: 12px; */
-  /* background-color: #2196f3; */
-  /* transition: left 0.25s; */
 }
 .rrsk_emid {
   font-size: 10px;

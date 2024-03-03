@@ -15,15 +15,13 @@ const Rrsk = () => {
     acc4: false,
     acc5: false,
   });
-  // const [acc2, setAcc2] = useState(false);
-  ////
   const [scr, setScr] = useState({
     scr1: null,
     scr2: null,
     scr3: null,
     scr4: null,
     scr5: null,
-  }); // Default Score
+  });
   const [tmpDv, setTmpDv] = useState(false);
 
   const labels = ["매우좋음", "좋음", "보통", "나쁨", "매우나쁨"];
@@ -96,23 +94,6 @@ const Rrsk = () => {
   const mout = () => {
     setTmpDv(false);
   };
-  // const showEMI = () => {
-  //   const int = parseInt(scr.scr1);
-  //   switch (int) {
-  //     case 1:
-  //       return "0.647-2.264";
-  //     case 2:
-  //       return "0.285-0.647";
-  //     case 3:
-  //       return "0.09-0.285";
-  //     case 4:
-  //       return "0.014-0.09";
-  //     case 5:
-  //       return "0";
-  //     default:
-  //       break;
-  //   }
-  // };
   ////////////////////////////////////////////////////////////
   return (
     <div className="rrsk_accitem">
@@ -234,7 +215,7 @@ const Rrsk = () => {
                     <div className="rrsk_scr_wrap_x">
                       <div className="rrsk_scr_container">
                         {labels.map((label, index) => (
-                          <div className="rrsk_scr_no_lbl">
+                          <div key={index} className="rrsk_scr_no_lbl">
                             <div className="indctr_wrap">
                               <div className="indcatr">
                                 {cnvrtRate(scr.scr2) === index + 1 && (
@@ -242,10 +223,7 @@ const Rrsk = () => {
                                 )}
                               </div>
                             </div>
-                            <div
-                              key={index}
-                              className={`rrsk_scr_item ritem${index + 1}`}
-                            >
+                            <div className={`rrsk_scr_item ritem${index + 1}`}>
                               <div className="rrsk_scr_number">{index + 1}</div>
                             </div>
                             <div
@@ -282,7 +260,7 @@ const Rrsk = () => {
                     <div className="rrsk_scr_wrap_x">
                       <div className="rrsk_scr_container">
                         {labels.map((label, index) => (
-                          <div className="rrsk_scr_no_lbl">
+                          <div key={index} className="rrsk_scr_no_lbl">
                             <div className="indctr_wrap">
                               <div className="indcatr">
                                 {cnvrtRate(scr.scr3) === index + 1 && (
@@ -290,10 +268,7 @@ const Rrsk = () => {
                                 )}
                               </div>
                             </div>
-                            <div
-                              key={index}
-                              className={`rrsk_scr_item ritem${index + 1}`}
-                            >
+                            <div className={`rrsk_scr_item ritem${index + 1}`}>
                               <div className="rrsk_scr_number">{index + 1}</div>
                             </div>
                             <div
@@ -330,7 +305,7 @@ const Rrsk = () => {
                     <div className="rrsk_scr_wrap_x">
                       <div className="rrsk_scr_container">
                         {labels.map((label, index) => (
-                          <div className="rrsk_scr_no_lbl">
+                          <div key={index} className="rrsk_scr_no_lbl">
                             <div className="indctr_wrap">
                               <div className="indcatr">
                                 {cnvrtRate(scr.scr4) === index + 1 && (
@@ -338,10 +313,7 @@ const Rrsk = () => {
                                 )}
                               </div>
                             </div>
-                            <div
-                              key={index}
-                              className={`rrsk_scr_item ritem${index + 1}`}
-                            >
+                            <div className={`rrsk_scr_item ritem${index + 1}`}>
                               <div className="rrsk_scr_number">{index + 1}</div>
                             </div>
                             <div
@@ -378,7 +350,7 @@ const Rrsk = () => {
                     <div className="rrsk_scr_wrap_x">
                       <div className="rrsk_scr_container">
                         {labels.map((label, index) => (
-                          <div className="rrsk_scr_no_lbl">
+                          <div key={index} className="rrsk_scr_no_lbl">
                             <div className="indctr_wrap">
                               <div className="indcatr">
                                 {cnvrtRate(scr.scr5) === index + 1 && (
@@ -386,10 +358,7 @@ const Rrsk = () => {
                                 )}
                               </div>
                             </div>
-                            <div
-                              key={index}
-                              className={`rrsk_scr_item ritem${index + 1}`}
-                            >
+                            <div className={`rrsk_scr_item ritem${index + 1}`}>
                               <div className="rrsk_scr_number">{index + 1}</div>
                             </div>
                             <div

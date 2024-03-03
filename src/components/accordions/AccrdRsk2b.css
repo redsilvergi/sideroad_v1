@@ -4,7 +4,6 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 3px 10px 3px;
-  /* margin: 0 0 0 5px; */
   cursor: pointer;
   font-size: 12px;
   color: #0062af;
@@ -53,17 +52,6 @@
 .crwdac {
   width: 100%;
 }
-/* .도로번호별_accitem,
-      .도로구분_accitem,
-      .차로수_accitem,
-      .도로폭_accitem,
-      .포장재질_accitem,
-      .중앙분리대유무_accitem,
-      .일방통행구분_accitem,
-      .도로사용상태_accitem {
-        border-bottom: solid 1px #cccccc;
-        border-top: solid 1px #cccccc;
-      } */
 .rsk2b_qmrk {
   margin: 4px 0 0 0;
   cursor: pointer;

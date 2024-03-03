@@ -5,15 +5,26 @@ import axios from "axios";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
 const useDb = () => {
-  const { setLD, setPick, setView, rsk, setPnfo, setLength, rnfo, region } =
-    useInfo();
+  const {
+    setLD,
+    setPick,
+    setView,
+    rsk,
+    setPnfo,
+    setLength,
+    rnfo,
+    region,
+    setRight,
+    setLeft,
+    scrn,
+  } = useInfo();
   const { queryF, queryR } = useQuery();
   /////////////////////////////////////////////////////////
   const getCord = useCallback(
     async (item) => {
       setLD(true);
       // console.log(item);
-      const response = await axios.get(`http://localhost:4000/getCord/${item}`);
+      const response = await axios.get(`/getCord/${item}`);
       // console.log("getCord response at use-de.js: ", response);
       setPick(item);
       if (response.data) {
@@ -21,7 +32,7 @@ const useDb = () => {
         setView({
           longitude: data.long,
           latitude: data.lat,
-          zoom: 19,
+          zoom: 16.5,
         });
         setPnfo({
           road_se: data.road_se,
@@ -47,19 +58,22 @@ const useDb = () => {
       } else {
         console.log("no data fetched from getCord at use-db.js");
       }
-
+      if (scrn < 1015) {
+        setLeft(false);
+        setRight(false);
+      }
       // setLength(Math.round(data.road_lt * 1000) / 1000000);
       setLD(false);
     },
-    [setPick, setView, setLD, setPnfo]
+    [setPick, setView, setLD, setPnfo, setRight, setLeft, scrn]
   );
   /////////////////////////////////////////////////////////
   const getCsv = useCallback(
     async (nfList) => {
       setLD(true);
       const nf_ids = nfList.map((item) => `'${item}'`).join(",");
-      const query = `select NF_ID, ROAD_NM, ROAD_SE, PMTR_SE, EDENNC_AT, CARTRK_CO, ROAD_BT, OSPS_SE, SLOPE_LG, PBULD_FA, BULDE_DE, SDWK_SE, STAIR_AT, RDNET_AC, PEDAC_RK, CRIME_RK, FLOOD_RK, CRWDAC_RK, FALLAC_RK, PUBTR_AC, ROAD_LT, ST_X(ST_Centroid(ST_GeomFromWKB(wkb_geometry))) as long, ST_Y(ST_Centroid(ST_GeomFromWKB(wkb_geometry))) as lat from side10 where NF_ID in (${nf_ids})`;
-      const response = await axios.get(`http://localhost:4000/getCsv/${query}`);
+      const query = `select NF_ID, ROAD_NM, ROAD_SE, PMTR_SE, EDENNC_AT, CARTRK_CO, ROAD_BT, OSPS_SE, SLOPE_LG, PBULD_FA, BULDE_DE, SDWK_SE, STAIR_AT, RDNET_AC, PEDAC_RK, CRIME_RK, FLOOD_RK, CRWDAC_RK, FALLAC_RK, PUBTR_AC, ROAD_LT, long, lat from side10 where NF_ID in (${nf_ids})`;
+      const response = await axios.get(`/getCsv/${query}`);
       // console.log("csvlistdwn: ", response.data);
       // Construct CSV string and Adding BOM(Byte Order Mark) for UTF-8 Encoding
       const BOM = "\uFEFF";
@@ -103,9 +117,7 @@ const useDb = () => {
   const getSrchId = useCallback(
     async (rdnm) => {
       var qry = `select NF_ID from side10 where ROAD_NM = '${rdnm}'`;
-      const response = await axios.get(
-        `http://localhost:4000/getSrchId/${qry}`
-      );
+      const response = await axios.get(`/getSrchId/${qry}`);
       // console.log("rsrch getsrchid: ", response.data);
       const rtrvdLst = response.data;
       const nfidLst = rtrvdLst.map((item, id) => {
@@ -139,7 +151,7 @@ const useDb = () => {
       } else {
         // console.log("query from use-db.js:", "\n", query);
         const response = await axios.get(
-          `http://localhost:4000/getLength/${query}` // /getLength/${query}
+          `/getLength/${query}` // /getLength/${query}
         );
         // console.log("response.data: ", response.data / 1000);
         // console.log("response.data type: ", typeof response.data);
@@ -169,18 +181,18 @@ const useDb = () => {
     };
     const qryF = () => {
       if (region.county.cd) {
-        return `select ROAD_NM, NF_ID from aclogdbf2 where ${rskType()} is not null and LEGLCD_SE = '${
+        return `select ROAD_NM, NF_ID from aclogdbf3 where ${rskType()} is not null and LEGLCD_SE = '${
           region.county.cd
         }' order by ${rskType()} desc limit 5`;
       } else if (region.city.cd) {
-        return `select ROAD_NM, NF_ID from aclogdbf2 where ${rskType()} is not null and sido = ${Number(
+        return `select ROAD_NM, NF_ID from aclogdbf3 where ${rskType()} is not null and sido = ${Number(
           String(region.city.cd).substring(0, 2)
         )} order by ${rskType()} desc limit 5`;
       } else {
-        return `select ROAD_NM, NF_ID from aclogdbf2 where ${rskType()} is not null order by ${rskType()} desc limit 5`;
+        return `select ROAD_NM, NF_ID from aclogdbf3 where ${rskType()} is not null order by ${rskType()} desc limit 5`;
       }
     };
-    const response = await axios.get(`http://localhost:4000/getTop5/${qryF()}`);
+    const response = await axios.get(`/getTop5/${qryF()}`);
     const rtrvdLst = response.data;
     // console.log("rsrch getTop5: ", rtrvdLst);
     setLD(false);

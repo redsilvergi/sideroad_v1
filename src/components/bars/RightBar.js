@@ -13,25 +13,6 @@ const RightBar = () => {
   const [renl, setRenL] = useState(
     <div className="lengthSum2 lengthReq2">선택구간연장요청</div>
   );
-  //AUXILIARY---------------------------------------------------
-  // const handleLength = useCallback(async () => {
-  //   setLD(true);
-  //   if (rnfo.rskOps.checkboxes.every((v) => v === false)) {
-  //     setLength(0);
-  //   } else {
-  //     const query = rsk ? queryR() : queryF();
-  //     console.log("query from RightBar.js:", "\n", query);
-  //     const response = await axios.get(
-  //       `http://localhost:4000/getLength/${query}` // /getLength/${query}
-  //     );
-  //     console.log("response.data: ", response.data / 1000);
-  //     console.log("response.data type: ", typeof response.data);
-  //     setLength(response.data / 1000);
-  //   }
-
-  //   setLD(false);
-  // }, [setLD, queryF, setLength, queryR, rnfo.rskOps.checkboxes, rsk]);
-
   //RENDER ITEMS-------------------------------------------------
   useEffect(() => {
     if (pick) {
@@ -81,10 +62,10 @@ const RightBar = () => {
           <Rrsk />
         </div>
         <div className="bottomright">
-          <div>
-            longlat: {view.longitude}, {view.latitude}
-          </div>
           <div className="zoomlevel">ZOOM LEVEL: {view.zoom.toFixed(2)}</div>
+          <div className="lnglat">
+            longlat: {view.longitude.toFixed(5)}, {view.latitude.toFixed(5)}
+          </div>
           <div className="tag">@Mapbox @OpenStreetMap @VWorld</div>
         </div>
       </div>

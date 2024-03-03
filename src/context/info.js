@@ -220,8 +220,6 @@ function InfoProvider({ children }) {
         setRsk,
         accRsk2a,
         setAccRsk2a,
-        // geoJ,
-        // setGeoJ,
         nfid,
         setNfid,
         pnfo,

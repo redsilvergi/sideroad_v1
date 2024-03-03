@@ -65,7 +65,6 @@
   top: 18px;
   left: 250px;
   width: 110px;
-  /* border: solid 1px #cccccc; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -93,19 +92,6 @@
     position: fixed;
     top: 10px;
     left: 60px;
-    /* width: 92px; */
-    /* height: 41px; */
-    /* background: #f2f7fb 0% 0% no-repeat padding-box; */
-    /* z-index: 1; */
-    /* display: flex; */
-    /* justify-content: center; */
-    /* align-items: center; */
-    /* cursor: pointer; */
-    /* font-size: 13px; */
-    /* border: 2px solid #0062af; */
-    /* border-radius: 9px; */
-    /* color: #0062af; */
-    /* font: normal normal 800 14px/17px NanumSquare; */
   }
   .regionExp {
     top: 5px;
@@ -151,6 +137,5 @@
   }
   .scrnSmll {
     top: 85px;
-    /* left */
   }
 }

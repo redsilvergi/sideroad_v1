@@ -102,7 +102,7 @@ const Rsrch = () => {
     setIsDrop(false);
     const rtrvd = await getSrchId(v);
     setNfidLst(rtrvd);
-    // console.log("Searching for: ", v); //to be erased
+    // console.log("Searching for: ", v);
     setLD(false);
   };
   const handleCloseInput = () => {
@@ -139,7 +139,7 @@ const Rsrch = () => {
                   value={sval}
                   onClick={handleClick}
                   onKeyDown={handleKeyDown}
-                  onFocus={handleFocus} // Added onFocus event handler
+                  onFocus={handleFocus}
                   onBlur={handleBlur}
                 />
               </div>

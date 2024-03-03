@@ -9,8 +9,6 @@ import { BsQuestionCircleFill } from "react-icons/bs";
 const AccrdRsk2b = () => {
   const { setRnfo, rsk, setRsk, setAccRsk2a, reset } = useInfo();
   const [tmpDv, setTmpDv] = useState(false);
-  // const [expandedIndex, setExpandedIndex] = useState([]);
-
   ///////////////////////////////////////////////////////////////
   const checklist = [
     {
@@ -76,57 +74,6 @@ const AccrdRsk2b = () => {
       ),
     },
   ];
-
-  // const updateInfoState = (nextIndex) => {
-  //   switch (items[nextIndex].id) {
-  //     case "도로구분":
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         roadOps: { ...prev.roadOps, selected: null, checkboxes: null },
-  //       }));
-  //       break;
-  //     case "차로수":
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         laneOps: { ...prev.laneOps, selected: null, checkboxes: null },
-  //       }));
-  //       break;
-  //     case "도로폭":
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         widthOps: { ...prev.widthOps, selected: null, checkboxes: null },
-  //       }));
-  //       break;
-  //     case "포장재질":
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         typeOps: { ...prev.typeOps, selected: null, checkboxes: null },
-  //       }));
-  //       break;
-  //     case "중앙분리대유무":
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         barrierOps: { ...prev.barrierOps, selected: null, checkboxes: null },
-  //       }));
-  //       break;
-
-  //     case "일방통행구분":
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         onewayOps: { ...prev.onewayOps, selected: null, checkboxes: null },
-  //       }));
-  //       break;
-  //     case "도로사용상태":
-  //       setInfo((prev) => ({
-  //         ...prev,
-  //         statusOps: { ...prev.statusOps, selected: null, checkboxes: null },
-  //       }));
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
-
   ///////////////////////////////////////////////////////////////////
   const handleClick = (itemId) => {
     setAccRsk2a(true);
@@ -143,11 +90,8 @@ const AccrdRsk2b = () => {
   const mout = () => {
     setTmpDv(false);
   };
-
   ///////////////////////////////////////////////////////////////////
-
   const renderedItems = items.map((item, index) => {
-    // const isExpanded = expandedIndex.includes(index);
     const isExpanded = rsk === item.id;
 
     return (

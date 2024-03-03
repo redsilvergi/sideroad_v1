@@ -75,11 +75,7 @@ const AccrdRsk2a = () => {
   const renderedItems = items.map((item, index) => {
     return rsk ? (
       !csvDiv ? (
-        <div
-          // style={{ margin: "10px 0 10px 12px" }}
-          className="rsk2a_top5req"
-          onClick={handleCsvList}
-        >
+        <div key={item.id} className="rsk2a_top5req" onClick={handleCsvList}>
           TOP5 요청
         </div>
       ) : (

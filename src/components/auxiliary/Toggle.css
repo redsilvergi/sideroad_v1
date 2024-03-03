@@ -4,13 +4,11 @@
   width: 37px;
   height: 21px;
 }
-
 #tg_input {
   opacity: 0;
   width: 0;
   height: 0;
 }
-
 #tg_span {
   position: absolute;
   cursor: pointer;
@@ -22,7 +20,6 @@
   transition: 0.3s;
   border-radius: 30px;
 }
-
 #tg_span:before {
   position: absolute;
   content: "";
@@ -34,15 +31,12 @@
   border-radius: 50%;
   transition: 0.3s;
 }
-
 #tg_input:checked + span {
   background-color: #0062af;
 }
-
 #tg_input:checked + span:before {
   transform: translateX(15px);
 }
-
 #tg_str {
   position: absolute;
   left: 100%;

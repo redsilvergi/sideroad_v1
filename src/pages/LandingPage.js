@@ -132,7 +132,6 @@ function LandingPage() {
                 fallac_rk: prp.FALLAC_RK,
               });
               setRight(true);
-              // setLength(Math.round(prp.ROAD_LT * 1000) / 1000000);
             }
           : null,
       // onHover:
@@ -160,29 +159,6 @@ function LandingPage() {
     setPnfo,
     setRight,
   ]);
-  // const layer2 = useMemo(() => {
-  //   return new ScatterplotLayer({
-  //     id: "layer2",
-  //     data: geoJ,
-  //     filled: true,
-  //     // getFillColor: [160, 160, 180, 200],
-  //     opacity: 1,
-  //     stroked: true,
-  //     filled: true,
-  //     radiusScale: 1,
-  //     // radiusMinPixels: 1,
-  //     // radiusMaxPixels: 1,
-  //     lineWidthMinPixels: 1,
-  //     lineWidthMaxPixels: 10,
-  //     getPosition: (d) => d.position,
-  //     getRadius: 10,
-  //     getFillColor: [255, 0, 0, 0],
-  //     getLineColor: [255, 0, 0, 255 * 0.7],
-  //     // pickable: true,
-  //     // autoHighlight: true,
-  //     // onClick: (d) => console.log(d.object),
-  //   });
-  // }, [geoJ]);
 
   const baselayer = useMemo(() => {
     return (

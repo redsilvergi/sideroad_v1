@@ -1,7 +1,7 @@
 .left_column {
   position: fixed;
   background-color: #0062af; /* #003762 */
-  z-index: 2;
+  z-index: 3;
   height: 100vh;
   width: 50px;
   display: flex;
@@ -167,13 +167,11 @@
   opacity: 1;
   left: 45px;
   top: 0px;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
   height: 100vh;
   width: 220px;
-  /* align-items: center; */
   border-right: solid transparent 3px;
   border-image: linear-gradient(to right, #b3b3b3, transparent) 1 100%;
   overflow: hidden;
@@ -241,15 +239,11 @@
   .left_column:hover .hvd_bottom {
     display: none;
   }
-}
-@media (max-width: 1015px) {
-  .filter {
-    bottom: 50px;
+  .bottom_cont:hover {
+    background-color: initial;
+    opacity: initial;
   }
-  .search {
-    bottom: 5px;
-  }
-  .guide {
-    display: none;
+  .bottom_cont.active {
+    background-color: initial;
   }
 }

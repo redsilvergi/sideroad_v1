@@ -280,7 +280,7 @@ const useQuery = () => {
       query = 0;
     }
 
-    console.log("query from use-query.js:", "\n", query);
+    // console.log("query from use-query.js:", "\n", query);
     return query;
   }, [info, region.city.cd, region.county.cd]);
 
@@ -354,7 +354,7 @@ const useQuery = () => {
     query =
       query.slice(-6) === "where " ? query.slice(0, -7) : query.slice(0, -5);
 
-    console.log("queryRsk:", "\n", query);
+    // console.log("queryRsk:", "\n", query);
     return query;
   }, [region.city.cd, region.county.cd, rnfo, rsk]);
   return { queryF, queryR };

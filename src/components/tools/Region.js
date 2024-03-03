@@ -164,7 +164,7 @@ const Region = () => {
         [4882000000, "고성군", 128.290663, 35.016304, 10.45, 8.5],
         [4825000000, "김해시", 128.845216, 35.272156, 10.45, 8.5],
         [4884000000, "남해군", 127.941141, 34.818291, 10.45, 8.5],
-        [4827000000, "밀양시", 128.689601, 35.4985, 10.4, 8.5],
+        [4827000000, "밀양시", 128.75895, 35.492352, 10, 8.5],
         [4824000000, "사천시", 127.937696, 35.049703, 10.5, 8.5],
         [4886000000, "산청군", 127.784338, 35.368597, 10, 8.5],
         [4833000000, "양산시", 128.941041, 35.401888, 10.4, 8.5],
@@ -470,8 +470,14 @@ const Region = () => {
       county: { cd: null, name: null },
     });
   };
+  const handleRgBtn = () => {
+    if (scrn < 1015) {
+      setRight(false);
+      setLeft(false);
+    }
+    setExp(1);
+  };
   ///////////////////////////////////////////////////////////////
-
   var rendered;
 
   switch (exp) {
@@ -490,11 +496,7 @@ const Region = () => {
               top: `${scrn < 1015 ? "11px" : "15px"}`,
               left: `${scrn < 1015 && "61px"}`,
             }}
-            onClick={() => {
-              setExp(1);
-              setRight(false);
-              setLeft(false);
-            }}
+            onClick={handleRgBtn}
           >
             지역선택
           </div>
@@ -531,11 +533,7 @@ const Region = () => {
       rendered = !region.city.cd ? (
         <div
           className={`region ${left ? "" : "rmv_region"}`}
-          onClick={() => {
-            setExp(1);
-            setRight(false);
-            setLeft(false);
-          }}
+          onClick={handleRgBtn}
         >
           지역선택
         </div>
@@ -552,11 +550,7 @@ const Region = () => {
               top: `${scrn < 1015 ? "11px" : "15px"}`,
               left: `${scrn < 1015 && "61px"}`,
             }}
-            onClick={() => {
-              setExp(1);
-              setRight(false);
-              setLeft(false);
-            }}
+            onClick={handleRgBtn}
           >
             지역선택
           </div>
@@ -580,11 +574,7 @@ const Region = () => {
       rendered = (
         <div
           className={`region ${left ? "" : "rmv_region"}`}
-          onClick={() => {
-            setExp(1);
-            setRight(false);
-            setLeft(false);
-          }}
+          onClick={handleRgBtn}
         >
           지역선택
         </div>

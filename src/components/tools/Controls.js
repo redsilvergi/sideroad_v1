@@ -11,19 +11,19 @@ const Controls = () => {
     isFilter,
     setIsFilter,
     right,
-    info,
-    pick,
-    view,
     setView,
+    scrn,
+    // info,
+    // pick,
+    // view,
     // depth1,
-    length,
+    // length,
     // setLength,
-    region,
+    // region,
     // istgl,
     // setLD,
-    rsk,
-    rnfo,
-    scrn,
+    // rsk,
+    // rnfo,
   } = useInfo();
   // const { queryF } = useQuery();
 
@@ -92,7 +92,7 @@ const Controls = () => {
       <button className="toggle_button" onClick={() => setIsFilter(!isFilter)}>
         <BiHide />
       </button>
-      <button
+      {/* <button
         className="toggle_button"
         onClick={() =>
           console.log(
@@ -120,7 +120,7 @@ const Controls = () => {
         }
       >
         VS
-      </button>
+      </button> */}
       {/* <button className="toggle_button" onClick={queryF}>
         QRY
       </button> */}
