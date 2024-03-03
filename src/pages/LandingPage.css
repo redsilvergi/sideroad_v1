@@ -183,29 +183,12 @@
     opacity: 0;
   }
 }
-
-/* @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    } */
-
 .slider {
   width: 100%;
 }
-
 .pointer-coordinates {
   z-index: 10;
   position: fixed;
   right: 10px;
   bottom: 300px;
-}
-
-@media (max-width: 1015px) {
-  #region {
-    display: none;
-  }
 }

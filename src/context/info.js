@@ -174,8 +174,8 @@ function InfoProvider({ children }) {
   });
   const [istgl, setIstgl] = useState(false);
   const [bar, setBar] = useState(1);
-  const [left, setLeft] = useState(true);
-  const [right, setRight] = useState(true);
+  const [left, setLeft] = useState(false);
+  const [right, setRight] = useState(false);
   const [pick, setPick] = useState(null);
   const [hov, setHov] = useState(null);
   const [rsk, setRsk] = useState("교통사고");

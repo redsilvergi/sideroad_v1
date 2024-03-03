@@ -27,6 +27,7 @@ function LandingPage() {
     LD,
     setLength,
     istgl,
+    left,
     right,
     pick,
     setPick,
@@ -55,11 +56,9 @@ function LandingPage() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [setScrn]);
   useEffect(() => {
     if (scrn < 1015) {
-      setLeft(false);
-      setRight(false);
       setView({
         longitude: 127.5176755984492,
         latitude: 36.87856478678846,
@@ -67,8 +66,11 @@ function LandingPage() {
         bearing: 0,
         pitch: 0,
       });
+    } else {
+      setLeft(true);
+      setRight(true);
     }
-  }, []);
+  }, [scrn, setLeft, setRight, setView]);
   //LAYER ---------------------------------------------------
   const layer1 = useMemo(() => {
     return new MVTLayer({
@@ -156,6 +158,7 @@ function LandingPage() {
     setView,
     rnfo,
     setPnfo,
+    setRight,
   ]);
   // const layer2 = useMemo(() => {
   //   return new ScatterplotLayer({
@@ -258,12 +261,21 @@ function LandingPage() {
       <LeftBar />
       {right && <RightBar />}
       <div className="container">
-        <div id="region">
-          <Region />
-        </div>
-        <Landbase basemap={basemap} setBasemap={setBasemap} />
-        <Basemap basemap={basemap} setBasemap={setBasemap} />
-        <Controls />
+        {/* {scrn < 1015 ? !left && !right && <Region /> : <Region />} */}
+        <Region />
+        {scrn < 1015 ? (
+          !left &&
+          !right && <Landbase basemap={basemap} setBasemap={setBasemap} />
+        ) : (
+          <Landbase basemap={basemap} setBasemap={setBasemap} />
+        )}
+        {scrn < 1015 ? (
+          !left &&
+          !right && <Basemap basemap={basemap} setBasemap={setBasemap} />
+        ) : (
+          <Basemap basemap={basemap} setBasemap={setBasemap} />
+        )}
+        {scrn < 1015 ? !left && !right && <Controls /> : <Controls />}
         {istgl && legend}
         {/* <MapComponent view={view} /> */}
         <DeckGL

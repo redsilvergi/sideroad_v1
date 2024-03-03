@@ -10,7 +10,6 @@
 .left_column:hover {
   width: 250px;
 }
-
 .left_column a {
   display: flex;
   font-size: 17px;
@@ -35,7 +34,6 @@
   background-color: #00457c;
   margin: 0 0 12px 0;
 }
-
 .riskBT,
 .propBT {
   color: #fcfcfd;
@@ -88,7 +86,6 @@
 .left_column:hover .hvd {
   display: block;
 }
-
 .filter {
   color: #fcfcfd;
   height: 45px;
@@ -134,7 +131,6 @@
 .left_column:hover .hvd_bottom {
   display: block;
 }
-
 .search {
   color: #fcfcfd;
   height: 45px;
@@ -150,7 +146,6 @@
   width: 70%;
   height: 70%;
 }
-
 .guide {
   color: #fcfcfd;
   height: 45px;
@@ -166,7 +161,6 @@
   width: 85%;
   height: 85%;
 }
-
 .detail_div {
   position: fixed;
   background-color: #fcfcfd;
@@ -203,39 +197,27 @@
   display: block;
   width: 85%;
 }
-
 .info > p {
   font-size: 0.8rem;
 }
-
 .info_button:hover {
   opacity: 0.5;
 }
-
 .info_button_div {
   margin-top: 0.5rem;
   display: flex;
   justify-content: space-between;
 }
-
 .prep {
   padding: 0.75rem;
   border-bottom: solid 1px #cccccc;
   border-top: solid 1px #cccccc;
 }
-
-/* .footnote {
-  font-size: 8px;
-  color: #cccccc;
-  padding: 20px;
-} */
-
 .fnt {
   font-weight: 900;
   color: #003762;
   font-size: 9px;
 }
-
 .roadNo {
   display: flex;
   justify-content: space-between;
@@ -245,78 +227,6 @@
   margin: 10px;
   color: #cccccc;
 }
-/* 
-.roadNo div {
-  color: #808080;
-  font-size: 8pt;
-}
-
-.roadNo:hover {
-  background-color: #e5fcf6;
-}
-.selectRoad {
-  width: 180px;
-  margin: 10px;
-  font-size: 8pt;
-  padding: 5px;
-  border-bottom: solid #cccccc 1px;
-  border-radius: 0% !important;
-}
-.css-13cymwt-control {
-  border-radius: 0px !important;
-}
-
-.css-t3ipsp-control {
-  border-radius: 0px !important;
-  border-color: #cccccc;
-}
-
-.css-t3ipsp-control:hover {
-  border-color: #cccccc !important;
-  background-color: #e5fcf6 !important;
-  box-shadow: 0 0 0 1px #e5fcf6;
-}
-
-.css-t3ipsp-control:active {
-  border-color: #cccccc !important;
-}
-
-.css-10wo9uf-option:hover {
-  background-color: #e5fcf6 !important;
-} */
-
-/* .guide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-  margin-bottom: 15px;
-  color: white;
-  border-radius: 10%;
-} */
-
-/* .guide:hover {
-  background-color: #e5ebef;
-  cursor: pointer;
-} */
-
-/* .guide2 {
-  display: none;
-  position: fixed;
-  left: 25px;
-  bottom: 50px;
-  z-index: 2;
-  background-color: white;
-  border-radius: 5px;
-  padding: 5px 12px 5px 12px;
-  font-size: 10pt;
-  color: #808080;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-} */
-
-/* .guide:hover + .guide2 {
-  display: block;
-} */
 
 @media (hover: none) {
   .left_column:hover {
@@ -329,6 +239,17 @@
     display: none;
   }
   .left_column:hover .hvd_bottom {
+    display: none;
+  }
+}
+@media (max-width: 1015px) {
+  .filter {
+    bottom: 50px;
+  }
+  .search {
+    bottom: 5px;
+  }
+  .guide {
     display: none;
   }
 }

@@ -16,7 +16,9 @@ const Dropdown = ({ options, handleOps, type }) => {
                 ? "selected"
                 : ""
             }`}
-            onClick={() => handleOps(opt[0], opt[1], opt[2], opt[3], opt[4])}
+            onClick={() =>
+              handleOps(opt[0], opt[1], opt[2], opt[3], opt[4], opt[5])
+            }
           >
             {opt[1]}
           </li>

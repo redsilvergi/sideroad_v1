@@ -60,12 +60,9 @@ const AccrdRsk2a = () => {
   }, [handleNoIcon, getCord, getTop5]);
   // USEEFFECT -----------------------------------------------
   useEffect(() => {
-    if (!rsk) {
-      setCsvDiv(null);
-    } else {
-      handleCsvList();
-    }
-  }, [rsk, handleCsvList, region]);
+    setCsvDiv(null);
+  }, [rsk, region]);
+
   ///////////////////////////////////////////////////////////////
   const items = [
     {
@@ -77,29 +74,39 @@ const AccrdRsk2a = () => {
 
   const renderedItems = items.map((item, index) => {
     return rsk ? (
-      <div key={item.id} className={`${item.id + "_rsk2a_accitem"}`}>
+      !csvDiv ? (
         <div
-          className={`rsk2a_d1 ${item.id + "_rsk2a_d1"}`}
-          onClick={() => setAccRsk2a(!accRsk2a)}
+          // style={{ margin: "10px 0 10px 12px" }}
+          className="rsk2a_top5req"
+          onClick={handleCsvList}
         >
-          <div className="rsk2a_label">{item.label}</div>
-          <div className="rsk2a_line"></div>
-          <div className="rsk2a_icon">
-            {accRsk2a ? <FiMinus /> : <FiPlus />}
-          </div>
+          TOP5 요청
         </div>
-        {accRsk2a && (
-          <div className={`rsk2a_expanded ${item.id + "_rsk2a_exp"}`}>
-            {item.content}
-            <div
-              className="rsk2a_dwnld"
-              onClick={async () => await getCsv(nfList)}
-            >
-              CSV 데이터 다운로드
+      ) : (
+        <div key={item.id} className={`${item.id + "_rsk2a_accitem"}`}>
+          <div
+            className={`rsk2a_d1 ${item.id + "_rsk2a_d1"}`}
+            onClick={() => setAccRsk2a(!accRsk2a)}
+          >
+            <div className="rsk2a_label">{item.label}</div>
+            <div className="rsk2a_line"></div>
+            <div className="rsk2a_icon">
+              {accRsk2a ? <FiMinus /> : <FiPlus />}
             </div>
           </div>
-        )}
-      </div>
+          {accRsk2a && (
+            <div className={`rsk2a_expanded ${item.id + "_rsk2a_exp"}`}>
+              {item.content}
+              <div
+                className="rsk2a_dwnld"
+                onClick={async () => await getCsv(nfList)}
+              >
+                CSV 데이터 다운로드
+              </div>
+            </div>
+          )}
+        </div>
+      )
     ) : (
       <div style={{ margin: "10px 0 10px 0" }}>아래 사고유형을 선택하세요</div>
     );

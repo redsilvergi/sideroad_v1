@@ -25,10 +25,12 @@ const Basemap = ({ basemap, setBasemap }) => {
     switch (basemap) {
       case "mapbox://styles/redsilver522/clmp6c5lw01xs01r64d5v09jn":
         return "일반지도";
-      case null: //"mapbox://styles/redsilver522/cll63rilr00aj01q08hjfa03s"
+      case "mapbox://styles/redsilver522/cll63rilr00aj01q08hjfa03s":
         return "위성사진";
       case "mapbox://styles/redsilver522/cll6424pf00al01q0c5kz3w07":
         return "위성흑백";
+      case null: //"mapbox://styles/redsilver522/cll63rilr00aj01q08hjfa03s"
+        return "브이월드";
       case "mapbox://styles/redsilver522/clmp8ra0e01wd01ra0k0731dw":
         return "토지이용계획도";
       default:
@@ -66,13 +68,14 @@ const Basemap = ({ basemap, setBasemap }) => {
             <li
               onClick={() => {
                 setBasemap(
-                  null // "mapbox://styles/redsilver522/cll63rilr00aj01q08hjfa03s"
+                  "mapbox://styles/redsilver522/cll63rilr00aj01q08hjfa03s"
                 );
                 setIstgl(false);
               }}
             >
               위성사진
             </li>
+
             <li
               onClick={() => {
                 setBasemap(
@@ -82,6 +85,16 @@ const Basemap = ({ basemap, setBasemap }) => {
               }}
             >
               위성흑백
+            </li>
+            <li
+              onClick={() => {
+                setBasemap(
+                  null // "mapbox://styles/redsilver522/cll63rilr00aj01q08hjfa03s"
+                );
+                setIstgl(false);
+              }}
+            >
+              브이월드
             </li>
           </ul>
         </div>
