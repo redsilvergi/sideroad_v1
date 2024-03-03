@@ -39,6 +39,10 @@
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
+.landusenoright {
+  right: 10px;
+  bottom: 30px;
+}
 .g1 {
   grid-column-start: 1;
   grid-column-end: 3;
@@ -159,4 +163,15 @@
   position: fixed;
   right: 10px;
   bottom: 300px;
+}
+
+@media (max-width: 1015px) {
+  .landuse {
+    display: none;
+  }
+  .landusenoright {
+    display: grid;
+    right: 5px;
+    bottom: 5px;
+  }
 }

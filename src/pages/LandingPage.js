@@ -215,7 +215,7 @@ function LandingPage() {
     setPick(null);
   }, [setPick, region, info, rnfo]);
   const legend = (
-    <div className="landuse">
+    <div className={`landuse ${right ? "" : "landusenoright"}`}>
       <div className="g1">지도 범례</div>
       <div className="gitem g2">
         <div id="b1"></div>주거지역
