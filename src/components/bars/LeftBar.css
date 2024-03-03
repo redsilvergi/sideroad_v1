@@ -2,7 +2,7 @@
   position: fixed;
   background-color: #0062af; /* #003762 */
   z-index: 3;
-  height: 100vh;
+  height: 100%;
   width: 50px;
   display: flex;
   flex-direction: column;

@@ -377,7 +377,7 @@ const useColor = () => {
         } else if (rskVal === 5) {
           return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
         } else {
-          return [0, 0, 0, 255 * 1];
+          return [0, 0, 0, 255 * 0.05];
         }
       } else {
         return [0, 0, 0, 255 * 0.05];
@@ -398,7 +398,7 @@ const useColor = () => {
         } else if (rskVal === 5) {
           return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
         } else {
-          return [0, 0, 0, 255 * 1];
+          return [0, 0, 0, 255 * 0.05];
         }
       } else {
         return [0, 0, 0, 255 * 0.05];
