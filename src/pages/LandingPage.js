@@ -165,7 +165,7 @@ function LandingPage() {
       !basemap &&
       new TileLayer({
         id: "baselayer",
-        data: "http://api.vworld.kr/req/wmts/1.0.0/EE923334-C29E-3907-BCA8-15D3CF0A5B3B/Satellite/{z}/{y}/{x}.jpeg",
+        data: "https://api.vworld.kr/req/wmts/1.0.0/EE923334-C29E-3907-BCA8-15D3CF0A5B3B/Satellite/{z}/{y}/{x}.jpeg",
         minZoom: 0,
         maxZoom: 19,
         tileSize: 256,
