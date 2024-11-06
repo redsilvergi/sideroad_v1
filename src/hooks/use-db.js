@@ -1,30 +1,33 @@
-import useInfo from "./use-info";
-import useQuery from "./use-query";
-import { useCallback } from "react";
-import axios from "axios";
-import { FaExternalLinkAlt } from "react-icons/fa";
+import useInfo from './use-info';
+import useQuery from './use-query';
+import { useCallback } from 'react';
+import axios from 'axios';
+import { FaExternalLinkAlt } from 'react-icons/fa';
+import { useViewUpdate } from '../../src/context/view';
 
 const useDb = () => {
   const {
     setLD,
     setPick,
-    setView,
     rsk,
     setPnfo,
     setLength,
     rnfo,
-    region,
     setRight,
     setLeft,
     scrn,
+    setGenfo,
+    ldcuid,
   } = useInfo();
+
+  const setView = useViewUpdate();
   const { queryF, queryR } = useQuery();
   /////////////////////////////////////////////////////////
   const getCord = useCallback(
     async (item) => {
       setLD(true);
       // console.log(item);
-      const response = await axios.get(`/getCord/${item}`);
+      const response = await axios.get(`http://localhost:4000/getCord/${item}`);
       // console.log("getCord response at use-de.js: ", response);
       setPick(item);
       if (response.data) {
@@ -56,7 +59,7 @@ const useDb = () => {
           fallac_rk: data.fallac_rk,
         });
       } else {
-        console.log("no data fetched from getCord at use-db.js");
+        console.log('no data fetched from getCord at use-db.js');
       }
       if (scrn < 1015) {
         setLeft(false);
@@ -71,12 +74,12 @@ const useDb = () => {
   const getCsv = useCallback(
     async (nfList) => {
       setLD(true);
-      const nf_ids = nfList.map((item) => `'${item}'`).join(",");
+      const nf_ids = nfList.map((item) => `'${item}'`).join(',');
       const query = `select NF_ID, ROAD_NM, ROAD_SE, PMTR_SE, EDENNC_AT, CARTRK_CO, ROAD_BT, OSPS_SE, SLOPE_LG, PBULD_FA, BULDE_DE, SDWK_SE, STAIR_AT, RDNET_AC, PEDAC_RK, CRIME_RK, FLOOD_RK, CRWDAC_RK, FALLAC_RK, PUBTR_AC, ROAD_LT, long, lat from side10 where NF_ID in (${nf_ids})`;
-      const response = await axios.get(`/getCsv/${query}`);
+      const response = await axios.get(`http://localhost:4000/getCsv/${query}`);
       // console.log("csvlistdwn: ", response.data);
       // Construct CSV string and Adding BOM(Byte Order Mark) for UTF-8 Encoding
-      const BOM = "\uFEFF";
+      const BOM = '\uFEFF';
       const csvRows = response.data
         .map((row) => {
           return row
@@ -86,38 +89,34 @@ const useDb = () => {
               }
               return value; // Return non-numeric values unchanged
             })
-            .join(",");
+            .join(',');
         })
-        .join("\n");
+        .join('\n');
       const csvContent = BOM + csvRows; // Prepend BOM
       // Using Blob for potentially large data sets or special characters
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.setAttribute("href", url);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
       link.setAttribute(
-        "download",
-        `${rsk}_${
-          region.county.name
-            ? region.city.name + "_" + region.county.name
-            : region.city.name
-            ? region.city.name
-            : "전국"
-        }_top5.csv`
+        'download',
+        `${rsk}_${ldcuid ? ldcuid[2] : '전국'}_top5.csv`
       );
       document.body.appendChild(link); //required for firefox
       link.click();
       URL.revokeObjectURL(url); // Clean up to avoid memory leaks
       setLD(false);
     },
-    [rsk, setLD, region.city.name, region.county.name]
+    [rsk, setLD, ldcuid]
   );
 
   /////////////////////////////////////////////////////////
   const getSrchId = useCallback(
     async (rdnm) => {
       var qry = `select NF_ID from side10 where ROAD_NM = '${rdnm}'`;
-      const response = await axios.get(`/getSrchId/${qry}`);
+      const response = await axios.get(
+        `http://localhost:4000/getSrchId/${qry}`
+      );
       // console.log("rsrch getsrchid: ", response.data);
       const rtrvdLst = response.data;
       const nfidLst = rtrvdLst.map((item, id) => {
@@ -151,7 +150,7 @@ const useDb = () => {
       } else {
         // console.log("query from use-db.js:", "\n", query);
         const response = await axios.get(
-          `/getLength/${query}` // /getLength/${query}
+          `http://localhost:4000/getLength/${query}` // /getLength/${query}
         );
         // console.log("response.data: ", response.data / 1000);
         // console.log("response.data type: ", typeof response.data);
@@ -165,41 +164,119 @@ const useDb = () => {
     setLD(true);
     const rskType = () => {
       switch (rsk) {
-        case "교통사고":
-          return "PEDAC";
-        case "범죄사고":
-          return "CRIME";
-        case "재해사고":
-          return "FLOOD";
-        case "밀집사고":
-          return "CRWD";
-        case "낙상사고":
-          return "FALLAC";
+        case '교통사고':
+          return 'PEDAC';
+        case '범죄사고':
+          return 'CRIME';
+        case '재해사고':
+          return 'FLOOD';
+        case '밀집사고':
+          return 'CRWD';
+        case '낙상사고':
+          return 'FALLAC';
         default:
           break;
       }
     };
     const qryF = () => {
-      if (region.county.cd) {
+      if (ldcuid && ldcuid[4].slice(2) !== '000') {
         return `select ROAD_NM, NF_ID from aclogdbf3 where ${rskType()} is not null and LEGLCD_SE = '${
-          region.county.cd
-        }' order by ${rskType()} desc limit 5`;
-      } else if (region.city.cd) {
+          ldcuid[4]
+        }%' order by ${rskType()} desc limit 5`;
+      } else if (ldcuid && ldcuid[4].slice(2) === '000') {
         return `select ROAD_NM, NF_ID from aclogdbf3 where ${rskType()} is not null and sido = ${Number(
-          String(region.city.cd).substring(0, 2)
+          ldcuid[4].slice(0, 2)
         )} order by ${rskType()} desc limit 5`;
       } else {
         return `select ROAD_NM, NF_ID from aclogdbf3 where ${rskType()} is not null order by ${rskType()} desc limit 5`;
       }
     };
-    const response = await axios.get(`/getTop5/${qryF()}`);
+    const response = await axios.get(`http://localhost:4000/getTop5/${qryF()}`);
     const rtrvdLst = response.data;
     // console.log("rsrch getTop5: ", rtrvdLst);
     setLD(false);
     return rtrvdLst;
-  }, [rsk, setLD, region.city.cd, region.county.cd]);
+  }, [rsk, setLD, ldcuid]);
+
+  const getEcon = useCallback(
+    async (citem, ldc, yr) => {
+      setLD(true);
+      const response = await axios.get(
+        `http://localhost:4000/getEcon/${citem}/${ldc}/${yr}`
+      );
+      // console.log('getEcon at use-db', response.data);
+      // const lst = response.data;
+      // const lst2 = lst.map((item, id, arr) => {
+      //   if (id === lst.length - 1) {
+      //     return { ...item, sum_pd: null };
+      //   } else {
+      //     const cursum = parseFloat(item.sum);
+      //     const presum = parseFloat(arr[id + 1].sum);
+      //     console.log('cursum&presum: ????', cursum, presum);
+
+      //     const sum_pd = (cursum / presum - 1) * 100;
+      //     return { ...item, sum_pd: parseFloat(sum_pd.toFixed(2)) };
+      //   }
+      // });
+
+      // console.log(lst2);
+      setGenfo(response.data);
+      setLD(false);
+    },
+    [setLD, setGenfo]
+  );
+
+  const getReg = useCallback(async () => {
+    setLD(true);
+    const response = await axios.get(`http://localhost:4000/getReg`);
+    // console.log('getReg at use-db', response.data);
+    setLD(false);
+    return response.data;
+  }, [setLD]);
+
+  const getBar2sido = useCallback(
+    async (tablenm, yr) => {
+      setLD(true);
+      // console.log(
+      //   'getbar2sido axios at use-db',
+      //   `http://localhost:4000/getBar2sido/${tablenm}/${yr}`
+      // );
+
+      const response = await axios.get(
+        `http://localhost:4000/getBar2sido/${tablenm}/${yr}`
+      );
+      // console.log('getBar2sido at use-db', response.data);
+      setLD(false);
+      return response.data;
+    },
+    [setLD]
+  );
+
+  const getBar2sgg = useCallback(
+    async (tablenm, sidotmp, yr) => {
+      setLD(true);
+      const response = await axios.get(
+        `http://localhost:4000/getBar2sgg/${tablenm}/${sidotmp}/${yr}`
+      );
+      // console.log('getBar2sgg at use-db', response.data);
+      setLD(false);
+      return response.data;
+    },
+    [setLD]
+  );
+
   /////////////////////////////////////////////////////////
-  return { getCord, getCsv, getSrchId, getLength, getTop5 };
+  return {
+    getCord,
+    getCsv,
+    getSrchId,
+    getLength,
+    getTop5,
+    getEcon,
+    getReg,
+    getBar2sido,
+    getBar2sgg,
+  };
 };
 
 export default useDb;

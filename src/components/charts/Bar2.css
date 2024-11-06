@@ -1,0 +1,36 @@
+.bar2_d1 {
+  margin: 15px 0 0 0;
+  background-color: #f8f8f8;
+  border-radius: 15px;
+  width: 100%;
+  font-size: 10px;
+}
+.bar2_d2 {
+  height: 75px;
+}
+.bar2_ttp {
+  /* z-index: 10; */
+  background-color: #ffffff;
+  padding: 5px 15px 3px 15px;
+  border-radius: 10px;
+  border: 0.5px solid rgba(128, 128, 128, 0.3);
+  opacity: 90%;
+  font-size: 9px;
+}
+.bar2_ttp_lbl {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0 5px 0;
+  width: 80px;
+}
+.bar2_cirtxt {
+  display: flex;
+  align-items: center;
+}
+.bar2_cirs {
+  border-radius: 100%;
+  width: 5px;
+  height: 5px;
+  margin: 0 5px 0 0;
+}

@@ -1,4 +1,4 @@
-.dropdown {
+.ctdd {
   overflow: auto;
   height: 190px;
   width: 100px;
@@ -6,28 +6,25 @@
   font-size: 11px;
   text-align: center;
 }
-.dropdown.coun_dd {
-  width: 120px;
-}
-.dropdown ul {
+.ctdd ul {
   list-style-type: none;
   padding-inline-start: 0px;
   margin-block-start: 0px;
   margin-block-end: 0px;
 }
-.option-checkbox {
+/* .option-checkbox {
   display: none;
-}
-.option-label {
+} */
+.ctdd_option_label {
   display: block;
   padding: 3px 5px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
-.option-label:hover {
+.ctdd_option_label:hover {
   background-color: #e5ebef;
 }
-.option-label.selected {
+.ctdd_option_label.selected {
   color: #0062af;
   font-weight: 900;
 }

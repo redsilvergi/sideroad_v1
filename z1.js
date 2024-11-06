@@ -28,7 +28,7 @@ const layer2 = useMemo(() => {
   });
 }, [view.zoom, hl]);
 
-//footnote -----------------------------------------------------
+//footnote ----------------------------------------------------------------------
 <div className="footnote">
   <div className="fnt">데이터 출처</div>
   <div style={{ marginTop: "7px" }}>
@@ -40,7 +40,7 @@ const layer2 = useMemo(() => {
   <div>*시차로 인한 속성정보 누락구간에 유의·활용 바랍니다.</div>
 </div>;
 
-//LAYER ---------------------------------------------------
+//LAYER ----------------------------------------------------------------------
 const layer2 = useMemo(() => {
   return new MVTLayer({
     id: "mvt-layer2",
@@ -64,3 +64,127 @@ const layer2 = useMemo(() => {
   });
 }, [data, view.zoom, isFilter, info, getRoadColor, region]);
 const layers = [layer2];
+
+
+//table1 ----------------------------------------------------------------------
+
+        tdataF = () => {
+          const keys = ['sum', 'age0_12', 'age13_64', 'age65_200'];
+          const res = keys.map((key, id) => {
+            const transformed = [];
+            const transformed_pd = [];
+            tmp &&
+              tmp.forEach((item) => {
+                //   const yrint = yr ? parseInt(yr.slice(0, 4), 10) : 2023;
+                if (
+                  parseInt(item.yr, 10) <= yrint &&
+                  parseInt(item.yr, 10) >= yrint - 4
+                ) {
+                  transformed.push(item[key]);
+                  transformed_pd.push(item[`${key}_pd`]);
+                }
+              });
+            return { transformed: transformed, transformed_pd: transformed_pd };
+          });
+          return res;
+        };
+
+        tdata =
+          tmp &&
+          tmp.map((item, id) => {l).reverse();
+
+              const yrint = parseInt(yr.slice(0,4),10);
+              if (parseInt(item.yr,10) <= yrint && parseInt(item.yr,10) >= yrint - 4) {
+                  return [item.sum2, item.age0_12, item.age13_64, item.age65_200];
+              } else {
+                  return null
+              }
+
+            }).filter((item)=>item!==nul
+        tdata =
+          genfo &&
+          genfo
+            .slice(0, 5)
+            .map((item, id) => {
+              return [item.sum, item.age0_12, item.age13_64, item.age65_200];
+            })
+            .reverse();
+
+        return (
+          data &&
+          data.map((item, id, arr) => {
+            if (id === genfo.length - 1) {
+              return { ...item, sum_pd: null };
+            } else {
+              const cursum = parseFloat(item.sum2);
+              const presum = parseFloat(arr[id + 1].sum2);
+              console.log('cursum & presum:', cursum, presum);
+              const sum_pd = (cursum / presum - 1) * 100;
+              return { ...item, sum_pd: parseFloat(sum_pd.toFixed(2)) };
+            }
+          })
+        );
+
+        updowndata =
+          genfo &&
+          genfo
+            .slice(0, genfo.length - 1)
+            .map((item, index) => {
+              return [
+                ((item.sum - genfo[index + 1].sum) / genfo[index + 1].sum) * 100,
+                ((item.age0_12 - genfo[index + 1].age0_12) /
+                  genfo[index + 1].age0_12) *
+                  100,
+                ((item.age13_64 - genfo[index + 1].age13_64) /
+                  genfo[index + 1].age13_64) *
+                  100,
+                ((item.age65_200 - genfo[index + 1].age65_200) /
+                  genfo[index + 1].age65_200) *
+                  100,
+              ];
+            })
+            .reverse();
+
+
+
+            {/* 
+          <td>
+            {tdata && tdata[id] && !isNaN(tdata[id][4]) ? tdata[id][4] : ''}
+          </td>
+          <td>
+            {tdata_pd && tdata_pd[id] && !isNaN(tdata_pd[id][4])
+              ? tdata_pd[id][4]
+              : ''}
+          </td>
+          <td>
+            {tdata && tdata[id] && !isNaN(tdata[id][3]) ? tdata[id][3] : ''}
+          </td>
+          <td>
+            {tdata_pd && tdata_pd[id] && !isNaN(tdata_pd[id][3])
+              ? tdata_pd[id][3]
+              : ''}
+          </td>
+          <td>
+            {tdata && tdata[id] && !isNaN(tdata[id][2]) ? tdata[id][2] : ''}
+          </td>
+          <td>
+            {tdata_pd && tdata_pd[id] && !isNaN(tdata_pd[id][2])
+              ? tdata_pd[id][2]
+              : ''}
+          </td>
+          <td>
+            {tdata && tdata[id] && !isNaN(tdata[id][1]) ? tdata[id][1] : ''}
+          </td>
+          <td>
+            {tdata_pd && tdata_pd[id] && !isNaN(tdata_pd[id][1])
+              ? tdata_pd[id][1]
+              : ''}
+          </td>
+          <td>
+            {tdata && tdata[id] && !isNaN(tdata[id][0]) ? tdata[id][0] : ''}
+          </td>
+          <td>
+            {tdata_pd && tdata_pd[id] && !isNaN(tdata_pd[id][0])
+              ? tdata_pd[id][0]
+              : ''}
+          </td> */}

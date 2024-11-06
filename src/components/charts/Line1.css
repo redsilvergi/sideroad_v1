@@ -1,0 +1,34 @@
+.line1_d1 {
+  margin: 0 0 10px 0;
+  background-color: #ffffff;
+  border-radius: 15px;
+  width: 100%;
+  font-size: 10px;
+}
+
+.line1_ttp {
+  /* z-index: 10; */
+  background-color: #ffffff;
+  padding: 5px 15px 3px 15px;
+  border-radius: 10px;
+  border: 0.5px solid rgba(128, 128, 128, 0.3);
+  opacity: 90%;
+  font-size: 9px;
+}
+.line1_ttp_lbl {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0 5px 0;
+  width: 80px;
+}
+.line1_cirtxt {
+  display: flex;
+  align-items: center;
+}
+.line1_cirs {
+  border-radius: 100%;
+  width: 5px;
+  height: 5px;
+  margin: 0 5px 0 0;
+}

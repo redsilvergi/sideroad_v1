@@ -33,6 +33,7 @@
   background-color: #00457c;
   margin: 0 0 12px 0;
 }
+.genBT,
 .riskBT,
 .propBT {
   color: #fcfcfd;
@@ -43,8 +44,12 @@
   line-height: 45px;
   align-items: center;
 }
+.genBT:hover,
 .riskBT:hover,
 .propBT:hover {
+  background-color: #0083ea;
+}
+.genBT.active {
   background-color: #0083ea;
 }
 .riskBT.active {

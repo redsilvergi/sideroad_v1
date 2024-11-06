@@ -1,7 +1,7 @@
-import useInfo from "./use-info";
+import useInfo from './use-info';
 
 const useColor = () => {
-  const { info, region, pick, rnfo, rsk } = useInfo();
+  const { info, pick, rnfo, rsk, ldcuid } = useInfo();
 
   const conditionF = (obj) => {
     const {
@@ -15,7 +15,7 @@ const useColor = () => {
       stairOps,
       sdwkOps,
     } = info;
-    const { city, county } = region;
+    // const { city, county } = region;
 
     if (rdbtOps && rdbtOps.checkboxes) {
       var rdbtConditions = rdbtOps.checkboxes
@@ -91,19 +91,19 @@ const useColor = () => {
           if (pmtrOp) {
             switch (index) {
               case 0:
-                return (feature) => feature.properties.PMTR_SE === "PVM001";
+                return (feature) => feature.properties.PMTR_SE === 'PVM001';
               case 1:
-                return (feature) => feature.properties.PMTR_SE === "PVM003";
+                return (feature) => feature.properties.PMTR_SE === 'PVM003';
               case 2:
-                return (feature) => feature.properties.PMTR_SE === "PVM004";
+                return (feature) => feature.properties.PMTR_SE === 'PVM004';
               case 3:
-                return (feature) => feature.properties.PMTR_SE === "PVM005";
+                return (feature) => feature.properties.PMTR_SE === 'PVM005';
               case 4:
                 return (feature) =>
-                  feature.properties.PMTR_SE !== "PVM001" &&
-                  feature.properties.PMTR_SE !== "PVM003" &&
-                  feature.properties.PMTR_SE !== "PVM004" &&
-                  feature.properties.PMTR_SE !== "PVM005";
+                  feature.properties.PMTR_SE !== 'PVM001' &&
+                  feature.properties.PMTR_SE !== 'PVM003' &&
+                  feature.properties.PMTR_SE !== 'PVM004' &&
+                  feature.properties.PMTR_SE !== 'PVM005';
               default:
                 return null;
             }
@@ -255,9 +255,9 @@ const useColor = () => {
           if (stairOp) {
             switch (index) {
               case 0:
-                return (feature) => feature.properties.STAIR_AT === "1";
+                return (feature) => feature.properties.STAIR_AT === '1';
               case 1:
-                return (feature) => feature.properties.STAIR_AT === "0";
+                return (feature) => feature.properties.STAIR_AT === '0';
               default:
                 return null;
             }
@@ -275,11 +275,11 @@ const useColor = () => {
           if (sdwkOp) {
             switch (index) {
               case 0:
-                return (feature) => feature.properties.SDWK_SE === "SDW002";
+                return (feature) => feature.properties.SDWK_SE === 'SDW002';
               case 1:
-                return (feature) => feature.properties.SDWK_SE === "SDW003";
+                return (feature) => feature.properties.SDWK_SE === 'SDW003';
               case 2:
-                return (feature) => feature.properties.SDWK_SE === "SDW001";
+                return (feature) => feature.properties.SDWK_SE === 'SDW001';
               default:
                 return null;
             }
@@ -312,11 +312,10 @@ const useColor = () => {
           stairConditions.some((condition) => condition(obj)) &&
           sdwkConditions.length !== 0 &&
           sdwkConditions.some((condition) => condition(obj)) &&
-          (county.cd
-            ? obj.properties.LEGLCD_SE === `${county.cd}`
-            : city.cd
-            ? obj.properties.LEGLCD_SE.substring(0, 2) ===
-              `${city.cd}`.substring(0, 2)
+          (ldcuid && ldcuid[4].slice(2) !== '000'
+            ? obj.properties.LEGLCD_SE === `${ldcuid[4]}00000`
+            : ldcuid && ldcuid[4].slice(2) === '000'
+            ? obj.properties.LEGLCD_SE.slice(0, 2) === ldcuid[4].slice(0, 2)
             : true);
   };
 
@@ -325,22 +324,22 @@ const useColor = () => {
   const getRskClr = (obj) => {
     const { rskOps } = rnfo;
     const check = rskOps.checkboxes;
-    const { city, county } = region;
+    // const { city, county } = region;
     var rskVal;
     switch (rsk) {
-      case "교통사고":
+      case '교통사고':
         rskVal = Number(obj.properties.PEDAC_RK[5]);
         break;
-      case "재해사고":
+      case '재해사고':
         rskVal = Number(obj.properties.FLOOD_RK[5]);
         break;
-      case "범죄사고":
+      case '범죄사고':
         rskVal = Number(obj.properties.CRIME_RK[5]);
         break;
-      case "밀집사고":
+      case '밀집사고':
         rskVal = Number(obj.properties.CRWDAC_RK[5]);
         break;
-      case "낙상사고":
+      case '낙상사고':
         rskVal = Number(obj.properties.FALLAC_RK[5]);
         break;
       default:
@@ -364,8 +363,8 @@ const useColor = () => {
       } else {
         return [0, 0, 0, 255 * 0.05];
       }
-    } else if (county.cd) {
-      if (obj.properties.LEGLCD_SE === `${county.cd}`) {
+    } else if (ldcuid && ldcuid[4].slice(2) !== '000') {
+      if (obj.properties.LEGLCD_SE === `${ldcuid[4]}00000`) {
         if (rskVal === 1) {
           return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
         } else if (rskVal === 2) {
@@ -382,11 +381,8 @@ const useColor = () => {
       } else {
         return [0, 0, 0, 255 * 0.05];
       }
-    } else if (city.cd) {
-      if (
-        obj.properties.LEGLCD_SE.substring(0, 2) ===
-        `${city.cd}`.substring(0, 2)
-      ) {
+    } else if (ldcuid && ldcuid[4].slice(2) === '000') {
+      if (obj.properties.LEGLCD_SE.slice(0, 2) === ldcuid[4].slice(0, 2)) {
         if (rskVal === 1) {
           return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
         } else if (rskVal === 2) {

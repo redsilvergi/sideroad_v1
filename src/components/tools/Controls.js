@@ -1,30 +1,36 @@
-import "./Controls.css";
-import React from "react";
-import useInfo from "../../hooks/use-info";
+import './Controls.css';
+import React from 'react';
+import useInfo from '../../hooks/use-info';
 // import useQuery from "../hooks/use-query";
-import { GiExpand } from "react-icons/gi";
-import { BiHide } from "react-icons/bi";
+import { GiExpand } from 'react-icons/gi';
+import { BiHide } from 'react-icons/bi';
 // import axios from "axios";
+import { useViewUpdate } from '../../context/view';
 
 const Controls = () => {
   const {
     isFilter,
     setIsFilter,
     right,
-    setView,
     scrn,
-    // info,
-    // pick,
-    // view,
+    info,
+    pick,
+    view,
     // depth1,
-    // length,
+    length,
     // setLength,
-    // region,
+    region,
     // istgl,
     // setLD,
-    // rsk,
-    // rnfo,
+    rsk,
+    rnfo,
+    gen,
+    genitem,
+    genfo,
+    ldcuid,
+    yr,
   } = useInfo();
+  const setView = useViewUpdate();
   // const { queryF } = useQuery();
 
   // const handleCondition = async () => {
@@ -39,7 +45,7 @@ const Controls = () => {
   // };
 
   return (
-    <div className={`toggle_button_div ${right ? "" : "rmv_control"}`}>
+    <div className={`toggle_button_div ${right ? '' : 'rmv_control'}`}>
       <button
         className="toggle_button"
         onClick={() =>
@@ -92,35 +98,45 @@ const Controls = () => {
       <button className="toggle_button" onClick={() => setIsFilter(!isFilter)}>
         <BiHide />
       </button>
-      {/* <button
+      <button
         className="toggle_button"
         onClick={() =>
           console.log(
-            "view:",
+            'view:',
             view,
-            "\ninfo:",
+            '\ninfo:',
             info,
-            "\npick:",
+            '\npick:',
             pick,
-            "\nrsk:",
+            '\nrsk:',
             rsk,
-            "\nrnfo:",
+            '\nrnfo:',
             rnfo,
             // "\ndepth1:",
             // depth1,
-            "\nlength:",
+            '\nlength:',
             length,
-            "\nregion:",
+            '\nregion:',
             region,
             // "\nistgl:",
             // istgl
-            "\nscrn",
-            scrn
+            '\nscrn',
+            scrn,
+            '\ngen:',
+            gen,
+            '\ngenitem:',
+            genitem,
+            '\ngenfo:',
+            genfo,
+            '\nldcuid:',
+            ldcuid,
+            '\nyr:',
+            yr
           )
         }
       >
         VS
-      </button> */}
+      </button>
       {/* <button className="toggle_button" onClick={queryF}>
         QRY
       </button> */}
