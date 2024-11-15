@@ -18,6 +18,8 @@ const useDb = () => {
     scrn,
     setGenfo,
     ldcuid,
+    setLdcuid,
+    setExp,
   } = useInfo();
 
   const setView = useViewUpdate();
@@ -265,6 +267,26 @@ const useDb = () => {
     [setLD]
   );
 
+  const getLdc = useCallback(
+    async (ldc) => {
+      setLD(true);
+      const response = await axios.get(`http://localhost:4000/getLdc/${ldc}`);
+      // console.log('getLdc arrayarrayarray:\n', Object.values(response.data[0]));
+      const arraydata = Object.values(response.data[0]);
+      setLdcuid(arraydata);
+      setView({
+        longitude: arraydata[5],
+        latitude: arraydata[6],
+        zoom: scrn < 1015 ? arraydata[8] : arraydata[7],
+      });
+      setExp(2);
+      setLD(false);
+
+      return response.data;
+    },
+    [setLD, setLdcuid, setView, scrn, setExp]
+  );
+
   /////////////////////////////////////////////////////////
   return {
     getCord,
@@ -276,6 +298,7 @@ const useDb = () => {
     getReg,
     getBar2sido,
     getBar2sgg,
+    getLdc,
   };
 };
 

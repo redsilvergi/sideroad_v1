@@ -8,13 +8,12 @@ const Ct = ({ options }) => {
   const setView = useViewUpdate();
 
   const handleCity = (ctitem) => {
-    const uid = ctitem[4];
     const long = ctitem[5];
     const lat = ctitem[6];
     const zm = ctitem[7];
     const zmsm = ctitem[8];
     setLdcuid((prev) => {
-      if (prev === uid) {
+      if (prev === ctitem) {
         return null;
       } else {
         setView({

@@ -4,7 +4,7 @@ import useInfo from '../../hooks/use-info';
 // import useQuery from "../hooks/use-query";
 import { GiExpand } from 'react-icons/gi';
 import { BiHide } from 'react-icons/bi';
-// import axios from "axios";
+import axios from 'axios';
 import { useViewUpdate } from '../../context/view';
 
 const Controls = () => {
@@ -21,7 +21,7 @@ const Controls = () => {
     // setLength,
     region,
     // istgl,
-    // setLD,
+    setLD,
     rsk,
     rnfo,
     gen,
@@ -43,6 +43,17 @@ const Controls = () => {
   //   setLength(Math.round(response.data / 1000));
   //   setLD(false);
   // };
+
+  const handlegjs = async () => {
+    console.log('gjs clicked');
+
+    setLD(true);
+    const res = await axios.get(`http://localhost:4000/getSidogjs`);
+    console.log('handlgjshandlgjsdonedonedonedone');
+
+    console.log('res.data from control.js:\n', res.data);
+    setLD(false);
+  };
 
   return (
     <div className={`toggle_button_div ${right ? '' : 'rmv_control'}`}>
@@ -136,6 +147,9 @@ const Controls = () => {
         }
       >
         VS
+      </button>
+      <button className="toggle_button" onClick={handlegjs}>
+        gjs
       </button>
       {/* <button className="toggle_button" onClick={queryF}>
         QRY

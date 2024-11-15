@@ -1,10 +1,17 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import useInfo from '../../hooks/use-info';
 import useTooltip from '../../hooks/use-tooltip';
 import useColor from '../../hooks/use-color';
 import { Map } from 'react-map-gl';
-import DeckGL, { MVTLayer, TileLayer, BitmapLayer } from 'deck.gl';
+import DeckGL, {
+  MVTLayer,
+  TileLayer,
+  BitmapLayer,
+  GeoJsonLayer,
+} from 'deck.gl';
 import { useViewState, useViewUpdate } from '../../context/view';
+import axios from 'axios';
+import useDb from '../../hooks/use-db';
 
 const Deck = React.memo(({ basemap }) => {
   // setup ----------------------------------------------------------------------
@@ -24,11 +31,27 @@ const Deck = React.memo(({ basemap }) => {
     setLeft,
     setRight,
     ldcuid,
+    setLD,
   } = useInfo();
   const { getTooltip } = useTooltip();
   const { getRoadColor } = useColor();
   const view = useViewState();
   const setView = useViewUpdate();
+  const [sdgjs, setSdgjs] = useState(null);
+  const { getLdc } = useDb();
+
+  // useeffect ----------------------------------------------------------------------
+  useEffect(() => {
+    const getsdgjs = async () => {
+      // console.log('getgjs called at deck');
+      setLD(true);
+      const res = await axios.get('http://localhost:4000/getSidogjs');
+      // console.log('getgjsgetgjsgetgjsdonedonedonedone');
+      setSdgjs(res.data);
+      setLD(false);
+    };
+    getsdgjs();
+  }, [setLD]);
 
   const handleViewStateChange = useCallback(
     ({ viewState }) => {
@@ -38,6 +61,31 @@ const Deck = React.memo(({ basemap }) => {
   );
 
   // layer ----------------------------------------------------------------------
+  const layer2 = new GeoJsonLayer({
+    id: 'geojson-layer-sido',
+    data: sdgjs,
+    filled: true,
+    stroked: true,
+    getFillColor: [169, 213, 232, 128],
+    // getFillColor: [0, 0, 255, 128],
+    getLineColor: [0, 0, 0, 20],
+    lineWidthMinPixels: 1,
+    pickable: true,
+    autoHighlight: true,
+    highlightColor: [0, 98, 175, 128],
+    onClick: async (d) => {
+      console.log(
+        'gjs picked and d: \n',
+        d.object.properties.ctprvn_cd + '000'
+      );
+      const ldc = d.object.properties.ctprvn_cd + '000';
+      // const res = await axios.get(`http://localhost:4000/getLdc/${ldc}`);
+      const res = await getLdc(ldc);
+      console.log(res);
+    },
+    visible: isFilter && view.zoom < 9,
+  });
+
   const layer1 = useMemo(() => {
     return new MVTLayer({
       id: 'mvt-layer1',
@@ -175,7 +223,7 @@ const Deck = React.memo(({ basemap }) => {
   //   );
   // }, [istgl]);
 
-  const layers = [baselayer, layer1]; // landuse
+  const layers = [layer2, baselayer, layer1]; // landuse
 
   // return ----------------------------------------------------------------------
   return (

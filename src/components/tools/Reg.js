@@ -1,5 +1,5 @@
 import './Reg.css';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import useInfo from '../../hooks/use-info';
 import { AiOutlineClose } from 'react-icons/ai';
 import useDb from '../../hooks/use-db';
@@ -8,9 +8,10 @@ import Sgg from '../dropdowns/Sgg';
 
 const Reg = () => {
   // settings ----------------------------------------------------------------------
-  const { setLdcuid, left, scrn, setRight, setLeft, ldcuid } = useInfo();
+  const { setLdcuid, left, scrn, setRight, setLeft, ldcuid, exp, setExp } =
+    useInfo();
   const { getReg } = useDb();
-  const [exp, setExp] = useState(0);
+  // const [exp, setExp] = useState(0);
   const divEl = useRef();
   const ctrf = useRef([]);
   const sggrf = useRef([]);
@@ -34,7 +35,7 @@ const Reg = () => {
     return () => {
       document.removeEventListener('click', handler);
     };
-  }, [ldcuid]);
+  }, [ldcuid, setExp]);
 
   // handles ----------------------------------------------------------------------
   const handleClose = () => {
@@ -110,7 +111,7 @@ const Reg = () => {
             지역선택
           </div>
           <div className="city">
-            <div className="reg_ttl">{ctmatch}</div>
+            <div className="reg_ttl">{ldcuid ? ldcuid[2] : ctmatch}</div>
             <Ct options={ctrf.current} />
           </div>
           {ldcuid && (
@@ -147,7 +148,7 @@ const Reg = () => {
             지역선택
           </div>
           <div className="city">
-            <div className="reg_ttl">{ctmatch}</div>
+            <div className="reg_ttl">{ldcuid ? ldcuid[2] : ctmatch}</div>
           </div>
 
           {ldcuid && ldcuid[4].slice(2) !== '000' && (

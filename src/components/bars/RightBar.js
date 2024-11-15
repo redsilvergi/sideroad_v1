@@ -15,7 +15,7 @@ const RightBar = () => {
   );
 
   const { length, info, setLength, rsk, rnfo, pick, pnfo, bar } = useInfo();
-  // const { getLength } = useDb();
+  const { getLength } = useDb();
   const [renl, setRenL] = useState(
     <div className="lengthSum2 lengthReq2">선택구간연장요청</div>
   );
@@ -27,27 +27,27 @@ const RightBar = () => {
       setLength(null);
     }
   }, [info, rnfo, pick, rsk, pnfo.road_lt, setLength]);
-  // useEffect(() => {
-  //   if (length || length === 0) {
-  //     setRenL(
-  //       <div className="lngthS isLngth">
-  //         <div className="lngthS_txt" style={{ color: 'black' }}>
-  //           선택구간 연장
-  //         </div>
-  //         <div className="km">
-  //           <span style={{ color: 'black', fontWeight: 800 }}>{length}</span> km
-  //         </div>
-  //       </div>
-  //     );
-  //   } else {
-  //     setRenL(
-  //       <div className="lngthS lngthReq" onClick={getLength}>
-  //         <div className="lngthS_txt">선택구간 연장요청</div>
-  //         <div className="km">--- km</div>
-  //       </div>
-  //     );
-  //   }
-  // }, [length, getLength, info]);
+  useEffect(() => {
+    if (length || length === 0) {
+      setRenL(
+        <div className="lngthS isLngth">
+          <div className="lngthS_txt" style={{ color: 'black' }}>
+            선택구간 연장
+          </div>
+          <div className="km">
+            <span style={{ color: 'black', fontWeight: 800 }}>{length}</span> km
+          </div>
+        </div>
+      );
+    } else {
+      setRenL(
+        <div className="lngthS lngthReq" onClick={getLength}>
+          <div className="lngthS_txt">선택구간 연장요청</div>
+          <div className="km">--- km</div>
+        </div>
+      );
+    }
+  }, [length, getLength, info]);
 
   return (
     <div className="rightbar">

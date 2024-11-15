@@ -3,7 +3,7 @@ import React from 'react';
 import useInfo from '../../hooks/use-info';
 import { useViewUpdate } from '../../context/view';
 
-const Sgg = ({ options, setExp, exp }) => {
+const Sgg = ({ options, setExp }) => {
   const { ldcuid, setLdcuid, scrn } = useInfo();
   const setView = useViewUpdate();
   const filteredOps = !ldcuid
@@ -13,13 +13,12 @@ const Sgg = ({ options, setExp, exp }) => {
       });
 
   const handleCounty = (sggitem) => {
-    const uid = sggitem[4];
     const long = sggitem[5];
     const lat = sggitem[6];
     const zm = sggitem[7];
     const zmsm = sggitem[8];
     setLdcuid((prev) => {
-      if (prev === uid) {
+      if (prev === sggitem) {
         setExp(1);
         return null;
       } else {

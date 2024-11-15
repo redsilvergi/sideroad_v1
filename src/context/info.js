@@ -194,6 +194,7 @@ const InfoProvider = ({ children }) => {
   const [genitem, setGenitem] = useState('');
   const [genfo, setGenfo] = useState([]);
   const [ldcuid, setLdcuid] = useState(null);
+  const [exp, setExp] = useState(0);
 
   const contextValue = useMemo(
     () => ({
@@ -250,6 +251,8 @@ const InfoProvider = ({ children }) => {
       setGenfo,
       ldcuid,
       setLdcuid,
+      exp,
+      setExp,
     }),
     [
       // view,
@@ -280,6 +283,7 @@ const InfoProvider = ({ children }) => {
       genitem,
       genfo,
       ldcuid,
+      exp,
     ]
   );
 
