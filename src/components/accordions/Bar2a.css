@@ -24,7 +24,7 @@
   border-radius: 15px;
 }
 .bar2a_d2:hover {
-  background-color: #e5ebef;
+  background-color: #f1f1f1;
 }
 .bar2a_lbl {
   display: flex;
@@ -38,13 +38,18 @@
   align-items: center;
   font-size: 18px;
   margin: 0 15px 0 0;
-  color: #6687a0;
+  color: black;
 }
 .bar2a_exp {
   background-color: #ffffff;
   font-size: 12px;
   padding: 13.5px 10px 13.5px 10px;
   border-radius: 15px;
+}
+.bar2a_exp_x {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .bar2a_line {
   height: 1px;

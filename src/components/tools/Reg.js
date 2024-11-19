@@ -72,21 +72,21 @@ const Reg = () => {
     setExp(1);
   };
   // renderhelper ----------------------------------------------------------------------
-  const ctmatch = ldcuid
-    ? (() => {
-        const match = ctrf.current.find(
-          (item) => item[4].slice(0, 2) === ldcuid[4].slice(0, 2)
-        );
-        return match ? match[2] : '시/도';
-      })()
-    : '시/도';
+  // const ctmatch = ldcuid
+  //   ? (() => {
+  //       const match = ctrf.current.find(
+  //         (item) => item[4].slice(0, 2) === ldcuid[4].slice(0, 2)
+  //       );
+  //       return match ? match[2] : '시/도';
+  //     })()
+  //   : '시/도';
 
-  const sggmatch = ldcuid
-    ? (() => {
-        const match = sggrf.current.find((item) => item[4] === ldcuid[4]);
-        return match ? match[2] : '시군구리구리';
-      })()
-    : '시군구리구리';
+  // const sggmatch = ldcuid
+  //   ? (() => {
+  //       const match = sggrf.current.find((item) => item[4] === ldcuid[4]);
+  //       return match ? match[2] : '시군구리구리';
+  //     })()
+  //   : '시군구리구리';
 
   // render ----------------------------------------------------------------------
   var rendered;
@@ -111,13 +111,15 @@ const Reg = () => {
             지역선택
           </div>
           <div className="city">
-            <div className="reg_ttl">{ldcuid ? ldcuid[2] : ctmatch}</div>
+            <div className="reg_ttl">{ldcuid ? ldcuid[2] : '시/도'}</div>
             <Ct options={ctrf.current} />
           </div>
           {ldcuid && (
             <div className="county">
               <div className="reg_ttl">
-                {ldcuid && ldcuid[4].slice(2) !== '000' ? sggmatch : '시/군/구'}
+                {ldcuid && ldcuid[4].slice(2) !== '000'
+                  ? ldcuid[2]
+                  : '시/군/구'}
               </div>
               <Sgg options={sggrf.current} setExp={setExp} exp={exp} />
             </div>
@@ -148,12 +150,12 @@ const Reg = () => {
             지역선택
           </div>
           <div className="city">
-            <div className="reg_ttl">{ldcuid ? ldcuid[2] : ctmatch}</div>
+            <div className="reg_ttl">{ldcuid ? ldcuid[1] : '시/도'}</div>
           </div>
 
           {ldcuid && ldcuid[4].slice(2) !== '000' && (
             <div className="county scrnSmll">
-              <div className="reg_ttl ">{sggmatch}</div>
+              <div className="reg_ttl ">{ldcuid[2]}</div>
             </div>
           )}
           <AiOutlineClose

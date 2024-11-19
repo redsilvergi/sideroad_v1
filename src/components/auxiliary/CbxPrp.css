@@ -2,16 +2,18 @@
   display: none;
 }
 .prp_custom_cb + .prp_chk_item::before {
-  content: "🗸";
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  margin-left: 10px;
-  margin-right: 8px;
+  content: '•';
+  display: flex;
+  justify-content: center;
+  width: 8px;
+  height: 8px;
+  margin: 0 8px 0 10px;
   background: white;
   border: 1px solid #ccc;
   color: white;
-  line-height: 15px;
+  line-height: 11px;
+  font-size: 16px;
+  border-radius: 3px;
 }
 .prp_custom_cb:checked + .prp_chk_item::before {
   background-color: #0062af;

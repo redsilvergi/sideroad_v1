@@ -19,7 +19,6 @@ const Deck = React.memo(({ basemap }) => {
     'pk.eyJ1IjoicmVkc2lsdmVyNTIyIiwiYSI6ImNsbTYwaHVoazJ1ZHgza3M2ZWJpYXdueXQifQ.vg0BobV69pbNLJdKAv856Q';
   const {
     isFilter,
-    data,
     setLength,
     pick,
     hov,
@@ -32,38 +31,118 @@ const Deck = React.memo(({ basemap }) => {
     setRight,
     ldcuid,
     setLD,
+    bar,
   } = useInfo();
-  const { getTooltip } = useTooltip();
+  const { getTooltip, getTooltip2 } = useTooltip();
   const { getRoadColor } = useColor();
   const view = useViewState();
   const setView = useViewUpdate();
   const [sdgjs, setSdgjs] = useState(null);
+  const [tile, setTile] = useState(null);
+  const [sgggjs, setSgggjs] = useState(null);
   const { getLdc } = useDb();
 
   // useeffect ----------------------------------------------------------------------
+  // useEffect(() => {
+  //   const getsdgjs = async () => {
+  //     // console.log('getgjs called at deck');
+  //     setLD(true);
+  //     const res = await axios.get('http://localhost:4000/getSidogjs');
+  //     // console.log('getgjsgetgjsgetgjsdonedonedonedone');
+  //     setSdgjs(res.data);
+  //     setLD(false);
+  //   };
+  //   getsdgjs();
+  // }, [setLD]);
+
   useEffect(() => {
     const getsdgjs = async () => {
-      // console.log('getgjs called at deck');
-      setLD(true);
-      const res = await axios.get('http://localhost:4000/getSidogjs');
-      // console.log('getgjsgetgjsgetgjsdonedonedonedone');
-      setSdgjs(res.data);
-      setLD(false);
+      try {
+        setLD(true);
+        const res = await axios.get('http://localhost:4000/getSidogjs');
+        setSdgjs(res.data);
+        setLD(false);
+      } catch (e) {
+        console.error('err getsdgjs:\n', e);
+      }
     };
-    getsdgjs();
-  }, [setLD]);
+    const getsgggjs = async () => {
+      try {
+        setLD(true);
+        const res = await axios.get('http://localhost:4000/getSgggjs');
+        setSgggjs(res.data);
+        setLD(false);
+      } catch (e) {
+        console.error('Failed to get sggGjs:\n', e);
+      }
+    };
+    if (!sdgjs && (bar === 1) & (view.zoom < 8)) {
+      getsdgjs();
+    }
+    if (!sgggjs && (bar === 1) & (view.zoom >= 8)) {
+      getsgggjs();
+    }
+    if (!tile && (bar === 2 || bar === 3) && view.zoom >= 9) {
+      setTile(
+        `https://api.mapbox.com/v4/redsilver522.59bd8ljy/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}`
+      );
+    }
+  }, [view, sdgjs, sgggjs, tile, bar, setLD]);
 
   const handleViewStateChange = useCallback(
     ({ viewState }) => {
       setView(viewState);
+
+      // if (!sgggjs && (bar === 1) & (viewState.zoom >= 8)) {
+      //   getsgggjs();
+      // }
+
+      // if (!tile && (bar === 2 || bar === 3) && viewState.zoom >= 10.5) {
+      //   setTile(
+      //     `https://api.mapbox.com/v4/redsilver522.59bd8ljy/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}`
+      //   );
+      // }
     },
     [setView]
   );
 
+  // const handleViewStateChange = useCallback(
+  //   ({ viewState }) => {
+  //     setView(viewState);
+  //     if (!sgggjs && view.zoom > 9) {
+  //       getsgggjs();
+  //     }
+  //   },
+  //   [setView,getsgggjs,sgggjs,view.zoom]
+  // );
+
   // layer ----------------------------------------------------------------------
+  const layer3 = new GeoJsonLayer({
+    id: 'geojson-layer-sgg',
+    data: sgggjs && sgggjs,
+    // data: sdgjs,
+    filled: true,
+    stroked: true,
+    getFillColor: [169, 213, 232, 128],
+    // getFillColor: [0, 0, 255, 128],
+    getLineColor: [0, 0, 0, 20],
+    lineWidthMinPixels: 1,
+    pickable: true,
+    autoHighlight: true,
+    highlightColor: [0, 98, 175, 128],
+    onClick: async (d) => {
+      console.log('sgggjs picked and d: \n', d.object.properties);
+      const ldc = d.object.properties.sig_cd;
+      await getLdc(ldc);
+      // console.log(res);
+    },
+    // visible: isFilter,
+    visible: bar === 1 && isFilter && view.zoom >= 8 && view.zoom < 11,
+  });
+
   const layer2 = new GeoJsonLayer({
     id: 'geojson-layer-sido',
-    data: sdgjs,
+    data: sdgjs && sdgjs,
     filled: true,
     stroked: true,
     getFillColor: [169, 213, 232, 128],
@@ -80,86 +159,95 @@ const Deck = React.memo(({ basemap }) => {
       );
       const ldc = d.object.properties.ctprvn_cd + '000';
       // const res = await axios.get(`http://localhost:4000/getLdc/${ldc}`);
-      const res = await getLdc(ldc);
-      console.log(res);
+      await getLdc(ldc);
+      // console.log(res);
     },
-    visible: isFilter && view.zoom < 9,
+    // visible: isFilter,
+    visible: bar === 1 && isFilter && view.zoom < 8,
   });
 
   const layer1 = useMemo(() => {
-    return new MVTLayer({
-      id: 'mvt-layer1',
-      data,
-      // lineWidthScale: 1,
-      lineWidthMinPixels: view.zoom < 9 ? 3 : 2,
-      lineWidthMaxPixels:
-        view.zoom < 7
-          ? 2
-          : view.zoom < 9
-          ? 3
-          : view.zoom < 14
-          ? 2
-          : view.zoom < 15
-          ? 3
-          : 10,
-      getLineWidth: (obj) =>
-        obj.properties.NF_ID ? 7 : view.zoom < 15 ? 1 : 4,
-      getPointRadius: 0, //getRadius
-      // (obj) => {
-      //   return obj.properties.NF_ID && hov === obj.properties.NF_ID ? 10 : 6;
-      // },
-      pickable: true,
-      visible: isFilter && view.zoom >= 5 && view.zoom <= 20,
-      getLineColor: (obj) => {
-        return getRoadColor(obj);
-      },
-      onClick:
-        view.zoom > 15
-          ? (d) => {
-              const prp = d.object.properties;
-              setPick(prp.NF_ID);
-              setView((prev) => ({
-                ...prev,
-                longitude: d.coordinate[0],
-                latitude: d.coordinate[1],
-              }));
-              console.log(prp);
-              setPnfo({
-                road_se: prp.ROAD_SE,
-                cartrk_co: prp.CARTRK_CO,
-                road_bt: prp.ROAD_BT,
-                pmtr_se: prp.PMTR_SE,
-                osps_se: prp.OSPS_SE,
-                road_lt: prp.ROAD_LT,
-                slope_lg: prp.SLOPE_LG,
-                sdwk_se: prp.SDWK_SE,
-                rdnet_ac: prp.RDNET_AC,
-                pbuld_fa: prp.PBULD_FA,
-                bulde_de: prp.BULDE_DE,
-                pubtr_ac: prp.PUBTR_AC,
-                stair_at: prp.STAIR_AT,
-                edennc_at: prp.EDENNC_AT,
-                pedac_rk: prp.PEDAC_RK,
-                crime_rk: prp.CRIME_RK,
-                flood_rk: prp.FLOOD_RK,
-                crwdac_rk: prp.CRWDAC_RK,
-                fallac_rk: prp.FALLAC_RK,
-              });
-              setRight(true);
-            }
-          : null,
-      // onHover:
-      //   view.zoom > 15
-      //     ? (d) => {
-      //         d.object ? setHov(d.object.properties.NF_ID) : setHov(null);
-      //       }
-      //     : null,
-      updateTriggers: {
-        getLineColor: [info, ldcuid, pick, hov, rnfo],
-      },
-    });
+    return (
+      tile &&
+      new MVTLayer({
+        id: 'mvt-layer1',
+        data: tile,
+        // lineWidthScale: 1,
+        lineWidthMinPixels: view.zoom < 9 ? 3 : 2,
+        lineWidthMaxPixels:
+          view.zoom < 7
+            ? 2
+            : view.zoom < 9
+            ? 3
+            : view.zoom < 14
+            ? 2
+            : view.zoom < 15
+            ? 3
+            : 10,
+        getLineWidth: (obj) =>
+          obj.properties.NF_ID ? 7 : view.zoom < 15 ? 1 : 4,
+        getPointRadius: 0, //getRadius
+        // (obj) => {
+        //   return obj.properties.NF_ID && hov === obj.properties.NF_ID ? 10 : 6;
+        // },
+        pickable: true,
+        visible:
+          (bar === 2 || bar === 3) &&
+          isFilter &&
+          view.zoom >= 9 &&
+          view.zoom <= 20,
+        getLineColor: (obj) => {
+          return getRoadColor(obj);
+        },
+        onClick:
+          view.zoom > 15
+            ? (d) => {
+                const prp = d.object.properties;
+                setPick(prp.NF_ID);
+                setView((prev) => ({
+                  ...prev,
+                  longitude: d.coordinate[0],
+                  latitude: d.coordinate[1],
+                }));
+                console.log(prp);
+                setPnfo({
+                  road_se: prp.ROAD_SE,
+                  cartrk_co: prp.CARTRK_CO,
+                  road_bt: prp.ROAD_BT,
+                  pmtr_se: prp.PMTR_SE,
+                  osps_se: prp.OSPS_SE,
+                  road_lt: prp.ROAD_LT,
+                  slope_lg: prp.SLOPE_LG,
+                  sdwk_se: prp.SDWK_SE,
+                  rdnet_ac: prp.RDNET_AC,
+                  pbuld_fa: prp.PBULD_FA,
+                  bulde_de: prp.BULDE_DE,
+                  pubtr_ac: prp.PUBTR_AC,
+                  stair_at: prp.STAIR_AT,
+                  edennc_at: prp.EDENNC_AT,
+                  pedac_rk: prp.PEDAC_RK,
+                  crime_rk: prp.CRIME_RK,
+                  flood_rk: prp.FLOOD_RK,
+                  crwdac_rk: prp.CRWDAC_RK,
+                  fallac_rk: prp.FALLAC_RK,
+                });
+                setRight(true);
+              }
+            : null,
+        // onHover:
+        //   view.zoom > 15
+        //     ? (d) => {
+        //         d.object ? setHov(d.object.properties.NF_ID) : setHov(null);
+        //       }
+        //     : null,
+        updateTriggers: {
+          getLineColor: [info, ldcuid, pick, hov, rnfo],
+        },
+      })
+    );
   }, [
-    data,
+    bar,
+    tile,
     view.zoom,
     isFilter,
     info,
@@ -223,7 +311,16 @@ const Deck = React.memo(({ basemap }) => {
   //   );
   // }, [istgl]);
 
-  const layers = [layer2, baselayer, layer1]; // landuse
+  const layers = [baselayer, layer3, layer2, layer1]; // landuse
+
+  // tooltip ----------------------------------------------------------------------
+  const renderTooltip = ({ object }) => {
+    if (bar !== 1 && view.zoom >= 15) {
+      return getTooltip({ object });
+    } else if (bar === 1) {
+      return getTooltip2({ object });
+    }
+  };
 
   // return ----------------------------------------------------------------------
   return (
@@ -233,7 +330,8 @@ const Deck = React.memo(({ basemap }) => {
       // onViewStateChange={({ viewState }) => setView(viewState)}
       controller={true}
       layers={layers}
-      getTooltip={view.zoom >= 15 ? getTooltip : null}
+      getTooltip={renderTooltip}
+      // getTooltip={view.zoom >= 15 ? getTooltip : getTooltip2}
       onClick={(event) => {
         if (!event.object) {
           setPick(null);

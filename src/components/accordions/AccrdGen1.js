@@ -3,30 +3,31 @@ import './AccrdGen1.css';
 import useInfo from '../../hooks/use-info';
 import { FiPlus, FiMinus } from 'react-icons/fi';
 import CbxGen1 from '../auxiliary/CbxGen1';
-import AccrdRsk2b from './AccrdRsk2b';
 import Yr from '../dropdowns/Yr';
 
 const AccrdGen1 = () => {
+  // setup ----------------------------------------------------------------------
   const { gen, setGen } = useInfo();
-
-  // const [expandedIndex, setExpandedIndex] = useState([0, 1]);
-  // checklist ----------------------------------------------------------------------
-  const checklist = [
-    {
-      name: '사회경제지표',
-      options: [
-        '인구현황',
-        '도시면적',
-        '자동차등록대수',
-        '도로연장',
-        '보행연관시설물',
-      ],
-      // updateInfo: (sel, chb) =>
-      //   setRnfo((prev) => ({
-      //     ...prev,
-      //     rskOps: { ...prev.rskOps, selected: sel, checkboxes: chb },
-      //   })),
-    },
+  const checklists = [
+    ['인구현황', '도시면적', '자동차등록대수', '도로연장', '보행연관시설물'],
+    [
+      '체육시설',
+      '문화집회시설',
+      '유통시설',
+      '유통시설면적',
+      '공원시설',
+      '공원시설면적',
+    ],
+    [
+      '보도없는도로',
+      '보행환경개선지구',
+      '보행자전용길',
+      '보행자길',
+      '보행우선구역',
+      '보행자전용도로',
+      '보호구역',
+    ],
+    ['통행수단별', '통행목적별', '보도통행거리'],
   ];
 
   // items ----------------------------------------------------------------------
@@ -36,7 +37,7 @@ const AccrdGen1 = () => {
       label: '사회경제지표',
       content: (
         <div className="road roadItem">
-          <CbxGen1 name={'사회경제지표'} checklist={checklist} />
+          <CbxGen1 list={checklists[0]} />
         </div>
       ),
     },
@@ -45,31 +46,29 @@ const AccrdGen1 = () => {
       label: '보행유발 시설현황',
       content: (
         <div className="lane roadItem">
-          <AccrdRsk2b />
+          <CbxGen1 list={checklists[1]} />
         </div>
       ),
     },
     {
       id: '보행안전및편의증진항목',
       label: '보행안전 및 편의증진 항목',
-      content: <div className="road roadItem">{/* <AccrdRsk2a /> */}</div>,
+      content: (
+        <div className="road roadItem">
+          <CbxGen1 list={checklists[2]} />
+        </div>
+      ),
     },
     {
       id: '통행행태',
       label: '통행행태',
-      content: <div className="lane roadItem">{/* <AccrdRsk2b /> */}</div>,
+      content: (
+        <div className="road roadItem">
+          <CbxGen1 list={checklists[3]} />
+        </div>
+      ),
     },
   ];
-
-  // const updateInfoState = (nextIndex) => {
-  //   switch (items[nextIndex].id) {
-  //     case '유형별위험도구성비':
-  //       setRsk(null);
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
 
   //handles ----------------------------------------------------------------------
   const handleClick = (itemId) => {
@@ -79,32 +78,9 @@ const AccrdGen1 = () => {
     } else {
       setGen(itemId);
     }
-    // reset();
   };
 
-  // const mover = () => {
-  //   setTmpDv(true);
-  // };
-
-  // const mout = () => {
-  //   setTmpDv(false);
-  // };
-
-  // const handleClick = (nextIndex) => {
-  //   setExpandedIndex((currentExpandedIndex) => {
-  //     if (currentExpandedIndex.includes(nextIndex)) {
-  //       updateInfoState(nextIndex);
-  //       return currentExpandedIndex.filter((item) => item !== nextIndex);
-  //     } else {
-  //       return [...currentExpandedIndex, nextIndex];
-  //     }
-  //   });
-  //   if (nextIndex === 1) {
-  //     reset();
-  //   }
-  // };
-
-  //return ----------------------------------------------------------------------
+  //render ----------------------------------------------------------------------
   const renderedItems = items.map((item, index) => {
     const isExpanded = gen === item.id;
 
@@ -112,11 +88,15 @@ const AccrdGen1 = () => {
       <div key={item.id} className={`${item.id + '_accitem'}`}>
         {item.id === '위험구간' && <div className="gen1_line"></div>}
         <div
-          className={`gen1_d1 ${item.id + '_gen1_d1'}`}
+          className={`gen1_d1 ${item.id + '_gen1_d1'} ${
+            gen === item.id && 'active'
+          }`}
           onClick={() => handleClick(item.id)}
         >
-          <div className="genlbl">{item.label}</div>
-          <div className="gen1_icon">
+          <div className={`genlbl ${gen === item.id && 'active'}`}>
+            {item.label}
+          </div>
+          <div className={`gen1_icon ${gen === item.id && 'active'}`}>
             {isExpanded ? <FiMinus /> : <FiPlus />}
           </div>
         </div>
@@ -125,11 +105,12 @@ const AccrdGen1 = () => {
             {item.content}
           </div>
         )}
-        <div className="gen1_line"></div>
+        {/* <div className="gen1_line"></div> */}
       </div>
     );
   });
 
+  //return ----------------------------------------------------------------------
   return (
     <div>
       <div>

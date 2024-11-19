@@ -90,9 +90,7 @@ const LandingPage = () => {
   );
 
   // memo ----------------------------------------------------------------------
-  console.log(
-    'landingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpagelandingpage'
-  );
+  console.log('landingpagelandingpage');
   // const MemoisedTest1 = React.memo(Test1);
 
   // render ----------------------------------------------------------------------

@@ -51,7 +51,7 @@ const Bar1 = ({ data, keys, max_x }) => {
     '#ffa69e',
   ];
 
-  // renderfuncs ----------------------------------------------------------------------
+  // render ----------------------------------------------------------------------
   const renderIndvBars = () => {
     return keys.map((item, id) => {
       return (

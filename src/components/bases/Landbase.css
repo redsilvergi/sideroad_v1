@@ -5,16 +5,17 @@
   z-index: 1;
   border: none;
   border-radius: 5px;
-  background-color: #6687a0;
+  background-color: #fff;
+  /* background-color: #6687a0; */
   opacity: 0.75;
-  color: white;
+  color: #181a1d;
   width: 166px;
   height: 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 13px;
-  font-family: "NanumSquare", sans-serif;
+  font-family: 'NanumSquare', sans-serif;
   font-weight: bold;
 }
 .rmv_landbase {

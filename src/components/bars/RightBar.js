@@ -10,10 +10,6 @@ import Bar2a from '../accordions/Bar2a';
 import BottomR from '../auxiliary/BottomR';
 
 const RightBar = () => {
-  console.log(
-    'rightbarrightbarrightbarrightbarrightbarrightbarrightbarrightbarrightbarrightbarrightbarrightbarrightbarrightbarrightbarrightbarrightbarrightbarrightbarrightbarrightbarrightbarrightbarrightbar'
-  );
-
   const { length, info, setLength, rsk, rnfo, pick, pnfo, bar } = useInfo();
   const { getLength } = useDb();
   const [renl, setRenL] = useState(
@@ -60,7 +56,7 @@ const RightBar = () => {
           <div className="sep_txt">도로속성</div>
           <div className="rb_line"></div>
         </div>
-        <div className="lngth_div">{renl}</div>
+        <div className="lngth_div">{bar !== 1 && renl}</div>
         {bar !== 1 && (
           <React.Fragment>
             <div className="rb_prp">

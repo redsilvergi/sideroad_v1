@@ -1,29 +1,22 @@
 import './Yr.css';
 import { useState, useRef, useEffect } from 'react';
 import data from '../../data/yr.json';
-// import { FiPlus, FiMinus } from 'react-icons/fi';
-// import { AiOutlineEnter } from 'react-icons/ai';
-// import { IoCloseSharp } from 'react-icons/io5';
 import useInfo from '../../hooks/use-info';
-// import useDb from '../../hooks/use-db';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 
 const Yr = () => {
-  //vars----------------------------------------------------------------
+  // setup ----------------------------------------------------------------
   const { yr, setYr } = useInfo();
-  // const { getSrchId } = useDb();
-  // const [open, setOpen] = useState(true);
   const [sval, setSval] = useState('');
   const [svaltmp, setSvaltmp] = useState('');
   const [isDrop, setIsDrop] = useState(false);
   const [sid, setSid] = useState(-1);
   const [fltItms, setFltItms] = useState([]);
-  // const [nfidLst, setNfidLst] = useState([]);
   const divEl = useRef();
   const inputRef = useRef(null);
   const yrRef = useRef(yr);
 
-  //useEffect----------------------------------------------------------------
+  // useeffect----------------------------------------------------------------
   useEffect(() => {
     yrRef.current = yr; // Update the ref with the latest yr value
   }, [yr]);
@@ -73,7 +66,7 @@ const Yr = () => {
     }
   }, [sid]);
 
-  //handles----------------------------------------------------------------
+  // handles ----------------------------------------------------------------
   const handleChange = (e) => {
     e.preventDefault();
     setIsDrop(true);
@@ -81,15 +74,10 @@ const Yr = () => {
     setSval(e.target.value);
     setSid(-1);
   };
-  // const handleClick = () => {
-  //   // setIsDrop(true);
-  //   setSid(-1);
-  // };
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       setYr(sval);
-      // onSearch(sval);
       inputRef.current.blur(); // Blur the input field
       setIsDrop(false);
     } else if (e.key === 'ArrowDown') {
@@ -123,76 +111,7 @@ const Yr = () => {
 
       setSid(prevValue);
     }
-
-    // else if (e.key === 'ArrowDown') {
-    //   e.preventDefault();
-    //   // console.log("arrowdown: ", sid);
-    //   if (fltItms.length !== 0) {
-    //     if (sid < fltItms.length - 1) {
-    //       setSval(fltItms[sid + 1]);
-    //     } else {
-    //       setSval(svaltmp);
-    //     }
-    //   } else {
-    //     if (sid < data.yr.length - 1) {
-    //       setSval(data.yr[sid + 1]);
-    //     } else {
-    //       setSval(svaltmp);
-    //     }
-    //   }
-
-    //   setSid((prvid) =>
-    //     fltItms.length === 0 && prvid < 6
-    //       ? prvid + 1
-    //       : prvid < fltItms.length - 1
-    //       ? prvid + 1
-    //       : -1
-    //   );
-    // } else if (e.key === 'ArrowUp') {
-    //   e.preventDefault();
-    //   // console.log("arrowup: ", sid);
-    //   if (fltItms.length !== 0) {
-    //     if (sid === -1) {
-    //       setSval(fltItms[fltItms.length - 1]);
-    //     } else if (sid === 0) {
-    //       setSval(svaltmp);
-    //     } else {
-    //       setSval(fltItms[sid - 1]);
-    //     }
-    //   } else {
-    //     if (sid === -1) {
-    //       setSval(data.yr[data.yr.length - 1]);
-    //     } else if (sid === 0) {
-    //       setSval(svaltmp);
-    //     } else {
-    //       setSval(data.yr[sid - 1]);
-    //     }
-    //   }
-    //   setSid((prvid) =>
-    //     prvid === -1
-    //       ? fltItms.length === 0
-    //         ? 6
-    //         : fltItms.length - 1
-    //       : prvid === 0
-    //       ? -1
-    //       : prvid - 1
-    //   );
-    // }
   };
-  // const onSearch = async (v) => {
-  //   setLD(true);
-  //   setSval(v);
-  //   setIsDrop(false);
-  //   // const rtrvd = await getSrchId(v);
-  //   // setNfidLst(rtrvd);
-  //   // console.log("Searching for: ", v);
-  //   setLD(false);
-  // };
-  // const handleCloseInput = () => {
-  //   setSval('');
-  //   setSvaltmp('');
-  //   // setNfidLst([]);
-  // };
   const handleFocus = () => {
     setSid(-1);
     setSval('');
@@ -215,13 +134,10 @@ const Yr = () => {
     inputRef.current.focus();
   };
 
-  //return----------------------------------------------------------------
+  // return ----------------------------------------------------------------
   return (
     <div className="yr_accitem">
-      <button
-        // onMouseEnter={() => {
-        //   setSid(0);
-        // }}
+      {/* <button
         onMouseEnter={() => {
           console.log(
             'sid:',
@@ -238,12 +154,7 @@ const Yr = () => {
         }}
       >
         buttonbuttonvsvsvsvs
-      </button>
-      {/* <div className={`yr_d1 ${open && 'yr_d1_expanded'}`}> */}
-      {/* <div className="yr_d2" onClick={() => setOpen(!open)}>
-          <div className="yr_lbl">도로 ID 검색</div>
-          <div className="yr_icon">{open ? <FiMinus /> : <FiPlus />}</div>
-        </div> */}
+      </button> */}
 
       <div className="yr_expanded">
         <div
@@ -277,16 +188,6 @@ const Yr = () => {
               </div>
             </div>
           )}
-          {/* <div className="yr_srchbtn">
-            <div className="yr_btn_ic">"_"</div>
-          </div> */}
-          {/* {sval && (
-            <div className="yr_srchbtn_x">
-              <div className="yr_btn_ic_x">
-                <IoCloseSharp />
-              </div>
-            </div>
-          )} */}
         </div>
         {isDrop && (
           <div ref={divEl} className="yr_drpd">
@@ -323,11 +224,6 @@ const Yr = () => {
                 })}
           </div>
         )}
-        {/* {nfidLst.length !== 0 && (
-              <div className="yr_nfidiv">
-                <div className="yr_nfidlst">{nfidLst}</div>
-              </div>
-            )} */}
       </div>
     </div>
     // </div>

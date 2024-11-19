@@ -4,7 +4,8 @@
   left: 290px;
   width: 92px;
   height: 41px;
-  background: #f2f7fb 0% 0% no-repeat padding-box;
+  background: #fff;
+  /* background: #f2f7fb 0% 0% no-repeat padding-box; */
   z-index: 1;
   display: flex;
   justify-content: center;

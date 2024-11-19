@@ -1,15 +1,16 @@
 .gen1_chk_item {
   display: flex;
   align-items: center;
-  font-size: 11px;
-  padding: 3px 0 3px 0;
+  padding: 8px 0 8px 0;
+  margin: 5px 0 5px 0;
   position: relative;
+  /* line-height: 30px; */
 }
 .gen1_custom_cb {
   display: none;
 }
 .gen1_custom_cb + .gen1_chk_item::before {
-  content: '🗸';
+  content: '•';
   display: flex;
   justify-content: center;
   width: 8px;
@@ -19,21 +20,27 @@
   border: 1px solid #ccc;
   color: white;
   line-height: 11px;
-  font-size: 9px;
+  font-size: 16px;
+  border-radius: 3px;
 }
 .gen1_custom_cb:checked + .gen1_chk_item::before {
   background-color: #0062af;
   border: 1px solid #0062af;
 }
 .gen1_chk_item:hover {
-  background-color: #e5ebef;
+  background-color: #f1f1f1;
 }
 /* .gen1C {
-  width: 7px;
-  height: 7px;
-  margin: 0 7px 0 0;
+} */
+.gen1_chk_word {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  /* line-height: 15px; */
+  margin: 2px 0 0 0;
+  font-size: 11px;
 }
-.gen1Cbox0 {
+/* .gen1Cbox0 {
   background-color: #dd0016;
 }
 .gen1Cbox1 {

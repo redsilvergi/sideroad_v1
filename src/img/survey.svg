@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="53" height="53" viewBox="0 0 53 53">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="사각형_795" data-name="사각형 795" width="26.238" height="26.238" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="실태조사" transform="translate(0 -247)">
+    <rect id="사각형_779" data-name="사각형 779" width="53" height="53" transform="translate(0 247)" fill="none"/>
+    <g id="그룹_2186" data-name="그룹 2186" transform="translate(13.413 260.413)">
+      <g id="그룹_2185" data-name="그룹 2185" transform="translate(0 0)" clip-path="url(#clip-path)">
+        <path id="패스_3633" data-name="패스 3633" d="M13.12,0A13.119,13.119,0,1,0,26.238,13.119,13.134,13.134,0,0,0,13.12,0M19.1,16.791V11.057H17.068v7.861a7.025,7.025,0,0,1-1.28.691V14.4H13.759v5.708c-.211.019-.424.031-.64.031s-.429-.011-.64-.031V8.351H10.45V19.609a7.027,7.027,0,0,1-1.28-.691V12.807H7.141v3.984a7.018,7.018,0,1,1,11.956,0m5.994-6.037-4.159.987v0A7.945,7.945,0,0,0,13.12,5.186c-.1,0-.2,0-.3.007L13.1.915h.017a12.223,12.223,0,0,1,11.972,9.839" transform="translate(0 0)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>
