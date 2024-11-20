@@ -183,7 +183,7 @@ const CustomTooltip = React.memo(({ active, payload, label }) => {
               ></div>
               <div className="line1_lbl_txt1">{item.dataKey}</div>
             </div>
-            <div className="line1_lbl_txt2">{item.value}</div>
+            <div className="line1_lbl_txt2">{Math.round(item.value)}</div>
           </div>
         ))}
       </div>

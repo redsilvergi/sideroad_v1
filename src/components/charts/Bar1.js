@@ -26,7 +26,9 @@ const Bar1 = ({ data, keys, max_x }) => {
                   ></div>
                   <div className="bar1_lbl_txt1">{`${item.dataKey}`}</div>
                 </div>
-                <div className="bar1_lbl_txt2">{`${item.value}`}</div>
+                <div className="bar1_lbl_txt2">{`${Math.round(
+                  item.value
+                )}`}</div>
               </div>
             );
           })}

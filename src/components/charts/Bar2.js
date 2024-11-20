@@ -30,7 +30,9 @@ const Bar2 = React.memo(({ data, keys, max_x }) => {
                   {/* <div className={`bar2_cirs bar2_cir${id}`} style={{backgroundColor: `${item.fill}`}}></div> */}
                   <div className="bar2_lbl_txt1">{`${item.dataKey}`}</div>
                 </div>
-                <div className="bar2_lbl_txt2">{`${item.value}`}</div>
+                <div className="bar2_lbl_txt2">{`${Math.round(
+                  item.value
+                )}`}</div>
               </div>
             );
           })}
