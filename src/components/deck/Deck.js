@@ -76,13 +76,13 @@ const Deck = React.memo(({ basemap }) => {
         console.error('Failed to get sggGjs:\n', e);
       }
     };
-    if (!sdgjs && (bar === 1) & (view.zoom < 8)) {
+    if (!sdgjs & (view.zoom < 8)) {
       getsdgjs();
     }
-    if (!sgggjs && (bar === 1) & (view.zoom >= 8)) {
+    if (!sgggjs & (view.zoom >= 8)) {
       getsgggjs();
     }
-    if (!tile && (bar === 2 || bar === 3) && view.zoom >= 9) {
+    if (!tile & (view.zoom >= 11)) {
       setTile(
         `https://api.mapbox.com/v4/redsilver522.59bd8ljy/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}`
       );
@@ -123,7 +123,14 @@ const Deck = React.memo(({ basemap }) => {
     // data: sdgjs,
     filled: true,
     stroked: true,
-    getFillColor: [169, 213, 232, 128],
+    getFillColor: (d) => {
+      if (ldcuid) {
+        if (d.properties.sig_cd === ldcuid[0]) {
+          return [0, 98, 175, 128];
+        }
+      }
+      return [169, 213, 232, 128]; // Default color
+    },
     // getFillColor: [0, 0, 255, 128],
     getLineColor: [0, 0, 0, 20],
     lineWidthMinPixels: 1,
@@ -137,34 +144,81 @@ const Deck = React.memo(({ basemap }) => {
       // console.log(res);
     },
     // visible: isFilter,
-    visible: bar === 1 && isFilter && view.zoom >= 8 && view.zoom < 11,
+    visible: !(bar === 3) && isFilter && view.zoom >= 8 && view.zoom < 11,
+    updateTriggers: {
+      getLineColor: [ldcuid],
+      getFillColor: [ldcuid], // Add this line to update color when ldcuid changes
+    },
   });
 
-  const layer2 = new GeoJsonLayer({
-    id: 'geojson-layer-sido',
-    data: sdgjs && sdgjs,
-    filled: true,
-    stroked: true,
-    getFillColor: [169, 213, 232, 128],
-    // getFillColor: [0, 0, 255, 128],
-    getLineColor: [0, 0, 0, 20],
-    lineWidthMinPixels: 1,
-    pickable: true,
-    autoHighlight: true,
-    highlightColor: [0, 98, 175, 128],
-    onClick: async (d) => {
-      console.log(
-        'gjs picked and d: \n',
-        d.object.properties.ctprvn_cd + '000'
-      );
-      const ldc = d.object.properties.ctprvn_cd + '000';
-      // const res = await axios.get(`http://localhost:4000/getLdc/${ldc}`);
-      await getLdc(ldc);
-      // console.log(res);
-    },
-    // visible: isFilter,
-    visible: bar === 1 && isFilter && view.zoom < 8,
-  });
+  const layer2 = useMemo(() => {
+    return (
+      sdgjs &&
+      new GeoJsonLayer({
+        id: 'geojson-layer-sido',
+        data: sdgjs && sdgjs,
+        filled: true,
+        stroked: true,
+
+        getFillColor: (d) => {
+          if (ldcuid) {
+            if (d.properties.ctprvn_cd + '000' === ldcuid[0]) {
+              return [0, 98, 175, 128];
+            }
+          }
+          return [169, 213, 232, 128]; // Default color
+        },
+        getLineColor: [0, 0, 0, 20],
+        lineWidthMinPixels: 1,
+        pickable: true,
+        autoHighlight: true,
+        highlightColor: [0, 98, 175, 128],
+        onClick: async (d) => {
+          console.log(
+            'gjs picked and d: \n',
+            d.object.properties.ctprvn_cd + '000'
+          );
+          const ldc = d.object.properties.ctprvn_cd + '000';
+          await getLdc(ldc);
+        },
+        visible: !(bar === 3) && isFilter && view.zoom < 8,
+        updateTriggers: {
+          getLineColor: [ldcuid],
+          getFillColor: [ldcuid], // Add this line to update color when ldcuid changes
+        },
+      })
+    );
+  }, [bar, getLdc, isFilter, ldcuid, sdgjs, view.zoom]);
+  // const layer2 = useMemo(() => {
+  //   return (
+  //     sdgjs &&
+  //     new GeoJsonLayer({
+  //       id: 'geojson-layer-sido',
+  //       data: sdgjs && sdgjs,
+  //       filled: true,
+  //       stroked: true,
+
+  //       getFillColor: [0, 0, 255, 128],
+  //       getLineColor: [0, 0, 0, 20],
+  //       lineWidthMinPixels: 1,
+  //       pickable: true,
+  //       autoHighlight: true,
+  //       highlightColor: [0, 98, 175, 128],
+  //       onClick: async (d) => {
+  //         console.log(
+  //           'gjs picked and d: \n',
+  //           d.object.properties.ctprvn_cd + '000'
+  //         );
+  //         const ldc = d.object.properties.ctprvn_cd + '000';
+  //         await getLdc(ldc);
+  //       },
+  //       visible: !(bar === 3) && isFilter && view.zoom < 8,
+  //       updateTriggers: {
+  //         getLineColor: [ldcuid],
+  //       },
+  //     })
+  //   );
+  // }, [bar, getLdc, isFilter, ldcuid, sdgjs, view.zoom]);
 
   const layer1 = useMemo(() => {
     return (
@@ -191,11 +245,7 @@ const Deck = React.memo(({ basemap }) => {
         //   return obj.properties.NF_ID && hov === obj.properties.NF_ID ? 10 : 6;
         // },
         pickable: true,
-        visible:
-          (bar === 2 || bar === 3) &&
-          isFilter &&
-          view.zoom >= 9 &&
-          view.zoom <= 20,
+        visible: !(bar === 3) && isFilter && view.zoom >= 11 && view.zoom <= 20,
         getLineColor: (obj) => {
           return getRoadColor(obj);
         },

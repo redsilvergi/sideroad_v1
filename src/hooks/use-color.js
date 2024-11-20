@@ -1,8 +1,10 @@
 import useInfo from './use-info';
 
 const useColor = () => {
-  const { info, pick, rnfo, rsk, ldcuid } = useInfo();
+  // setup ----------------------------------------------------------------------
+  const { info, pick, rnfo, rsk, ldcuid, bar } = useInfo();
 
+  // conditionf ----------------------------------------------------------------------
   const conditionF = (obj) => {
     const {
       rdbtOps,
@@ -319,8 +321,7 @@ const useColor = () => {
             : true);
   };
 
-  //getRskClr/////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////
+  // getrskclr ----------------------------------------------------------------------
   const getRskClr = (obj) => {
     const { rskOps } = rnfo;
     const check = rskOps.checkboxes;
@@ -415,29 +416,50 @@ const useColor = () => {
       }
     }
   };
-  /////////////////////////////////////////////////////////////////////////////////
+
+  // getroadcolor ----------------------------------------------------------------------
   const getRoadColor = (obj) => {
     if (rsk) {
       if (!obj.properties.NF_ID) {
-        ////////for int points
+        //for int points
         return [255, 255, 255];
       } else {
-        ////////for selected info(filter)
+        //for selected info(filter)
         return getRskClr(obj);
+      }
+    } else if (bar === 1) {
+      if (!obj.properties.NF_ID) {
+        //for int points
+        return [255, 255, 255];
+      }
+      if (ldcuid && ldcuid[4].slice(2) === '000') {
+        if (obj.properties.LEGLCD_SE.slice(0, 2) === ldcuid[4].slice(0, 2)) {
+          return [0, 98, 175, 255 * 0.75];
+        } else {
+          return [102, 135, 160, 255 * 0.35];
+        }
+      } else if (ldcuid && ldcuid[4].slice(2) !== '000') {
+        if (obj.properties.LEGLCD_SE === `${ldcuid[4]}00000`) {
+          return [0, 98, 175, 255 * 0.75];
+        } else {
+          return [102, 135, 160, 255 * 0.35];
+        }
+      } else {
+        return [102, 135, 160, 255 * 0.35];
       }
     } else {
       if (!obj.properties.NF_ID) {
-        ////////for int points
+        //for int points
         return [255, 255, 255];
       } else if (conditionF(obj)) {
-        ////////for selected info(filter)
+        //for selected info(filter)
         // if (hov === obj.properties.NF_ID) {
         //   return [0, 255, 0];
         // } else {
         return [0, 98, 175, 255 * 0.75];
         // }
       } else {
-        ////////for unselected info(filter)
+        //for unselected info(filter)
         // if (hov === obj.properties.NF_ID) {
         //   return [0, 255, 0];
         // } else {

@@ -8,7 +8,7 @@ const BottomR = () => {
   // return ----------------------------------------------------------------------
   return (
     <div className="bottomright">
-      <div className="zoomlevel">ZOOM LEVEL: {view.zoom}</div>
+      <div className="zoomlevel">ZOOM LEVEL: {view.zoom.toFixed(2)}</div>
       <div className="lnglat">
         longlat: {view.longitude.toFixed(5)}, {view.latitude.toFixed(5)}
       </div>

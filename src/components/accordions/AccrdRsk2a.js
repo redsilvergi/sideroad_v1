@@ -12,11 +12,7 @@ import useDb from '../../hooks/use-db';
 
 const AccrdRsk2a = React.memo(() => {
   // setup ----------------------------------------------------------------------
-  console.log(
-    'accrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2aaccrdrsk2a'
-  );
-
-  const { rsk, accRsk2a, setAccRsk2a, region } = useInfo();
+  const { rsk, accRsk2a, setAccRsk2a, ldcuid } = useInfo();
   const [csvDiv, setCsvDiv] = useState(null);
   const [nfList, setNfList] = useState([]);
   const { getCord, getCsv, getTop5 } = useDb();
@@ -67,7 +63,7 @@ const AccrdRsk2a = React.memo(() => {
   // useeffect ----------------------------------------------------------------------
   useEffect(() => {
     setCsvDiv(null);
-  }, [rsk, region]);
+  }, [rsk, ldcuid]);
 
   // items ----------------------------------------------------------------------
   const items = [

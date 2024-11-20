@@ -185,7 +185,7 @@ const InfoProvider = ({ children }) => {
   const [right, setRight] = useState(false);
   const [pick, setPick] = useState(null);
   const [hov, setHov] = useState(null);
-  const [rsk, setRsk] = useState('교통사고');
+  const [rsk, setRsk] = useState(null);
   const [accRsk2a, setAccRsk2a] = useState(true);
   const [nfid, setNfid] = useState(null);
   const [prpall, setPrpall] = useState(false);

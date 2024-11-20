@@ -1,6 +1,6 @@
-.table_cont {
-  width: calc(100% - 530px);
-  margin-left: 265px;
+.tbl1_cont {
+  width: calc(100% - 537px);
+  margin-left: 270px;
   margin-right: 265px;
   padding: 10px;
   box-sizing: border-box;
@@ -10,64 +10,83 @@
   background-color: white;
   border-radius: 15px;
 }
-
-.table_cont_x {
+.tbl1_cont_x {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
-.table_head {
+.tbl1_head {
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
-
-.table_head2 {
-  width: 8%;
+.tbl1_head1 {
+  font-size: 14px;
+}
+.tbl1_head2 {
+  width: 60px;
   display: flex;
   justify-content: space-between;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: underline;
 }
-
-.table_head3 {
+.tbl1_edit {
+}
+.tbl1_save {
+  margin: 0 3px 0 0;
+}
+.tbl1_edit:hover,
+.tbl1_save:hover {
+  cursor: pointer;
+  color: #0062af;
+}
+.tbl1_head3 {
   width: 100%;
   display: flex;
   justify-content: flex-end;
 }
-
-.table_head3_1 {
-  /* margin: 0 10px 0 0; */
+.tbl1_head3_1 {
+  font-size: 11px;
+  font-weight: 600;
+  margin: 7px 0 5px 0;
 }
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-table {
+.tbl1 {
   width: 100%;
   border-collapse: collapse;
-  font-size: 1rem;
+  font-size: 10px;
+  border-bottom: 3px solid #ddd;
 }
-
-th,
-td {
+.tbl1_th_top {
+  border-top: 3px solid #ddd;
+  border-bottom: 3px solid #ddd;
+  height: 25px;
+  font-weight: 800;
+}
+.tbl1_th_ldc {
   border: 1px solid #ddd;
-  padding: 8px;
+  border-left: 0px solid #ddd;
+  width: 5rem;
+  background-color: #f1f1f1;
+  font-weight: 800;
+}
+.tbl1_th_prp {
+  border: 1px solid #ddd;
+  width: 8rem;
+  font-weight: 600;
+}
+.tbl1_td {
+  width: 5rem;
+  border: 1px solid #ddd;
   text-align: center;
-  width: 5%;
-  font-size: 13px;
+  height: 25px;
 }
-
-th {
-  background-color: #f2f2f2;
-  font-weight: bold;
+.tbl1_tdpd {
+  width: 2.2rem;
+  background-color: #f1f1f1;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
 }
-
-/* 
-th[rowspan] {
-  background-color: #f8f8f8;
-  font-size: 1.1rem;
-  padding: 20px 10px;
-  vertical-align: middle;
-} */
+.table_cont_x {
+  text-align: center;
+}

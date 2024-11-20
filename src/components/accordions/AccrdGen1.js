@@ -117,6 +117,7 @@ const AccrdGen1 = () => {
         <Yr />
       </div>
       <div className={`accordion`}>{renderedItems}</div>
+      <div className="gen1_csvdl">CSV 데이터 다운로드</div>
     </div>
   );
 };

@@ -180,20 +180,24 @@ const useDb = () => {
           break;
       }
     };
-    const qryF = () => {
-      if (ldcuid && ldcuid[4].slice(2) !== '000') {
-        return `select ROAD_NM, NF_ID from aclogdbf3 where ${rskType()} is not null and LEGLCD_SE = '${
-          ldcuid[4]
-        }%' order by ${rskType()} desc limit 5`;
-      } else if (ldcuid && ldcuid[4].slice(2) === '000') {
-        return `select ROAD_NM, NF_ID from aclogdbf3 where ${rskType()} is not null and sido = ${Number(
-          ldcuid[4].slice(0, 2)
-        )} order by ${rskType()} desc limit 5`;
-      } else {
-        return `select ROAD_NM, NF_ID from aclogdbf3 where ${rskType()} is not null order by ${rskType()} desc limit 5`;
-      }
-    };
-    const response = await axios.get(`http://localhost:4000/getTop5/${qryF()}`);
+    // const qryF = () => {
+    //   if (ldcuid && ldcuid[4].slice(2) !== '000') {
+    //     return `SELECT ROAD_NM, NF_ID FROM aclogdbf3 WHERE ${rskType()} IS NOT NULL AND LEGLCD_SE LIKE '${
+    //       ldcuid[4]
+    //     }%' ORDER BY ${rskType()} DESC LIMIT 5`;
+    //   } else if (ldcuid && ldcuid[4].slice(2) === '000') {
+    //     return `SELECT ROAD_NM, NF_ID FROM aclogdbf3 WHERE ${rskType()} IS NOT NULL AND sido = ${Number(
+    //       ldcuid[4].slice(0, 2)
+    //     )} order by ${rskType()} desc limit 5`;
+    //   } else {
+    //     return `SELECT ROAD_NM, NF_ID FROM aclogdbf3 WHERE ${rskType()} IS NOT NULL ORDER BY ${rskType()} DESC LIMIT 5`;
+    //   }
+    // };
+    // console.log('getTop5 query usedb:\n', qryF());
+
+    const response = await axios.get(
+      `http://localhost:4000/getTop5/${ldcuid && ldcuid[4]}/${rskType()}`
+    );
     const rtrvdLst = response.data;
     // console.log("rsrch getTop5: ", rtrvdLst);
     setLD(false);
@@ -281,7 +285,6 @@ const useDb = () => {
       });
       setExp(2);
       setLD(false);
-
       return response.data;
     },
     [setLD, setLdcuid, setView, scrn, setExp]

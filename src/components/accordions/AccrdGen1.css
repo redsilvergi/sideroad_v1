@@ -55,3 +55,17 @@
 .유형별위험도구성비_gen1_exp {
   margin: 0 0 20px 0;
 }
+.gen1_csvdl {
+  position: fixed;
+  bottom: 12px;
+  /* bottom: 1.5%; */
+  margin: 0 0 0 20px;
+  color: black;
+  background-color: #f1f1f1;
+  font-size: 13px;
+  padding: 7px 35px;
+}
+.gen1_csvdl:hover {
+  cursor: pointer;
+  color: #0062af;
+}
