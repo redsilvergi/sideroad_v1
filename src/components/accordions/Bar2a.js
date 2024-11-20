@@ -164,7 +164,7 @@ const Bar2a = () => {
     };
     fetchData();
   }, [ldcuid, yr, tablenm, getBar2sido, getBar2sgg, obj]);
-  console.log(`data1 at bar2a\n`, data1);
+  // console.log(`data1 at bar2a\n`, data1);
 
   // find max_x ----------------------------------------------------------------------
   const keys = data1 && data1[0] ? Object.keys(data1[0]).slice(1) : [];
@@ -195,12 +195,6 @@ const Bar2a = () => {
     tmp2 && ldcuid && tmp2.filter((item) => item.name === ldcuid[2]);
   const bar2data =
     tmp2 && ldcuid && tmp2.filter((item) => item.name !== ldcuid[2]);
-  console.log(
-    'bar1data at bar2a\n',
-    bar1data,
-    '\n\nbar2data at bar2a\n',
-    bar2data
-  );
 
   // return ----------------------------------------------------------------------
   return (
@@ -231,84 +225,3 @@ const Bar2a = () => {
 };
 
 export default Bar2a;
-
-// original ----------------------------------------------------------------------
-
-// var obj;
-// var tablenm;
-// switch (genitem) {
-//   case '인구현황':
-//     obj = (item) => {
-//       return {
-//         name: item.sigungu,
-//         어린이: item.age0_12,
-//         청장년: item.age13_64,
-//         노인: item.age65_200,
-//       };
-//     };
-//     tablenm = 'pop';
-//     break;
-//   case '도시면적':
-//     obj = (item) => {
-//       return {
-//         name: item.sigungu,
-//         면적: item.ar,
-//       };
-//     };
-//     tablenm = 'city_area';
-//     break;
-//   case '자동차등록대수':
-//     obj = (item) => {
-//       return {
-//         name: item.sigungu,
-//         사륜차: item.wheel4,
-//         이륜차: item.wheel2,
-//       };
-//     };
-//     tablenm = 'veh';
-//     break;
-//   case '도로연장':
-//     obj = (item) => {
-//       return {
-//         name: item.sigungu,
-//         '1차선': item.lane1,
-//         '2차선': item.lane2,
-//         '3차선이상': item.lane3_more,
-//       };
-//     };
-//     tablenm = 'road_len';
-//     break;
-//   case '보행연관시설물':
-//     obj = (item) => {
-//       return {
-//         name: item.sigungu,
-//         육교: item.overpass,
-//         지하보도: item.underpass,
-//       };
-//     };
-//     tablenm = 'ped_facil';
-//     break;
-//   default:
-//     obj = (item) => item; // Fallback in case genitem doesn't match
-//     break;
-// }
-
-// useeffect original ----------------------------------------------------------------------
-// let res;
-// let res2;
-// if (ldcuid && yr) {
-//   if (ldcuid[4].slice(2) === '000') {
-//     res = await getBar2sido(tablenm, yr.slice(0, 4));
-//     res2 = res.map((item, id) => obj(item));
-//   } else {
-//     const sidotmp = ldcuid[0].slice(0, 2);
-//     res = await getBar2sgg(tablenm, sidotmp, yr.slice(0, 4));
-//     res2 = res.map((item, id) => obj(item));
-//   }
-// } else {
-//   res2 = [{ name: null }];
-// }
-// console.log(`fetching res: ${res}\n\nres2: ${res2}`);
-
-// setData1(res2);
-// };

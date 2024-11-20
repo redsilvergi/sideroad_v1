@@ -4,7 +4,7 @@ import useInfo from '../../hooks/use-info';
 // import useQuery from "../hooks/use-query";
 import { GiExpand } from 'react-icons/gi';
 import { BiHide } from 'react-icons/bi';
-import axios from 'axios';
+// import axios from 'axios';
 import { useViewUpdate } from '../../context/view';
 
 const Controls = () => {
@@ -13,22 +13,22 @@ const Controls = () => {
     setIsFilter,
     right,
     scrn,
-    info,
-    pick,
-    view,
+    // info,
+    // pick,
+    // view,
     // depth1,
-    length,
+    // length,
     // setLength,
-    region,
+    // region,
     // istgl,
-    setLD,
-    rsk,
-    rnfo,
-    gen,
-    genitem,
-    genfo,
-    ldcuid,
-    yr,
+    // setLD,
+    // rsk,
+    // rnfo,
+    // gen,
+    // genitem,
+    // genfo,
+    // ldcuid,
+    // yr,
   } = useInfo();
   const setView = useViewUpdate();
   // const { queryF } = useQuery();
@@ -44,16 +44,16 @@ const Controls = () => {
   //   setLD(false);
   // };
 
-  const handlegjs = async () => {
-    console.log('gjs clicked');
+  // const handlegjs = async () => {
+  //   console.log('gjs clicked');
 
-    setLD(true);
-    const res = await axios.get(`http://localhost:4000/getSidogjs`);
-    console.log('handlgjshandlgjsdonedonedonedone');
+  //   setLD(true);
+  //   const res = await axios.get(`http://localhost:4000/getSidogjs`);
+  //   console.log('handlgjshandlgjsdonedonedonedone');
 
-    console.log('res.data from control.js:\n', res.data);
-    setLD(false);
-  };
+  //   console.log('res.data from control.js:\n', res.data);
+  //   setLD(false);
+  // };
 
   return (
     <div className={`toggle_button_div ${right ? '' : 'rmv_control'}`}>
@@ -109,7 +109,7 @@ const Controls = () => {
       <button className="toggle_button" onClick={() => setIsFilter(!isFilter)}>
         <BiHide />
       </button>
-      <button
+      {/* <button
         className="toggle_button"
         onClick={() =>
           console.log(
@@ -147,10 +147,10 @@ const Controls = () => {
         }
       >
         VS
-      </button>
-      <button className="toggle_button" onClick={handlegjs}>
+      </button> */}
+      {/* <button className="toggle_button" onClick={handlegjs}>
         gjs
-      </button>
+      </button> */}
       {/* <button className="toggle_button" onClick={queryF}>
         QRY
       </button> */}

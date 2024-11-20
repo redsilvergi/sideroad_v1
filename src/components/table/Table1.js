@@ -206,7 +206,7 @@ const Table1 = () => {
   const tdataF2 = () => {
     const { keys, minmax } = genitem && config[genitem];
     const tmp = keys && calculateData(keys);
-    console.log('tmptdataF2F2\n', tmp);
+    // console.log('tmptdataF2F2\n', tmp);
 
     return tmp ? formatData(tmp, ['sum', ...keys], minmax) : null;
   };
@@ -215,7 +215,7 @@ const Table1 = () => {
     tdata: [],
     tdata_pd: [],
   };
-  console.log('tmptdatadata\n', tdata);
+  // console.log('tmptdatadata\n', tdata);
 
   // render ----------------------------------------------------------------------
   const thead_th =

@@ -10,14 +10,11 @@ import Controls from '../components/tools/Controls';
 import RightBar from '../components/bars/RightBar';
 import Table1 from '../components/table/Table1';
 import Deck from '../components/deck/Deck';
-// import Test1 from '../testcomp/Test1';
-// import Region from '../components/tools/Region';
 
 const LandingPage = () => {
   const {
     info,
     LD,
-    istgl,
     left,
     right,
     setPick,
@@ -70,28 +67,8 @@ const LandingPage = () => {
     setPick(null);
   }, [setPick, info, rnfo]);
 
-  // RENDER ITEMS ------------------------------------------------
-  const legend = (
-    <div className={`landuse ${right ? '' : 'landusenoright'}`}>
-      <div className="g1">지도 범례</div>
-      <div className="gitem g2">
-        <div id="b1"></div>주거지역
-      </div>
-      <div className="gitem g3">
-        <div id="b2"></div>공업지역
-      </div>
-      <div className="gitem g4">
-        <div id="b3"></div>상업지역
-      </div>
-      <div className="gitem g5">
-        <div id="b4"></div>녹지지역
-      </div>
-    </div>
-  );
-
-  // memo ----------------------------------------------------------------------
-  console.log('landingpagelandingpage');
-  // const MemoisedTest1 = React.memo(Test1);
+  // log ----------------------------------------------------------------------
+  // console.log('landingpagelandingpage');
 
   // render ----------------------------------------------------------------------
   return (
@@ -117,7 +94,6 @@ const LandingPage = () => {
           <Basemap basemap={basemap} setBasemap={setBasemap} />
         )}
         {scrn < 1015 ? !left && !right && <Controls /> : <Controls />}
-        {istgl && legend}
         <Deck basemap={basemap} />
         {LD && (
           <div className="overlay">

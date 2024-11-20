@@ -24,9 +24,39 @@
 #landbase_tg_name {
   margin-left: 12px;
 }
-
 .tg_div {
   margin-right: 10px;
+}
+
+/* landuse comp */
+.landuse {
+  position: fixed;
+  z-index: 1;
+  top: 50px;
+  right: 444px;
+  color: #808080;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 15px;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.landusenoright {
+  right: 179px;
+}
+.g1 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  color: #808080;
+  font-size: 9px;
+}
+.gitem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #333333;
+  font-size: 10px;
 }
 
 @media (max-width: 1015px) {

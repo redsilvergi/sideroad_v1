@@ -12,7 +12,7 @@ import {
 
 const Bar2 = React.memo(({ data, keys, max_x }) => {
   // auxiliary ----------------------------------------------------------------------
-  console.log('bar2bar2bar2bar2bar2');
+  // console.log('bar2bar2bar2bar2bar2');
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {

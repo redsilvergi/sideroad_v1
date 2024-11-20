@@ -138,7 +138,7 @@ const Deck = React.memo(({ basemap }) => {
     autoHighlight: true,
     highlightColor: [0, 98, 175, 128],
     onClick: async (d) => {
-      console.log('sgggjs picked and d: \n', d.object.properties);
+      // console.log('sgggjs picked and d: \n', d.object.properties);
       const ldc = d.object.properties.sig_cd;
       await getLdc(ldc);
       // console.log(res);
@@ -174,10 +174,10 @@ const Deck = React.memo(({ basemap }) => {
         autoHighlight: true,
         highlightColor: [0, 98, 175, 128],
         onClick: async (d) => {
-          console.log(
-            'gjs picked and d: \n',
-            d.object.properties.ctprvn_cd + '000'
-          );
+          // console.log(
+          //   'gjs picked and d: \n',
+          //   d.object.properties.ctprvn_cd + '000'
+          // );
           const ldc = d.object.properties.ctprvn_cd + '000';
           await getLdc(ldc);
         },
