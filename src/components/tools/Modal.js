@@ -1,12 +1,12 @@
-import ReactDOM from "react-dom";
-import { useEffect } from "react";
+import ReactDOM from 'react-dom';
+import { useEffect } from 'react';
 
 function Modal({ onClose, children }) {
   useEffect(() => {
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden';
 
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     };
   }, []);
 
@@ -15,36 +15,36 @@ function Modal({ onClose, children }) {
       <div
         onClick={onClose}
         style={{
-          position: "fixed",
+          position: 'fixed',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-          zIndex: 3,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          zIndex: 111,
         }}
       ></div>
       <div
         onClick={onClose}
         style={{
-          display: "flex",
-          justifyContent: "flex-start",
-          alignItems: "center",
-          flexDirection: "column",
-          height: "100%",
-          position: "fixed",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          zIndex: 4,
-          width: "100%",
-          overflow: "auto",
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          flexDirection: 'column',
+          height: '100%',
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 112,
+          width: '100%',
+          overflow: 'auto',
         }}
       >
         {children}
       </div>
     </div>,
-    document.querySelector(".modal-container")
+    document.querySelector('.modal-container')
   );
 }
 

@@ -1,0 +1,71 @@
+.rpie_d1 {
+  margin: 0 0 10px 0;
+  background-color: #ffffff;
+  border-radius: 15px;
+  width: 230px;
+}
+.rpie_d2_x {
+  width: 230px;
+  height: 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 15px;
+  color: #b9b9b9;
+}
+.rpie_d2_x:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+.rpie_d2 {
+  width: 230px;
+  height: 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 15px;
+}
+.rpie_d2:hover {
+  background-color: #e5ebef;
+}
+.rpie_lbl {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 800;
+  margin: 0 0 0 15px;
+}
+.rpie_icon {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  margin: 0 15px 0 0;
+  color: #6687a0;
+}
+.rpie_exp {
+  background-color: #ffffff;
+  font-size: 12px;
+  padding: 0 10px 13.5px 10px;
+  border-radius: 15px;
+}
+.rpie_chart {
+  height: 200px;
+}
+.rpie_leg {
+  display: flex;
+  align-items: center;
+  line-height: 10px;
+  padding: 3px 0 3px 8px;
+}
+.rpie_color_lbl {
+  border-radius: 10px;
+  width: 7px;
+  height: 7px;
+}
+.rpie_leg_lbl {
+  text-align: center;
+  font-size: 10px;
+  margin: 0 0 0 5px;
+}

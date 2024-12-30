@@ -13,22 +13,25 @@ const Controls = () => {
     setIsFilter,
     right,
     scrn,
-    // info,
-    // pick,
-    // view,
+    info,
+    pick,
+    view,
     // depth1,
-    // length,
+    length,
     // setLength,
-    // region,
+    region,
     // istgl,
     // setLD,
-    // rsk,
-    // rnfo,
-    // gen,
-    // genitem,
-    // genfo,
-    // ldcuid,
-    // yr,
+    rsk,
+    rnfo,
+    gen,
+    genitem,
+    genfo,
+    ldcuid,
+    yr,
+    rnfo0,
+    rnfo1,
+    pnfo,
   } = useInfo();
   const setView = useViewUpdate();
   // const { queryF } = useQuery();
@@ -142,7 +145,13 @@ const Controls = () => {
             '\nldcuid:',
             ldcuid,
             '\nyr:',
-            yr
+            yr,
+            '\nrnfo0:',
+            rnfo0,
+            '\nrnfo1:',
+            rnfo1,
+            '\npnfo:',
+            pnfo
           )
         }
       >

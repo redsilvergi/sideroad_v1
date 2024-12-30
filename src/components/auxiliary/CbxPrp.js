@@ -1,6 +1,6 @@
-import "./CbxPrp.css";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import useInfo from "../../hooks/use-info";
+import './CbxPrp.css';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import useInfo from '../../hooks/use-info';
 
 const CbxPrp = ({ name, checklist }) => {
   const objRef = useRef(checklist.filter((item) => item.name === name)[0]);
@@ -39,7 +39,7 @@ const CbxPrp = ({ name, checklist }) => {
         return boxes;
       });
     }
-  }, [prpall]);
+  }, [prpall, list.length]);
 
   const updateF = useCallback(() => {
     const sortedItems = Object.values(prpcbxes).reduce((acc, val, i) => {
@@ -78,7 +78,7 @@ const CbxPrp = ({ name, checklist }) => {
             {index !== list.length - 1 ? (
               <div className="prp_chk_item">{item}</div>
             ) : (
-              <div className="prp_chk_item" style={{ marginBottom: "10px" }}>
+              <div className="prp_chk_item" style={{ marginBottom: '10px' }}>
                 {item}
               </div>
             )}

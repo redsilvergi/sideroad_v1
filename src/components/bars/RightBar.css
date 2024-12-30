@@ -66,3 +66,10 @@
 .id_finder {
   z-index: 1;
 }
+
+.lngthPfr_txt {
+  font-size: 13px;
+  color: black;
+  margin: 0 0 0 15px;
+  font-weight: 800;
+}

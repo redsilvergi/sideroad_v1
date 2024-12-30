@@ -1,5 +1,4 @@
 import useInfo from './use-info';
-import useQuery from './use-query';
 import { useCallback } from 'react';
 import axios from 'axios';
 import { FaExternalLinkAlt } from 'react-icons/fa';
@@ -9,56 +8,86 @@ const useDb = () => {
   const {
     setLD,
     setPick,
-    rsk,
     setPnfo,
     setLength,
-    rnfo,
+    rnfo0,
+    rnfo1,
     setRight,
     setLeft,
     scrn,
     setGenfo,
-    ldcuid,
     setLdcuid,
     setExp,
+    bar,
+    info,
+    ldcuid,
+    setPfrdata,
+    setPfrPick,
+    setPfrjs,
   } = useInfo();
 
   const setView = useViewUpdate();
-  const { queryF, queryR } = useQuery();
   /////////////////////////////////////////////////////////
+  const getProp = useCallback(async (nf_id) => {
+    // setLD(true);
+    const response = await axios.get(`/getProp/${nf_id}`); // http://localhost:4000
+    return response.data;
+    // console.log('getProp response at use-db.js: ', response);
+    // setPnfo(response.data);
+    // setLD(false);
+  }, []);
+
   const getCord = useCallback(
-    async (item) => {
+    async (nf_id) => {
       setLD(true);
-      // console.log(item);
-      const response = await axios.get(`http://localhost:4000/getCord/${item}`);
+      // console.log(nf_id);
+      const response = await axios.get(
+        `/getCord/${nf_id}` // http://localhost:4000
+      );
+      const response2 = await axios.get(
+        `/getProp/${nf_id}` // http://localhost:4000
+      );
+      const response3 = await axios.get(
+        `/getShap/${nf_id}` // http://localhost:4000
+      );
       // console.log("getCord response at use-de.js: ", response);
-      setPick(item);
+      bar === 3 ? setPfrPick(nf_id) : setPick(nf_id);
       if (response.data) {
         const data = response.data;
+        const data2 = response2.data;
+        const data3 = response3.data;
         setView({
           longitude: data.long,
           latitude: data.lat,
           zoom: 16.5,
         });
         setPnfo({
-          road_se: data.road_se,
-          cartrk_co: data.cartrk_co,
-          road_bt: data.road_bt,
-          pmtr_se: data.pmtr_se,
-          osps_se: data.osps_se,
-          road_lt: data.road_lt,
-          slope_lg: data.slope_lg,
-          sdwk_se: data.sdwk_se,
-          rdnet_ac: data.rdnet_ac,
-          pbuld_fa: data.pbuld_fa,
-          bulde_de: data.bulde_de,
-          pubtr_ac: data.pubtr_ac,
-          stair_at: data.stair_at,
-          edennc_at: data.edennc_at,
-          pedac_rk: data.pedac_rk,
-          crime_rk: data.crime_rk,
-          flood_rk: data.flood_rk,
-          crwdac_rk: data.crwdac_rk,
-          fallac_rk: data.fallac_rk,
+          road_se: data2.road_se,
+          cartrk_co: data2.cartrk_co,
+          road_bt: data2.road_bt,
+          pmtr_se: data2.pmtr_se,
+          osps_se: data2.osps_se,
+          road_lt: data2.road_lt,
+          slope_lg: data2.slope_lg,
+          sdwk_se: data2.sdwk_se,
+          rdnet_ac: data2.rdnet_ac,
+          pbuld_fa: data2.pbuld_fa,
+          bulde_de: data2.bulde_de,
+          pubtr_ac: data2.pubtr_ac,
+          stair_at: data2.stair_at,
+          edennc_at: data2.edennc_at,
+          pedac_rk: data2.pedac_rk,
+          pred: data2.pred,
+          aiw10kas: data3.aiw10kas,
+          bus400s: data3.bus400s,
+          mkden300s: data3.mkden300s,
+          pbulddens: data3.pbulddens,
+          rbulddens: data3.rbulddens,
+          roadbts: data3.roadbts,
+          roadlts: data3.roadlts,
+          school300s: data3.school300s,
+          slopelgs: data3.slopelgs,
+          subway400s: data3.subway400s,
         });
       } else {
         console.log('no data fetched from getCord at use-db.js');
@@ -70,15 +99,15 @@ const useDb = () => {
       // setLength(Math.round(data.road_lt * 1000) / 1000000);
       setLD(false);
     },
-    [setPick, setView, setLD, setPnfo, setRight, setLeft, scrn]
+    [setPick, setView, setLD, setPnfo, setRight, setLeft, scrn, bar, setPfrPick]
   );
   /////////////////////////////////////////////////////////
   const getCsv = useCallback(
     async (nfList) => {
       setLD(true);
-      const nf_ids = nfList.map((item) => `'${item}'`).join(',');
-      const query = `select NF_ID, ROAD_NM, ROAD_SE, PMTR_SE, EDENNC_AT, CARTRK_CO, ROAD_BT, OSPS_SE, SLOPE_LG, PBULD_FA, BULDE_DE, SDWK_SE, STAIR_AT, RDNET_AC, PEDAC_RK, CRIME_RK, FLOOD_RK, CRWDAC_RK, FALLAC_RK, PUBTR_AC, ROAD_LT, long, lat from side10 where NF_ID in (${nf_ids})`;
-      const response = await axios.get(`http://localhost:4000/getCsv/${query}`);
+      const nf_ids = nfList.map((item) => `'${item.nf_id}'`).join(',');
+      const query = `select * from side1r where NF_ID in (${nf_ids})`;
+      const response = await axios.get(`/getCsv/${query}`); // http://localhost:4000
       // console.log("csvlistdwn: ", response.data);
       // Construct CSV string and Adding BOM(Byte Order Mark) for UTF-8 Encoding
       const BOM = '\uFEFF';
@@ -102,22 +131,62 @@ const useDb = () => {
       link.setAttribute('href', url);
       link.setAttribute(
         'download',
-        `${rsk}_${ldcuid ? ldcuid[2] : '전국'}_top5.csv`
+        bar === 3 &&
+          `보행자우선도로후보_${ldcuid ? ldcuid[2] : '전국'}_top20.csv`
       );
       document.body.appendChild(link); //required for firefox
       link.click();
       URL.revokeObjectURL(url); // Clean up to avoid memory leaks
       setLD(false);
     },
-    [rsk, setLD, ldcuid]
+    [setLD, ldcuid, bar]
   );
+
+  // const getCsv = useCallback(
+  //   async (nfList) => {
+  //     setLD(true);
+  //     const nf_ids = nfList.map((item) => `'${item}'`).join(',');
+  //     const query = `select NF_ID, ROAD_NM, ROAD_SE, PMTR_SE, EDENNC_AT, CARTRK_CO, ROAD_BT, OSPS_SE, SLOPE_LG, PBULD_FA, BULDE_DE, SDWK_SE, STAIR_AT, RDNET_AC, PEDAC_RK, CRIME_RK, FLOOD_RK, CRWDAC_RK, FALLAC_RK, PUBTR_AC, ROAD_LT, long, lat from side10 where NF_ID in (${nf_ids})`;
+  //     const response = await axios.get(`/getCsv/${query}`); // http://localhost:4000
+  //     // console.log("csvlistdwn: ", response.data);
+  //     // Construct CSV string and Adding BOM(Byte Order Mark) for UTF-8 Encoding
+  //     const BOM = '\uFEFF';
+  //     const csvRows = response.data
+  //       .map((row) => {
+  //         return row
+  //           .map((value) => {
+  //             if (!isNaN(value) && value !== null) {
+  //               return `="${value}"`; // Format number as a string to prevent Excel auto-formatting & Enclose the value in ="", to ensure Excel treats it as a string
+  //             }
+  //             return value; // Return non-numeric values unchanged
+  //           })
+  //           .join(',');
+  //       })
+  //       .join('\n');
+  //     const csvContent = BOM + csvRows; // Prepend BOM
+  //     // Using Blob for potentially large data sets or special characters
+  //     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  //     const url = URL.createObjectURL(blob);
+  //     const link = document.createElement('a');
+  //     link.setAttribute('href', url);
+  //     link.setAttribute(
+  //       'download',
+  //       `${rsk}_${ldcuid ? ldcuid[2] : '전국'}_top5.csv`
+  //     );
+  //     document.body.appendChild(link); //required for firefox
+  //     link.click();
+  //     URL.revokeObjectURL(url); // Clean up to avoid memory leaks
+  //     setLD(false);
+  //   },
+  //   [rsk, setLD, ldcuid]
+  // );
 
   /////////////////////////////////////////////////////////
   const getSrchId = useCallback(
     async (rdnm) => {
-      var qry = `select NF_ID from side10 where ROAD_NM = '${rdnm}'`;
+      var qry = `select NF_ID from side1r where ROAD_NM = '${rdnm}'`;
       const response = await axios.get(
-        `http://localhost:4000/getSrchId/${qry}`
+        `/getSrchId/${qry}` // http://localhost:4000
       );
       // console.log("rsrch getsrchid: ", response.data);
       const rtrvdLst = response.data;
@@ -143,72 +212,83 @@ const useDb = () => {
   /////////////////////////////////////////////////////////////////
   const getLength = useCallback(async () => {
     setLD(true);
-    if (rnfo.rskOps.checkboxes.every((v) => v === false)) {
-      setLength(0);
-    } else {
-      const query = rsk ? queryR() : queryF();
-      if (query === 0) {
-        setLength(0);
-      } else {
-        // console.log("query from use-db.js:", "\n", query);
-        const response = await axios.get(
-          `http://localhost:4000/getLength/${query}` // /getLength/${query}
-        );
-        // console.log("response.data: ", response.data / 1000);
-        // console.log("response.data type: ", typeof response.data);
-        setLength(response.data / 1000);
-      }
+    if (bar === 1) {
+      console.log('now bar1');
+    } else if (bar === 2) {
+      const ldc = ldcuid ? ldcuid[4] : null;
+      const response = await axios.post(`/getLength2`, {
+        // http://localhost:4000
+        rnfo0,
+        rnfo1,
+        ldc,
+      });
+      // console.log('getLength response.data\n', response.data);
+      // console.log('response.data type: ', typeof response.data);
+      setLength(response.data.total_length / 1000);
+    } else if (bar === 3) {
+      console.log('now bar3');
+    } else if (bar === 4) {
+      console.log('info and ldcuid\n', info, ldcuid);
+      const ldc = ldcuid ? ldcuid[4] : null;
+      const response = await axios.post(`/getLength4`, {
+        // http://localhost:4000
+        info,
+        ldc,
+      });
+      // console.log('getLength response.data\n', response.data);
+      // console.log('response.data type: ', typeof response.data);
+      setLength(response.data.total_length / 1000);
     }
     setLD(false);
-  }, [setLD, queryF, setLength, queryR, rnfo.rskOps.checkboxes, rsk]);
+  }, [setLD, setLength, rnfo0, rnfo1, bar, info, ldcuid]);
   /////////////////////////////////////////////////////////
-  const getTop5 = useCallback(async () => {
-    setLD(true);
-    const rskType = () => {
-      switch (rsk) {
-        case '교통사고':
-          return 'PEDAC';
-        case '범죄사고':
-          return 'CRIME';
-        case '재해사고':
-          return 'FLOOD';
-        case '밀집사고':
-          return 'CRWD';
-        case '낙상사고':
-          return 'FALLAC';
-        default:
-          break;
-      }
-    };
-    // const qryF = () => {
-    //   if (ldcuid && ldcuid[4].slice(2) !== '000') {
-    //     return `SELECT ROAD_NM, NF_ID FROM aclogdbf3 WHERE ${rskType()} IS NOT NULL AND LEGLCD_SE LIKE '${
-    //       ldcuid[4]
-    //     }%' ORDER BY ${rskType()} DESC LIMIT 5`;
-    //   } else if (ldcuid && ldcuid[4].slice(2) === '000') {
-    //     return `SELECT ROAD_NM, NF_ID FROM aclogdbf3 WHERE ${rskType()} IS NOT NULL AND sido = ${Number(
-    //       ldcuid[4].slice(0, 2)
-    //     )} order by ${rskType()} desc limit 5`;
-    //   } else {
-    //     return `SELECT ROAD_NM, NF_ID FROM aclogdbf3 WHERE ${rskType()} IS NOT NULL ORDER BY ${rskType()} DESC LIMIT 5`;
-    //   }
-    // };
-    // console.log('getTop5 query usedb:\n', qryF());
+  // const getTop5 = useCallback(async () => {
+  //   setLD(true);
+  //   const rskType = () => {
+  //     switch (rsk) {
+  //       case '교통사고':
+  //         return 'PEDAC';
+  //       case '범죄사고':
+  //         return 'CRIME';
+  //       case '재해사고':
+  //         return 'FLOOD';
+  //       case '밀집사고':
+  //         return 'CRWD';
+  //       case '낙상사고':
+  //         return 'FALLAC';
+  //       default:
+  //         break;
+  //     }
+  //   };
+  //   // const qryF = () => {
+  //   //   if (ldcuid && ldcuid[4].slice(2) !== '000') {
+  //   //     return `SELECT ROAD_NM, NF_ID FROM aclogdbf3 WHERE ${rskType()} IS NOT NULL AND LEGLCD_SE LIKE '${
+  //   //       ldcuid[4]
+  //   //     }%' ORDER BY ${rskType()} DESC LIMIT 5`;
+  //   //   } else if (ldcuid && ldcuid[4].slice(2) === '000') {
+  //   //     return `SELECT ROAD_NM, NF_ID FROM aclogdbf3 WHERE ${rskType()} IS NOT NULL AND sido = ${Number(
+  //   //       ldcuid[4].slice(0, 2)
+  //   //     )} order by ${rskType()} desc limit 5`;
+  //   //   } else {
+  //   //     return `SELECT ROAD_NM, NF_ID FROM aclogdbf3 WHERE ${rskType()} IS NOT NULL ORDER BY ${rskType()} DESC LIMIT 5`;
+  //   //   }
+  //   // };
+  //   // console.log('getTop5 query usedb:\n', qryF());
 
-    const response = await axios.get(
-      `http://localhost:4000/getTop5/${ldcuid && ldcuid[4]}/${rskType()}`
-    );
-    const rtrvdLst = response.data;
-    // console.log("rsrch getTop5: ", rtrvdLst);
-    setLD(false);
-    return rtrvdLst;
-  }, [rsk, setLD, ldcuid]);
+  //   const response = await axios.get(
+  //     `/getTop5/${ldcuid && ldcuid[4]}/${rskType()}` // http://localhost:4000
+  //   );
+  //   const rtrvdLst = response.data;
+  //   // console.log("rsrch getTop5: ", rtrvdLst);
+  //   setLD(false);
+  //   return rtrvdLst;
+  // }, [rsk, setLD, ldcuid]);
 
   const getEcon = useCallback(
     async (citem, ldc, yr) => {
       setLD(true);
       const response = await axios.get(
-        `http://localhost:4000/getEcon/${citem}/${ldc}/${yr}`
+        `/getEcon/${citem}/${ldc}/${yr}` // http://localhost:4000
       );
       // console.log('getEcon at use-db', response.data);
       // const lst = response.data;
@@ -234,7 +314,7 @@ const useDb = () => {
 
   const getReg = useCallback(async () => {
     setLD(true);
-    const response = await axios.get(`http://localhost:4000/getReg`);
+    const response = await axios.get(`/getReg`); // http://localhost:4000
     // console.log('getReg at use-db', response.data);
     setLD(false);
     return response.data;
@@ -245,11 +325,11 @@ const useDb = () => {
       setLD(true);
       // console.log(
       //   'getbar2sido axios at use-db',
-      //   `http:localhost:3000/getBar2sido/${tablenm}/${yr}`
+      //   `/getBar2sido/${tablenm}/${yr}` // http://localhost:4000
       // );
 
       const response = await axios.get(
-        `http://localhost:4000/getBar2sido/${tablenm}/${yr}`
+        `/getBar2sido/${tablenm}/${yr}` // http://localhost:4000
       );
       // console.log('getBar2sido at use-db', response.data);
       setLD(false);
@@ -262,7 +342,7 @@ const useDb = () => {
     async (tablenm, sidotmp, yr) => {
       setLD(true);
       const response = await axios.get(
-        `http://localhost:4000/getBar2sgg/${tablenm}/${sidotmp}/${yr}`
+        `/getBar2sgg/${tablenm}/${sidotmp}/${yr}` // http://localhost:4000
       );
       // console.log('getBar2sgg at use-db', response.data);
       setLD(false);
@@ -274,7 +354,7 @@ const useDb = () => {
   const getLdc = useCallback(
     async (ldc) => {
       setLD(true);
-      const response = await axios.get(`http://localhost:4000/getLdc/${ldc}`);
+      const response = await axios.get(`/getLdc/${ldc}`); // http://localhost:4000
       // console.log('getLdc arrayarrayarray:\n', Object.values(response.data[0]));
       const arraydata = Object.values(response.data[0]);
       setLdcuid(arraydata);
@@ -290,18 +370,120 @@ const useDb = () => {
     [setLD, setLdcuid, setView, scrn, setExp]
   );
 
+  const getPie1 = useCallback(
+    async (col, ldc) => {
+      setLD(true);
+      const response = await axios.get(
+        `/getPie1/${col}/${ldc}` // http://localhost:4000
+      );
+      setLD(false);
+      return response.data;
+    },
+    [setLD]
+  );
+
+  /////////////////////////////////////////////////////////
+  const getpfrjs = async () => {
+    try {
+      setLD(true);
+      const res = await axios.get('/getPfrjs'); // http://localhost:4000
+      setPfrjs(res.data);
+      setLD(false);
+    } catch (e) {
+      console.error('Failed to get pfrGjs:\n', e);
+    }
+  };
+
+  const getPfrdata = useCallback(async () => {
+    setLD(true);
+    try {
+      const [
+        parks,
+        parks_buffer,
+        ch_safe_zone,
+        sn_safe_zone,
+        multfac,
+        multfac_entr,
+        schl_bld,
+        schl_buffer,
+        schl_entr,
+      ] = await Promise.all([
+        axios.get(
+          `/getPfrdata/parks/${ldcuid && ldcuid[0]}` // http://localhost:4000
+        ),
+        axios.get(
+          `/getPfrdata/parks_buffer/${ldcuid && ldcuid[0]}` // http://localhost:4000
+        ),
+        axios.get(
+          `/getPfrdata/ch_safe_zone/${ldcuid && ldcuid[0]}` // http://localhost:4000
+        ),
+        axios.get(
+          `/getPfrdata/sn_safe_zone/${ldcuid && ldcuid[0]}` // http://localhost:4000
+        ),
+        axios.get(
+          `/getPfrdata/multfac/${ldcuid && ldcuid[0]}` // http://localhost:4000
+        ),
+        axios.get(
+          `/getPfrdata/multfac_entr/${ldcuid && ldcuid[0]}` // http://localhost:4000
+        ),
+        axios.get(
+          `/getPfrdata/schl_bld/${ldcuid && ldcuid[0]}` // http://localhost:4000
+        ),
+        axios.get(
+          `/getPfrdata/schl_buffer/${ldcuid && ldcuid[0]}` // http://localhost:4000
+        ),
+        axios.get(
+          `/getPfrdata/schl_entr/${ldcuid && ldcuid[0]}` // http://localhost:4000
+        ),
+      ]);
+      setPfrdata((prev) => ({
+        ...prev,
+        parks: parks.data,
+        parks_buffer: parks_buffer.data,
+        ch_safe_zone: ch_safe_zone.data,
+        sn_safe_zone: sn_safe_zone.data,
+        multfac: multfac.data,
+        multfac_entr: multfac_entr.data,
+        schl_bld: schl_bld.data,
+        schl_buffer: schl_buffer.data,
+        schl_entr: schl_entr.data,
+      }));
+    } catch (err) {
+      console.error('Error fetching pfrdata:', err);
+    } finally {
+      setLD(false);
+      console.log('pfr fetched');
+    }
+  }, [setLD, ldcuid, setPfrdata]);
+
+  const getTopPfr = useCallback(async () => {
+    setLD(true);
+    const response = await axios.get(
+      `/getTopPfr/${ldcuid && ldcuid[0]}` // http://localhost:4000
+    );
+    const rtrvdLst = response.data;
+    setLD(false);
+    return rtrvdLst;
+  }, [setLD, ldcuid]);
+
   /////////////////////////////////////////////////////////
   return {
+    getProp,
     getCord,
     getCsv,
     getSrchId,
     getLength,
-    getTop5,
+    // getTop5,
     getEcon,
     getReg,
     getBar2sido,
     getBar2sgg,
     getLdc,
+    getPie1,
+    ////////////////////////////////////
+    getpfrjs,
+    getPfrdata,
+    getTopPfr,
   };
 };
 

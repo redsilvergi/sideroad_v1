@@ -245,7 +245,7 @@
 .accordion_div {
   width: 100%;
   color: #333333;
-  font-size: 12pt;
+  /* font-size: 12pt; */
   font-weight: bold;
   overflow-y: scroll;
 }

@@ -98,38 +98,30 @@ const CbxGen1 = ({ list }) => {
       default:
         break;
     }
-    var ldc = ldcuid && ldcuid[0]; //table with new ldc as of 2024/10
-    var yr2 = yr && yr.slice(0, 4);
-
-    getEcon(genitem2, ldc, yr2);
+    if (genitem2 && ldcuid && yr) {
+      const ldc = ldcuid[0]; //table with new ldc as of 2024/10
+      const yr2 = yr.slice(0, 4);
+      getEcon(genitem2, ldc, yr2);
+    }
   }, [genitem, yr, ldcuid, getEcon]);
 
   // return ----------------------------------------------------------------------
   return (
     <form>
-      {list.map((item, index) => (
-        <div key={`checkbox${index + 1}`}>
+      {list.map((item, id) => (
+        <div key={`checkbox${id + 1}`}>
           <label className="gen1_chk_lb">
             <input
               className="gen1_custom_cb"
               type="checkbox"
-              name={`checkbox${index + 1}`}
-              checked={genitem === list[index]}
-              onChange={() => setGenitem(list[index])}
+              name={`checkbox${id + 1}`}
+              checked={genitem === list[id]}
+              onChange={() => setGenitem(list[id])}
             />
             <div className="gen1_chk_item">
-              <div className={`gen1C gen1Cbox${index}`}></div>
+              <div className={`gen1C gen1Cbox${id}`}></div>
               <div className="gen1_chk_word">{item}</div>
             </div>
-            {/* {index !== list.length - 1 ? (
-              <div className="gen1_chk_item">
-                <div className={`gen1C gen1Cbox${index}`}></div> {item}
-              </div>
-            ) : (
-              <div className="gen1_chk_item" style={{ marginBottom: '13px' }}>
-                {item}
-              </div>
-            )} */}
           </label>
         </div>
       ))}

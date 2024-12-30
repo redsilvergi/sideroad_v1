@@ -9,26 +9,35 @@
   font-weight: bolder;
 }
 .rsk1_d1:hover {
-  background-color: #e5ebef;
+  background-color: #f1f1f1;
+}
+.rsk1_d1.active {
+  background-color: #f1f1f1;
 }
 .rsklbl {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 50px;
-  color: black;
-  font-size: 14px;
+  color: #b9b9b9;
+  font-size: 13px;
   font-weight: 800;
 }
+.rsklbl.active {
+  color: black;
+}
 .rsk1_icon {
-  font-size: 20px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 5px 0 0;
-  color: #6687a0;
+  color: #c2c2c2;
 }
-.rsk1_line {
+.rsk1_icon.active {
+  color: black;
+}
+/* .rsk1_line {
   height: 1px;
   background-color: gray;
   opacity: 30%;
@@ -36,13 +45,13 @@
   align-items: center;
   width: 87.5%;
   margin: 0 0 0 20px;
-}
+} */
 .rsk1_expanded {
   color: #333333;
-  width: auto;
+  /* width: auto; */
   font-size: 12px;
-  padding: 0 20px;
+  /* padding: 0 5px; */
 }
 .유형별위험도구성비_rsk1_exp {
-  margin: 0 0 20px 0;
+  /* margin: 0 0 20px 0; */
 }

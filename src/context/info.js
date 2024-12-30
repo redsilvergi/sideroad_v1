@@ -46,13 +46,6 @@ const InfoProvider = ({ children }) => {
       stairOps: { name: '계단', selected: null, checkboxes: null },
       sdwkOps: { name: '보도', selected: null, checkboxes: null },
     });
-    setRnfo({
-      rskOps: {
-        name: '위험도',
-        selected: ['매우 나쁨', '나쁨', '보통', '좋음', '매우 좋음'],
-        checkboxes: [true, true, true, true, true],
-      },
-    });
     setLength(null);
   }, []);
 
@@ -141,37 +134,9 @@ const InfoProvider = ({ children }) => {
       },
     });
   }, []);
-
-  const [rnfo, setRnfo] = useState({
-    rskOps: {
-      name: '위험도',
-      selected: ['매우 나쁨', '나쁨', '보통', '좋음', '매우 좋음'],
-      checkboxes: [true, true, true, true, true],
-    },
-  });
-
-  const [pnfo, setPnfo] = useState({
-    road_se: null,
-    cartrk_co: null,
-    road_bt: null,
-    pmtr_se: null,
-    osps_se: null,
-    road_lt: null,
-    slope_lg: null,
-    sdwk_se: null,
-    rdnet_ac: null,
-    pbuld_fa: null,
-    bulde_de: null,
-    pubtr_ac: null,
-    stair_at: null,
-    edennc_at: null,
-    pedac_rk: null,
-    crime_rk: null,
-    flood_rk: null,
-    crwdac_rk: null,
-    fallac_rk: null,
-  });
-
+  const [rnfo0, setRnfo0] = useState(null);
+  const [rnfo1, setRnfo1] = useState(null);
+  const [pnfo, setPnfo] = useState(null);
   const [isFilter, setIsFilter] = useState(true);
   const [depth1, setDepth1] = useState(null);
   const [length, setLength] = useState(false);
@@ -185,7 +150,6 @@ const InfoProvider = ({ children }) => {
   const [right, setRight] = useState(false);
   const [pick, setPick] = useState(null);
   const [hov, setHov] = useState(null);
-  const [rsk, setRsk] = useState(null);
   const [accRsk2a, setAccRsk2a] = useState(true);
   const [nfid, setNfid] = useState(null);
   const [prpall, setPrpall] = useState(false);
@@ -195,6 +159,31 @@ const InfoProvider = ({ children }) => {
   const [genfo, setGenfo] = useState([]);
   const [ldcuid, setLdcuid] = useState(null);
   const [exp, setExp] = useState(0);
+
+  //////////////////////////////////
+  const [pfrjs, setPfrjs] = useState(null);
+  const [checkedPfr, setCheckedPfr] = useState([]);
+  const [pfrPick, setPfrPick] = useState(null);
+  const [pfrInfo, setPfrInfo] = useState(null);
+  const [pfrdata, setPfrdata] = useState({
+    parks: null,
+    parks_buffer: null,
+    ch_safe_zone: null,
+    sn_safe_zone: null,
+    multfac: null,
+    multfac_entr: null,
+    schl_bld: null,
+    schl_buffer: null,
+    schl_entr: null,
+  });
+  const [pfrLegendCbx, setPfrLegendCbx] = useState([
+    true,
+    true,
+    true,
+    true,
+    true,
+  ]);
+  const [topPfrList, setTopPfrList] = useState([]);
 
   const contextValue = useMemo(
     () => ({
@@ -206,8 +195,6 @@ const InfoProvider = ({ children }) => {
       info,
       setInfo,
       reset,
-      rnfo,
-      setRnfo,
       isFilter,
       setIsFilter,
       depth1,
@@ -228,8 +215,6 @@ const InfoProvider = ({ children }) => {
       setPick,
       hov,
       setHov,
-      rsk,
-      setRsk,
       accRsk2a,
       setAccRsk2a,
       nfid,
@@ -253,6 +238,25 @@ const InfoProvider = ({ children }) => {
       setLdcuid,
       exp,
       setExp,
+      rnfo0,
+      setRnfo0,
+      rnfo1,
+      setRnfo1,
+      /////////////////
+      pfrjs,
+      setPfrjs,
+      checkedPfr,
+      setCheckedPfr,
+      pfrPick,
+      setPfrPick,
+      pfrdata,
+      setPfrdata,
+      pfrLegendCbx,
+      setPfrLegendCbx,
+      pfrInfo,
+      setPfrInfo,
+      topPfrList,
+      setTopPfrList,
     }),
     [
       // view,
@@ -261,7 +265,6 @@ const InfoProvider = ({ children }) => {
       LD,
       // data,
       info,
-      rnfo,
       isFilter,
       depth1,
       length,
@@ -272,7 +275,6 @@ const InfoProvider = ({ children }) => {
       right,
       pick,
       hov,
-      rsk,
       accRsk2a,
       nfid,
       pnfo,
@@ -284,6 +286,16 @@ const InfoProvider = ({ children }) => {
       genfo,
       ldcuid,
       exp,
+      rnfo0,
+      rnfo1,
+      /////////////////
+      pfrjs,
+      checkedPfr,
+      pfrPick,
+      pfrdata,
+      pfrLegendCbx,
+      pfrInfo,
+      topPfrList,
     ]
   );
 

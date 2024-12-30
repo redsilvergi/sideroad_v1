@@ -2,7 +2,8 @@ import useInfo from './use-info';
 
 const useColor = () => {
   // setup ----------------------------------------------------------------------
-  const { info, pick, rnfo, rsk, ldcuid, bar } = useInfo();
+  const { info, pick, ldcuid, bar, rnfo0, rnfo1, pfrPick, topPfrList } =
+    useInfo();
 
   // conditionf ----------------------------------------------------------------------
   const conditionF = (obj) => {
@@ -17,7 +18,6 @@ const useColor = () => {
       stairOps,
       sdwkOps,
     } = info;
-    // const { city, county } = region;
 
     if (rdbtOps && rdbtOps.checkboxes) {
       var rdbtConditions = rdbtOps.checkboxes
@@ -93,19 +93,19 @@ const useColor = () => {
           if (pmtrOp) {
             switch (index) {
               case 0:
-                return (feature) => feature.properties.PMTR_SE === 'PVM001';
+                return (feature) => feature.properties.PMTR_SE === 1;
               case 1:
-                return (feature) => feature.properties.PMTR_SE === 'PVM003';
+                return (feature) => feature.properties.PMTR_SE === 3;
               case 2:
-                return (feature) => feature.properties.PMTR_SE === 'PVM004';
+                return (feature) => feature.properties.PMTR_SE === 4;
               case 3:
-                return (feature) => feature.properties.PMTR_SE === 'PVM005';
+                return (feature) => feature.properties.PMTR_SE === 5;
               case 4:
                 return (feature) =>
-                  feature.properties.PMTR_SE !== 'PVM001' &&
-                  feature.properties.PMTR_SE !== 'PVM003' &&
-                  feature.properties.PMTR_SE !== 'PVM004' &&
-                  feature.properties.PMTR_SE !== 'PVM005';
+                  feature.properties.PMTR_SE !== 1 &&
+                  feature.properties.PMTR_SE !== 3 &&
+                  feature.properties.PMTR_SE !== 4 &&
+                  feature.properties.PMTR_SE !== 5;
               default:
                 return null;
             }
@@ -277,11 +277,11 @@ const useColor = () => {
           if (sdwkOp) {
             switch (index) {
               case 0:
-                return (feature) => feature.properties.SDWK_SE === 'SDW002';
+                return (feature) => feature.properties.SDWK_SE === 2;
               case 1:
-                return (feature) => feature.properties.SDWK_SE === 'SDW003';
+                return (feature) => feature.properties.SDWK_SE === 3;
               case 2:
-                return (feature) => feature.properties.SDWK_SE === 'SDW001';
+                return (feature) => feature.properties.SDWK_SE === 1;
               default:
                 return null;
             }
@@ -315,7 +315,7 @@ const useColor = () => {
           sdwkConditions.length !== 0 &&
           sdwkConditions.some((condition) => condition(obj)) &&
           (ldcuid && ldcuid[4].slice(2) !== '000'
-            ? obj.properties.LEGLCD_SE === `${ldcuid[4]}00000`
+            ? obj.properties.LEGLCD_SE === `${ldcuid[4]}`
             : ldcuid && ldcuid[4].slice(2) === '000'
             ? obj.properties.LEGLCD_SE.slice(0, 2) === ldcuid[4].slice(0, 2)
             : true);
@@ -323,40 +323,28 @@ const useColor = () => {
 
   // getrskclr ----------------------------------------------------------------------
   const getRskClr = (obj) => {
-    const { rskOps } = rnfo;
-    const check = rskOps.checkboxes;
-    // const { city, county } = region;
-    var rskVal;
-    switch (rsk) {
-      case '교통사고':
-        rskVal = Number(obj.properties.PEDAC_RK[5]);
-        break;
-      case '재해사고':
-        rskVal = Number(obj.properties.FLOOD_RK[5]);
-        break;
-      case '범죄사고':
-        rskVal = Number(obj.properties.CRIME_RK[5]);
-        break;
-      case '밀집사고':
-        rskVal = Number(obj.properties.CRWDAC_RK[5]);
-        break;
-      case '낙상사고':
-        rskVal = Number(obj.properties.FALLAC_RK[5]);
-        break;
-      default:
-        break;
-    }
+    const mode =
+      rnfo0 && rnfo1 ? '사고예측' : rnfo0 ? '사고' : rnfo1 ? '예측' : '미선택';
+    const check = mode === '사고' ? rnfo0 : mode === '예측' ? rnfo1 : [];
+    const rskVal =
+      mode === '사고'
+        ? Number(4 - obj.properties.PEDAC_RK) //PEDAC_RK: 0 안전 4 위험
+        : mode === '예측'
+        ? Number(4 - obj.properties.PRED) //PRED: 0 안전 4 위험
+        : Number(4 - obj.properties.PEDAC_RK);
+
+    // case pick ----------------------------------------
     if (pick) {
       if (obj.properties.NF_ID === pick) {
-        if (rskVal === 1) {
+        if (rskVal === 0) {
           return [221, 0, 22, 255 * 0.8];
-        } else if (rskVal === 2) {
+        } else if (rskVal === 1) {
           return [233, 141, 120, 255 * 0.8];
-        } else if (rskVal === 3) {
+        } else if (rskVal === 2) {
           return [242, 212, 146, 255 * 0.8];
-        } else if (rskVal === 4) {
+        } else if (rskVal === 3) {
           return [121, 194, 165, 255 * 0.8];
-        } else if (rskVal === 5) {
+        } else if (rskVal === 4) {
           return [0, 175, 185, 255 * 0.8];
         } else {
           return [0, 0, 0, 255 * 0.05];
@@ -364,74 +352,151 @@ const useColor = () => {
       } else {
         return [0, 0, 0, 255 * 0.05];
       }
-    } else if (ldcuid && ldcuid[4].slice(2) !== '000') {
-      if (obj.properties.LEGLCD_SE === `${ldcuid[4]}00000`) {
-        if (rskVal === 1) {
+    }
+    // case 사고예측모두선택 ----------------------------------------
+    else if (mode === '사고예측') {
+      var cond0 = rnfo0
+        .map((item, id) => {
+          if (item) {
+            switch (id) {
+              case 0:
+                return (d) => d.properties.PEDAC_RK === 4;
+              case 1:
+                return (d) => d.properties.PEDAC_RK === 3;
+              case 2:
+                return (d) => d.properties.PEDAC_RK === 2;
+              case 3:
+                return (d) => d.properties.PEDAC_RK === 1;
+              case 4:
+                return (d) => d.properties.PEDAC_RK === 0;
+              default:
+                return null;
+            }
+          } else {
+            return null;
+          }
+        })
+        .filter((cond) => cond !== null);
+
+      var cond1 = rnfo1
+        .map((item, id) => {
+          if (item) {
+            switch (id) {
+              case 0:
+                return (d) => d.properties.PRED === 4;
+              case 1:
+                return (d) => d.properties.PRED === 3;
+              case 2:
+                return (d) => d.properties.PRED === 2;
+              case 3:
+                return (d) => d.properties.PRED === 1;
+              case 4:
+                return (d) => d.properties.PRED === 0;
+              default:
+                return null;
+            }
+          } else {
+            return null;
+          }
+        })
+        .filter((cond) => cond !== null);
+
+      const finalcheck =
+        cond0.length !== 0 &&
+        cond0.some((condition) => condition(obj)) &&
+        cond1.length !== 0 &&
+        cond1.some((condition) => condition(obj)) &&
+        (ldcuid && ldcuid[4].slice(2) !== '000'
+          ? obj.properties.LEGLCD_SE === `${ldcuid[4]}`
+          : ldcuid && ldcuid[4].slice(2) === '000'
+          ? obj.properties.LEGLCD_SE.slice(0, 2) === ldcuid[4].slice(0, 2)
+          : true);
+
+      return finalcheck ? [0, 98, 175, 255 * 0.75] : [0, 0, 0, 255 * 0.05];
+    }
+    // case 나머지:사고예측중하나선택/모두미선택 ----------------------------------------
+    else {
+      // case 시군구 ----------------------------------------
+      if (ldcuid && ldcuid[4].slice(2) !== '000') {
+        if (obj.properties.LEGLCD_SE === `${ldcuid[4]}`) {
+          if (rskVal === 0) {
+            return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+          } else if (rskVal === 1) {
+            return check[1]
+              ? [233, 141, 120, 255 * 0.8]
+              : [0, 0, 0, 255 * 0.05];
+          } else if (rskVal === 2) {
+            return check[2]
+              ? [242, 212, 146, 255 * 0.8]
+              : [0, 0, 0, 255 * 0.05];
+          } else if (rskVal === 3) {
+            return check[3]
+              ? [121, 194, 165, 255 * 0.8]
+              : [0, 0, 0, 255 * 0.05];
+          } else if (rskVal === 4) {
+            return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+          } else {
+            return [0, 0, 0, 255 * 0.05];
+          }
+        } else {
+          return [0, 0, 0, 255 * 0.05];
+        }
+      }
+      // case 시도 ----------------------------------------
+      else if (ldcuid && ldcuid[4].slice(2) === '000') {
+        if (obj.properties.LEGLCD_SE.slice(0, 2) === ldcuid[4].slice(0, 2)) {
+          if (rskVal === 0) {
+            return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+          } else if (rskVal === 1) {
+            return check[1]
+              ? [233, 141, 120, 255 * 0.8]
+              : [0, 0, 0, 255 * 0.05];
+          } else if (rskVal === 2) {
+            return check[2]
+              ? [242, 212, 146, 255 * 0.8]
+              : [0, 0, 0, 255 * 0.05];
+          } else if (rskVal === 3) {
+            return check[3]
+              ? [121, 194, 165, 255 * 0.8]
+              : [0, 0, 0, 255 * 0.05];
+          } else if (rskVal === 4) {
+            return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
+          } else {
+            return [0, 0, 0, 255 * 0.05];
+          }
+        } else {
+          return [0, 0, 0, 255 * 0.05];
+        }
+      }
+      // case 시도시군구미선택 ----------------------------------------
+      else {
+        if (rskVal === 0) {
           return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else if (rskVal === 2) {
+        } else if (rskVal === 1) {
           return check[1] ? [233, 141, 120, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else if (rskVal === 3) {
+        } else if (rskVal === 2) {
           return check[2] ? [242, 212, 146, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else if (rskVal === 4) {
+        } else if (rskVal === 3) {
           return check[3] ? [121, 194, 165, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else if (rskVal === 5) {
+        } else if (rskVal === 4) {
           return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
         } else {
           return [0, 0, 0, 255 * 0.05];
         }
-      } else {
-        return [0, 0, 0, 255 * 0.05];
-      }
-    } else if (ldcuid && ldcuid[4].slice(2) === '000') {
-      if (obj.properties.LEGLCD_SE.slice(0, 2) === ldcuid[4].slice(0, 2)) {
-        if (rskVal === 1) {
-          return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else if (rskVal === 2) {
-          return check[1] ? [233, 141, 120, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else if (rskVal === 3) {
-          return check[2] ? [242, 212, 146, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else if (rskVal === 4) {
-          return check[3] ? [121, 194, 165, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else if (rskVal === 5) {
-          return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-        } else {
-          return [0, 0, 0, 255 * 0.05];
-        }
-      } else {
-        return [0, 0, 0, 255 * 0.05];
-      }
-    } else {
-      if (rskVal === 1) {
-        return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-      } else if (rskVal === 2) {
-        return check[1] ? [233, 141, 120, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-      } else if (rskVal === 3) {
-        return check[2] ? [242, 212, 146, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-      } else if (rskVal === 4) {
-        return check[3] ? [121, 194, 165, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-      } else if (rskVal === 5) {
-        return check[4] ? [0, 175, 185, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
-      } else {
-        return [0, 0, 0, 255 * 0.05];
       }
     }
   };
 
   // getroadcolor ----------------------------------------------------------------------
   const getRoadColor = (obj) => {
-    if (rsk) {
-      if (!obj.properties.NF_ID) {
-        //for int points
-        return [255, 255, 255];
-      } else {
-        //for selected info(filter)
-        return getRskClr(obj);
-      }
-    } else if (bar === 1) {
-      if (!obj.properties.NF_ID) {
-        //for int points
-        return [255, 255, 255];
-      }
+    if (!obj.properties.NF_ID) {
+      //for int points
+      return [255, 255, 255];
+    }
+    // if (hvid === obj.properties.NF_ID) {
+    //   return [255, 255, 0];
+    // }
+    if (bar === 1) {
       if (ldcuid && ldcuid[4].slice(2) === '000') {
         if (obj.properties.LEGLCD_SE.slice(0, 2) === ldcuid[4].slice(0, 2)) {
           return [0, 98, 175, 255 * 0.75];
@@ -439,7 +504,7 @@ const useColor = () => {
           return [102, 135, 160, 255 * 0.35];
         }
       } else if (ldcuid && ldcuid[4].slice(2) !== '000') {
-        if (obj.properties.LEGLCD_SE === `${ldcuid[4]}00000`) {
+        if (obj.properties.LEGLCD_SE === ldcuid[4]) {
           return [0, 98, 175, 255 * 0.75];
         } else {
           return [102, 135, 160, 255 * 0.35];
@@ -447,11 +512,25 @@ const useColor = () => {
       } else {
         return [102, 135, 160, 255 * 0.35];
       }
-    } else {
-      if (!obj.properties.NF_ID) {
-        //for int points
-        return [255, 255, 255];
-      } else if (conditionF(obj)) {
+    } else if (bar === 2) {
+      //for selected info(filter)
+      return getRskClr(obj);
+    } else if (bar === 3 && pfrPick) {
+      const selectedRank = topPfrList.find(
+        (item) => item.nf_id === pfrPick
+      )?.ped_fitr_rank;
+
+      const matchingIds = topPfrList
+        .filter((item) => item.ped_fitr_rank === selectedRank)
+        .map((item) => item.nf_id);
+
+      if (matchingIds.includes(obj.properties.NF_ID)) {
+        return [245, 167, 212];
+      } else {
+        return [0, 0, 0, 255 * 0.05];
+      }
+    } else if (bar === 4) {
+      if (conditionF(obj)) {
         //for selected info(filter)
         // if (hov === obj.properties.NF_ID) {
         //   return [0, 255, 0];
@@ -466,9 +545,33 @@ const useColor = () => {
         return [102, 135, 160, 255 * 0.35];
         // }
       }
+    } else {
+      return [102, 135, 160, 255 * 0.35];
     }
   };
-  return { getRoadColor, conditionF };
+
+  // getaccpcolor ----------------------------------------------------------------------
+  const getAccpColor = (obj, hvid) => {
+    if (hvid === obj.properties.acdnt_no) {
+      return [255, 255, 0];
+    }
+    if (ldcuid && ldcuid[4].slice(2) === '000') {
+      if (obj.properties.ldc.slice(0, 2) === ldcuid[4].slice(0, 2)) {
+        return [255, 0, 0];
+      } else {
+        return [102, 135, 160, 255 * 0.35];
+      }
+    } else if (ldcuid && ldcuid[4].slice(2) !== '000') {
+      if (obj.properties.ldc === ldcuid[4]) {
+        return [255, 0, 0];
+      } else {
+        return [102, 135, 160, 255 * 0.35];
+      }
+    } else {
+      return [255, 0, 0];
+    }
+  };
+  return { getRoadColor, conditionF, getAccpColor };
 };
 
 export default useColor;

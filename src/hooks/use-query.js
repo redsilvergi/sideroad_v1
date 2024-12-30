@@ -280,7 +280,7 @@ const useQuery = () => {
       query = 0;
     }
 
-    // console.log("query from use-query.js:", "\n", query);
+    console.log('query from use-query.js:', '\n', query);
     return query;
   }, [info, ldcuid]);
 

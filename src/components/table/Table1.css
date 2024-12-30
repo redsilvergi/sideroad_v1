@@ -31,8 +31,6 @@
   font-weight: 800;
   text-decoration: underline;
 }
-.tbl1_edit {
-}
 .tbl1_save {
   margin: 0 3px 0 0;
 }
@@ -89,4 +87,15 @@
 }
 .table_cont_x {
   text-align: center;
+  /* border: 1px solid black; */
+  animation: flicker 1s infinite;
+}
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }

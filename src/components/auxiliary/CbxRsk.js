@@ -1,63 +1,41 @@
-import "./CbxRsk.css";
-import React, { useCallback, useEffect, useState, useRef } from "react";
+import './CbxRsk.css';
+import React from 'react';
 
-const CbxRsk = ({ name, checklist }) => {
-  const objRef = useRef(checklist.filter((item) => item.name === name)[0]);
-  const obj = objRef.current;
-  const list = obj.options;
-
-  const [checkboxes, setCheckboxes] = useState(() => {
-    const initialCheckboxes = {};
-    for (let i = 1; i <= list.length; i++) {
-      initialCheckboxes[`checkbox${i}`] = true;
+const CbxRsk = ({ list, rnfo, setRnfo, exp }) => {
+  // handle ----------------------------------------------------------------------
+  const handleChange = (id) => {
+    if (exp[0] & exp[1]) {
+      setRnfo((prev) => {
+        const newRnfo = [false, false, false, false, false];
+        newRnfo[id] = true;
+        return newRnfo;
+      });
+    } else {
+      setRnfo((prev) => {
+        const newRnfo = [...prev];
+        newRnfo[id] = !newRnfo[id];
+        return newRnfo;
+      });
     }
-
-    return initialCheckboxes;
-  });
-
-  const updateF = useCallback(() => {
-    const sortedItems = Object.values(checkboxes).reduce((acc, val, i) => {
-      if (val) {
-        acc.push([...list][i]);
-      }
-      return acc;
-    }, []);
-    obj.updateInfo(sortedItems, Object.values(checkboxes));
-  }, [checkboxes, obj, list]);
-
-  const handleCheckboxChange = (event) => {
-    const { name, checked } = event.target;
-    setCheckboxes((prevCheckboxes) => ({
-      ...prevCheckboxes,
-      [name]: checked,
-    }));
   };
 
-  useEffect(() => {
-    updateF();
-  }, [updateF]);
-
+  // return ----------------------------------------------------------------------
   return (
     <form>
-      {list.map((item, index) => (
-        <div key={`checkbox${index + 1}`}>
+      {list.map((item, id) => (
+        <div key={`checkbox${id + 1}`}>
           <label className="rsk_chk_lb">
             <input
-              className="rsk_custom_cb"
+              className={`rsk_custom_cb_${id}`}
               type="checkbox"
-              name={`checkbox${index + 1}`}
-              checked={checkboxes[`checkbox${index + 1}`]}
-              onChange={handleCheckboxChange}
+              name={`checkbox${id + 1}`}
+              checked={rnfo ? rnfo[id] : false}
+              onChange={() => handleChange(id)}
             />
-            {index !== list.length - 1 ? (
-              <div className="rsk_chk_item">
-                <div className={`rskC rskCbox${index}`}></div> {item}
-              </div>
-            ) : (
-              <div className="rsk_chk_item" style={{ marginBottom: "13px" }}>
-                <div className={`rskC rskCbox${index}`}></div> {item}
-              </div>
-            )}
+            <div className="rsk_chk_item">
+              {/* <div className={`rskC rskCbox${id}`}></div> {item} */}
+              {item}
+            </div>
           </label>
         </div>
       ))}
