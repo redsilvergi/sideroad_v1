@@ -107,7 +107,9 @@ const LeftBar = () => {
 
         <div
           className={`priorBT ${bar === 3 ? 'active' : ''}`}
-          onClick={() => handleSetBar(3, true)}
+          onClick={() => {
+            handleSetBar(3, true);
+          }}
         >
           <div className="hvd">보행자 우선도로</div>
           <div className="topicons">

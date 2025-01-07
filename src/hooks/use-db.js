@@ -30,7 +30,7 @@ const useDb = () => {
   /////////////////////////////////////////////////////////
   const getProp = useCallback(async (nf_id) => {
     // setLD(true);
-    const response = await axios.get(`/getProp/${nf_id}`); // http://localhost:4000
+    const response = await axios.get(`/getProp/${nf_id}`); ////http://localhost:4000
     return response.data;
     // console.log('getProp response at use-db.js: ', response);
     // setPnfo(response.data);
@@ -42,13 +42,13 @@ const useDb = () => {
       setLD(true);
       // console.log(nf_id);
       const response = await axios.get(
-        `/getCord/${nf_id}` // http://localhost:4000
+        `/getCord/${nf_id}` ////http://localhost:4000
       );
       const response2 = await axios.get(
-        `/getProp/${nf_id}` // http://localhost:4000
+        `/getProp/${nf_id}` ////http://localhost:4000
       );
       const response3 = await axios.get(
-        `/getShap/${nf_id}` // http://localhost:4000
+        `/getShap/${nf_id}` ////http://localhost:4000
       );
       // console.log("getCord response at use-de.js: ", response);
       bar === 3 ? setPfrPick(nf_id) : setPick(nf_id);
@@ -107,7 +107,7 @@ const useDb = () => {
       setLD(true);
       const nf_ids = nfList.map((item) => `'${item.nf_id}'`).join(',');
       const query = `select * from side1r where NF_ID in (${nf_ids})`;
-      const response = await axios.get(`/getCsv/${query}`); // http://localhost:4000
+      const response = await axios.get(`/getCsv/${query}`); ////http://localhost:4000
       // console.log("csvlistdwn: ", response.data);
       // Construct CSV string and Adding BOM(Byte Order Mark) for UTF-8 Encoding
       const BOM = '\uFEFF';
@@ -142,51 +142,12 @@ const useDb = () => {
     [setLD, ldcuid, bar]
   );
 
-  // const getCsv = useCallback(
-  //   async (nfList) => {
-  //     setLD(true);
-  //     const nf_ids = nfList.map((item) => `'${item}'`).join(',');
-  //     const query = `select NF_ID, ROAD_NM, ROAD_SE, PMTR_SE, EDENNC_AT, CARTRK_CO, ROAD_BT, OSPS_SE, SLOPE_LG, PBULD_FA, BULDE_DE, SDWK_SE, STAIR_AT, RDNET_AC, PEDAC_RK, CRIME_RK, FLOOD_RK, CRWDAC_RK, FALLAC_RK, PUBTR_AC, ROAD_LT, long, lat from side10 where NF_ID in (${nf_ids})`;
-  //     const response = await axios.get(`/getCsv/${query}`); // http://localhost:4000
-  //     // console.log("csvlistdwn: ", response.data);
-  //     // Construct CSV string and Adding BOM(Byte Order Mark) for UTF-8 Encoding
-  //     const BOM = '\uFEFF';
-  //     const csvRows = response.data
-  //       .map((row) => {
-  //         return row
-  //           .map((value) => {
-  //             if (!isNaN(value) && value !== null) {
-  //               return `="${value}"`; // Format number as a string to prevent Excel auto-formatting & Enclose the value in ="", to ensure Excel treats it as a string
-  //             }
-  //             return value; // Return non-numeric values unchanged
-  //           })
-  //           .join(',');
-  //       })
-  //       .join('\n');
-  //     const csvContent = BOM + csvRows; // Prepend BOM
-  //     // Using Blob for potentially large data sets or special characters
-  //     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-  //     const url = URL.createObjectURL(blob);
-  //     const link = document.createElement('a');
-  //     link.setAttribute('href', url);
-  //     link.setAttribute(
-  //       'download',
-  //       `${rsk}_${ldcuid ? ldcuid[2] : '전국'}_top5.csv`
-  //     );
-  //     document.body.appendChild(link); //required for firefox
-  //     link.click();
-  //     URL.revokeObjectURL(url); // Clean up to avoid memory leaks
-  //     setLD(false);
-  //   },
-  //   [rsk, setLD, ldcuid]
-  // );
-
   /////////////////////////////////////////////////////////
   const getSrchId = useCallback(
     async (rdnm) => {
       var qry = `select NF_ID from side1r where ROAD_NM = '${rdnm}'`;
       const response = await axios.get(
-        `/getSrchId/${qry}` // http://localhost:4000
+        `/getSrchId/${qry}` ////http://localhost:4000
       );
       // console.log("rsrch getsrchid: ", response.data);
       const rtrvdLst = response.data;
@@ -217,7 +178,8 @@ const useDb = () => {
     } else if (bar === 2) {
       const ldc = ldcuid ? ldcuid[4] : null;
       const response = await axios.post(`/getLength2`, {
-        // http://localhost:4000
+        //http://localhost:4000
+        //
         rnfo0,
         rnfo1,
         ldc,
@@ -231,7 +193,8 @@ const useDb = () => {
       console.log('info and ldcuid\n', info, ldcuid);
       const ldc = ldcuid ? ldcuid[4] : null;
       const response = await axios.post(`/getLength4`, {
-        // http://localhost:4000
+        //http://localhost:4000
+        //
         info,
         ldc,
       });
@@ -276,7 +239,7 @@ const useDb = () => {
   //   // console.log('getTop5 query usedb:\n', qryF());
 
   //   const response = await axios.get(
-  //     `/getTop5/${ldcuid && ldcuid[4]}/${rskType()}` // http://localhost:4000
+  //     `/getTop5/${ldcuid && ldcuid[4]}/${rskType()}`
   //   );
   //   const rtrvdLst = response.data;
   //   // console.log("rsrch getTop5: ", rtrvdLst);
@@ -288,7 +251,7 @@ const useDb = () => {
     async (citem, ldc, yr) => {
       setLD(true);
       const response = await axios.get(
-        `/getEcon/${citem}/${ldc}/${yr}` // http://localhost:4000
+        `/getEcon/${citem}/${ldc}/${yr}` ////http://localhost:4000
       );
       // console.log('getEcon at use-db', response.data);
       // const lst = response.data;
@@ -314,7 +277,7 @@ const useDb = () => {
 
   const getReg = useCallback(async () => {
     setLD(true);
-    const response = await axios.get(`/getReg`); // http://localhost:4000
+    const response = await axios.get(`/getReg`); ////http://localhost:4000
     // console.log('getReg at use-db', response.data);
     setLD(false);
     return response.data;
@@ -325,11 +288,11 @@ const useDb = () => {
       setLD(true);
       // console.log(
       //   'getbar2sido axios at use-db',
-      //   `/getBar2sido/${tablenm}/${yr}` // http://localhost:4000
+      //   `/getBar2sido/${tablenm}/${yr}`
       // );
 
       const response = await axios.get(
-        `/getBar2sido/${tablenm}/${yr}` // http://localhost:4000
+        `/getBar2sido/${tablenm}/${yr}` ////http://localhost:4000
       );
       // console.log('getBar2sido at use-db', response.data);
       setLD(false);
@@ -342,7 +305,7 @@ const useDb = () => {
     async (tablenm, sidotmp, yr) => {
       setLD(true);
       const response = await axios.get(
-        `/getBar2sgg/${tablenm}/${sidotmp}/${yr}` // http://localhost:4000
+        `/getBar2sgg/${tablenm}/${sidotmp}/${yr}` ////http://localhost:4000
       );
       // console.log('getBar2sgg at use-db', response.data);
       setLD(false);
@@ -354,7 +317,7 @@ const useDb = () => {
   const getLdc = useCallback(
     async (ldc) => {
       setLD(true);
-      const response = await axios.get(`/getLdc/${ldc}`); // http://localhost:4000
+      const response = await axios.get(`/getLdc/${ldc}`); ////http://localhost:4000
       // console.log('getLdc arrayarrayarray:\n', Object.values(response.data[0]));
       const arraydata = Object.values(response.data[0]);
       setLdcuid(arraydata);
@@ -374,7 +337,7 @@ const useDb = () => {
     async (col, ldc) => {
       setLD(true);
       const response = await axios.get(
-        `/getPie1/${col}/${ldc}` // http://localhost:4000
+        `/getPie1/${col}/${ldc}` ////http://localhost:4000
       );
       setLD(false);
       return response.data;
@@ -386,7 +349,7 @@ const useDb = () => {
   const getpfrjs = async () => {
     try {
       setLD(true);
-      const res = await axios.get('/getPfrjs'); // http://localhost:4000
+      const res = await axios.get('/getPfrjs'); ////http://localhost:4000
       setPfrjs(res.data);
       setLD(false);
     } catch (e) {
@@ -409,31 +372,31 @@ const useDb = () => {
         schl_entr,
       ] = await Promise.all([
         axios.get(
-          `/getPfrdata/parks/${ldcuid && ldcuid[0]}` // http://localhost:4000
+          `/getPfrdata/parks/${ldcuid && ldcuid[0]}` ////http://localhost:4000
         ),
         axios.get(
-          `/getPfrdata/parks_buffer/${ldcuid && ldcuid[0]}` // http://localhost:4000
+          `/getPfrdata/parks_buffer/${ldcuid && ldcuid[0]}` ////http://localhost:4000
         ),
         axios.get(
-          `/getPfrdata/ch_safe_zone/${ldcuid && ldcuid[0]}` // http://localhost:4000
+          `/getPfrdata/ch_safe_zone/${ldcuid && ldcuid[0]}` ////http://localhost:4000
         ),
         axios.get(
-          `/getPfrdata/sn_safe_zone/${ldcuid && ldcuid[0]}` // http://localhost:4000
+          `/getPfrdata/sn_safe_zone/${ldcuid && ldcuid[0]}` ////http://localhost:4000
         ),
         axios.get(
-          `/getPfrdata/multfac/${ldcuid && ldcuid[0]}` // http://localhost:4000
+          `/getPfrdata/multfac/${ldcuid && ldcuid[0]}` ////http://localhost:4000
         ),
         axios.get(
-          `/getPfrdata/multfac_entr/${ldcuid && ldcuid[0]}` // http://localhost:4000
+          `/getPfrdata/multfac_entr/${ldcuid && ldcuid[0]}` ////http://localhost:4000
         ),
         axios.get(
-          `/getPfrdata/schl_bld/${ldcuid && ldcuid[0]}` // http://localhost:4000
+          `/getPfrdata/schl_bld/${ldcuid && ldcuid[0]}` ////http://localhost:4000
         ),
         axios.get(
-          `/getPfrdata/schl_buffer/${ldcuid && ldcuid[0]}` // http://localhost:4000
+          `/getPfrdata/schl_buffer/${ldcuid && ldcuid[0]}` ////http://localhost:4000
         ),
         axios.get(
-          `/getPfrdata/schl_entr/${ldcuid && ldcuid[0]}` // http://localhost:4000
+          `/getPfrdata/schl_entr/${ldcuid && ldcuid[0]}` ////http://localhost:4000
         ),
       ]);
       setPfrdata((prev) => ({
@@ -459,7 +422,7 @@ const useDb = () => {
   const getTopPfr = useCallback(async () => {
     setLD(true);
     const response = await axios.get(
-      `/getTopPfr/${ldcuid && ldcuid[0]}` // http://localhost:4000
+      `/getTopPfr/${ldcuid && ldcuid[0]}` ////http://localhost:4000
     );
     const rtrvdLst = response.data;
     setLD(false);

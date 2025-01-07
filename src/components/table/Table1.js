@@ -1,6 +1,7 @@
 import './Table1.css';
 import React from 'react';
 import useInfo from '../../hooks/use-info';
+import Trigger from '../auxiliary/Trigger';
 
 // config ----------------------------------------------------------------------
 const config = {
@@ -299,7 +300,7 @@ const Table1 = () => {
       </table>
     </div>
   ) : (
-    <div className="tbl1_cont table_cont_x">연도와 지역을 선택하세요</div>
+    <Trigger />
   );
 };
 

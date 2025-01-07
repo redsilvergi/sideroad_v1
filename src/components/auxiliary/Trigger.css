@@ -1,0 +1,27 @@
+.trig_cont {
+  width: calc(100% - 537px);
+  margin-left: 270px;
+  margin-right: 265px;
+  padding: 10px;
+  box-sizing: border-box;
+  bottom: 0px;
+  position: fixed;
+  z-index: 4;
+  background-color: white;
+  border-radius: 15px;
+}
+
+.trig_cont_x {
+  text-align: center;
+  /* border: 1px solid black; */
+  animation: flicker 1s infinite;
+}
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}

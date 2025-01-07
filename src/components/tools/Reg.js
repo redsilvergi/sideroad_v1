@@ -68,7 +68,7 @@ const Reg = () => {
 
     // console.log('regionfetched at Reg: ', regfet);
     // console.log('ctrf.current at Reg: ', ctrf.current);
-    console.log('sggrf.current at Reg: ', sggrf.current);
+    // console.log('sggrf.current at Reg: ', sggrf.current);
     setExp(1);
   };
   // renderhelper ----------------------------------------------------------------------

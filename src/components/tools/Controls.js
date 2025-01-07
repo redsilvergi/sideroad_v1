@@ -112,7 +112,7 @@ const Controls = () => {
       <button className="toggle_button" onClick={() => setIsFilter(!isFilter)}>
         <BiHide />
       </button>
-      {/* <button
+      <button
         className="toggle_button"
         onClick={() =>
           console.log(
@@ -156,7 +156,7 @@ const Controls = () => {
         }
       >
         VS
-      </button> */}
+      </button>
       {/* <button className="toggle_button" onClick={handlegjs}>
         gjs
       </button> */}

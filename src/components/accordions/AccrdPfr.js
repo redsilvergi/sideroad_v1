@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useMemo } from "react";
-import useInfo from "../../hooks/use-info";
-import useDb from "../../hooks/use-db";
-import "../auxiliary/CbxGen1.css";
-import "./AccrdPfr.css";
-import { FiPlus, FiMinus } from "react-icons/fi";
-import AccrdPfr2a from "./AccrdPfr2a";
+import React, { useEffect, useState, useMemo } from 'react';
+import useInfo from '../../hooks/use-info';
+import useDb from '../../hooks/use-db';
+import '../auxiliary/CbxGen1.css';
+import './AccrdPfr.css';
+import { FiPlus, FiMinus } from 'react-icons/fi';
+import AccrdPfr2a from './AccrdPfr2a';
 
 const AccrdPfr = () => {
   const {
@@ -66,8 +66,8 @@ const AccrdPfr = () => {
 
   const items = [
     {
-      id: "우선도로지정",
-      label: "보행자우선도로 지정 현황",
+      id: '우선도로지정',
+      label: '보행자우선도로 지정 현황',
       content: (
         <div className="road priority">
           <div className="pfr_list">
@@ -106,8 +106,8 @@ const AccrdPfr = () => {
     },
 
     {
-      id: "우선도로후보",
-      label: "보행자우선도로 후보 구간",
+      id: '우선도로필요',
+      label: '보행자우선도로 필요 구간',
       content: (
         <div className="road priorityCd">
           <div>
@@ -118,12 +118,12 @@ const AccrdPfr = () => {
     },
 
     {
-      id: "안전보호시설",
-      label: "보행 안전 및 보호시설",
+      id: '안전보호시설',
+      label: '보행 안전 및 보호시설',
       content: (
         <div className="road safefacs">
           {!(ldcuid && ldcuid[0]) ? (
-            <div style={{ textAlign: "center" }}>
+            <div style={{ textAlign: 'center' }}>
               <span className="pfr2a_noreg_text">지역을 선택해주세요.</span>
             </div>
           ) : (
@@ -152,7 +152,7 @@ const AccrdPfr = () => {
                   <div className="pfrlg_dashline" />
                   <div
                     className="pfrlg_color"
-                    style={{ backgroundColor: "#FFFF75" }}
+                    style={{ backgroundColor: '#FFFF75' }}
                   ></div>
                 </div>
               )}
@@ -175,7 +175,7 @@ const AccrdPfr = () => {
                   <div className="pfrlg_dashline" />
                   <div
                     className="pfrlg_color"
-                    style={{ backgroundColor: "#FFC400" }}
+                    style={{ backgroundColor: '#FFC400' }}
                   ></div>
                 </div>
               )}
@@ -205,7 +205,7 @@ const AccrdPfr = () => {
                   <div className="pfrlg_dashline" />
                   <div
                     className="pfrlg_color"
-                    style={{ backgroundColor: "#C0EEFA" }}
+                    style={{ backgroundColor: '#C0EEFA' }}
                   ></div>
                 </div>
               )}
@@ -228,7 +228,7 @@ const AccrdPfr = () => {
                   <div className="pfrlg_dashline" />
                   <div
                     className="pfrlg_color"
-                    style={{ backgroundColor: "#2DC400" }}
+                    style={{ backgroundColor: '#2DC400' }}
                   ></div>
                 </div>
               )}
@@ -254,21 +254,21 @@ const AccrdPfr = () => {
                       <div className="mfac_ttp_content">
                         <div
                           className="pfrlg_color_inner"
-                          style={{ backgroundColor: "#7C91BC" }}
+                          style={{ backgroundColor: '#7C91BC' }}
                         ></div>
                         문화 및 집회시설
                       </div>
                       <div className="mfac_ttp_content">
                         <div
                           className="pfrlg_color_inner"
-                          style={{ backgroundColor: "#E85A4C" }}
+                          style={{ backgroundColor: '#E85A4C' }}
                         ></div>
                         판매 및 영업시설
                       </div>
                       <div className="mfac_ttp_content">
                         <div
                           className="pfrlg_color_inner"
-                          style={{ backgroundColor: "#8BE883" }}
+                          style={{ backgroundColor: '#8BE883' }}
                         ></div>
                         운동시설
                       </div>
@@ -303,27 +303,27 @@ const AccrdPfr = () => {
     const isExpanded = expandedIndex.includes(index);
 
     return (
-      <div key={item.id} className={`${item.id + "_accitem"}`}>
-        {index === 0 && <div className="rsk1_line"></div>}
+      <div key={item.id} className={`${item.id + '_accitem'}`}>
+        {index === 0 && <div className="pfr1_line"></div>}
         <div
-          className={`rsk1_d1 ${item.id + "_rsk1_d1"}`}
+          className={`pfr1_d1 ${item.id + '_pfr1_d1'}`}
           onClick={() => handleClick(index)}
         >
-          <div className="rsklbl">{item.label}</div>
-          <div className="rsk1_icon">
+          <div className="pfrlbl">{item.label}</div>
+          <div className="pfr1_icon">
             {isExpanded ? <FiMinus /> : <FiPlus />}
           </div>
         </div>
         {isExpanded && (
-          <div className={`rsk1_expanded ${item.id + "_rsk1_exp"}`}>
+          <div className={`pfr1_expanded ${item.id + '_pfr1_exp'}`}>
             {item.content}
           </div>
         )}
         <div
-          className="rsk1_line"
+          className="pfr1_line"
           style={{
-            marginBottom: index === 2 ? "60px" : "",
-            height: index === 2 ? "0px" : "",
+            marginBottom: index === 2 ? '60px' : '',
+            height: index === 2 ? '0px' : '',
           }}
         ></div>
       </div>

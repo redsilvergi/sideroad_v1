@@ -24,19 +24,19 @@ const get_p_rad = (zoom) => {
   } else if (zoom < 14) {
     return 7;
   } else if (zoom < 15) {
-    return 4;
+    return 5;
   } else if (zoom < 16) {
-    return 3;
+    return 5;
   } else if (zoom < 17) {
-    return 2;
+    return 4;
   } else if (zoom < 18) {
-    return 1;
+    return 3;
   } else if (zoom < 19) {
-    return 0.8;
+    return 2;
   } else if (zoom < 20) {
-    return 0.5;
+    return 1;
   } else {
-    return 0.3;
+    return 0.7;
   }
 };
 
@@ -65,8 +65,8 @@ const Deck = React.memo(({ basemap }) => {
     pfrPick,
     setPfrPick,
     pfrdata,
-    setPfrdata,
     pfrLegendCbx,
+    setPfrdata,
   } = useInfo();
   const { getTooltip1, getTooltip2, getTooltip3, getTooltip6, getTooltip4_wb } =
     useTooltip();
@@ -86,7 +86,7 @@ const Deck = React.memo(({ basemap }) => {
     const getsdgjs = async () => {
       try {
         setLD(true);
-        const res = await axios.get('/getSidogjs'); // http://localhost:4000
+        const res = await axios.get('/getSidogjs'); //http://localhost:4000
         setSdgjs(res.data);
         setLD(false);
       } catch (e) {
@@ -96,7 +96,7 @@ const Deck = React.memo(({ basemap }) => {
     const getsgggjs = async () => {
       try {
         setLD(true);
-        const res = await axios.get('/getSgggjs'); // http://localhost:4000
+        const res = await axios.get('/getSgggjs'); //http://localhost:4000
         setSgggjs(res.data);
         setLD(false);
       } catch (e) {
@@ -106,7 +106,7 @@ const Deck = React.memo(({ basemap }) => {
     // const getsidesmp = async () => {
     //   try {
     //     setLD(true);
-    //     const res = await axios.get('/getSidesmp'); // http://localhost:4000
+    //     const res = await axios.get('/getSidesmp');
     //     setSidesmp(res.data);
     //     setLD(false);
     //   } catch (e) {
@@ -138,6 +138,31 @@ const Deck = React.memo(({ basemap }) => {
     }
   }, [view.zoom, sdgjs, sgggjs, bar, tile, setLD, tile2, setPick, pfrjs]);
 
+  useEffect(() => {
+    const fetchPfrjs = async () => {
+      if (!pfrjs) {
+        await getpfrjs();
+      }
+    };
+
+    fetchPfrjs();
+  }, [ldcuid, pfrjs, getpfrjs]);
+
+  useEffect(() => {
+    setPfrdata((prev) => ({
+      ...prev,
+      parks: null,
+      parks_buffer: null,
+      ch_safe_zone: null,
+      sn_safe_zone: null,
+      multfac: null,
+      multfac_entr: null,
+      schl_bld: null,
+      schl_buffer: null,
+      schl_entr: null,
+    }));
+  }, [ldcuid, setPfrdata]);
+
   // useEffect(() => {
   //   const viewport = new WebMercatorViewport(view);
   //   const bbx = viewport.getBounds();
@@ -146,7 +171,7 @@ const Deck = React.memo(({ basemap }) => {
   //     try {
   //       // setLD(true);
   //       const res = await axios.get(
-  //         `/getSide1r/${bbx[0]}/${bbx[1]}/${bbx[2]}/${bbx[3]}` // http://localhost:4000
+  //         `/getSide1r/${bbx[0]}/${bbx[1]}/${bbx[2]}/${bbx[3]}`
   //       );
   //       setSide1r(res.data);
   //       console.log('getside1r\n', res.data);
@@ -508,7 +533,7 @@ const Deck = React.memo(({ basemap }) => {
                   longitude: d.coordinate[0],
                   latitude: d.coordinate[1],
                 }));
-                console.log(prp);
+                // console.log(prp);
               }
             : null,
         onHover:
@@ -609,22 +634,6 @@ const Deck = React.memo(({ basemap }) => {
       // console.log('sgggjs picked and d: \n', d.object.properties);
       const ldc = d.object.properties.sig_cd;
       await getLdc(ldc);
-      if (!pfrjs) {
-        await getpfrjs();
-      }
-      // console.log(res);
-      setPfrdata((prev) => ({
-        ...prev,
-        parks: null,
-        parks_buffer: null,
-        ch_safe_zone: null,
-        sn_safe_zone: null,
-        multfac: null,
-        multfac_entr: null,
-        schl_bld: null,
-        schl_buffer: null,
-        schl_entr: null,
-      }));
     },
     // visible: isFilter,
     onHover: (d) => getTooltip3(d),
@@ -887,31 +896,6 @@ const Deck = React.memo(({ basemap }) => {
     );
   }, [basemap]);
 
-  // const landuse = useMemo(() => {
-  //   return (
-  //     istgl &&
-  //     new MVTLayer({
-  //       id: "landuselayer",
-  //       data: `https://api.mapbox.com/v4/redsilver522.lu_mim/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}`,
-  //       getLineColor: [255, 255, 255],
-  //       getFillColor: (obj) => {
-  //         switch (obj.properties.LANDUSE1) {
-  //           case "UQA1":
-  //             return [227, 224, 105, 114.75]; //255*0.45
-  //           case "UQA2":
-  //             return [238, 184, 152, 114.75];
-  //           case "UQA3":
-  //             return [176, 197, 218, 114.75];
-  //           case "UQA4":
-  //             return [190, 211, 140, 114.75];
-  //           default:
-  //             return [184, 184, 184, 114.75];
-  //         }
-  //       },
-  //     })
-  //   );
-  // }, [istgl]);
-
   const layers = [
     baselayer,
     //
@@ -932,7 +916,7 @@ const Deck = React.memo(({ basemap }) => {
     layer13_wb,
     layer4_wb,
     //
-  ]; // landuse
+  ];
 
   // tooltip ----------------------------------------------------------------------
   // const renderTooltip = ({ object }) => {

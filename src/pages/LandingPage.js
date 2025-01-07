@@ -10,6 +10,7 @@ import Controls from '../components/tools/Controls';
 import RightBar from '../components/bars/RightBar';
 import Table1 from '../components/table/Table1';
 import Deck from '../components/deck/Deck';
+import Trigger from '../components/auxiliary/Trigger';
 
 const LandingPage = () => {
   const {
@@ -77,6 +78,7 @@ const LandingPage = () => {
       <LeftBar />
       {right && <RightBar />}
       {bar === 1 && <Table1 />}
+      {bar === 3 && <Trigger />}
       <div className="container">
         {/* {scrn < 1015 ? !left && !right && <Region /> : <Region />} */}
         <Reg />

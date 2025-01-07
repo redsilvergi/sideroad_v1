@@ -24,7 +24,7 @@ const Rrsk = () => {
   ////
   ////////////////////////////////////////////////////////////
   useEffect(() => {
-    if (pick) {
+    if (pick && pnfo) {
       setOpen(true);
       setAcc({
         acc1: true,

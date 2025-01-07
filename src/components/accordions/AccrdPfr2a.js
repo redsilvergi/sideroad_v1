@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
-import "./AccrdPfr2a.css";
-import useInfo from "../../hooks/use-info";
-import useDb from "../../hooks/use-db";
+import React, { useCallback, useEffect, useState } from 'react';
+import './AccrdPfr2a.css';
+import useInfo from '../../hooks/use-info';
+import useDb from '../../hooks/use-db';
 
 const AccrdPfr2a = React.memo(() => {
   // setup ----------------------------------------------------------------------
@@ -33,7 +33,7 @@ const AccrdPfr2a = React.memo(() => {
           key={id}
           className="pfr2a_csvdwn"
           onClick={async () => {
-            await getCord(item["nf_id"]);
+            await getCord(item['nf_id']);
             setPfrInfo(null);
           }}
         >
@@ -62,8 +62,8 @@ const AccrdPfr2a = React.memo(() => {
   // items ----------------------------------------------------------------------
   const items = [
     {
-      id: "pfrtop20",
-      label: "후보구간 TOP10",
+      id: 'pfrtop20',
+      label: '필요구간 TOP10',
       content: csvDiv,
     },
   ];
@@ -82,9 +82,9 @@ const AccrdPfr2a = React.memo(() => {
       ) : (
         <div
           key={`${item.id}_t10lst`}
-          className={`${item.id + "_pfr2a_accitem"}`}
+          className={`${item.id + '_pfr2a_accitem'}`}
         >
-          <div className={`pfr2a_expanded ${item.id + "_pfr2a_exp"}`}>
+          <div className={`pfr2a_expanded ${item.id + '_pfr2a_exp'}`}>
             {item.content}
           </div>
           <div
