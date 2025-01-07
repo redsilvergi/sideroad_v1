@@ -4,6 +4,8 @@ import axios from 'axios';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { useViewUpdate } from '../../src/context/view';
 
+const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL || '';
+
 const useDb = () => {
   const {
     setLD,
@@ -30,7 +32,9 @@ const useDb = () => {
   /////////////////////////////////////////////////////////
   const getProp = useCallback(async (nf_id) => {
     // setLD(true);
-    const response = await axios.get(`/getProp/${nf_id}`); ////http://localhost:4000
+    const response = await axios.get(
+      `${REACT_APP_SERVER_URL}/getProp/${nf_id}`
+    ); ////http://localhost:4000
     return response.data;
     // console.log('getProp response at use-db.js: ', response);
     // setPnfo(response.data);
@@ -42,13 +46,13 @@ const useDb = () => {
       setLD(true);
       // console.log(nf_id);
       const response = await axios.get(
-        `/getCord/${nf_id}` ////http://localhost:4000
+        `${REACT_APP_SERVER_URL}/getCord/${nf_id}` ////http://localhost:4000
       );
       const response2 = await axios.get(
-        `/getProp/${nf_id}` ////http://localhost:4000
+        `${REACT_APP_SERVER_URL}/getProp/${nf_id}` ////http://localhost:4000
       );
       const response3 = await axios.get(
-        `/getShap/${nf_id}` ////http://localhost:4000
+        `${REACT_APP_SERVER_URL}/getShap/${nf_id}` ////http://localhost:4000
       );
       // console.log("getCord response at use-de.js: ", response);
       bar === 3 ? setPfrPick(nf_id) : setPick(nf_id);
@@ -106,8 +110,10 @@ const useDb = () => {
     async (nfList) => {
       setLD(true);
       const nf_ids = nfList.map((item) => `'${item.nf_id}'`).join(',');
-      const query = `select * from side1r where NF_ID in (${nf_ids})`;
-      const response = await axios.get(`/getCsv/${query}`); ////http://localhost:4000
+      const query = `select * from public.side1r where NF_ID in (${nf_ids})`;
+      const response = await axios.get(
+        `${REACT_APP_SERVER_URL}/getCsv/${query}`
+      ); ////http://localhost:4000
       // console.log("csvlistdwn: ", response.data);
       // Construct CSV string and Adding BOM(Byte Order Mark) for UTF-8 Encoding
       const BOM = '\uFEFF';
@@ -145,9 +151,9 @@ const useDb = () => {
   /////////////////////////////////////////////////////////
   const getSrchId = useCallback(
     async (rdnm) => {
-      var qry = `select NF_ID from side1r where ROAD_NM = '${rdnm}'`;
+      var qry = `select NF_ID from public.side1r where ROAD_NM = '${rdnm}'`;
       const response = await axios.get(
-        `/getSrchId/${qry}` ////http://localhost:4000
+        `${REACT_APP_SERVER_URL}/getSrchId/${qry}` ////http://localhost:4000
       );
       // console.log("rsrch getsrchid: ", response.data);
       const rtrvdLst = response.data;
@@ -177,7 +183,7 @@ const useDb = () => {
       console.log('now bar1');
     } else if (bar === 2) {
       const ldc = ldcuid ? ldcuid[4] : null;
-      const response = await axios.post(`/getLength2`, {
+      const response = await axios.post(`${REACT_APP_SERVER_URL}/getLength2`, {
         //http://localhost:4000
         //
         rnfo0,
@@ -192,7 +198,7 @@ const useDb = () => {
     } else if (bar === 4) {
       console.log('info and ldcuid\n', info, ldcuid);
       const ldc = ldcuid ? ldcuid[4] : null;
-      const response = await axios.post(`/getLength4`, {
+      const response = await axios.post(`${REACT_APP_SERVER_URL}/getLength4`, {
         //http://localhost:4000
         //
         info,
@@ -239,7 +245,7 @@ const useDb = () => {
   //   // console.log('getTop5 query usedb:\n', qryF());
 
   //   const response = await axios.get(
-  //     `/getTop5/${ldcuid && ldcuid[4]}/${rskType()}`
+  //     `${REACT_APP_SERVER_URL}/getTop5/${ldcuid && ldcuid[4]}/${rskType()}`
   //   );
   //   const rtrvdLst = response.data;
   //   // console.log("rsrch getTop5: ", rtrvdLst);
@@ -251,7 +257,7 @@ const useDb = () => {
     async (citem, ldc, yr) => {
       setLD(true);
       const response = await axios.get(
-        `/getEcon/${citem}/${ldc}/${yr}` ////http://localhost:4000
+        `${REACT_APP_SERVER_URL}/getEcon/${citem}/${ldc}/${yr}` ////http://localhost:4000
       );
       // console.log('getEcon at use-db', response.data);
       // const lst = response.data;
@@ -277,7 +283,7 @@ const useDb = () => {
 
   const getReg = useCallback(async () => {
     setLD(true);
-    const response = await axios.get(`/getReg`); ////http://localhost:4000
+    const response = await axios.get(`${REACT_APP_SERVER_URL}/getReg`); ////http://localhost:4000
     // console.log('getReg at use-db', response.data);
     setLD(false);
     return response.data;
@@ -288,11 +294,11 @@ const useDb = () => {
       setLD(true);
       // console.log(
       //   'getbar2sido axios at use-db',
-      //   `/getBar2sido/${tablenm}/${yr}`
+      //   `${REACT_APP_SERVER_URL}/getBar2sido/${tablenm}/${yr}`
       // );
 
       const response = await axios.get(
-        `/getBar2sido/${tablenm}/${yr}` ////http://localhost:4000
+        `${REACT_APP_SERVER_URL}/getBar2sido/${tablenm}/${yr}` ////http://localhost:4000
       );
       // console.log('getBar2sido at use-db', response.data);
       setLD(false);
@@ -305,7 +311,7 @@ const useDb = () => {
     async (tablenm, sidotmp, yr) => {
       setLD(true);
       const response = await axios.get(
-        `/getBar2sgg/${tablenm}/${sidotmp}/${yr}` ////http://localhost:4000
+        `${REACT_APP_SERVER_URL}/getBar2sgg/${tablenm}/${sidotmp}/${yr}` ////http://localhost:4000
       );
       // console.log('getBar2sgg at use-db', response.data);
       setLD(false);
@@ -317,7 +323,7 @@ const useDb = () => {
   const getLdc = useCallback(
     async (ldc) => {
       setLD(true);
-      const response = await axios.get(`/getLdc/${ldc}`); ////http://localhost:4000
+      const response = await axios.get(`${REACT_APP_SERVER_URL}/getLdc/${ldc}`); ////http://localhost:4000
       // console.log('getLdc arrayarrayarray:\n', Object.values(response.data[0]));
       const arraydata = Object.values(response.data[0]);
       setLdcuid(arraydata);
@@ -337,7 +343,7 @@ const useDb = () => {
     async (col, ldc) => {
       setLD(true);
       const response = await axios.get(
-        `/getPie1/${col}/${ldc}` ////http://localhost:4000
+        `${REACT_APP_SERVER_URL}/getPie1/${col}/${ldc}` ////http://localhost:4000
       );
       setLD(false);
       return response.data;
@@ -349,7 +355,7 @@ const useDb = () => {
   const getpfrjs = async () => {
     try {
       setLD(true);
-      const res = await axios.get('/getPfrjs'); ////http://localhost:4000
+      const res = await axios.get(`${REACT_APP_SERVER_URL}/getPfrjs`); ////http://localhost:4000
       setPfrjs(res.data);
       setLD(false);
     } catch (e) {
@@ -372,31 +378,41 @@ const useDb = () => {
         schl_entr,
       ] = await Promise.all([
         axios.get(
-          `/getPfrdata/parks/${ldcuid && ldcuid[0]}` ////http://localhost:4000
+          `${REACT_APP_SERVER_URL}/getPfrdata/parks/${ldcuid && ldcuid[0]}` ////http://localhost:4000
         ),
         axios.get(
-          `/getPfrdata/parks_buffer/${ldcuid && ldcuid[0]}` ////http://localhost:4000
+          `${REACT_APP_SERVER_URL}/getPfrdata/parks_buffer/${
+            ldcuid && ldcuid[0]
+          }` ////http://localhost:4000
         ),
         axios.get(
-          `/getPfrdata/ch_safe_zone/${ldcuid && ldcuid[0]}` ////http://localhost:4000
+          `${REACT_APP_SERVER_URL}/getPfrdata/ch_safe_zone/${
+            ldcuid && ldcuid[0]
+          }` ////http://localhost:4000
         ),
         axios.get(
-          `/getPfrdata/sn_safe_zone/${ldcuid && ldcuid[0]}` ////http://localhost:4000
+          `${REACT_APP_SERVER_URL}/getPfrdata/sn_safe_zone/${
+            ldcuid && ldcuid[0]
+          }` ////http://localhost:4000
         ),
         axios.get(
-          `/getPfrdata/multfac/${ldcuid && ldcuid[0]}` ////http://localhost:4000
+          `${REACT_APP_SERVER_URL}/getPfrdata/multfac/${ldcuid && ldcuid[0]}` ////http://localhost:4000
         ),
         axios.get(
-          `/getPfrdata/multfac_entr/${ldcuid && ldcuid[0]}` ////http://localhost:4000
+          `${REACT_APP_SERVER_URL}/getPfrdata/multfac_entr/${
+            ldcuid && ldcuid[0]
+          }` ////http://localhost:4000
         ),
         axios.get(
-          `/getPfrdata/schl_bld/${ldcuid && ldcuid[0]}` ////http://localhost:4000
+          `${REACT_APP_SERVER_URL}/getPfrdata/schl_bld/${ldcuid && ldcuid[0]}` ////http://localhost:4000
         ),
         axios.get(
-          `/getPfrdata/schl_buffer/${ldcuid && ldcuid[0]}` ////http://localhost:4000
+          `${REACT_APP_SERVER_URL}/getPfrdata/schl_buffer/${
+            ldcuid && ldcuid[0]
+          }` ////http://localhost:4000
         ),
         axios.get(
-          `/getPfrdata/schl_entr/${ldcuid && ldcuid[0]}` ////http://localhost:4000
+          `${REACT_APP_SERVER_URL}/getPfrdata/schl_entr/${ldcuid && ldcuid[0]}` ////http://localhost:4000
         ),
       ]);
       setPfrdata((prev) => ({
@@ -422,7 +438,7 @@ const useDb = () => {
   const getTopPfr = useCallback(async () => {
     setLD(true);
     const response = await axios.get(
-      `/getTopPfr/${ldcuid && ldcuid[0]}` ////http://localhost:4000
+      `${REACT_APP_SERVER_URL}/getTopPfr/${ldcuid && ldcuid[0]}` ////http://localhost:4000
     );
     const rtrvdLst = response.data;
     setLD(false);

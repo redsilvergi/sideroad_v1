@@ -15,6 +15,7 @@ import axios from 'axios';
 import useDb from '../../hooks/use-db';
 // import { WebMercatorViewport } from '@deck.gl/core';
 // import { debounce } from 'lodash';
+const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL || '';
 
 const get_p_rad = (zoom) => {
   if (zoom < 12) {
@@ -86,7 +87,7 @@ const Deck = React.memo(({ basemap }) => {
     const getsdgjs = async () => {
       try {
         setLD(true);
-        const res = await axios.get('/getSidogjs'); //http://localhost:4000
+        const res = await axios.get(`${REACT_APP_SERVER_URL}/getSidogjs`); //http://localhost:4000
         setSdgjs(res.data);
         setLD(false);
       } catch (e) {
@@ -96,7 +97,7 @@ const Deck = React.memo(({ basemap }) => {
     const getsgggjs = async () => {
       try {
         setLD(true);
-        const res = await axios.get('/getSgggjs'); //http://localhost:4000
+        const res = await axios.get(`${REACT_APP_SERVER_URL}/getSgggjs`); //http://localhost:4000
         setSgggjs(res.data);
         setLD(false);
       } catch (e) {
@@ -106,7 +107,7 @@ const Deck = React.memo(({ basemap }) => {
     // const getsidesmp = async () => {
     //   try {
     //     setLD(true);
-    //     const res = await axios.get('/getSidesmp');
+    //     const res = await axios.get(`${REACT_APP_SERVER_URL}/getSidesmp`);
     //     setSidesmp(res.data);
     //     setLD(false);
     //   } catch (e) {
@@ -171,7 +172,7 @@ const Deck = React.memo(({ basemap }) => {
   //     try {
   //       // setLD(true);
   //       const res = await axios.get(
-  //         `/getSide1r/${bbx[0]}/${bbx[1]}/${bbx[2]}/${bbx[3]}`
+  //         `${REACT_APP_SERVER_URL}/getSide1r/${bbx[0]}/${bbx[1]}/${bbx[2]}/${bbx[3]}`
   //       );
   //       setSide1r(res.data);
   //       console.log('getside1r\n', res.data);
