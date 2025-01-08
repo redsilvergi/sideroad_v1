@@ -2,8 +2,18 @@ import useInfo from './use-info';
 
 const useColor = () => {
   // setup ----------------------------------------------------------------------
-  const { info, pick, ldcuid, bar, rnfo0, rnfo1, pfrPick, topPfrList } =
-    useInfo();
+  const {
+    info,
+    pick,
+    ldcuid,
+    bar,
+    rnfo0,
+    rnfo1,
+    pfrPick,
+    topPfrList,
+    srvy,
+    nfidlst,
+  } = useInfo();
 
   // conditionf ----------------------------------------------------------------------
   const conditionF = (obj) => {
@@ -530,20 +540,28 @@ const useColor = () => {
         return [0, 0, 0, 255 * 0.05];
       }
     } else if (bar === 4) {
-      if (conditionF(obj)) {
-        //for selected info(filter)
-        // if (hov === obj.properties.NF_ID) {
-        //   return [0, 255, 0];
-        // } else {
-        return [0, 98, 175, 255 * 0.75];
-        // }
+      if (srvy) {
+        if (nfidlst.includes(obj.properties.NF_ID)) {
+          return [0, 98, 175, 255 * 0.75];
+        } else {
+          return [102, 135, 160, 255 * 0.35];
+        }
       } else {
-        //for unselected info(filter)
-        // if (hov === obj.properties.NF_ID) {
-        //   return [0, 255, 0];
-        // } else {
-        return [102, 135, 160, 255 * 0.35];
-        // }
+        if (conditionF(obj)) {
+          //for selected info(filter)
+          // if (hov === obj.properties.NF_ID) {
+          //   return [0, 255, 0];
+          // } else {
+          return [0, 98, 175, 255 * 0.75];
+          // }
+        } else {
+          //for unselected info(filter)
+          // if (hov === obj.properties.NF_ID) {
+          //   return [0, 255, 0];
+          // } else {
+          return [102, 135, 160, 255 * 0.35];
+          // }
+        }
       }
     } else {
       return [102, 135, 160, 255 * 0.35];

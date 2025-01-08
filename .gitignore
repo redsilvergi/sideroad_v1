@@ -25,3 +25,4 @@ yarn-error.log*
 #plus
 .prettierrc
 temp.yml
+.env

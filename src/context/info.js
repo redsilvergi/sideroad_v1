@@ -159,6 +159,8 @@ const InfoProvider = ({ children }) => {
   const [genfo, setGenfo] = useState([]);
   const [ldcuid, setLdcuid] = useState(null);
   const [exp, setExp] = useState(0);
+  const [srvy, setSrvy] = useState(false);
+  const [nfidlst, setNfidlst] = useState([]);
 
   //////////////////////////////////
   const [pfrjs, setPfrjs] = useState(null);
@@ -242,6 +244,10 @@ const InfoProvider = ({ children }) => {
       setRnfo0,
       rnfo1,
       setRnfo1,
+      srvy,
+      setSrvy,
+      nfidlst,
+      setNfidlst,
       /////////////////
       pfrjs,
       setPfrjs,
@@ -288,6 +294,8 @@ const InfoProvider = ({ children }) => {
       exp,
       rnfo0,
       rnfo1,
+      srvy,
+      nfidlst,
       /////////////////
       pfrjs,
       checkedPfr,

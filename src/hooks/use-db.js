@@ -323,7 +323,7 @@ const useDb = () => {
   const getLdc = useCallback(
     async (ldc) => {
       setLD(true);
-      const response = await axios.get(`${REACT_APP_SERVER_URL}/getLdc/${ldc}`); ////http://localhost:4000
+      const response = await axios.get(`${REACT_APP_SERVER_URL}/getLdc/${ldc}`);
       // console.log('getLdc arrayarrayarray:\n', Object.values(response.data[0]));
       const arraydata = Object.values(response.data[0]);
       setLdcuid(arraydata);
@@ -343,10 +343,24 @@ const useDb = () => {
     async (col, ldc) => {
       setLD(true);
       const response = await axios.get(
-        `${REACT_APP_SERVER_URL}/getPie1/${col}/${ldc}` ////http://localhost:4000
+        `${REACT_APP_SERVER_URL}/getPie1/${col}/${ldc}`
       );
       setLD(false);
       return response.data;
+    },
+    [setLD]
+  );
+
+  const postSrvy = useCallback(
+    async (tmp1) => {
+      setLD(true);
+      const response = await axios.post(
+        `${REACT_APP_SERVER_URL}/postSrvy`,
+        tmp1
+      );
+      console.log('postSrvy response\n', response);
+
+      setLD(false);
     },
     [setLD]
   );
@@ -463,6 +477,7 @@ const useDb = () => {
     getpfrjs,
     getPfrdata,
     getTopPfr,
+    postSrvy,
   };
 };
 

@@ -2,7 +2,8 @@ import './LeftBar.css';
 import React, { useState, useCallback } from 'react';
 import AccrdGen1 from '../accordions/AccrdGen1';
 import AccrdRsk1 from '../accordions/AccrdRsk1';
-import AccrdPrp from '../accordions/AccrdPrp';
+// import AccrdPrp from '../accordions/AccrdPrp';
+import Srvy from '../container/Srvy';
 import AccrdPfr from '../accordions/AccrdPfr';
 import useInfo from '../../hooks/use-info';
 import Modal from '../tools/Modal';
@@ -19,7 +20,7 @@ import { CgFileDocument } from 'react-icons/cg';
 import { FaMapMarkedAlt } from 'react-icons/fa';
 import Txtballoon from '../tools/Txtballoon';
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth } from '../../context/auth';
 // import { FaDraftingCompass } from 'react-icons/fa';
 // import { ReactComponent as Ped } from '../../img/pedprior.svg';
 
@@ -38,6 +39,7 @@ const LeftBar = () => {
     setPrpall,
     scrn,
   } = useInfo();
+  const { user, logout } = useAuth();
 
   const [showModal, setShowModal] = useState(false);
 
@@ -152,12 +154,21 @@ const LeftBar = () => {
         </div>
 
         <div className="login">
-          <div className={`bottom_cont`} onClick={() => navigate('/login')}>
-            <div className="hvd_bottom">로그인</div>
-            <div className="bottomicons">
-              <img src={login} alt="login" className="loginicon" />
+          {!user ? (
+            <div className={`bottom_cont`} onClick={() => navigate('/login')}>
+              <div className="hvd_bottom">로그인</div>
+              <div className="bottomicons">
+                <img src={login} alt="login" className="loginicon" />
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className={`bottom_cont`} onClick={logout}>
+              <div className="hvd_bottom">로그아웃</div>
+              <div className="bottomicons">
+                <img src={login} alt="login" className="loginicon" />
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="guide">
@@ -191,6 +202,7 @@ const LeftBar = () => {
           </div>
         </div>
       )}
+
       {left && bar === 3 && (
         <div className="detail_div">
           <div className="dtl_ttl">보행자 우선도로</div>
@@ -204,7 +216,8 @@ const LeftBar = () => {
         <div className="detail_div">
           <div className="dtl_ttl">이면도로 실태조사</div>
           <div className="accordion_div">
-            <AccrdPrp />
+            <Srvy />
+            {/* <AccrdPrp /> */}
           </div>
         </div>
       )}

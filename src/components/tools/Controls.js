@@ -6,6 +6,7 @@ import { GiExpand } from 'react-icons/gi';
 import { BiHide } from 'react-icons/bi';
 // import axios from 'axios';
 import { useViewUpdate } from '../../context/view';
+import { useAuth } from '../../context/auth';
 
 const Controls = () => {
   const {
@@ -32,7 +33,9 @@ const Controls = () => {
     rnfo0,
     rnfo1,
     pnfo,
+    nfidlst,
   } = useInfo();
+  const { user } = useAuth();
   const setView = useViewUpdate();
   // const { queryF } = useQuery();
 
@@ -151,7 +154,11 @@ const Controls = () => {
             '\nrnfo1:',
             rnfo1,
             '\npnfo:',
-            pnfo
+            pnfo,
+            '\nnfidlst:',
+            nfidlst,
+            '\nuser:',
+            user
           )
         }
       >

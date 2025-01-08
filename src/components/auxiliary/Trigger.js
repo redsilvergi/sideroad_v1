@@ -4,7 +4,7 @@ import useInfo from '../../hooks/use-info';
 
 const Trigger = () => {
   // setup ----------------------------------------------------------------------
-  const { ldcuid, bar } = useInfo();
+  const { ldcuid, bar, srvy } = useInfo();
 
   // renderfunc ----------------------------------------------------------------------
   const renderTrig = () => {
@@ -23,6 +23,16 @@ const Trigger = () => {
             {'지역(시군구)을 선택하세요'}
           </div>
         );
+      }
+    } else if (bar === 4) {
+      if (srvy) {
+        return (
+          <div className="trig_cont trig_cont_x">
+            {'싵태조사할 도로링크를 최소 1개 선택하세요'}
+          </div>
+        );
+      } else {
+        return null;
       }
     }
   };

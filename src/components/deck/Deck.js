@@ -15,6 +15,7 @@ import axios from 'axios';
 import useDb from '../../hooks/use-db';
 // import { WebMercatorViewport } from '@deck.gl/core';
 // import { debounce } from 'lodash';
+
 const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL || '';
 
 const get_p_rad = (zoom) => {
@@ -68,6 +69,9 @@ const Deck = React.memo(({ basemap }) => {
     pfrdata,
     pfrLegendCbx,
     setPfrdata,
+    srvy,
+    nfidlst,
+    setNfidlst,
   } = useInfo();
   const { getTooltip1, getTooltip2, getTooltip3, getTooltip6, getTooltip4_wb } =
     useTooltip();
@@ -87,7 +91,7 @@ const Deck = React.memo(({ basemap }) => {
     const getsdgjs = async () => {
       try {
         setLD(true);
-        const res = await axios.get(`${REACT_APP_SERVER_URL}/getSidogjs`); //http://localhost:4000
+        const res = await axios.get(`${REACT_APP_SERVER_URL}/getSidogjs`);
         setSdgjs(res.data);
         setLD(false);
       } catch (e) {
@@ -97,7 +101,7 @@ const Deck = React.memo(({ basemap }) => {
     const getsgggjs = async () => {
       try {
         setLD(true);
-        const res = await axios.get(`${REACT_APP_SERVER_URL}/getSgggjs`); //http://localhost:4000
+        const res = await axios.get(`${REACT_APP_SERVER_URL}/getSgggjs`);
         setSgggjs(res.data);
         setLD(false);
       } catch (e) {
@@ -123,9 +127,6 @@ const Deck = React.memo(({ basemap }) => {
     }
     if (!tile & (view.zoom >= 11)) {
       setTile(`https://n-streets.kr/tiles/data/side1r/{z}/{x}/{y}.pbf`);
-      // setTile(
-      //   `https://api.mapbox.com/v4/redsilver522.59bd8ljy/{z}/{x}/{y}.vector.pbf?access_token=${MAPBOX_ACCESS_TOKEN}`
-      // );
     }
     // if (!sidesmp & (view.zoom >= 11)) {
     //   getsidesmp();
@@ -752,105 +753,49 @@ const Deck = React.memo(({ basemap }) => {
         // },
         // autoHighlight: true,
         onClick:
-          view.zoom > 15 && bar !== 3
+          view.zoom > 15 && srvy
+            ? (d) => {
+                const prp = d.object.properties;
+                // console.log(prp);
+                setNfidlst((prev) => {
+                  // console.log('prev\n', prev);
+                  if (prev.includes(prp.NF_ID)) {
+                    const extract = prev.filter((item) => item !== prp.NF_ID);
+                    return extract;
+                  } else {
+                    return [...prev, prp.NF_ID];
+                  }
+                });
+              }
+            : view.zoom > 15 && bar !== 3
             ? (d) => {
                 const prp = d.object.properties;
                 console.log(prp);
-
                 setPick(prp.NF_ID);
-                // setView((prev) => ({
-                //   ...prev,
-                //   longitude: d.coordinate[0],
-                //   latitude: d.coordinate[1],
-                // }));
                 getCord(prp.NF_ID);
-                // setPnfo({
-                //   road_se: prp.ROAD_SE,
-                //   cartrk_co: prp.CARTRK_CO,
-                //   road_bt: prp.ROAD_BT,
-                //   pmtr_se: prp.PMTR_SE,
-                //   osps_se: prp.OSPS_SE,
-                //   road_lt: prp.ROAD_LT,
-                //   slope_lg: prp.SLOPE_LG,
-                //   sdwk_se: prp.SDWK_SE,
-                //   rdnet_ac: prp.RDNET_AC,
-                //   pbuld_fa: prp.PBULD_FA,
-                //   bulde_de: prp.BULDE_DE,
-                //   pubtr_ac: prp.PUBTR_AC,
-                //   stair_at: prp.STAIR_AT,
-                //   edennc_at: prp.EDENNC_AT,
-                //   pedac_rk: prp.PEDAC_RK,
-                //   pred: prp.PRED,
-                //   aiw10kas: prp.aiw10kas,
-                //   bus400s: prp.bus400s,
-                //   mkden300s: prp.mkden300s,
-                //   pbulddens: prp.pbulddens,
-                //   rbulddens: prp.rbulddens,
-                //   roadbts: prp.roadbts,
-                //   roadlts: prp.roadlts,
-                //   school300s: prp.school300s,
-                //   slopelgs: prp.slopelgs,
-                //   subway400s: prp.subway400s,
-                // });
                 setRight(true);
               }
             : null,
         onHover:
           view.zoom > 15
             ? (d) => {
-                // if (d.object) {
-                //   // hovered
-                //   // console.log('hoveredId\n', d.object.properties.NF_ID);
-                //   setHvid(d.object.properties.NF_ID);
-                // } else {
-                //   // out of hovering
-                //   setHvid(null);
-                // }
-
                 getTooltip1(d);
-
-                // if (d.object) {
-                //   const prp = d.object.properties;
-                //   console.log(prp);
-                //   if (prp.NF_ID) {
-                //     // setPick(prp.NF_ID);
-                //     // setPnfo({
-                //     //   road_se: prp.ROAD_SE,
-                //     //   cartrk_co: prp.CARTRK_CO,
-                //     //   road_bt: prp.ROAD_BT,
-                //     //   pmtr_se: prp.PMTR_SE,
-                //     //   osps_se: prp.OSPS_SE,
-                //     //   road_lt: prp.ROAD_LT,
-                //     //   slope_lg: prp.SLOPE_LG,
-                //     //   sdwk_se: prp.SDWK_SE,
-                //     //   rdnet_ac: prp.RDNET_AC,
-                //     //   pbuld_fa: prp.PBULD_FA,
-                //     //   bulde_de: prp.BULDE_DE,
-                //     //   pubtr_ac: prp.PUBTR_AC,
-                //     //   stair_at: prp.STAIR_AT,
-                //     //   edennc_at: prp.EDENNC_AT,
-                //     //   pedac_rk: prp.PEDAC_RK,
-                //     //   pred: prp.PRED,
-                //     // });
-                //     // setRight(true);
-                //   }
-                // } else {
-                //   console.log('out');
-                //   setPick(null);
-                // }
               }
             : (d) =>
                 (document.querySelector('.custom-tooltip').style.display =
                   'none'),
-
-        // onHover:
-        //   view.zoom > 15
-        //     ? (d) => {
-        //         d.object ? setHov(d.object.properties.NF_ID) : setHov(null);
-        //       }
-        //     : null,
         updateTriggers: {
-          getLineColor: [info, ldcuid, pick, hov, rnfo0, rnfo1, pfrPick],
+          getLineColor: [
+            info,
+            ldcuid,
+            pick,
+            hov,
+            rnfo0,
+            rnfo1,
+            pfrPick,
+            srvy,
+            nfidlst,
+          ],
         },
       })
     );
@@ -871,6 +816,9 @@ const Deck = React.memo(({ basemap }) => {
     getTooltip1,
     pfrPick,
     getCord,
+    srvy,
+    nfidlst,
+    setNfidlst,
   ]);
 
   const baselayer = useMemo(() => {

@@ -11,6 +11,8 @@ import RightBar from '../components/bars/RightBar';
 import Table1 from '../components/table/Table1';
 import Deck from '../components/deck/Deck';
 import Trigger from '../components/auxiliary/Trigger';
+// import NewComponent from '../components/container/NewComponent';
+import Table2 from '../components/table/Table2';
 
 const LandingPage = () => {
   const {
@@ -25,6 +27,8 @@ const LandingPage = () => {
     setLeft,
     setRight,
     bar,
+    srvy,
+    nfidlst,
   } = useInfo();
 
   const [basemap, setBasemap] = useState(
@@ -79,6 +83,12 @@ const LandingPage = () => {
       {right && <RightBar />}
       {bar === 1 && <Table1 />}
       {bar === 3 && <Trigger />}
+      {/* {bar === 4 && <NewComponent />} */}
+      {bar === 4 && srvy && nfidlst && nfidlst.length > 0 ? (
+        <Table2 />
+      ) : (
+        <Trigger />
+      )}
       <div className="container">
         {/* {scrn < 1015 ? !left && !right && <Region /> : <Region />} */}
         <Reg />

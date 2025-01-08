@@ -5,12 +5,15 @@ import App from './App';
 import './index.css';
 import { InfoProvider } from './context/info';
 import { ViewProvider } from './context/view';
+import { AuthProvider } from './context/auth';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <ViewProvider>
-    <InfoProvider>
-      <App />
-    </InfoProvider>
-  </ViewProvider>
+  <AuthProvider>
+    <ViewProvider>
+      <InfoProvider>
+        <App />
+      </InfoProvider>
+    </ViewProvider>
+  </AuthProvider>
 );
