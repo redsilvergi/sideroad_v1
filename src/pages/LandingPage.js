@@ -84,11 +84,13 @@ const LandingPage = () => {
       {bar === 1 && <Table1 />}
       {bar === 3 && <Trigger />}
       {/* {bar === 4 && <NewComponent />} */}
-      {bar === 4 && srvy && nfidlst && nfidlst.length > 0 ? (
-        <Table2 />
-      ) : (
-        <Trigger />
-      )}
+      {bar === 4 ? (
+        srvy && nfidlst && nfidlst.length > 0 ? (
+          <Table2 />
+        ) : (
+          <Trigger />
+        )
+      ) : null}
       <div className="container">
         {/* {scrn < 1015 ? !left && !right && <Region /> : <Region />} */}
         <Reg />

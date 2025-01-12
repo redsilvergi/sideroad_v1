@@ -540,6 +540,19 @@ const useColor = () => {
         return [0, 0, 0, 255 * 0.05];
       }
     } else if (bar === 4) {
+      if (pfrPick) {
+        const selectedRank = topPfrList.find(
+          (item) => item.nf_id === pfrPick
+        )?.ped_fitr_rank;
+
+        const matchingIds = topPfrList
+          .filter((item) => item.ped_fitr_rank === selectedRank)
+          .map((item) => item.nf_id);
+
+        if (matchingIds.includes(obj.properties.NF_ID)) {
+          return [245, 167, 212];
+        }
+      }
       if (srvy) {
         if (nfidlst.includes(obj.properties.NF_ID)) {
           return [0, 98, 175, 255 * 0.75];

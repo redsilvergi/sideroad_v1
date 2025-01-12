@@ -9,18 +9,56 @@ import { useAuth } from '../../context/auth';
 
 const Srvy = () => {
   // setup ----------------------------------------------------------------------
-  const { srvy, setSrvy, nfidlst, setNfidlst } = useInfo();
+  const {
+    setLength,
+    setPick,
+    srvy,
+    setSrvy,
+    nfidlst,
+    setNfidlst,
+    setBufferData,
+    setBufferExp,
+    pfrPick,
+    setPfrPick,
+    topPfrList,
+    setSrvyid,
+  } = useInfo();
   const { user } = useAuth();
 
   // handle ----------------------------------------------------------------------
   const handleSrvyRes = () => {
     if (!user) {
       alert('로그인이 필요합니다.');
+      return;
     } else if (user.role !== 'admin') {
       alert('관리자 권한이 필요합니다.');
+      return;
     } else if (user.role === 'admin') {
+      if (srvy) {
+        setNfidlst([]);
+        setBufferData([null, null]);
+        setSrvyid(null);
+      } else if (pfrPick && nfidlst.length === 0) {
+        const selectedRank = topPfrList.find(
+          (item) => item.nf_id === pfrPick
+        )?.ped_fitr_rank;
+
+        const matchingIds = topPfrList
+          .filter((item) => item.ped_fitr_rank === selectedRank)
+          .map((item) => item.nf_id);
+        setNfidlst(matchingIds);
+      }
       setSrvy(!srvy);
+      setLength(null);
+      setPick(null);
     }
+  };
+
+  const handleDeleteLst = () => {
+    setNfidlst([]);
+    setBufferData([null, null]);
+    setBufferExp(false);
+    setPfrPick(null);
   };
 
   // return ----------------------------------------------------------------------
@@ -35,7 +73,7 @@ const Srvy = () => {
       {!srvy && <AccrdPrp />}
       {srvy && nfidlst && nfidlst.length > 0 && (
         <div className="srvy_nfidlst_wrap">
-          <div className="srvy_nfidlst_rm" onClick={() => setNfidlst([])}>
+          <div className="srvy_nfidlst_rm" onClick={() => handleDeleteLst()}>
             선택구간삭제
           </div>
           <div className="srvy_nfidlst_lbl">선택구간</div>

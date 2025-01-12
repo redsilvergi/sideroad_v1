@@ -177,6 +177,12 @@ const Rrsk = () => {
 
                 {acc.acc2 && (
                   <div className="rrsk_acc1_exp">
+                    <div className="rrsk_anlys_mean">
+                      이 차트는 각 구간의 교통사고 위험도에 기여한 요인을
+                      설명합니다. 적색막대는 위험에 기여한 요인을, 청색막대는
+                      안전에 기여한 요인을 의미합니다. 막대 차트의 길이는 해당
+                      요인이 위험도에 기여한 정도를 나타냅니다.
+                    </div>
                     <div className="rrsk_anlys">
                       <Bar4 />
                     </div>

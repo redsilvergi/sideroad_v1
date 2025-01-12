@@ -3,18 +3,21 @@ import useInfo from '../../hooks/use-info';
 import useTooltip from '../../hooks/use-tooltip';
 import useColor from '../../hooks/use-color';
 import useColor2 from '../../hooks/use-color2';
+import iconsheet from '../../img/srv_spritesheet.png';
 import { Map } from 'react-map-gl';
 import DeckGL, {
   MVTLayer,
   TileLayer,
   BitmapLayer,
   GeoJsonLayer,
+  IconLayer,
 } from 'deck.gl';
 import { useViewState, useViewUpdate } from '../../context/view';
 import axios from 'axios';
 import useDb from '../../hooks/use-db';
 // import { WebMercatorViewport } from '@deck.gl/core';
 // import { debounce } from 'lodash';
+import { PathStyleExtension } from '@deck.gl/extensions';
 
 const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL || '';
 
@@ -72,11 +75,25 @@ const Deck = React.memo(({ basemap }) => {
     srvy,
     nfidlst,
     setNfidlst,
+    setSrvyid,
+    /////////////////////////////
+    bufferData,
+    setBufferData,
+    srvdata,
+    bffLegendCbx,
+    bufferExp,
+    setBufferExp,
   } = useInfo();
-  const { getTooltip1, getTooltip2, getTooltip3, getTooltip6, getTooltip4_wb } =
-    useTooltip();
+  const {
+    getTooltip1,
+    getTooltip2,
+    getTooltip3,
+    getTooltip6,
+    getTooltip4_wb,
+    getTooltip5_wb,
+  } = useTooltip();
   const { getRoadColor, getAccpColor } = useColor();
-  const { getPfrLineColor, getPfrMultFacColor } = useColor2();
+  const { getPfrLineColor, getPfrMultFacColor, getSrvBldColor } = useColor2();
   const view = useViewState();
   const setView = useViewUpdate();
   const [sdgjs, setSdgjs] = useState(null);
@@ -163,7 +180,24 @@ const Deck = React.memo(({ basemap }) => {
       schl_buffer: null,
       schl_entr: null,
     }));
-  }, [ldcuid, setPfrdata]);
+    setBufferData([null, null]);
+    setBufferExp(false);
+    setNfidlst((prevNfidlst) => (pfrPick ? [pfrPick] : [...prevNfidlst]));
+    // setNfidlst(pfrPick ? [pfrPick] : [...nfidlst]);
+  }, [
+    bar,
+    srvy,
+    ldcuid,
+    setPfrdata,
+    setBufferData,
+    setNfidlst,
+    setBufferExp,
+    pfrPick,
+  ]);
+
+  // useEffect(() => {
+  //   setSrvy(false);
+  // }, [ldcuid, setSrvy]);
 
   // useEffect(() => {
   //   const viewport = new WebMercatorViewport(view);
@@ -206,6 +240,263 @@ const Deck = React.memo(({ basemap }) => {
   );
 
   // layers ----------------------------------------------------------------------
+  const iconLayer2 = useMemo(() => {
+    if (!srvdata.crosswalk || !srvdata.crosswalk.features || !bufferExp) return;
+
+    const ICON_MAPPING = {
+      icon: { x: 0, y: 0, width: 144, height: 128, mask: false },
+    };
+
+    const iData = srvdata.crosswalk.features.map((feature) => ({
+      properties: feature.properties,
+      coordinates: feature.geometry.coordinates,
+    }));
+
+    return new IconLayer({
+      id: 'geojson-layer-survey-crosswalkic',
+      data: iData,
+      iconAtlas: iconsheet,
+      iconMapping: ICON_MAPPING,
+      getIcon: (d) => 'icon',
+      getSize: 18,
+      getPosition: (d) => {
+        return d.coordinates;
+      },
+      pickable: true,
+      autoHighlight: false,
+      visible:
+        bufferData[0] &&
+        bffLegendCbx[3] &&
+        bar === 4 &&
+        isFilter &&
+        view.zoom >= 15 &&
+        view.zoom <= 20,
+      onClick: (d) => {
+        console.log('survey-crosswalk picked and d: \n', d.object.properties);
+      },
+    });
+  }, [bar, isFilter, view.zoom, srvdata, bufferData, bffLegendCbx, bufferExp]);
+
+  // const layer20_wb = useMemo(() => {
+  //   if (!srvdata.crosswalk || !srvdata.crosswalk.features || !ldcuid) return;
+  //   return new GeoJsonLayer({
+  //     id: "geojson-layer-survey-crosswalk",
+  //     data: srvdata.crosswalk,
+  //     filled: true,
+  //     stroked: true,
+  //     lineWidthMaxPixels: 1,
+  //     pointRadiusMinPixels: 4,
+  //     pointRadiusMaxPixels: 10,
+  //     getFillColor: [245, 209, 92, 224],
+  //     getLineColor: [0, 0, 0, 32],
+  //     pickable: true,
+  //     onClick: (d) => {
+  //       console.log("survey-crosswalk picked and d: \n", d.object.properties);
+  //     },
+  //     visible:
+  //       bufferData[0] &&
+  //       bffLegendCbx[3] &&
+  //       bar === 4 &&
+  //       isFilter &&
+  //       view.zoom >= 11 &&
+  //       view.zoom <= 20,
+  //   });
+  // }, [bar, isFilter, ldcuid, view.zoom, srvdata, bufferData, bffLegendCbx]);
+
+  const iconLayer1 = useMemo(() => {
+    if (!srvdata.cctv || !srvdata.cctv.features || !bufferExp) return;
+
+    const ICON_MAPPING = {
+      icon: { x: 148, y: 0, width: 128, height: 128, mask: true },
+    };
+
+    const iData = srvdata.cctv.features.map((feature) => ({
+      ...feature.properties,
+      coordinates: feature.geometry.coordinates,
+    }));
+
+    return new IconLayer({
+      id: 'geojson-layer-survey-cctv',
+      data: iData,
+      iconAtlas: iconsheet,
+      iconMapping: ICON_MAPPING,
+      getIcon: (d) => 'icon',
+      getSize: 30,
+      getPosition: (d) => {
+        const [lng, lat] = d.coordinates;
+        return [lng + 0.000025, lat + 0.00002]; // 아이콘을 셀 중앙으로 정렬
+      },
+      pickable: true,
+      autoHighlight: false,
+      visible:
+        bufferData[0] &&
+        bffLegendCbx[2] &&
+        bar === 4 &&
+        isFilter &&
+        view.zoom >= 15 &&
+        view.zoom <= 20,
+      getColor: [122, 122, 122],
+      onClick: (d) => {
+        console.log('survey-cctv picked and d: \n', d.object.properties);
+      },
+    });
+  }, [bar, isFilter, view.zoom, srvdata, bufferData, bffLegendCbx, bufferExp]);
+
+  // const layer19_wb = useMemo(() => {
+  //   if (!srvdata.cctv || !srvdata.cctv.features || !ldcuid) return;
+  //   return new GeoJsonLayer({
+  //     id: "geojson-layer-survey-cctv",
+  //     data: srvdata.cctv,
+  //     filled: true,
+  //     stroked: true,
+  //     lineWidthMaxPixels: 1,
+  //     pointRadiusMinPixels: 4,
+  //     pointRadiusMaxPixels: 10,
+  //     getFillColor: [204, 204, 204, 224],
+  //     getLineColor: [0, 0, 0, 32],
+  //     pickable: true,
+  //     onClick: (d) => {
+  //       console.log("survey-cctv picked and d: \n", d.object.properties);
+  //     },
+  //     visible:
+  //       bufferData[0] &&
+  //       bffLegendCbx[2] &&
+  //       bar === 4 &&
+  //       isFilter &&
+  //       view.zoom >= 11 &&
+  //       view.zoom <= 20,
+  //   });
+  // }, [bar, isFilter, ldcuid, view.zoom, srvdata, bufferData, bffLegendCbx]);
+
+  const layer18_wb = useMemo(() => {
+    if (!srvdata.pedpath || !srvdata.pedpath.features || !bufferExp) return;
+    return new GeoJsonLayer({
+      id: 'geojson-layer-survey-pedpath',
+      data: srvdata.pedpath,
+      filled: true,
+      stroked: true,
+      getFillColor: [245, 167, 167],
+      getLineColor: [245, 167, 167, 128],
+      lineWidthMaxPixels: 2,
+      pickable: true,
+      onClick: (d) => {
+        console.log('survey-pedpath picked and d: \n', d.object.properties);
+      },
+      visible:
+        bufferData[0] &&
+        bffLegendCbx[4] &&
+        bar === 4 &&
+        isFilter &&
+        view.zoom >= 11 &&
+        view.zoom <= 20,
+    });
+  }, [bar, isFilter, view.zoom, srvdata, bufferData, bffLegendCbx, bufferExp]);
+
+  const layer17_wb = useMemo(() => {
+    if (!srvdata.rodway || !srvdata.rodway.features || !bufferExp) return;
+    return new GeoJsonLayer({
+      id: 'geojson-layer-survey-rodway',
+      data: srvdata.rodway,
+      filled: true,
+      stroked: true,
+      getFillColor: [153, 153, 153],
+      getLineColor: [153, 153, 153, 128],
+      lineWidthMaxPixels: 1,
+      pickable: true,
+      onClick: (d) => {
+        console.log('survey-rodway picked and d: \n', d.object.properties);
+      },
+      visible:
+        bufferData[0] &&
+        bffLegendCbx[5] &&
+        bar === 4 &&
+        isFilter &&
+        view.zoom >= 11 &&
+        view.zoom <= 20,
+    });
+  }, [bar, isFilter, view.zoom, srvdata, bufferData, bffLegendCbx, bufferExp]);
+
+  const layer16_wb = useMemo(() => {
+    if (!srvdata.bld || !srvdata.bld.features || !bufferExp) return;
+    return new GeoJsonLayer({
+      id: 'geojson-layer-survey-bld',
+      data: srvdata.bld,
+      filled: true,
+      stroked: true,
+      getFillColor: (d) => {
+        return getSrvBldColor(d);
+      },
+      getLineColor: [0, 0, 0, 64],
+      lineWidthMaxPixels: 1,
+      pickable: true,
+      onClick: (d) => {
+        console.log('survey-bld picked and d: \n', d.object.properties);
+      },
+      onHover: (d) => getTooltip5_wb(d),
+      visible:
+        bufferData[0] &&
+        bffLegendCbx[0] &&
+        bar === 4 &&
+        isFilter &&
+        view.zoom >= 11 &&
+        view.zoom <= 20,
+    });
+  }, [
+    bar,
+    isFilter,
+    view.zoom,
+    srvdata,
+    bufferData,
+    getSrvBldColor,
+    bffLegendCbx,
+    bufferExp,
+    getTooltip5_wb,
+  ]);
+
+  const layer15_wb = useMemo(() => {
+    if (!bufferExp) return;
+
+    return new GeoJsonLayer({
+      id: 'geojson-layer-survey-buffer-mask',
+      data: bufferData && bufferData[1],
+      filled: true,
+      stroked: true,
+      getFillColor: [255, 255, 255, 128],
+      getLineColor: [0, 0, 0, 0],
+      lineWidthMaxPixels: 1,
+      pickable: true,
+      // onClick: (d) => {
+      //   console.log("survey-buffer picked and d: \n", d.object.properties);
+      // },
+      visible:
+        srvy && bar === 4 && isFilter && view.zoom >= 16 && view.zoom <= 20,
+    });
+  }, [bar, isFilter, view.zoom, bufferData, srvy, bufferExp]);
+
+  const layer14_wb = useMemo(() => {
+    if (!bufferExp) return;
+
+    return new GeoJsonLayer({
+      id: 'geojson-layer-survey-buffer',
+      data: bufferData && bufferData[0],
+      filled: true,
+      stroked: true,
+      getFillColor: [255, 255, 255, 0],
+      getLineColor: [104, 104, 104, 128],
+      lineWidthMaxPixels: 1,
+      pickable: false,
+      // onClick: (d) => {
+      //   console.log("survey-buffer picked and d: \n", d.object.properties);
+      // },
+      extensions: [new PathStyleExtension({ dash: true })],
+      getDashArray: [7, 5],
+      dashJustified: true,
+      dashGapPickable: true,
+      visible:
+        srvy && bar === 4 && isFilter && view.zoom >= 11 && view.zoom <= 20,
+    });
+  }, [bar, isFilter, view.zoom, bufferData, srvy, bufferExp]);
+
   const layer13_wb = useMemo(() => {
     if (!pfrdata.schl_entr || !pfrdata.schl_entr.features || !ldcuid) return;
     return new GeoJsonLayer({
@@ -264,7 +555,7 @@ const Deck = React.memo(({ basemap }) => {
       stroked: true,
       getFillColor: [167, 233, 250],
       getLineColor: [0, 0, 0, 40],
-      lineWidthMinPixels: 1,
+      lineWidthMaxPixels: 2,
       pickable: true,
       onClick: (d) => {
         console.log('schlbld picked and d: \n', d.object.properties);
@@ -315,7 +606,7 @@ const Deck = React.memo(({ basemap }) => {
         return getPfrMultFacColor(d);
       },
       getLineColor: [0, 0, 0, 32],
-      lineWidthMinPixels: 1,
+      lineWidthMaxPixels: 2,
       pickable: true,
       onClick: (d) => {
         console.log('multfac picked and d: \n', d.object.properties);
@@ -432,7 +723,7 @@ const Deck = React.memo(({ basemap }) => {
       stroked: true,
       getFillColor: [128, 196, 142, 224],
       getLineColor: [80, 122, 88, 224],
-      lineWidthMinPixels: 1,
+      lineWidthMaxPixels: 1,
       pickable: true,
       onClick: (d) => {
         console.log('pfr_parks picked and d: \n', d.object.properties);
@@ -516,7 +807,11 @@ const Deck = React.memo(({ basemap }) => {
         getFillColor: (obj) => getAccpColor(obj, hvid),
         stroked: false,
         pickable: true,
-        visible: bar === 2 && isFilter && view.zoom >= 11 && view.zoom <= 20,
+        visible:
+          (bar === 2 || (bar === 4 && bffLegendCbx[1])) &&
+          isFilter &&
+          view.zoom >= 11 &&
+          view.zoom <= 20,
         // getLineColor: [255, 0, 0],
         // renderSubLayers: (props) => {
         //   return new GeoJsonLayer(props, {
@@ -573,6 +868,7 @@ const Deck = React.memo(({ basemap }) => {
     setView,
     getTooltip6,
     hvid,
+    bffLegendCbx,
   ]);
 
   // const layer5 = useMemo(() => {
@@ -753,27 +1049,31 @@ const Deck = React.memo(({ basemap }) => {
         // },
         // autoHighlight: true,
         onClick:
-          view.zoom > 15 && srvy
-            ? (d) => {
-                const prp = d.object.properties;
-                // console.log(prp);
-                setNfidlst((prev) => {
-                  // console.log('prev\n', prev);
-                  if (prev.includes(prp.NF_ID)) {
-                    const extract = prev.filter((item) => item !== prp.NF_ID);
-                    return extract;
-                  } else {
-                    return [...prev, prp.NF_ID];
-                  }
-                });
-              }
-            : view.zoom > 15 && bar !== 3
+          view.zoom > 15 && bar !== 3
             ? (d) => {
                 const prp = d.object.properties;
                 console.log(prp);
-                setPick(prp.NF_ID);
-                getCord(prp.NF_ID);
-                setRight(true);
+                /////////////////////////////////////
+                if (srvy && !bufferExp) {
+                  if (pfrPick) {
+                    if (pfrPick === prp.NF_ID) return;
+                    if (!nfidlst.includes(pfrPick)) setNfidlst([pfrPick]);
+                  }
+                  setSrvyid(null);
+                  setNfidlst((prev) => {
+                    if (prev.includes(prp.NF_ID)) {
+                      return prev.filter((id) => id !== prp.NF_ID);
+                    } else {
+                      return [...prev, prp.NF_ID];
+                    }
+                  });
+                }
+                /////////////////////////////////////
+                else {
+                  setPick(prp.NF_ID);
+                  getCord(prp.NF_ID);
+                  setRight(true);
+                }
               }
             : null,
         onHover:
@@ -819,6 +1119,8 @@ const Deck = React.memo(({ basemap }) => {
     srvy,
     nfidlst,
     setNfidlst,
+    bufferExp,
+    setSrvyid,
   ]);
 
   const baselayer = useMemo(() => {
@@ -854,7 +1156,7 @@ const Deck = React.memo(({ basemap }) => {
     layer11_wb,
     //
     layer1,
-    layer6,
+    // layer6,
     layer2,
     layer3,
     //
@@ -865,6 +1167,16 @@ const Deck = React.memo(({ basemap }) => {
     layer13_wb,
     layer4_wb,
     //
+    layer15_wb,
+    layer14_wb,
+    layer16_wb,
+    layer17_wb,
+    layer6,
+    layer18_wb,
+    // layer20_wb,
+    iconLayer2,
+    // layer19_wb,
+    iconLayer1,
   ];
 
   // tooltip ----------------------------------------------------------------------
@@ -889,10 +1201,13 @@ const Deck = React.memo(({ basemap }) => {
       // getTooltip={view.zoom >= 15 ? getTooltip : getTooltip2}
       onClick={(event) => {
         if (!event.object) {
-          setPick(null);
-          setPfrPick(null);
+          if (!srvy) {
+            setPick(null);
+            setPfrPick(null);
+            setLength(null);
+          }
+          setBufferData([null, null]);
           setPfrInfo(null);
-          setLength(null);
           if (scrn < 1015) {
             setRight(false);
             setLeft(false);

@@ -168,7 +168,7 @@ const Yr = () => {
               type="text"
               placeholder="연도"
               onChange={handleChange}
-              value={sval}
+              value={yr ? yr : sval}
               // onClick={handleClick}
               onKeyDown={handleKeyDown}
               onFocus={handleFocus}

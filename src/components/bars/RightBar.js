@@ -83,19 +83,45 @@ const RightBar = () => {
     checkedPfr,
     ldcuid,
     pfrjs,
+    //
+
+    srvy,
+    nfidlst,
   } = useInfo();
-  const { getLength } = useDb();
+  const { getLength, getLstLength } = useDb();
   const [renl, setRenL] = useState(
     <div className="lengthSum2 lengthReq2">선택구간연장요청</div>
   );
   // useeffect ----------------------------------------------------------------------
   useEffect(() => {
-    if (pick) {
-      setLength(pnfo && pnfo.road_lt);
-    } else {
-      setLength(null);
-    }
-  }, [info, rnfo0, rnfo1, pick, pnfo, setLength, ldcuid]);
+    const fetchLength = async () => {
+      if (pick) {
+        setLength(pnfo && pnfo.road_lt);
+      } else if (nfidlst && nfidlst.length > 0) {
+        try {
+          const length = await getLstLength(nfidlst);
+          setLength(length || 0);
+        } catch (err) {
+          console.error('Error fetching length:', err);
+          setLength(0);
+        }
+      } else {
+        setLength(null);
+      }
+    };
+    fetchLength();
+  }, [
+    info,
+    rnfo0,
+    rnfo1,
+    pick,
+    pnfo,
+    setLength,
+    ldcuid,
+    nfidlst,
+    getLstLength,
+  ]);
+
   const pedLen = useMemo(() => {
     if (!pfrjs?.features || !ldcuid?.[0] || !checkedPfr) return 0;
 
@@ -122,6 +148,20 @@ const RightBar = () => {
           </div>
         </div>
       );
+    } else if (srvy && nfidlst) {
+      setRenL(
+        <div className="lngthS isLngth">
+          <div className="lngthS_txt" style={{ color: 'black' }}>
+            선택구간 연장
+          </div>
+          <div className="km">
+            <span style={{ color: 'black', fontWeight: 800 }}>
+              {length ? length.toFixed(2) : '--- '}&nbsp;
+            </span>
+            m
+          </div>
+        </div>
+      );
     } else if (length || length === 0) {
       setRenL(
         <div className="lngthS isLngth">
@@ -131,7 +171,7 @@ const RightBar = () => {
           <div className="km">
             <span style={{ color: 'black', fontWeight: 800 }}>
               {length.toFixed(3)}
-            </span>{' '}
+            </span>
             km
           </div>
         </div>
@@ -153,7 +193,7 @@ const RightBar = () => {
         </div>
       );
     }
-  }, [length, getLength, info, bar, pedLen, pick]);
+  }, [length, getLength, info, bar, pedLen, pick, srvy, nfidlst]);
 
   // renderfunc ----------------------------------------------------------------------
   const renderPie = () => {

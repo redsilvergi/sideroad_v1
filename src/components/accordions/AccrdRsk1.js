@@ -15,8 +15,8 @@ const AccrdRsk1 = () => {
   const items = useMemo(() => {
     return [
       {
-        id: '유형별위험도구성비',
-        label: '유형별 위험도 구성비',
+        id: '등급별위험도구성비',
+        label: '등급별 위험도 구성비',
         content: (
           <div className="lane roadItem">
             <AccrdRsk2b topexp={exp} />
@@ -37,8 +37,8 @@ const AccrdRsk1 = () => {
   // },
 
   //   {
-  //     id: '유형별위험도구성비',
-  //     label: '유형별 위험도 구성비',
+  //     id: '등급별위험도구성비',
+  //     label: '등급별 위험도 구성비',
   //     content: (
   //       <div className="lane roadItem">
   //         <AccrdRsk2b topexp={exp} />

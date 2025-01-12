@@ -33,6 +33,19 @@
   background-color: #00457c;
   margin: 0 0 12px 0;
 }
+.leftbar_column_wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 90%;
+}
+.leftbar_column_top {
+}
+.leftbar_column_bottom {
+  /* display: flex;
+  flex-direction: column;
+  height: 300px; */
+}
 .genBT,
 .riskBT,
 .priorBT,
@@ -89,8 +102,8 @@
   height: 48px;
 }
 .lb_icon3 {
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
 }
 .lb_icon4 {
   width: 50px;
@@ -102,6 +115,7 @@
   filter: brightness(0) saturate(100%) invert(22%) sepia(99%) saturate(2080%)
     hue-rotate(191deg) brightness(88%) contrast(101%);
 }
+
 .riskBT.active .lb_icon2,
 .priorBT.active .lb_icon3,
 .propBT.active .lb_icon4 {
@@ -128,6 +142,7 @@
 .left_column:hover .hvd {
   display: block;
 }
+
 .filter {
   color: #fcfcfd;
   height: 45px;
@@ -135,8 +150,6 @@
   cursor: pointer;
   font-size: 12px;
   align-items: center;
-  position: absolute;
-  bottom: 140px;
   width: 100%;
 }
 .bottom_cont {
@@ -185,8 +198,6 @@
   align-items: center;
   cursor: pointer;
   font-size: 12px;
-  position: absolute;
-  bottom: 95px;
   width: 100%;
 }
 .searchicon {
@@ -200,9 +211,24 @@
   align-items: center;
   cursor: pointer;
   font-size: 12px;
-  position: absolute;
-  bottom: 50px;
   width: 100%;
+}
+.login:hover .loginicon {
+  filter: brightness(0) saturate(100%) invert(22%) sepia(99%) saturate(2080%)
+    hue-rotate(191deg) brightness(88%) contrast(101%);
+}
+.mypage {
+  color: #fcfcfd;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  width: 100%;
+}
+.mypageicon {
+  width: 100%;
+  height: 100%;
 }
 .guide {
   color: #fcfcfd;
@@ -211,8 +237,6 @@
   align-items: center;
   cursor: pointer;
   font-size: 12px;
-  position: absolute;
-  bottom: 5px;
   width: 100%;
 }
 .guideicon {

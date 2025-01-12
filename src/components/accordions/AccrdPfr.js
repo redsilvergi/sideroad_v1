@@ -5,6 +5,7 @@ import '../auxiliary/CbxGen1.css';
 import './AccrdPfr.css';
 import { FiPlus, FiMinus } from 'react-icons/fi';
 import AccrdPfr2a from './AccrdPfr2a';
+import { useViewUpdate } from '../../context/view';
 
 const AccrdPfr = () => {
   const {
@@ -15,13 +16,16 @@ const AccrdPfr = () => {
     setCheckedPfr,
     pfrLegendCbx,
     setPfrLegendCbx,
+    setPfrInfo,
+    setPfrPick,
   } = useInfo();
   const { getPfrdata } = useDb();
-  const [expandedIndex, setExpandedIndex] = useState([0, 1]);
+  const setView = useViewUpdate();
+  const [expandedIndex, setExpandedIndex] = useState([]);
   const [expInner, setExpInner] = useState([true, true]);
 
   useEffect(() => {
-    setExpandedIndex([0, 1]);
+    if (ldcuid) setExpandedIndex([0, 1]);
   }, [ldcuid]);
 
   const { roadNames, roadIds } = useMemo(() => {
@@ -31,8 +35,10 @@ const AccrdPfr = () => {
       );
 
       return {
-        roadNames: filteredFeatures.map(
-          (feature) => feature.properties?.h_ped_nm
+        roadNames: filteredFeatures.map((feature) =>
+          feature.properties.h_ped_nm
+            ? feature.properties.h_ped_nm
+            : feature.properties.id
         ),
         roadIds: filteredFeatures.map((feature) => feature.properties?.id),
       };
@@ -44,13 +50,13 @@ const AccrdPfr = () => {
     setCheckedPfr(roadIds);
   }, [roadIds, setCheckedPfr]);
 
-  const handleCheck = (index) => {
-    setCheckedPfr((prev) =>
-      prev.map((state, i) =>
-        i === index ? (state === false ? roadIds[index] : false) : state
-      )
-    );
-  };
+  // const handleCheck = (index) => {
+  //   setCheckedPfr((prev) =>
+  //     prev.map((state, i) =>
+  //       i === index ? (state === false ? roadIds[index] : false) : state
+  //     )
+  //   );
+  // };
 
   const handlePfrLgCbx = (index) => {
     setPfrLegendCbx((prev) =>
@@ -70,37 +76,66 @@ const AccrdPfr = () => {
       label: '보행자우선도로 지정 현황',
       content: (
         <div className="road priority">
-          <div className="pfr_list">
-            <div className="pfr_list_nb">
-              {ldcuid ? (
+          {ldcuid && (
+            <div className="pfr_list">
+              <div className="pfr_list_nb">
                 <React.Fragment>
                   <span>보행자우선도로 지정개소</span>
                   <span>{roadNames.length}개</span>
                 </React.Fragment>
-              ) : (
-                <span>지역을 선택해주세요.</span>
-              )}
-            </div>
+              </div>
 
-            <form>
-              {roadNames.map((item, index) => (
-                <div key={`pfrcheckbox${index + 1}`}>
-                  <label className="pfrlist_chk_lb">
-                    <input
-                      className="pfr_custom_cb"
-                      type="checkbox"
-                      name={`pfrcheckbox${index + 1}`}
-                      checked={checkedPfr[index] ?? true}
-                      onChange={() => handleCheck(index)}
-                    />
-                    <div className="pfr_chk_item">
-                      <div className="pfr_chk_word">{item}</div>
-                    </div>
-                  </label>
-                </div>
-              ))}
-            </form>
-          </div>
+              <form>
+                {roadNames.map((item, index) => (
+                  <div key={`pfrcheckbox${index + 1}`}>
+                    <label className="pfrlist_chk_lb">
+                      <input
+                        className="pfr_custom_cb"
+                        type="checkbox"
+                        name={`pfrcheckbox${index + 1}`}
+                        checked={checkedPfr[index] ?? true}
+                        onChange={() => ''}
+                      />
+                      <div
+                        className="pfr_chk_item"
+                        onClick={(e) => {
+                          e.stopPropagation();
+
+                          const feature = pfrjs.features.find(
+                            (f) => f.properties?.id === roadIds[index]
+                          );
+
+                          if (feature) {
+                            const g = feature.geometry.coordinates;
+                            const length = Math.floor(g.length / 2);
+
+                            setPfrInfo(feature.properties);
+                            setPfrPick(null);
+                            setView((prev) => ({
+                              ...prev,
+                              longitude:
+                                g[length][Math.floor(g[length].length / 2)][0],
+                              latitude:
+                                g[length][Math.floor(g[length].length / 2)][1],
+                              zoom: 16,
+                            }));
+                            console.log('Selected feature: ', feature);
+                          } else {
+                            console.error(
+                              'Feature not found for road ID in pfrjs:',
+                              roadIds[index]
+                            );
+                          }
+                        }}
+                      >
+                        <div className="pfr_chk_word">{item}</div>
+                      </div>
+                    </label>
+                  </div>
+                ))}
+              </form>
+            </div>
+          )}
         </div>
       ),
     },
@@ -119,14 +154,10 @@ const AccrdPfr = () => {
 
     {
       id: '안전보호시설',
-      label: '보행 안전 및 보호시설',
+      label: '보행유발 및 보호시설',
       content: (
         <div className="road safefacs">
-          {!(ldcuid && ldcuid[0]) ? (
-            <div style={{ textAlign: 'center' }}>
-              <span className="pfr2a_noreg_text">지역을 선택해주세요.</span>
-            </div>
-          ) : (
+          {ldcuid && ldcuid[0] && (
             <div className="pfr_lg_container">
               <div className="pfrlg_ttl" onClick={() => handleExpInner(0)}>
                 <div className="pfrlg_lbl">보호구역</div>
@@ -304,7 +335,6 @@ const AccrdPfr = () => {
 
     return (
       <div key={item.id} className={`${item.id + '_accitem'}`}>
-        {index === 0 && <div className="pfr1_line"></div>}
         <div
           className={`pfr1_d1 ${item.id + '_pfr1_d1'}`}
           onClick={() => handleClick(index)}
@@ -320,10 +350,8 @@ const AccrdPfr = () => {
           </div>
         )}
         <div
-          className="pfr1_line"
           style={{
             marginBottom: index === 2 ? '60px' : '',
-            height: index === 2 ? '0px' : '',
           }}
         ></div>
       </div>

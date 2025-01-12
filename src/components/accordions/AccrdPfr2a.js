@@ -2,12 +2,24 @@ import React, { useCallback, useEffect, useState } from 'react';
 import './AccrdPfr2a.css';
 import useInfo from '../../hooks/use-info';
 import useDb from '../../hooks/use-db';
+import { useAuth } from '../../context/auth';
 
 const AccrdPfr2a = React.memo(() => {
   // setup ----------------------------------------------------------------------
-  const { ldcuid, setPfrInfo, setBar, topPfrList, setTopPfrList } = useInfo();
+  const {
+    ldcuid,
+    setPfrInfo,
+    setBar,
+    topPfrList,
+    setTopPfrList,
+    setSrvy,
+    setNfidlst,
+    pfrPick,
+    setSrvyid,
+  } = useInfo();
   const [csvDiv, setCsvDiv] = useState(null);
   const { getCord, getCsv, getTopPfr } = useDb();
+  const { user } = useAuth();
 
   // auxiliary ----------------------------------------------------------------------
   const handleCsvList = useCallback(async () => {
@@ -54,6 +66,13 @@ const AccrdPfr2a = React.memo(() => {
     handleCsvList();
   };
 
+  const startSurvey = () => {
+    setBar(4);
+    setSrvy(true);
+    setSrvyid(null);
+    if (pfrPick) setNfidlst([pfrPick]);
+  };
+
   // useeffect ----------------------------------------------------------------------
   useEffect(() => {
     setCsvDiv(null);
@@ -87,22 +106,23 @@ const AccrdPfr2a = React.memo(() => {
           <div className={`pfr2a_expanded ${item.id + '_pfr2a_exp'}`}>
             {item.content}
           </div>
-          <div
-            className="pfr2a_dwnld"
-            onClick={async () => await getCsv(topPfrList)}
-          >
-            CSV 데이터 다운로드
-          </div>
-          <div className="pfr2a_input" onClick={() => setBar(4)}>
-            실태조사 입력
-          </div>
+          {user && user.role === 'admin' && (
+            <React.Fragment>
+              <div
+                className="pfr2a_dwnld"
+                onClick={async () => await getCsv(topPfrList)}
+              >
+                CSV 데이터 다운로드
+              </div>
+
+              <div className="pfr2a_input" onClick={() => startSurvey()}>
+                실태조사 결과 입력
+              </div>
+            </React.Fragment>
+          )}
         </div>
       )
-    ) : (
-      <div key={`${item.id}_regsc`} className="pfr2a_noreg_text">
-        지역을 선택해주세요.
-      </div>
-    );
+    ) : null;
   });
 
   // return ----------------------------------------------------------------------

@@ -26,6 +26,7 @@ const useDb = () => {
     setPfrdata,
     setPfrPick,
     setPfrjs,
+    setSrvdata,
   } = useInfo();
 
   const setView = useViewUpdate();
@@ -34,7 +35,7 @@ const useDb = () => {
     // setLD(true);
     const response = await axios.get(
       `${REACT_APP_SERVER_URL}/getProp/${nf_id}`
-    ); ////http://localhost:4000
+    );
     return response.data;
     // console.log('getProp response at use-db.js: ', response);
     // setPnfo(response.data);
@@ -46,13 +47,13 @@ const useDb = () => {
       setLD(true);
       // console.log(nf_id);
       const response = await axios.get(
-        `${REACT_APP_SERVER_URL}/getCord/${nf_id}` ////http://localhost:4000
+        `${REACT_APP_SERVER_URL}/getCord/${nf_id}`
       );
       const response2 = await axios.get(
-        `${REACT_APP_SERVER_URL}/getProp/${nf_id}` ////http://localhost:4000
+        `${REACT_APP_SERVER_URL}/getProp/${nf_id}`
       );
       const response3 = await axios.get(
-        `${REACT_APP_SERVER_URL}/getShap/${nf_id}` ////http://localhost:4000
+        `${REACT_APP_SERVER_URL}/getShap/${nf_id}`
       );
       // console.log("getCord response at use-de.js: ", response);
       bar === 3 ? setPfrPick(nf_id) : setPick(nf_id);
@@ -113,7 +114,7 @@ const useDb = () => {
       const query = `select * from public.side1r where NF_ID in (${nf_ids})`;
       const response = await axios.get(
         `${REACT_APP_SERVER_URL}/getCsv/${query}`
-      ); ////http://localhost:4000
+      );
       // console.log("csvlistdwn: ", response.data);
       // Construct CSV string and Adding BOM(Byte Order Mark) for UTF-8 Encoding
       const BOM = '\uFEFF';
@@ -153,7 +154,7 @@ const useDb = () => {
     async (rdnm) => {
       var qry = `select NF_ID from public.side1r where ROAD_NM = '${rdnm}'`;
       const response = await axios.get(
-        `${REACT_APP_SERVER_URL}/getSrchId/${qry}` ////http://localhost:4000
+        `${REACT_APP_SERVER_URL}/getSrchId/${qry}`
       );
       // console.log("rsrch getsrchid: ", response.data);
       const rtrvdLst = response.data;
@@ -177,6 +178,13 @@ const useDb = () => {
     [getCord]
   );
   /////////////////////////////////////////////////////////////////
+  const getLstLength = useCallback(async (lst) => {
+    const response = await axios.get(`${REACT_APP_SERVER_URL}/getLstLength`, {
+      params: { ids: lst },
+    });
+    return response.data.total_length;
+  }, []);
+
   const getLength = useCallback(async () => {
     setLD(true);
     if (bar === 1) {
@@ -184,8 +192,6 @@ const useDb = () => {
     } else if (bar === 2) {
       const ldc = ldcuid ? ldcuid[4] : null;
       const response = await axios.post(`${REACT_APP_SERVER_URL}/getLength2`, {
-        //http://localhost:4000
-        //
         rnfo0,
         rnfo1,
         ldc,
@@ -199,8 +205,6 @@ const useDb = () => {
       console.log('info and ldcuid\n', info, ldcuid);
       const ldc = ldcuid ? ldcuid[4] : null;
       const response = await axios.post(`${REACT_APP_SERVER_URL}/getLength4`, {
-        //http://localhost:4000
-        //
         info,
         ldc,
       });
@@ -257,7 +261,7 @@ const useDb = () => {
     async (citem, ldc, yr) => {
       setLD(true);
       const response = await axios.get(
-        `${REACT_APP_SERVER_URL}/getEcon/${citem}/${ldc}/${yr}` ////http://localhost:4000
+        `${REACT_APP_SERVER_URL}/getEcon/${citem}/${ldc}/${yr}`
       );
       // console.log('getEcon at use-db', response.data);
       // const lst = response.data;
@@ -283,7 +287,7 @@ const useDb = () => {
 
   const getReg = useCallback(async () => {
     setLD(true);
-    const response = await axios.get(`${REACT_APP_SERVER_URL}/getReg`); ////http://localhost:4000
+    const response = await axios.get(`${REACT_APP_SERVER_URL}/getReg`);
     // console.log('getReg at use-db', response.data);
     setLD(false);
     return response.data;
@@ -298,7 +302,7 @@ const useDb = () => {
       // );
 
       const response = await axios.get(
-        `${REACT_APP_SERVER_URL}/getBar2sido/${tablenm}/${yr}` ////http://localhost:4000
+        `${REACT_APP_SERVER_URL}/getBar2sido/${tablenm}/${yr}`
       );
       // console.log('getBar2sido at use-db', response.data);
       setLD(false);
@@ -311,7 +315,7 @@ const useDb = () => {
     async (tablenm, sidotmp, yr) => {
       setLD(true);
       const response = await axios.get(
-        `${REACT_APP_SERVER_URL}/getBar2sgg/${tablenm}/${sidotmp}/${yr}` ////http://localhost:4000
+        `${REACT_APP_SERVER_URL}/getBar2sgg/${tablenm}/${sidotmp}/${yr}`
       );
       // console.log('getBar2sgg at use-db', response.data);
       setLD(false);
@@ -365,11 +369,219 @@ const useDb = () => {
     [setLD]
   );
 
+  const getSrvyhist = useCallback(
+    async (obj) => {
+      setLD(true);
+      const response = await axios.post(
+        `${REACT_APP_SERVER_URL}/getSrvyhist`,
+        obj
+      );
+      console.log('getSrvyhist response\n', response.data);
+
+      setLD(false);
+      return response.data;
+    },
+    [setLD]
+  );
+
+  // const postSrvyuser = useCallback(async () => {
+  //   setLD(true);
+  //   const response = await axios.post(`${REACT_APP_SERVER_URL}/postSrvyuser`);
+  //   console.log('postSrvyuser response\n', response);
+
+  //   setLD(false);
+  // }, [setLD]);
+
+  const getCsvSrvy = useCallback(
+    async (obj) => {
+      setLD(true);
+      const response = await axios.post(
+        `${REACT_APP_SERVER_URL}/getCsvSrvy`,
+        obj
+      );
+      console.log('csvlistdwn: ', response.data, '\nobj', obj);
+
+      // Construct CSV string and Adding BOM(Byte Order Mark) for UTF-8 Encoding
+      const BOM = '\uFEFF';
+      const keys = Object.keys(response.data).join(',');
+      const values = Object.values(response.data)
+        .map((item, id) => {
+          if (Array.isArray(item)) {
+            return `"${item.join(',')}"`; // Convert array to comma-separated string and enclose in quotes
+          }
+          if (typeof item === 'string' && item.includes(',')) {
+            return `"${item}"`; // Enclose values with commas in quotes
+          }
+          if (id === 1) {
+            const date = new Date(item);
+            console.log('Original UTC Date:', date.toISOString()); // Logs UTC time
+            console.log(
+              'Converted KST Date:',
+              date.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }) // Should show KST time
+            );
+            return date.toLocaleString('ko-KR', {
+              timeZone: 'Asia/Seoul',
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+            });
+          }
+          if (id === 3) {
+            return `"'${item}'"`; // prepend single quote to prevent Excel from auto-formatting
+          }
+          return item;
+        })
+        .join(',');
+      const csvContent = BOM + keys + '\n' + values;
+
+      // Using Blob for potentially large data sets or special characters
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `실태조사_srvyid_${obj.srvyid}.csv`);
+      document.body.appendChild(link); //required for firefox
+      link.click();
+      URL.revokeObjectURL(url); // Clean up to avoid memory leaks
+      setLD(false);
+    },
+    [setLD]
+  );
+
+  const getSrvyItem = useCallback(
+    async (obj) => {
+      setLD(true);
+      const response = await axios.post(
+        `${REACT_APP_SERVER_URL}/getSrvyItem`,
+        obj
+      );
+
+      if (response.data) {
+        console.log('getSrvyItem response.data\n', response.data);
+      }
+      setLD(false);
+      return response.data;
+    },
+    [setLD]
+  );
+
+  const delSrvyItem = useCallback(
+    async (obj) => {
+      setLD(true);
+      const response = await axios.post(
+        `${REACT_APP_SERVER_URL}/delSrvyItem`,
+        obj
+      );
+
+      if (response.data) {
+        console.log('delSrvyItem response\n', response.data);
+        alert('삭제되었습니다.');
+      }
+
+      setLD(false);
+    },
+    [setLD]
+  );
+
+  const editSrvy = useCallback(
+    async (obj) => {
+      setLD(true);
+      const response = await axios.post(
+        `${REACT_APP_SERVER_URL}/editSrvy`,
+        obj
+      );
+      console.log('editSrvy response\n', response);
+
+      setLD(false);
+    },
+    [setLD]
+  );
+
+  const getCordOnly = useCallback(
+    async (obj) => {
+      setLD(true);
+      // console.log(nf_id);
+      const response = await axios.post(
+        `${REACT_APP_SERVER_URL}/getCordOnly`,
+        obj
+      );
+      // console.log("getCordOnly response at use-de.js: ", response);
+
+      if (response.data) {
+        const data = response.data;
+
+        setView({
+          longitude: data.long,
+          latitude: data.lat,
+          zoom: 15,
+        });
+      } else {
+        console.log('no data fetched from getCordOnly at use-db.js');
+      }
+
+      setLD(false);
+    },
+    [setView, setLD]
+  );
+
+  const getCsvGen1 = useCallback(
+    async (obj) => {
+      setLD(true);
+      const response = await axios.post(
+        `${REACT_APP_SERVER_URL}/getCsvGen1`,
+        obj
+      );
+      console.log('csvlistdwn: ', response.data, '\nobj', obj);
+
+      // Construct CSV string and Adding BOM(Byte Order Mark) for UTF-8 Encoding
+      const BOM = '\uFEFF';
+      const data = response.data;
+
+      // Extract keys from the first object to use as headers
+      const keys = Object.keys(data[0]).join(',');
+
+      // Map over each object to create a CSV row
+      const values = data
+        .map((row) => {
+          return Object.values(row)
+            .map((item) => {
+              if (typeof item === 'string' && item.includes(',')) {
+                return `"${item}"`; // Enclose values with commas in quotes
+              }
+              return item;
+            })
+            .join(',');
+        })
+        .join('\n');
+
+      // Combine BOM, headers, and rows into the final CSV content
+      const csvContent = BOM + keys + '\n' + values;
+
+      // Using Blob for potentially large data sets or special characters
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute(
+        'download',
+        `일반현황_${obj.tablename}_${obj.yr}_${obj.ldc}.csv`
+      );
+      document.body.appendChild(link); //required for firefox
+      link.click();
+      URL.revokeObjectURL(url); // Clean up to avoid memory leaks
+      setLD(false);
+    },
+    [setLD]
+  );
+
   /////////////////////////////////////////////////////////
   const getpfrjs = async () => {
     try {
       setLD(true);
-      const res = await axios.get(`${REACT_APP_SERVER_URL}/getPfrjs`); ////http://localhost:4000
+      const res = await axios.get(`${REACT_APP_SERVER_URL}/getPfrjs`);
       setPfrjs(res.data);
       setLD(false);
     } catch (e) {
@@ -392,41 +604,41 @@ const useDb = () => {
         schl_entr,
       ] = await Promise.all([
         axios.get(
-          `${REACT_APP_SERVER_URL}/getPfrdata/parks/${ldcuid && ldcuid[0]}` ////http://localhost:4000
+          `${REACT_APP_SERVER_URL}/getPfrdata/parks/${ldcuid && ldcuid[0]}`
         ),
         axios.get(
           `${REACT_APP_SERVER_URL}/getPfrdata/parks_buffer/${
             ldcuid && ldcuid[0]
-          }` ////http://localhost:4000
+          }`
         ),
         axios.get(
           `${REACT_APP_SERVER_URL}/getPfrdata/ch_safe_zone/${
             ldcuid && ldcuid[0]
-          }` ////http://localhost:4000
+          }`
         ),
         axios.get(
           `${REACT_APP_SERVER_URL}/getPfrdata/sn_safe_zone/${
             ldcuid && ldcuid[0]
-          }` ////http://localhost:4000
+          }`
         ),
         axios.get(
-          `${REACT_APP_SERVER_URL}/getPfrdata/multfac/${ldcuid && ldcuid[0]}` ////http://localhost:4000
+          `${REACT_APP_SERVER_URL}/getPfrdata/multfac/${ldcuid && ldcuid[0]}`
         ),
         axios.get(
           `${REACT_APP_SERVER_URL}/getPfrdata/multfac_entr/${
             ldcuid && ldcuid[0]
-          }` ////http://localhost:4000
+          }`
         ),
         axios.get(
-          `${REACT_APP_SERVER_URL}/getPfrdata/schl_bld/${ldcuid && ldcuid[0]}` ////http://localhost:4000
+          `${REACT_APP_SERVER_URL}/getPfrdata/schl_bld/${ldcuid && ldcuid[0]}`
         ),
         axios.get(
           `${REACT_APP_SERVER_URL}/getPfrdata/schl_buffer/${
             ldcuid && ldcuid[0]
-          }` ////http://localhost:4000
+          }`
         ),
         axios.get(
-          `${REACT_APP_SERVER_URL}/getPfrdata/schl_entr/${ldcuid && ldcuid[0]}` ////http://localhost:4000
+          `${REACT_APP_SERVER_URL}/getPfrdata/schl_entr/${ldcuid && ldcuid[0]}`
         ),
       ]);
       setPfrdata((prev) => ({
@@ -452,12 +664,112 @@ const useDb = () => {
   const getTopPfr = useCallback(async () => {
     setLD(true);
     const response = await axios.get(
-      `${REACT_APP_SERVER_URL}/getTopPfr/${ldcuid && ldcuid[0]}` ////http://localhost:4000
+      `${REACT_APP_SERVER_URL}/getTopPfr/${ldcuid && ldcuid[0]}`
     );
     const rtrvdLst = response.data;
     setLD(false);
     return rtrvdLst;
   }, [setLD, ldcuid]);
+
+  const getSurveyBuffer = useCallback(
+    async (nfidlst) => {
+      setLD(true);
+      try {
+        const response = await axios.get(
+          `${REACT_APP_SERVER_URL}/getSurveyBuffer`,
+          { params: { ids: nfidlst } }
+        );
+        const rtrvd = response.data;
+        setLD(false);
+        return rtrvd;
+      } catch (error) {
+        console.error('Error fetching survey buffer:', error);
+        setLD(false);
+      }
+    },
+    [setLD]
+  );
+
+  const getSurveyBufferMask = useCallback(
+    async (nfidlst) => {
+      setLD(true);
+      try {
+        const response = await axios.get(
+          `${REACT_APP_SERVER_URL}/getSurveyBufferMask`,
+          { params: { ids: nfidlst } }
+        );
+        const rtrvd = response.data;
+        setLD(false);
+        return rtrvd;
+      } catch (error) {
+        console.error('Error fetching survey buffer mask:', error);
+        setLD(false);
+      }
+    },
+    [setLD]
+  );
+
+  const getSrvData = useCallback(
+    async (nfidlst) => {
+      setLD(true);
+      try {
+        const response = await axios.get(`${REACT_APP_SERVER_URL}/getSrvData`, {
+          params: { ids: nfidlst },
+        });
+
+        setSrvdata((prev) => ({
+          ...prev,
+          bld: response.data.bld,
+          rodway: response.data.rodway,
+          pedpath: response.data.pedpath,
+          cctv: response.data.cctv,
+          crosswalk: response.data.crosswalk,
+        }));
+      } catch (err) {
+        console.error('Error fetching srvdata:', err);
+      } finally {
+        setLD(false);
+        console.log('srvdata fetched');
+      }
+    },
+    [setLD, setSrvdata]
+  );
+
+  const getPfrProps = useCallback(async (nfidlst) => {
+    try {
+      const response = await axios.get(`${REACT_APP_SERVER_URL}/getPfrProps`, {
+        params: { ids: nfidlst },
+      });
+      const data = response.data;
+
+      if (data) {
+        return data;
+      } else {
+        return {
+          cartrk_co: null,
+          road_bt: null,
+          sdwk_se: null,
+          rdnet_ac: null,
+          pbuld_fa: null,
+          bulde_de: null,
+          pubtr_ac: null,
+          stair_at: null,
+        };
+      }
+    } catch (err) {
+      console.error('Error fetching pfrprops:', err);
+      return {
+        cartrk_co: null,
+        road_bt: null,
+        sdwk_se: null,
+        rdnet_ac: null,
+        pbuld_fa: null,
+        bulde_de: null,
+        pubtr_ac: null,
+        stair_at: null,
+      };
+    }
+  }, []);
 
   /////////////////////////////////////////////////////////
   return {
@@ -473,11 +785,23 @@ const useDb = () => {
     getBar2sgg,
     getLdc,
     getPie1,
+    postSrvy,
+    getSrvyhist,
+    getCsvSrvy,
+    getSrvyItem,
+    delSrvyItem,
+    editSrvy,
+    getCordOnly,
+    getCsvGen1,
     ////////////////////////////////////
     getpfrjs,
     getPfrdata,
     getTopPfr,
-    postSrvy,
+    getSurveyBuffer,
+    getSurveyBufferMask,
+    getSrvData,
+    getLstLength,
+    getPfrProps,
   };
 };
 

@@ -24,7 +24,7 @@
   font-size: 14px;
 }
 .tbl1_head2 {
-  width: 60px;
+  gap: 10px;
   display: flex;
   justify-content: space-between;
   font-size: 12px;

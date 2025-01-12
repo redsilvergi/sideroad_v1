@@ -1,7 +1,11 @@
 import './Table1.css';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import useInfo from '../../hooks/use-info';
+import axios from 'axios';
+import { useAuth } from '../../context/auth';
 import Trigger from '../auxiliary/Trigger';
+
+const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL || '';
 
 // config ----------------------------------------------------------------------
 const config = {
@@ -10,134 +14,163 @@ const config = {
     keys: ['age0_12', 'age13_64', 'age65_200'],
     minmax: [0, 0],
     unit: '명',
+    tablenm: 'pop',
   },
   도시면적: {
     colname: ['계/증감률', '면적'],
     keys: ['ar'],
     minmax: [2, 2],
     unit: 'km²',
+    tablenm: 'city_area',
   },
   자동차등록대수: {
     colname: ['계/증감률', '사륜차', '이륜차'],
     keys: ['wheel4', 'wheel2'],
     minmax: [0, 0],
     unit: '대',
+    tablenm: 'veh',
   },
   도로연장: {
     colname: ['계/증감률', '1차로', '2차로', '3차로 이상'],
     keys: ['lane1', 'lane2', 'lane3_more'],
     minmax: [0, 0],
     unit: 'km',
+    tablenm: 'road_len',
   },
   보행연관시설물: {
-    colname: ['계/증감률', '보도육교', '지하보도'],
+    colname: ['계/증감률', '보도육고', '지하보도'],
     keys: ['overpass', 'underpass'],
     minmax: [0, 0],
     unit: '개',
+    tablenm: 'ped_facil',
   },
   체육시설: {
     colname: ['계/증감률', '운동장', '체육관', '기타운동시설'],
     keys: ['field', 'gym', 'facils'],
     minmax: [0, 0],
     unit: '개',
+    tablenm: 'sports',
   },
   문화집회시설: {
     colname: ['계/증감률', '공연장', '관람장', '동식물원', '전시장', '집회장'],
     keys: ['theater', 'auditorium', 'zoo', 'exhibit', 'hall'],
     minmax: [0, 0],
     unit: '개',
+    tablenm: 'culture',
   },
   유통시설: {
     colname: ['계/증감률', '백화점', '대형판매점', '대형점', '대규모소매점'],
     keys: ['dpt_no', 'sales_no', 'store_no', 'retail_no'],
     minmax: [0, 0],
     unit: '개',
+    tablenm: 'dist',
   },
   유통시설면적: {
     colname: ['계/증감률', '백화점', '대형판매점', '대형점', '대규모소매점'],
     keys: ['dpt_tfa', 'sales_tfa', 'store_tfa', 'retail_tfa'],
     minmax: [0, 0],
     unit: 'km²',
+    tablenm: 'dist',
   },
   공원시설: {
     colname: ['계/증감률', '근린공원', '소공원', '어린이공원'],
     keys: ['neigh_no', 'small_no', 'child_no'],
     minmax: [0, 0],
     unit: '개',
+    tablenm: 'park',
   },
   공원시설면적: {
     colname: ['계/증감률', '근린공원', '소공원', '어린이공원'],
     keys: ['neigh_tfa', 'small_tfa', 'child_tfa'],
     minmax: [0, 0],
     unit: 'km²',
+    tablenm: 'park',
   },
   보도없는도로: {
     colname: ['계/증감률', 'km'],
     keys: ['km'],
     minmax: [0, 0],
     unit: 'km',
+    tablenm: 'no_sidewalk',
   },
   보행환경개선지구: {
     colname: ['계/증감률', '지구수'],
     keys: ['no'],
     minmax: [0, 0],
     unit: '개',
+    tablenm: 'ped_env',
   },
   보행자전용길: {
     colname: ['계/증감률', '전용길수'],
     keys: ['no'],
     minmax: [0, 0],
     unit: '개',
+    tablenm: 'ped_only',
   },
   보행자길: {
     colname: ['계/증감률', 'km'],
     keys: ['km'],
     minmax: [0, 0],
     unit: 'km',
+    tablenm: 'ped_paths',
   },
   보행우선구역: {
     colname: ['계/증감률', '구역수'],
     keys: ['no'],
     minmax: [0, 0],
     unit: '개',
+    tablenm: 'ped_priority',
   },
   보행자전용도로: {
     colname: ['계/증감률', '연장'],
     keys: ['length'],
     minmax: [0, 0],
     unit: 'km',
+    tablenm: 'ped_roads',
   },
   보호구역: {
     colname: ['계/증감률', '노인/장애인', '어린이'],
     keys: ['old_dsbld', 'child'],
     minmax: [0, 0],
     unit: '개',
+    tablenm: 'protected',
   },
   통행수단별: {
     colname: ['계/증감률', '보행', '자가용', '대중교통'],
     keys: ['walk', 'car', 'transit'],
     minmax: [0, 0],
     unit: '명',
+    tablenm: 'travel_mode',
   },
   통행목적별: {
     colname: ['계/증감률', '업무', '출근', '등교', '귀가'],
     keys: ['work', 'commute', 'school', 'home'],
     minmax: [0, 0],
     unit: '명',
+    tablenm: 'travel_purpose',
   },
   보도통행거리: {
     colname: ['계/증감률', '500m이내', '1000m이내', '3000m이내', '3000m이상'],
     keys: ['in500m', 'in1km', 'in3km', 'up3km'],
     minmax: [0, 0],
     unit: '개?',
+    tablenm: 'walk_dist_behav',
   },
 };
 
 // Table1 ----------------------------------------------------------------------
 const Table1 = () => {
   const { genitem, genfo, yr, ldcuid } = useInfo();
+  const { user } = useAuth();
   const yrint = yr && parseInt(yr.slice(0, 4), 10);
   // const yrint = yr ? parseInt(yr.slice(0, 4), 10) : 2023;
+  //  ----------------------------------------------------------------------
+  const [isEdit, toggleIsEdit] = useState(false);
+  const [editData, setEditData] = useState([]);
+
+  useEffect(() => {
+    toggleIsEdit(false);
+  }, [yr]);
 
   // optimised ----------------------------------------------------------------------
   const calculateData = (keys) => {
@@ -216,7 +249,28 @@ const Table1 = () => {
     tdata: [],
     tdata_pd: [],
   };
-  // console.log('tmptdatadata\n', tdata);
+
+  useEffect(() => {
+    if (genitem && ldcuid) {
+      const newData = tdata.slice(1).map((row, idx) => ({
+        idx: idx,
+        tbl_name: config[genitem].tablenm,
+        ldc: ldcuid[0],
+        yr: yrint,
+        mod_field: config[genitem].keys[idx],
+        mod_value:
+          row[0] && !isNaN(parseInt(row[0], 10)) && row[0] !== 'NaN'
+            ? row[0].replace(/,/g, '')
+            : 'N/A',
+        og_value:
+          row[0] && !isNaN(parseInt(row[0], 10)) && row[0] !== 'NaN'
+            ? row[0].replace(/,/g, '')
+            : 'N/A',
+      }));
+      setEditData(newData);
+    }
+    //eslint-disable-next-line
+  }, [genitem, ldcuid, yrint, JSON.stringify(tdata), isEdit]);
 
   // render ----------------------------------------------------------------------
   const thead_th =
@@ -250,14 +304,37 @@ const Table1 = () => {
           {(() => {
             const cells = [];
             for (let i = 4; i >= 0; i--) {
+              const cellValue =
+                tdata && tdata[id] && tdata[id][i] ? tdata[id][i] : '';
+
               cells.push(
                 <td className="tbl1_td" key={`tbl1_td_${i}`}>
-                  {tdata &&
-                  tdata[id] &&
-                  tdata[id][i] &&
-                  !isNaN(tdata[id][i].replace(/,/g, ''))
-                    ? tdata[id][i]
-                    : ''}
+                  {isEdit && i === 0 && id > 0 ? (
+                    <input
+                      type="text"
+                      value={
+                        editData &&
+                        editData[id - 1] &&
+                        editData[id - 1].mod_value !== undefined &&
+                        editData[id - 1].mod_value !== 'NaN'
+                          ? editData[id - 1].mod_value
+                          : cellValue || ''
+                      }
+                      onChange={(e) => handleInput(id - 1, e.target.value)}
+                      style={{
+                        marginLeft: '-1px',
+                        width: '96%',
+                        height: '99%',
+                        fontSize: '12px',
+                        border: '1px solid #00000044',
+                        backgroundColor: '#ffebb344',
+                      }}
+                    />
+                  ) : cellValue && cellValue !== 'NaN' ? (
+                    cellValue
+                  ) : (
+                    ''
+                  )}
                 </td>
               );
               cells.push(
@@ -274,6 +351,91 @@ const Table1 = () => {
       );
     });
 
+  //  ----------------------------------------------------------------------
+
+  const handleInput = (idx, value) => {
+    setEditData((prev) =>
+      prev.map((item) =>
+        item.idx === idx ? { ...item, mod_value: value } : item
+      )
+    );
+  };
+
+  const handleEdit = () => {
+    if (!user) {
+      alert('로그인이 필요합니다.');
+    } else if (user.role !== 'admin') {
+      alert('관리자 권한이 필요합니다.');
+    } else if (user.role === 'admin') {
+      const editedRows = editData.filter(
+        ({ mod_value, og_value }) => mod_value !== og_value
+      );
+
+      if (editedRows.length > 0) {
+        const conf = window.confirm('변경사항이 있습니다. 종료하시겠습니까?');
+        if (!conf) {
+          return;
+        } else {
+          setEditData([]);
+        }
+      }
+      toggleIsEdit((prev) => !prev);
+    } else {
+      alert('로그인 후 이용해주세요.');
+    }
+  };
+
+  const saveTableEdit = async () => {
+    if (user && user.role === 'admin') {
+      try {
+        const editedRows = editData.filter(
+          ({ mod_value, og_value }) => Number(mod_value) !== Number(og_value)
+        );
+
+        if (editedRows.length === 0) {
+          alert('변경사항이 없습니다.');
+          return;
+        }
+
+        const invalidRows = editedRows.filter(({ mod_value }) =>
+          isNaN(Number(mod_value))
+        );
+        if (invalidRows.length > 0) {
+          alert('입력값은 반드시 숫자여야 합니다.');
+          console.error('Invalid rows:', invalidRows);
+          return;
+        }
+
+        const payload = editedRows.map(
+          ({ tbl_name, ldc, yr, mod_field, mod_value, og_value }) => ({
+            username: user.username,
+            tbl_name,
+            ldc,
+            yr,
+            mod_field,
+            mod_value,
+            og_value,
+          })
+        );
+
+        console.log(payload);
+        const res = await axios.post(`${REACT_APP_SERVER_URL}/submit-table`, {
+          data: payload,
+        });
+
+        if (res.data.success) {
+          alert('저장되었습니다.');
+          toggleIsEdit(false);
+        } else {
+          alert('저장 오류입니다. 잠시 후 다시 시도해주세요.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('현재 수정사항을 저장할 수 없습니다.');
+      }
+    }
+  };
+
   // return ----------------------------------------------------------------------
   return yr && ldcuid ? (
     <div className="tbl1_cont">
@@ -282,8 +444,14 @@ const Table1 = () => {
           {ldcuid && ldcuid[2]} {genitem}
         </div>
         <div className="tbl1_head2">
-          <div className="tbl1_edit">수정</div>
-          <div className="tbl1_save">저장</div>
+          <div className="tbl1_edit" onClick={() => handleEdit()}>
+            수정
+          </div>
+          {isEdit && (
+            <div className="tbl1_save" onClick={() => saveTableEdit()}>
+              저장
+            </div>
+          )}
         </div>
       </div>
       <div className="tbl1_head3">

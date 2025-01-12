@@ -47,6 +47,27 @@ const InfoProvider = ({ children }) => {
       sdwkOps: { name: '보도', selected: null, checkboxes: null },
     });
     setLength(null);
+    setBufferData([null, null]);
+    setNfidlst([]);
+    setSrvy(false);
+    setPfrdata({
+      parks: null,
+      parks_buffer: null,
+      ch_safe_zone: null,
+      sn_safe_zone: null,
+      multfac: null,
+      multfac_entr: null,
+      schl_bld: null,
+      schl_buffer: null,
+      schl_entr: null,
+    });
+    setSrvdata({
+      bld: null,
+      rodway: null,
+      pedpath: null,
+      cctv: null,
+      crosswalk: null,
+    });
   }, []);
 
   const allset = useCallback(() => {
@@ -161,6 +182,7 @@ const InfoProvider = ({ children }) => {
   const [exp, setExp] = useState(0);
   const [srvy, setSrvy] = useState(false);
   const [nfidlst, setNfidlst] = useState([]);
+  const [srvyid, setSrvyid] = useState(null);
 
   //////////////////////////////////
   const [pfrjs, setPfrjs] = useState(null);
@@ -178,6 +200,14 @@ const InfoProvider = ({ children }) => {
     schl_buffer: null,
     schl_entr: null,
   });
+
+  const [srvdata, setSrvdata] = useState({
+    bld: null,
+    rodway: null,
+    pedpath: null,
+    cctv: null,
+    crosswalk: null,
+  });
   const [pfrLegendCbx, setPfrLegendCbx] = useState([
     true,
     true,
@@ -185,7 +215,17 @@ const InfoProvider = ({ children }) => {
     true,
     true,
   ]);
+  const [bffLegendCbx, setbffLegendCbx] = useState([
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+  ]);
+  const [bufferExp, setBufferExp] = useState(false);
   const [topPfrList, setTopPfrList] = useState([]);
+  const [bufferData, setBufferData] = useState([null, null]);
 
   const contextValue = useMemo(
     () => ({
@@ -248,6 +288,8 @@ const InfoProvider = ({ children }) => {
       setSrvy,
       nfidlst,
       setNfidlst,
+      srvyid,
+      setSrvyid,
       /////////////////
       pfrjs,
       setPfrjs,
@@ -263,6 +305,14 @@ const InfoProvider = ({ children }) => {
       setPfrInfo,
       topPfrList,
       setTopPfrList,
+      bufferData,
+      setBufferData,
+      srvdata,
+      setSrvdata,
+      bffLegendCbx,
+      setbffLegendCbx,
+      bufferExp,
+      setBufferExp,
     }),
     [
       // view,
@@ -296,6 +346,7 @@ const InfoProvider = ({ children }) => {
       rnfo1,
       srvy,
       nfidlst,
+      srvyid,
       /////////////////
       pfrjs,
       checkedPfr,
@@ -304,6 +355,10 @@ const InfoProvider = ({ children }) => {
       pfrLegendCbx,
       pfrInfo,
       topPfrList,
+      bufferData,
+      srvdata,
+      bffLegendCbx,
+      bufferExp,
     ]
   );
 

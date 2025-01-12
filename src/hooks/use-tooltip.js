@@ -469,7 +469,35 @@ const useTooltip = () => {
     }
   };
 
-  return { getTooltip1, getTooltip2, getTooltip3, getTooltip6, getTooltip4_wb };
+  const getTooltip5_wb = (d) => {
+    const op = d && d.object && d.object.properties;
+    const tooltip = document.querySelector('.custom-tooltip');
+    if (d.object && op && op.bd_nb_full) {
+      tooltip.style.display = 'block';
+      tooltip.innerHTML = `
+        <div style="color: #808080; font-size: 0.8rem; display: flex; align-items: center; width: max-content; height: 10px;">
+          ${`${op.bd_nb_full ?? '---'}`}
+        </div>
+      `;
+      // const width = tooltip.offsetWidth;
+      const height = tooltip.offsetHeight;
+      tooltip.style.transform = `translate(${d.x}px, ${d.y - height}px)`;
+    } else {
+      const tooltip = document.querySelector('.custom-tooltip');
+      if (tooltip) {
+        tooltip.style.display = 'none';
+      }
+    }
+  };
+
+  return {
+    getTooltip1,
+    getTooltip2,
+    getTooltip3,
+    getTooltip6,
+    getTooltip4_wb,
+    getTooltip5_wb,
+  };
 };
 
 export default useTooltip;

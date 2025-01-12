@@ -2,13 +2,13 @@ import './LoginPage.css';
 import React, { useState } from 'react';
 import { useAuth } from '../context/auth';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL || '';
 
 const LoginPage = () => {
   // setup ----------------------------------------------------------------------
-  const { login, user } = useAuth();
+  const { login } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -39,10 +39,10 @@ const LoginPage = () => {
   return (
     <div className="login-body">
       <div className="login-container">
-        <h2>Login</h2>
+        <h2>로그인</h2>
         <form className="login-form" onSubmit={handleLogin}>
           <div className="form-group">
-            <label htmlFor="email">Username</label>
+            <label htmlFor="email">아이디</label>
             <input
               type="text"
               id="username"
@@ -53,7 +53,7 @@ const LoginPage = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">비밀번호</label>
             <input
               type="password"
               id="password"
@@ -64,16 +64,16 @@ const LoginPage = () => {
             />
           </div>
           <button type="submit" className="login-button">
-            Login
+            로그인
           </button>
-          <div className="login-goback">
-            <Link to="/">Go Back</Link>
+          <div className="login-goback" onClick={() => navigate('/')}>
+            뒤로가기
           </div>
-          <div className="login-goback">
+          {/* <div className="login-goback">
             <button onClick={() => console.log('user\n', user)}>
               check user state
             </button>
-          </div>
+          </div> */}
         </form>
       </div>
     </div>
