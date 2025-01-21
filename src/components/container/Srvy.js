@@ -66,7 +66,7 @@ const Srvy = () => {
     <div className="srvy_wrap">
       <div className="srvy_res_wrap">
         <div className="srvy_res" onClick={handleSrvyRes}>
-          실태조사 결과 입력
+          {srvy ? '실태조사 종료' : '실태조사 시작'}
         </div>
       </div>
 

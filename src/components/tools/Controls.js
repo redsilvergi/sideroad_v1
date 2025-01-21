@@ -6,7 +6,7 @@ import { GiExpand } from 'react-icons/gi';
 import { BiHide } from 'react-icons/bi';
 // import axios from 'axios';
 import { useViewUpdate } from '../../context/view';
-import { useAuth } from '../../context/auth';
+// import { useAuth } from '../../context/auth';
 
 const Controls = () => {
   const {
@@ -14,28 +14,26 @@ const Controls = () => {
     setIsFilter,
     right,
     scrn,
-    info,
-    pick,
-    view,
-    // depth1,
-    length,
-    // setLength,
-    region,
-    // istgl,
-    // setLD,
-    rsk,
-    rnfo,
-    gen,
-    genitem,
-    genfo,
-    ldcuid,
-    yr,
-    rnfo0,
-    rnfo1,
-    pnfo,
-    nfidlst,
+    // info,
+    // pick,
+    // view,
+    // length,
+    // region,
+    // rsk,
+    // rnfo,
+    // gen,
+    // genitem,
+    // genfo,
+    // ldcuid,
+    // yr,
+    // rnfo0,
+    // rnfo1,
+    // pnfo,
+    // nfidlst,
+    // pfrPick,
+    // exp,
   } = useInfo();
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const setView = useViewUpdate();
   // const { queryF } = useQuery();
 
@@ -115,8 +113,8 @@ const Controls = () => {
       <button className="toggle_button" onClick={() => setIsFilter(!isFilter)}>
         <BiHide />
       </button>
-      <button
-        className="toggle_button"
+      {/* <button
+        className="toggle_button toggle_button_vs"
         onClick={() =>
           console.log(
             'view:',
@@ -158,12 +156,16 @@ const Controls = () => {
             '\nnfidlst:',
             nfidlst,
             '\nuser:',
-            user
+            user,
+            '\npfrPick:',
+            pfrPick,
+            '\nexp:',
+            exp
           )
         }
       >
         VS
-      </button>
+      </button> */}
       {/* <button className="toggle_button" onClick={handlegjs}>
         gjs
       </button> */}

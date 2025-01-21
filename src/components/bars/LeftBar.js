@@ -7,7 +7,9 @@ import Srvy from '../container/Srvy';
 import AccrdPfr from '../accordions/AccrdPfr';
 import useInfo from '../../hooks/use-info';
 import Modal from '../tools/Modal';
-import guide from '../../img/guide2.png';
+
+// import guide from '../../img/guide2.png';
+import manual from '../../img/nstreets_manual_title.png';
 import nstreets from '../../img/nstreets.svg';
 import login from '../../img/login.svg';
 import pedprior from '../../img/pedprior_new.svg';
@@ -22,6 +24,7 @@ import Txtballoon from '../tools/Txtballoon';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/auth';
 import { MdPerson } from 'react-icons/md';
+import useDb from '../../hooks/use-db';
 
 // import { FaDraftingCompass } from 'react-icons/fa';
 // import { ReactComponent as Ped } from '../../img/pedprior.svg';
@@ -40,11 +43,14 @@ const LeftBar = () => {
     // allset,
     setPrpall,
     scrn,
+    setExp,
+    setIstgl,
   } = useInfo();
   const { user, logout } = useAuth();
-
+  const { fetchManual } = useDb();
   const [showModal, setShowModal] = useState(false);
 
+  // handlers ----------------------------------------------------------------------
   const handleModOpen = useCallback(() => {
     setShowModal(true);
   }, []);
@@ -78,9 +84,22 @@ const LeftBar = () => {
     [bar, reset, setBar, setPrpall]
   );
 
+  const handleLogin = useCallback(() => {
+    setIstgl(false);
+    setExp(0);
+    navigate('/login');
+  }, [setIstgl, setExp, navigate]);
+
+  const handleMypage = useCallback(() => {
+    setIstgl(false);
+    setExp(0);
+    navigate(`/mypage/${user.username}`);
+  }, [setIstgl, setExp, navigate, user]);
+
+  // return ----------------------------------------------------------------------
   return (
     <div>
-      <div className="left_column">
+      <div className={`left_column ${bar === 0 ? 'bar0' : ''}`}>
         <a href="./">
           <img src={nstreets} alt="n-street" className="nstrtimg" />
           <div className="hvd_title">도시지역 이면도로 현황</div>
@@ -161,10 +180,7 @@ const LeftBar = () => {
 
             <div className="login">
               {!user ? (
-                <div
-                  className={`bottom_cont`}
-                  onClick={() => navigate('/login')}
-                >
+                <div className={`bottom_cont`} onClick={handleLogin}>
                   <div className="hvd_bottom">로그인</div>
                   <div className="bottomicons">
                     <img src={login} alt="login" className="loginicon" />
@@ -182,10 +198,7 @@ const LeftBar = () => {
 
             {user && (
               <div className="mypage">
-                <div
-                  className={`bottom_cont`}
-                  onClick={() => navigate(`/mypage/${user.username}`)}
-                >
+                <div className={`bottom_cont`} onClick={handleMypage}>
                   <div className="hvd_bottom">마이페이지</div>
                   <div className="bottomicons">
                     <MdPerson className="mypageicon" />
@@ -197,9 +210,11 @@ const LeftBar = () => {
             <div className="guide">
               <div
                 className={`bottom_cont ${showModal ? 'active' : ''}`}
-                onClick={handleModOpen}
+                onClick={() => {
+                  handleModOpen();
+                }}
               >
-                <div className="hvd_bottom">활용 메뉴얼</div>
+                <div className="hvd_bottom">활용 메뉴얼 다운로드</div>
                 <div className="bottomicons">
                   <CgFileDocument className="guideicon" />
                 </div>
@@ -248,13 +263,22 @@ const LeftBar = () => {
       )}
 
       {showModal && (
-        <Modal onClose={handleModClose}>
-          <img
-            src={guide}
-            alt="guide1"
-            height={scrn < 1015 ? '250%' : '400%'}
-          />
-        </Modal>
+        <div>
+          <div className="modal_dwld_btn" onClick={() => fetchManual()}>
+            <span style={{}}>다운로드</span>
+            <div className="manual_dwld_btn">
+              <CgFileDocument className="pdficon" />
+            </div>
+          </div>
+          <Modal onClose={handleModClose}>
+            <img
+              src={manual}
+              alt="guide1"
+              height={scrn < 1015 ? '250%' : '400%'}
+              width={'40%'}
+            />
+          </Modal>
+        </div>
       )}
     </div>
   );

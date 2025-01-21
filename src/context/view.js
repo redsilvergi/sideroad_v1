@@ -5,6 +5,8 @@ const ViewUpdateContext = createContext();
 
 const ViewProvider = ({ children }) => {
   const [view, setView] = useState({
+    // longitude: 126.59114,
+    // latitude: 36.12775,
     longitude: 128.05161672437677,
     latitude: 36.06497806027222,
     zoom: 6.5,

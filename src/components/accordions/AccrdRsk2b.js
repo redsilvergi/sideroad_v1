@@ -4,15 +4,85 @@ import useInfo from '../../hooks/use-info';
 import CbxRsk from '../auxiliary/CbxRsk';
 import { FiPlus, FiMinus } from 'react-icons/fi';
 import Bar3 from '../charts/Bar3';
+import useDb from '../../hooks/use-db';
 // import Barchart from '../tools/Barchart';
 // import { BsQuestionCircleFill } from 'react-icons/bs';
 
 const AccrdRsk2b = () => {
   // setup ----------------------------------------------------------------------
-  const { rnfo0, rnfo1, setRnfo0, setRnfo1 } = useInfo();
+  const { rnfo0, rnfo1, setRnfo0, setRnfo1, ldcuid } = useInfo();
+  const { getRiskPrcnt } = useDb();
   // const [tmpDv, setTmpDv] = useState(false);
   const [exp, setExp] = useState([true, false]);
+  const [pedac, setPedac] = useState(null);
+  const [pred, setPred] = useState(null);
   // console.log('topexptopexp\n', topexp);
+
+  //useeffect ----------------------------------------------------------------------
+  useEffect(() => {
+    const handleData = async (col) => {
+      const result = await getRiskPrcnt({
+        col: col,
+        ldc: ldcuid && ldcuid[4],
+      });
+      // console.log('result\n', result);
+      const sum = result.reduce((acc, item) => acc + Number(item.cnt), 0);
+      const tmpDataLst =
+        result &&
+        result.reduce((acc, item, id) => {
+          if (item.val === 0) {
+            acc['매우좋음'] = ((item.cnt / sum) * 100).toFixed(3);
+          } else if (item.val === 1) {
+            acc['좋음'] = ((item.cnt / sum) * 100).toFixed(3);
+          } else if (item.val === 2) {
+            acc['보통'] = ((item.cnt / sum) * 100).toFixed(3);
+          } else if (item.val === 3) {
+            acc['나쁨'] = ((item.cnt / sum) * 100).toFixed(3);
+          } else if (item.val === 4) {
+            acc['매우나쁨'] = ((item.cnt / sum) * 100).toFixed(3);
+          }
+          return acc;
+        }, {});
+
+      // console.log('sum, tmpDataLst\n', sum, tmpDataLst);
+
+      if (col === 'pedac_rk') {
+        setPedac([tmpDataLst]);
+      } else if (col === 'pred') {
+        setPred([tmpDataLst]);
+      } else {
+        console.log('col is not defined');
+      }
+    };
+    if (exp[0]) {
+      handleData('pedac_rk');
+    }
+    if (exp[1]) {
+      handleData('pred');
+    }
+  }, [ldcuid, exp, getRiskPrcnt]);
+
+  // data ----------------------------------------------------------------------
+  // const data_pedac_rk = [
+  //   {
+  //     name: '교통사고 위험도 현황',
+  //     매우나쁨: 5,
+  //     나쁨: 15.6,
+  //     보통: 30,
+  //     좋음: 15,
+  //     매우좋음: 34.4,
+  //   },
+  // ];
+  // const data_pred = [
+  //   {
+  //     name: '교통사고 위험도 현황',
+  //     매우나쁨: 35,
+  //     나쁨: 15.6,
+  //     보통: 10,
+  //     좋음: 15,
+  //     매우좋음: 34.4,
+  //   },
+  // ];
 
   // items ----------------------------------------------------------------------
   const checklists = [
@@ -26,7 +96,7 @@ const AccrdRsk2b = () => {
       label: '교통사고 위험도 현황',
       content: (
         <div className="crwdac">
-          <Bar3 />
+          <Bar3 data={pedac} />
           <CbxRsk
             list={checklists[0]}
             rnfo={rnfo0}
@@ -41,7 +111,7 @@ const AccrdRsk2b = () => {
       label: '교통사고 위험도 예측',
       content: (
         <div className="crwdac">
-          <Bar3 />
+          <Bar3 data={pred} />
           <CbxRsk
             list={checklists[1]}
             rnfo={rnfo1}

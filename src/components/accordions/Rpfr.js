@@ -1,7 +1,7 @@
-import "./Rpfr.css";
-import { useEffect, useState } from "react";
-import useInfo from "../../hooks/use-info";
-import { FiPlus, FiMinus } from "react-icons/fi";
+import './Rpfr.css';
+import { useEffect, useState } from 'react';
+import useInfo from '../../hooks/use-info';
+import { FiPlus, FiMinus } from 'react-icons/fi';
 
 const Rpfr = () => {
   const { pfrInfo } = useInfo();
@@ -23,9 +23,7 @@ const Rpfr = () => {
       <div className="rpfr_d1">
         {!pfrInfo ? (
           <div className="rpfr_d2_x">
-            <div className="rpfr_lbl" onClick={() => console.log(pfrInfo)}>
-              보행자우선도로 속성
-            </div>
+            <div className="rpfr_lbl">보행자우선도로 속성</div>
             <div className="rpfr_icon">
               <FiPlus />
             </div>
@@ -56,7 +54,7 @@ const Rpfr = () => {
                     <div className="rpfr_itms1">
                       <div
                         className="rpfr_itm1"
-                        style={{ margin: "5px 0 0 0" }}
+                        style={{ margin: '5px 0 0 0' }}
                       >
                         <div className="rpfr_itm1_ttl">· 지정일자</div>
                         <div className="rpfr_itm1_val">
@@ -68,7 +66,7 @@ const Rpfr = () => {
                                 4,
                                 6
                               )}월 ${pfrInfo.reg_dt.slice(6, 8)}일`
-                            : "---"}
+                            : '---'}
                         </div>
                       </div>
                       <div className="rpfr_itm1">
@@ -76,40 +74,46 @@ const Rpfr = () => {
                         <div
                           className="rpfr_itm1_val"
                           style={{
-                            maxWidth: "60%",
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
+                            maxWidth: '60%',
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
                           }}
                           title={pfrInfo.purpose}
                         >
-                          {pfrInfo.purpose ?? "---"}
+                          {pfrInfo.purpose ?? '---'}
                         </div>
                       </div>
                       <div className="rpfr_itm1">
                         <div className="rpfr_itm1_ttl">· 보호구역</div>
                         <div className="rpfr_itm1_val">
                           {pfrInfo.safe_zone
-                            ? pfrInfo.safe_zone === "Y"
-                              ? "있음"
-                              : "없음"
-                            : "---"}
+                            ? pfrInfo.safe_zone === 'Y'
+                              ? '있음'
+                              : '없음'
+                            : '---'}
                         </div>
                       </div>
                       <div className="rpfr_itm1">
                         <div className="rpfr_itm1_ttl">· 일방통행</div>
                         <div className="rpfr_itm1_val">
                           {pfrInfo.one_way
-                            ? pfrInfo.one_way === "Y"
-                              ? "있음"
-                              : "없음"
-                            : "---"}
+                            ? pfrInfo.one_way === 'Y'
+                              ? '있음'
+                              : '없음'
+                            : '---'}
                         </div>
                       </div>
                       <div className="rpfr_itm1">
                         <div className="rpfr_itm1_ttl">· 제한속도</div>
                         <div className="rpfr_itm1_val">
-                          {pfrInfo.spd_lmt ? `${pfrInfo.spd_lmt}km/h` : "---"}
+                          {pfrInfo.spd_lmt ? `${pfrInfo.spd_lmt}km/h` : '---'}
+                        </div>
+                      </div>
+                      <div className="rpfr_itm1">
+                        <div className="rpfr_itm1_ttl">· 구간길이</div>
+                        <div className="rpfr_itm1_val">
+                          {pfrInfo.h_len ? `${pfrInfo.h_len}m` : '---'}
                         </div>
                       </div>
                     </div>

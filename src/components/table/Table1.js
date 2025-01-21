@@ -2,6 +2,7 @@ import './Table1.css';
 import React, { useState, useEffect } from 'react';
 import useInfo from '../../hooks/use-info';
 import axios from 'axios';
+import useDb from '../../hooks/use-db';
 import { useAuth } from '../../context/auth';
 import Trigger from '../auxiliary/Trigger';
 
@@ -161,16 +162,19 @@ const config = {
 // Table1 ----------------------------------------------------------------------
 const Table1 = () => {
   const { genitem, genfo, yr, ldcuid } = useInfo();
+  const { getEcon } = useDb();
   const { user } = useAuth();
   const yrint = yr && parseInt(yr.slice(0, 4), 10);
   // const yrint = yr ? parseInt(yr.slice(0, 4), 10) : 2023;
   //  ----------------------------------------------------------------------
   const [isEdit, toggleIsEdit] = useState(false);
   const [editData, setEditData] = useState([]);
+  const [tdata, setTdata] = useState([]);
+  const [tdata_pd, setTdataPd] = useState([]);
 
   useEffect(() => {
     toggleIsEdit(false);
-  }, [yr]);
+  }, [yr, genfo]);
 
   // optimised ----------------------------------------------------------------------
   const calculateData = (keys) => {
@@ -245,10 +249,22 @@ const Table1 = () => {
     return tmp ? formatData(tmp, ['sum', ...keys], minmax) : null;
   };
 
-  const { tdata, tdata_pd } = (tdataF2 && tdataF2()) || {
-    tdata: [],
-    tdata_pd: [],
-  };
+  // const { tdata, tdata_pd } = (tdataF2 && tdataF2()) || {
+  //   tdata: [],
+  //   tdata_pd: [],
+  // };
+
+  useEffect(() => {
+    const result = tdataF2();
+    if (result) {
+      setTdata(result.tdata);
+      setTdataPd(result.tdata_pd);
+    } else {
+      setTdata([]);
+      setTdataPd([]);
+    }
+    //eslint-disable-next-line
+  }, [genitem, genfo, yrint]);
 
   useEffect(() => {
     if (genitem && ldcuid) {
@@ -261,16 +277,16 @@ const Table1 = () => {
         mod_value:
           row[0] && !isNaN(parseInt(row[0], 10)) && row[0] !== 'NaN'
             ? row[0].replace(/,/g, '')
-            : 'N/A',
+            : '',
         og_value:
           row[0] && !isNaN(parseInt(row[0], 10)) && row[0] !== 'NaN'
             ? row[0].replace(/,/g, '')
-            : 'N/A',
+            : '',
       }));
       setEditData(newData);
     }
     //eslint-disable-next-line
-  }, [genitem, ldcuid, yrint, JSON.stringify(tdata), isEdit]);
+  }, [genitem, ldcuid, yrint, tdata, isEdit]);
 
   // render ----------------------------------------------------------------------
   const thead_th =
@@ -305,25 +321,28 @@ const Table1 = () => {
             const cells = [];
             for (let i = 4; i >= 0; i--) {
               const cellValue =
-                tdata && tdata[id] && tdata[id][i] ? tdata[id][i] : '';
+                tdata &&
+                tdata[id] &&
+                tdata[id][i] !== undefined &&
+                tdata[id][i] !== null
+                  ? tdata[id][i]
+                  : '';
 
               cells.push(
                 <td className="tbl1_td" key={`tbl1_td_${i}`}>
                   {isEdit && i === 0 && id > 0 ? (
                     <input
-                      type="text"
+                      type="number"
                       value={
                         editData &&
                         editData[id - 1] &&
-                        editData[id - 1].mod_value !== undefined &&
-                        editData[id - 1].mod_value !== 'NaN'
-                          ? editData[id - 1].mod_value
-                          : cellValue || ''
+                        editData[id - 1].mod_value &&
+                        editData[id - 1].mod_value
                       }
                       onChange={(e) => handleInput(id - 1, e.target.value)}
                       style={{
                         marginLeft: '-1px',
-                        width: '96%',
+                        width: '95%',
                         height: '99%',
                         fontSize: '12px',
                         border: '1px solid #00000044',
@@ -333,7 +352,7 @@ const Table1 = () => {
                   ) : cellValue && cellValue !== 'NaN' ? (
                     cellValue
                   ) : (
-                    ''
+                    '데이터결측'
                   )}
                 </td>
               );
@@ -385,24 +404,32 @@ const Table1 = () => {
     }
   };
 
+  // console.log('editData\n', editData);
+
   const saveTableEdit = async () => {
     if (user && user.role === 'admin') {
       try {
         const editedRows = editData.filter(
-          ({ mod_value, og_value }) => Number(mod_value) !== Number(og_value)
+          ({ mod_value, og_value }) => mod_value !== og_value
         );
 
         if (editedRows.length === 0) {
           alert('변경사항이 없습니다.');
+          toggleIsEdit(false);
           return;
         }
 
-        const invalidRows = editedRows.filter(({ mod_value }) =>
-          isNaN(Number(mod_value))
-        );
-        if (invalidRows.length > 0) {
-          alert('입력값은 반드시 숫자여야 합니다.');
-          console.error('Invalid rows:', invalidRows);
+        // const invalidRows = editedRows.filter(
+        //   ({ mod_value }) => isNaN(Number(mod_value)) || mod_value.length === 0
+        // );
+        // if (invalidRows.length > 0) {
+        //   alert('입력값은 반드시 숫자여야 합니다.');
+        //   console.error('Invalid rows:', invalidRows);
+        //   return;
+        // }
+
+        const conf = window.confirm('입력한 내용을 저장하시겠습니까?');
+        if (!conf) {
           return;
         }
 
@@ -413,12 +440,20 @@ const Table1 = () => {
             ldc,
             yr,
             mod_field,
-            mod_value,
-            og_value,
+            mod_value:
+              mod_value === null || mod_value === '' ? null : mod_value,
+            og_value:
+              og_value === null ||
+              og_value === 'NaN' ||
+              og_value === 'N/A' ||
+              og_value === '' ||
+              isNaN(og_value)
+                ? null
+                : og_value,
           })
         );
 
-        console.log(payload);
+        // console.log(payload);
         const res = await axios.post(`${REACT_APP_SERVER_URL}/submit-table`, {
           data: payload,
         });
@@ -426,6 +461,8 @@ const Table1 = () => {
         if (res.data.success) {
           alert('저장되었습니다.');
           toggleIsEdit(false);
+
+          await getEcon(config[genitem].tablenm, ldcuid[0], yrint);
         } else {
           alert('저장 오류입니다. 잠시 후 다시 시도해주세요.');
         }

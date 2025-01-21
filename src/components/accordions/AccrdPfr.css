@@ -21,7 +21,7 @@
 .pfr_chk_item {
   display: flex;
   align-items: center;
-  padding: 8px 5px 8px 0;
+  padding: 8px 1px 8px 0;
   margin: 5px 0 5px 0;
   position: relative;
   cursor: pointer;
@@ -51,11 +51,18 @@
 
 .pfr_chk_word {
   margin-top: 1px;
+  height: 30px;
+  width: 100%;
+  align-content: center;
   padding-bottom: 1px;
   font-size: 12px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
+}
+.pfr_chk_word:hover {
+  background-color: #f1f1f1;
 }
 
 .pfr_lg_container {
@@ -92,6 +99,18 @@
   align-items: center;
 }
 
+.pfrlg_clickbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+.pfrlg_clickbox:hover {
+  background-color: #f1f1f1;
+}
+
 .pfrlg_chk_word {
   margin-top: -1px;
   padding-bottom: 1px;
@@ -103,10 +122,10 @@
 }
 
 .pfrlg_dashline {
-  flex: auto;
+  flex: 0.9;
   height: 1px;
   border-bottom: 1px dashed #9b9b9b;
-  margin: 0 10px 0 5px;
+  margin-right: 8px;
 }
 
 .pfrlg_color {

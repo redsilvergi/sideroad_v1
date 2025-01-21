@@ -60,7 +60,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 5px 0 0;
+  margin: 0 -10px 0 0;
 }
 
 .bfflg_content {
@@ -68,6 +68,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.bfflg_clickbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+.bfflg_clickbox:hover {
+  background-color: #f1f1f1;
 }
 
 .bff_custom_cb {
@@ -87,7 +99,7 @@
 }
 
 .bff_custom_cb + .bff_chk_item::before {
-  content: "•";
+  content: '•';
   display: flex;
   justify-content: center;
   width: 8px;

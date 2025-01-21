@@ -142,7 +142,7 @@ const Deck = React.memo(({ basemap }) => {
     if (!sgggjs & (view.zoom >= 8)) {
       getsgggjs();
     }
-    if (!tile & (view.zoom >= 11)) {
+    if (!tile) {
       setTile(`https://n-streets.kr/tiles/data/side1r/{z}/{x}/{y}.pbf`);
     }
     // if (!sidesmp & (view.zoom >= 11)) {
@@ -159,31 +159,33 @@ const Deck = React.memo(({ basemap }) => {
 
   useEffect(() => {
     const fetchPfrjs = async () => {
-      if (!pfrjs) {
+      if (bar === 3 && !pfrjs) {
         await getpfrjs();
       }
     };
 
     fetchPfrjs();
-  }, [ldcuid, pfrjs, getpfrjs]);
+  }, [ldcuid, pfrjs, bar, getpfrjs]);
 
   useEffect(() => {
-    setPfrdata((prev) => ({
-      ...prev,
-      parks: null,
-      parks_buffer: null,
-      ch_safe_zone: null,
-      sn_safe_zone: null,
-      multfac: null,
-      multfac_entr: null,
-      schl_bld: null,
-      schl_buffer: null,
-      schl_entr: null,
-    }));
-    setBufferData([null, null]);
-    setBufferExp(false);
-    setNfidlst((prevNfidlst) => (pfrPick ? [pfrPick] : [...prevNfidlst]));
-    // setNfidlst(pfrPick ? [pfrPick] : [...nfidlst]);
+    if (bar !== 3) {
+      setPfrdata((prev) => ({
+        ...prev,
+        parks: null,
+        parks_buffer: null,
+        ch_safe_zone: null,
+        sn_safe_zone: null,
+        multfac: null,
+        multfac_entr: null,
+        schl_bld: null,
+        schl_buffer: null,
+        schl_entr: null,
+      }));
+    }
+    if (bar !== 4) {
+      setBufferData([null, null]);
+      setBufferExp(false);
+    }
   }, [
     bar,
     srvy,
@@ -194,6 +196,12 @@ const Deck = React.memo(({ basemap }) => {
     setBufferExp,
     pfrPick,
   ]);
+
+  useEffect(() => {
+    if (srvy && nfidlst.length === 1) {
+      getCord(nfidlst[0], false);
+    }
+  }, [srvy, nfidlst, getCord]);
 
   // useEffect(() => {
   //   setSrvy(false);
@@ -271,9 +279,6 @@ const Deck = React.memo(({ basemap }) => {
         isFilter &&
         view.zoom >= 15 &&
         view.zoom <= 20,
-      onClick: (d) => {
-        console.log('survey-crosswalk picked and d: \n', d.object.properties);
-      },
     });
   }, [bar, isFilter, view.zoom, srvdata, bufferData, bffLegendCbx, bufferExp]);
 
@@ -335,10 +340,7 @@ const Deck = React.memo(({ basemap }) => {
         isFilter &&
         view.zoom >= 15 &&
         view.zoom <= 20,
-      getColor: [122, 122, 122],
-      onClick: (d) => {
-        console.log('survey-cctv picked and d: \n', d.object.properties);
-      },
+      getColor: [55, 55, 55],
     });
   }, [bar, isFilter, view.zoom, srvdata, bufferData, bffLegendCbx, bufferExp]);
 
@@ -379,9 +381,6 @@ const Deck = React.memo(({ basemap }) => {
       getLineColor: [245, 167, 167, 128],
       lineWidthMaxPixels: 2,
       pickable: true,
-      onClick: (d) => {
-        console.log('survey-pedpath picked and d: \n', d.object.properties);
-      },
       visible:
         bufferData[0] &&
         bffLegendCbx[4] &&
@@ -403,9 +402,6 @@ const Deck = React.memo(({ basemap }) => {
       getLineColor: [153, 153, 153, 128],
       lineWidthMaxPixels: 1,
       pickable: true,
-      onClick: (d) => {
-        console.log('survey-rodway picked and d: \n', d.object.properties);
-      },
       visible:
         bufferData[0] &&
         bffLegendCbx[5] &&
@@ -430,7 +426,7 @@ const Deck = React.memo(({ basemap }) => {
       lineWidthMaxPixels: 1,
       pickable: true,
       onClick: (d) => {
-        console.log('survey-bld picked and d: \n', d.object.properties);
+        // console.log('survey-bld picked and d: \n', d.object.properties);
       },
       onHover: (d) => getTooltip5_wb(d),
       visible:
@@ -466,10 +462,10 @@ const Deck = React.memo(({ basemap }) => {
       lineWidthMaxPixels: 1,
       pickable: true,
       // onClick: (d) => {
-      //   console.log("survey-buffer picked and d: \n", d.object.properties);
+      //   console.log("survey-buffer-mask picked and d: \n", d.object.properties);
       // },
       visible:
-        srvy && bar === 4 && isFilter && view.zoom >= 16 && view.zoom <= 20,
+        srvy && bar === 4 && isFilter && view.zoom >= 15 && view.zoom <= 20,
     });
   }, [bar, isFilter, view.zoom, bufferData, srvy, bufferExp]);
 
@@ -534,17 +530,15 @@ const Deck = React.memo(({ basemap }) => {
       getLineColor: [0, 0, 0, 16],
       lineWidthMinPixels: 1,
       pickable: true,
-      onClick: (d) => {
-        console.log('schlbuffer picked and d: \n', d.object.properties);
-      },
       visible:
+        pfrPick &&
         pfrLegendCbx[2] &&
         bar === 3 &&
         isFilter &&
         view.zoom >= 11 &&
         view.zoom <= 20,
     });
-  }, [bar, isFilter, ldcuid, view.zoom, pfrdata, pfrLegendCbx]);
+  }, [bar, isFilter, ldcuid, view.zoom, pfrdata, pfrLegendCbx, pfrPick]);
 
   const layer11_wb = useMemo(() => {
     if (!pfrdata.schl_bld || !pfrdata.schl_bld.features || !ldcuid) return;
@@ -583,9 +577,6 @@ const Deck = React.memo(({ basemap }) => {
       getFillColor: [204, 204, 204, 224],
       getLineColor: [0, 0, 0, 128],
       pickable: true,
-      onClick: (d) => {
-        console.log('multfac_entr picked and d: \n', d.object.properties);
-      },
       visible:
         pfrLegendCbx[4] &&
         bar === 3 &&
@@ -702,9 +693,6 @@ const Deck = React.memo(({ basemap }) => {
       getLineColor: [0, 0, 0, 16],
       lineWidthMinPixels: 1,
       pickable: true,
-      onClick: (d) => {
-        console.log('parks_buffer picked and d: \n', d.object.properties);
-      },
       visible:
         pfrLegendCbx[3] &&
         bar === 3 &&
@@ -767,6 +755,7 @@ const Deck = React.memo(({ basemap }) => {
               const g = d.object.geometry.coordinates;
               const length = Math.floor(g.length / 2);
               setPfrInfo(d.object.properties);
+              setPick(null);
               setPfrPick(null);
               setView((prev) => ({
                 ...prev,
@@ -790,6 +779,7 @@ const Deck = React.memo(({ basemap }) => {
     checkedPfr,
     getPfrLineColor,
     setPfrInfo,
+    setPick,
     setPfrPick,
     setView,
     getTooltip4_wb,
@@ -803,12 +793,12 @@ const Deck = React.memo(({ basemap }) => {
         binary: false,
         id: 'mvt-layer2',
         data: tile2,
-        getPointRadius: get_p_rad(view.zoom),
+        getPointRadius: srvy ? get_p_rad(view.zoom) / 2 : get_p_rad(view.zoom),
         getFillColor: (obj) => getAccpColor(obj, hvid),
         stroked: false,
         pickable: true,
         visible:
-          (bar === 2 || (bar === 4 && bffLegendCbx[1])) &&
+          (bar === 2 || bar === 3 || (bar === 4 && bffLegendCbx[1])) &&
           isFilter &&
           view.zoom >= 11 &&
           view.zoom <= 20,
@@ -869,6 +859,7 @@ const Deck = React.memo(({ basemap }) => {
     getTooltip6,
     hvid,
     bffLegendCbx,
+    srvy,
   ]);
 
   // const layer5 = useMemo(() => {
@@ -935,7 +926,8 @@ const Deck = React.memo(({ basemap }) => {
     },
     // visible: isFilter,
     onHover: (d) => getTooltip3(d),
-    visible: isFilter && view.zoom >= 8 && view.zoom < 11,
+    visible:
+      isFilter && bar !== 0 && !ldcuid && view.zoom >= 8 && view.zoom < 11,
     updateTriggers: {
       getLineColor: [ldcuid],
       getFillColor: [ldcuid], // Add this line to update color when ldcuid changes
@@ -972,14 +964,14 @@ const Deck = React.memo(({ basemap }) => {
           await getLdc(ldc);
         },
         onHover: (d) => getTooltip2(d),
-        visible: isFilter && view.zoom < 8,
+        visible: isFilter && bar !== 0 && !ldcuid && view.zoom < 8,
         updateTriggers: {
           getLineColor: [ldcuid],
           getFillColor: [ldcuid], // Add this line to update color when ldcuid changes
         },
       })
     );
-  }, [getLdc, isFilter, ldcuid, sdgjs, view.zoom, getTooltip2]);
+  }, [getLdc, isFilter, ldcuid, sdgjs, view.zoom, getTooltip2, bar]);
 
   // const layer2 = useMemo(() => {
   //   return (
@@ -1037,7 +1029,7 @@ const Deck = React.memo(({ basemap }) => {
         //   return obj.properties.NF_ID && hov === obj.properties.NF_ID ? 10 : 6;
         // },
         pickable: true,
-        visible: isFilter && view.zoom >= 11 && view.zoom <= 20,
+        visible: isFilter && ldcuid ? true : view.zoom >= 11 && view.zoom <= 20,
         getLineColor: (obj) => {
           return getRoadColor(obj);
         },
@@ -1049,16 +1041,12 @@ const Deck = React.memo(({ basemap }) => {
         // },
         // autoHighlight: true,
         onClick:
-          view.zoom > 15 && bar !== 3
+          view.zoom > 15 && bar !== 3 && !bufferExp
             ? (d) => {
                 const prp = d.object.properties;
                 console.log(prp);
                 /////////////////////////////////////
-                if (srvy && !bufferExp) {
-                  if (pfrPick) {
-                    if (pfrPick === prp.NF_ID) return;
-                    if (!nfidlst.includes(pfrPick)) setNfidlst([pfrPick]);
-                  }
+                if (srvy) {
                   setSrvyid(null);
                   setNfidlst((prev) => {
                     if (prev.includes(prp.NF_ID)) {
@@ -1071,7 +1059,7 @@ const Deck = React.memo(({ basemap }) => {
                 /////////////////////////////////////
                 else {
                   setPick(prp.NF_ID);
-                  getCord(prp.NF_ID);
+                  getCord(prp.NF_ID, true);
                   setRight(true);
                 }
               }
@@ -1151,15 +1139,15 @@ const Deck = React.memo(({ basemap }) => {
     baselayer,
     //
     layer6_wb,
-    layer5_wb,
     layer12_wb,
-    layer11_wb,
     //
     layer1,
     // layer6,
     layer2,
     layer3,
     //
+    layer5_wb,
+    layer11_wb,
     layer7_wb,
     layer8_wb,
     layer9_wb,
@@ -1171,12 +1159,13 @@ const Deck = React.memo(({ basemap }) => {
     layer14_wb,
     layer16_wb,
     layer17_wb,
-    layer6,
     layer18_wb,
     // layer20_wb,
     iconLayer2,
     // layer19_wb,
     iconLayer1,
+    layer6,
+    baselayer,
   ];
 
   // tooltip ----------------------------------------------------------------------
@@ -1204,9 +1193,9 @@ const Deck = React.memo(({ basemap }) => {
           if (!srvy) {
             setPick(null);
             setPfrPick(null);
+            setNfidlst([]);
             setLength(null);
           }
-          setBufferData([null, null]);
           setPfrInfo(null);
           if (scrn < 1015) {
             setRight(false);

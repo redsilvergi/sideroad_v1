@@ -33,11 +33,14 @@ const LeftBarUser = () => {
     setPrpall,
     scrn,
     setSrvy,
+    setExp,
+    setIstgl,
   } = useInfo();
   const { user, logout } = useAuth();
 
   const [showModal, setShowModal] = useState(false);
 
+  // handlers ----------------------------------------------------------------------
   const handleModOpen = useCallback(() => {
     setShowModal(true);
   }, []);
@@ -78,6 +81,19 @@ const LeftBarUser = () => {
     setSrvy(false);
   }, [logout, navigate, setSrvy]);
 
+  const handleLogin = useCallback(() => {
+    setIstgl(false);
+    setExp(0);
+    navigate('/login');
+  }, [setIstgl, setExp, navigate]);
+
+  const handleMypage = useCallback(() => {
+    setIstgl(false);
+    setExp(0);
+    navigate(`/mypage/${user.username}`);
+  }, [setIstgl, setExp, navigate, user]);
+
+  // return ----------------------------------------------------------------------
   return (
     <div>
       <div className="left_column">
@@ -163,10 +179,7 @@ const LeftBarUser = () => {
 
             <div className="login">
               {!user ? (
-                <div
-                  className={`bottom_cont`}
-                  onClick={() => navigate('/login')}
-                >
+                <div className={`bottom_cont`} onClick={handleLogin}>
                   <div className="hvd_bottom">로그인</div>
                   <div className="bottomicons">
                     <img src={login} alt="login" className="loginicon" />
@@ -184,10 +197,7 @@ const LeftBarUser = () => {
 
             {user && (
               <div className="mypage">
-                <div
-                  className={`bottom_cont`}
-                  onClick={() => navigate(`/mypage/${user.username}`)}
-                >
+                <div className={`bottom_cont`} onClick={handleMypage}>
                   <div className="hvd_bottom">마이페이지</div>
                   <div className="bottomicons">
                     <MdPerson className="mypageicon" />

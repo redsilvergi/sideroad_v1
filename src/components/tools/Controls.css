@@ -26,6 +26,9 @@
 .toggle_button:hover {
   opacity: 1;
 }
+.toggle_button_vs {
+  background-color: red;
+}
 
 @media (max-width: 1015px) {
   .toggle_button_div {

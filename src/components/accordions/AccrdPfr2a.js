@@ -18,15 +18,16 @@ const AccrdPfr2a = React.memo(() => {
     setSrvyid,
   } = useInfo();
   const [csvDiv, setCsvDiv] = useState(null);
-  const { getCord, getCsv, getTopPfr } = useDb();
+  const { getCord, getCsv, getTopPfr, getNfidLstByRoadnm } = useDb();
   const { user } = useAuth();
 
   // auxiliary ----------------------------------------------------------------------
   const handleCsvList = useCallback(async () => {
-    const top10temp = await getTopPfr();
+    const top10temp = await getTopPfr(); //not actaully 10 items here, will be filtered by unique rank
     setTopPfrList(
       top10temp.map((item) => ({
         nf_id: item.nf_id,
+        road_nm: item.road_nm ?? null,
         ped_fitr_rank: item.ped_fitr_rank,
       }))
     );
@@ -45,7 +46,7 @@ const AccrdPfr2a = React.memo(() => {
           key={id}
           className="pfr2a_csvdwn"
           onClick={async () => {
-            await getCord(item['nf_id']);
+            await getCord(item['nf_id'], true);
             setPfrInfo(null);
           }}
         >
@@ -66,11 +67,40 @@ const AccrdPfr2a = React.memo(() => {
     handleCsvList();
   };
 
-  const startSurvey = () => {
+  useEffect(() => {
+    const fetchNfidlst = async () => {
+      if (pfrPick) {
+        const selectedRank = topPfrList.find(
+          (item) => item.nf_id === pfrPick
+        )?.ped_fitr_rank;
+        const selectedRoadnm = topPfrList.find(
+          (item) => item.nf_id === pfrPick
+        )?.road_nm;
+
+        const matchingIds = topPfrList
+          .filter((item) => item.ped_fitr_rank === selectedRank)
+          .map((item) => item.nf_id);
+
+        const rdnmlst = (await getNfidLstByRoadnm(selectedRoadnm)) || [];
+
+        const combinedIds = Array.from(
+          new Set([
+            ...matchingIds,
+            ...(rdnmlst.length > 0 ? rdnmlst.map((item) => item.nf_id) : []),
+          ])
+        );
+
+        setNfidlst(combinedIds);
+      }
+    };
+
+    fetchNfidlst();
+  }, [pfrPick, getNfidLstByRoadnm, setNfidlst, topPfrList]);
+
+  const startSurvey = async () => {
     setBar(4);
     setSrvy(true);
     setSrvyid(null);
-    if (pfrPick) setNfidlst([pfrPick]);
   };
 
   // useeffect ----------------------------------------------------------------------
@@ -116,7 +146,7 @@ const AccrdPfr2a = React.memo(() => {
               </div>
 
               <div className="pfr2a_input" onClick={() => startSurvey()}>
-                실태조사 결과 입력
+                실태조사 시작
               </div>
             </React.Fragment>
           )}

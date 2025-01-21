@@ -78,13 +78,13 @@ const RightBar = () => {
     rnfo0,
     rnfo1,
     pick,
+    pfrPick,
     pnfo,
     bar,
     checkedPfr,
     ldcuid,
     pfrjs,
     //
-
     srvy,
     nfidlst,
   } = useInfo();
@@ -136,8 +136,9 @@ const RightBar = () => {
       1000
     );
   }, [pfrjs, ldcuid, checkedPfr]);
+
   useEffect(() => {
-    if (pick) {
+    if (pick || (nfidlst && nfidlst.length === 1)) {
       setRenL(
         <div className="lngthS isLngth">
           <div className="lngthS_txt" style={{ color: 'black' }}>
@@ -148,7 +149,7 @@ const RightBar = () => {
           </div>
         </div>
       );
-    } else if (srvy && nfidlst) {
+    } else if ((srvy || pfrPick) && nfidlst && nfidlst.length > 1) {
       setRenL(
         <div className="lngthS isLngth">
           <div className="lngthS_txt" style={{ color: 'black' }}>
@@ -156,9 +157,21 @@ const RightBar = () => {
           </div>
           <div className="km">
             <span style={{ color: 'black', fontWeight: 800 }}>
-              {length ? length.toFixed(2) : '--- '}&nbsp;
+              {length
+                ? length >= 1000
+                  ? `${Number((length / 1000).toFixed(2))} km`
+                  : `${Number(length.toFixed(2))} m`
+                : '---'}
             </span>
-            m
+          </div>
+        </div>
+      );
+    } else if (bar === 3) {
+      setRenL(
+        <div className="lngthS lngthP">
+          <div className="lngthPfr_txt">보행자우선도로 총연장</div>
+          <div className="km" style={{ color: 'black', fontWeight: 800 }}>
+            {pedLen && pedLen !== 0 ? Number(pedLen.toFixed(3)) : '---'} km
           </div>
         </div>
       );
@@ -170,18 +183,9 @@ const RightBar = () => {
           </div>
           <div className="km">
             <span style={{ color: 'black', fontWeight: 800 }}>
-              {length.toFixed(3)}
+              {Number(length.toFixed(3))}
             </span>
             km
-          </div>
-        </div>
-      );
-    } else if (bar === 3) {
-      setRenL(
-        <div className="lngthS lngthP">
-          <div className="lngthPfr_txt">보행자우선도로 총연장</div>
-          <div className="km" style={{ color: 'black', fontWeight: 800 }}>
-            {pedLen && pedLen !== 0 ? pedLen.toFixed(2) : '---'} km
           </div>
         </div>
       );
@@ -193,7 +197,7 @@ const RightBar = () => {
         </div>
       );
     }
-  }, [length, getLength, info, bar, pedLen, pick, srvy, nfidlst]);
+  }, [length, getLength, info, bar, pedLen, pick, pfrPick, srvy, nfidlst]);
 
   // renderfunc ----------------------------------------------------------------------
   const renderPie = () => {

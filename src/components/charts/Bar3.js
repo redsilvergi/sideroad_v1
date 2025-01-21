@@ -10,19 +10,7 @@ import {
   Legend,
 } from 'recharts';
 
-const Bar3 = () => {
-  // data ----------------------------------------------------------------------
-  const data = [
-    {
-      name: '교통사고 위험도 현황',
-      매우나쁨: 5,
-      나쁨: 15.6,
-      보통: 30,
-      좋음: 15,
-      매우좋음: 34.4,
-    },
-  ];
-
+const Bar3 = ({ data }) => {
   const keys = ['매우나쁨', '나쁨', '보통', '좋음', '매우좋음'];
 
   // auxiliary ----------------------------------------------------------------------
@@ -41,9 +29,12 @@ const Bar3 = () => {
                   ></div>
                   <div className="bar3_lbl_txt1">{`${item.dataKey}`}</div>
                 </div>
-                <div className="bar3_lbl_txt2">{`${Math.round(
-                  item.value
+                <div className="bar3_lbl_txt2">{`${Number(item.value).toFixed(
+                  1
                 )}%`}</div>
+                {/* <div className="bar3_lbl_txt2">{`${Math.round(
+                  item.value
+                )}%`}</div> */}
               </div>
             );
           })}
@@ -83,7 +74,7 @@ const Bar3 = () => {
     const { x, y, payload } = props;
     return (
       <text x={x} y={y} fill="#000" fontSize={8} textAnchor="middle">
-        {`${payload.value}%`}
+        {`${payload.value.toFixed(0)}%`}
       </text>
     );
   };
@@ -98,6 +89,7 @@ const Bar3 = () => {
           stackId={'a'}
           fill={colourList[id]}
           barSize={20}
+
           // radius={[0, 10, 10, 0]}
         />
       );

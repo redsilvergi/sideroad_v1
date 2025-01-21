@@ -1,35 +1,37 @@
 import './Sgg.css';
 import React from 'react';
-import useInfo from '../../hooks/use-info';
-import { useViewUpdate } from '../../context/view';
+// import useInfo from '../../hooks/use-info';
+// import { useViewUpdate } from '../../context/view';
 
-const Sgg = ({ options, setExp }) => {
-  const { ldcuid, setLdcuid, scrn } = useInfo();
-  const setView = useViewUpdate();
-  const filteredOps = !ldcuid
+const Sgg = ({ options, tmpldc, setTmpldc }) => {
+  // const { ldcuid, setLdcuid, scrn } = useInfo();
+  // const setView = useViewUpdate();
+  const filteredOps = !tmpldc
     ? options
     : options.filter((item, id) => {
-        return item[4].slice(0, 2) === ldcuid[4].slice(0, 2);
+        return item[4].slice(0, 2) === tmpldc[4].slice(0, 2);
       });
 
   const handleCounty = (sggitem) => {
-    const long = sggitem[5];
-    const lat = sggitem[6];
-    const zm = sggitem[7];
-    const zmsm = sggitem[8];
-    setLdcuid((prev) => {
-      if (prev === sggitem) {
-        setExp(1);
-        return null;
-      } else {
-        setView({
-          longitude: long,
-          latitude: lat,
-          zoom: scrn < 1015 ? zmsm : zm,
-        });
-        return sggitem;
-      }
-    });
+    // const long = sggitem[5];
+    // const lat = sggitem[6];
+    // const zm = sggitem[7];
+    // const zmsm = sggitem[8];
+    setTmpldc(sggitem);
+
+    // setLdcuid((prev) => {
+    //   if (prev === sggitem) {
+    //     setExp(1);
+    //     return null;
+    //   } else {
+    //     setView({
+    //       longitude: long,
+    //       latitude: lat,
+    //       zoom: scrn < 1015 ? zmsm : zm,
+    //     });
+    //     return sggitem;
+    //   }
+    // });
   };
 
   return (
@@ -45,7 +47,7 @@ const Sgg = ({ options, setExp }) => {
               <li
                 key={id}
                 className={`sggdd_option_label ${
-                  ldcuidfet === ldcuid[4] ? 'selected' : ''
+                  ldcuidfet === tmpldc[4] ? 'selected' : ''
                 }`}
                 onClick={() => handleCounty(item)}
               >

@@ -49,7 +49,11 @@ const AccrdPrpBff = () => {
     <div className="prpbff_wrap">
       <div className="prpbff_lbl" onClick={() => toggleBufferExp()}>
         <span
-          style={{ display: 'flex', alignItems: 'center', marginRight: '60px' }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            marginRight: '80px',
+          }}
         >
           버퍼영역
           <div className="bff_qsmark">
@@ -64,21 +68,26 @@ const AccrdPrpBff = () => {
         </div>
       </div>
       {bufferExp && (
-        <div style={{ width: '100%', justifyItems: 'center' }}>
+        <div
+          style={{ width: '100%', justifyItems: 'center', marginTop: '10px' }}
+        >
           <div className="bfflg_content">
-            <label className="bff_chk_lb">
-              <input
-                className="bff_custom_cb"
-                type="checkbox"
-                name="bfflgcheckbox0"
-                checked={bffLegendCbx[0]}
-                onChange={() => handleBffLgCbx(0)}
-              />
-              <div className="bff_chk_item">
-                <div className="bff_chk_word">건물</div>
-              </div>
-            </label>
-            <div className="bfflg_dashline" />
+            <div className="bfflg_clickbox" onClick={() => handleBffLgCbx(0)}>
+              <label className="bff_chk_lb">
+                <input
+                  className="bff_custom_cb"
+                  type="checkbox"
+                  name="bfflgcheckbox0"
+                  checked={bffLegendCbx[0]}
+                  onChange={() => handleBffLgCbx(0)}
+                />
+                <div className="bff_chk_item">
+                  <div className="bff_chk_word">건물</div>
+                </div>
+              </label>
+              <div className="bfflg_dashline" />
+            </div>
+
             <div className="bfflg_color_toggle">
               ?
               <div className="bfflg_mfac_tooltip">
@@ -92,14 +101,14 @@ const AccrdPrpBff = () => {
                 <div className="mfac_ttp_content">
                   <div
                     className="bfflg_color_inner"
-                    style={{ backgroundColor: '#F5BC6A' }}
+                    style={{ backgroundColor: '#FFDF75' }}
                   ></div>
                   공동주택
                 </div>
                 <div className="mfac_ttp_content">
                   <div
                     className="bfflg_color_inner"
-                    style={{ backgroundColor: '#fff90b' }}
+                    style={{ backgroundColor: '#F5BC6A' }}
                   ></div>
                   근린생활시설
                 </div>
@@ -143,20 +152,22 @@ const AccrdPrpBff = () => {
           </div>
 
           <div className="bfflg_content">
-            <label className="bff_chk_lb">
-              <input
-                className="bff_custom_cb"
-                type="checkbox"
-                name="bfflgcheckbox1"
-                checked={bffLegendCbx[1]}
-                onChange={() => handleBffLgCbx(1)}
-              />
-              <div className="bff_chk_item">
-                <div className="bff_chk_word">보행자교통사고</div>
-              </div>
-            </label>
+            <div className="bfflg_clickbox" onClick={() => handleBffLgCbx(1)}>
+              <label className="bff_chk_lb">
+                <input
+                  className="bff_custom_cb"
+                  type="checkbox"
+                  name="bfflgcheckbox1"
+                  checked={bffLegendCbx[1]}
+                  onChange={() => handleBffLgCbx(1)}
+                />
+                <div className="bff_chk_item">
+                  <div className="bff_chk_word">보행자교통사고</div>
+                </div>
+              </label>
+              <div className="bfflg_dashline" />
+            </div>
 
-            <div className="bfflg_dashline" />
             <div
               className="bfflg_color"
               style={{ backgroundColor: '#FF0000' }}
@@ -164,20 +175,22 @@ const AccrdPrpBff = () => {
           </div>
 
           <div className="bfflg_content">
-            <label className="bff_chk_lb">
-              <input
-                className="bff_custom_cb"
-                type="checkbox"
-                name="bfflgcheckbox2"
-                checked={bffLegendCbx[2]}
-                onChange={() => handleBffLgCbx(2)}
-              />
-              <div className="bff_chk_item">
-                <div className="bff_chk_word">CCTV</div>
-              </div>
-            </label>
+            <div className="bfflg_clickbox" onClick={() => handleBffLgCbx(2)}>
+              <label className="bff_chk_lb">
+                <input
+                  className="bff_custom_cb"
+                  type="checkbox"
+                  name="bfflgcheckbox2"
+                  checked={bffLegendCbx[2]}
+                  onChange={() => handleBffLgCbx(2)}
+                />
+                <div className="bff_chk_item">
+                  <div className="bff_chk_word">CCTV</div>
+                </div>
+              </label>
+              <div className="bfflg_dashline" />
+            </div>
 
-            <div className="bfflg_dashline" />
             <div>
               <img
                 src={cctv_icon}
@@ -185,29 +198,31 @@ const AccrdPrpBff = () => {
                 style={{
                   width: '30px',
                   height: '30px',
-                  margin: '2px -9px 0 -8px',
+                  margin: '2px -8px 0 -8px',
                 }}
               />
             </div>
           </div>
 
           <div className="bfflg_content">
-            <label className="bff_chk_lb">
-              <input
-                className="bff_custom_cb"
-                type="checkbox"
-                name="bfflgcheckbox3"
-                checked={bffLegendCbx[3]}
-                onChange={() => handleBffLgCbx(3)}
-              />
-              <div className="bff_chk_item">
-                <div className="bff_chk_word" style={{ marginLeft: '-1px' }}>
-                  횡단보도
+            <div className="bfflg_clickbox" onClick={() => handleBffLgCbx(3)}>
+              <label className="bff_chk_lb">
+                <input
+                  className="bff_custom_cb"
+                  type="checkbox"
+                  name="bfflgcheckbox3"
+                  checked={bffLegendCbx[3]}
+                  onChange={() => handleBffLgCbx(3)}
+                />
+                <div className="bff_chk_item">
+                  <div className="bff_chk_word" style={{ marginLeft: '-1px' }}>
+                    횡단보도
+                  </div>
                 </div>
-              </div>
-            </label>
+              </label>
+              <div className="bfflg_dashline" />
+            </div>
 
-            <div className="bfflg_dashline" />
             <div className="bfflg_color_crosswalk">
               <img
                 src={cross_icon}
@@ -222,20 +237,22 @@ const AccrdPrpBff = () => {
           </div>
 
           <div className="bfflg_content">
-            <label className="bff_chk_lb">
-              <input
-                className="bff_custom_cb"
-                type="checkbox"
-                name="bfflgcheckbox4"
-                checked={bffLegendCbx[4]}
-                onChange={() => handleBffLgCbx(4)}
-              />
-              <div className="bff_chk_item">
-                <div className="bff_chk_word">보도</div>
-              </div>
-            </label>
+            <div className="bfflg_clickbox" onClick={() => handleBffLgCbx(4)}>
+              <label className="bff_chk_lb">
+                <input
+                  className="bff_custom_cb"
+                  type="checkbox"
+                  name="bfflgcheckbox4"
+                  checked={bffLegendCbx[4]}
+                  onChange={() => handleBffLgCbx(4)}
+                />
+                <div className="bff_chk_item">
+                  <div className="bff_chk_word">보도</div>
+                </div>
+              </label>
+              <div className="bfflg_dashline" />
+            </div>
 
-            <div className="bfflg_dashline" />
             <div
               className="bfflg_color"
               style={{ backgroundColor: '#f5a7a7' }}
@@ -243,20 +260,22 @@ const AccrdPrpBff = () => {
           </div>
 
           <div className="bfflg_content">
-            <label className="bff_chk_lb">
-              <input
-                className="bff_custom_cb"
-                type="checkbox"
-                name="bfflgcheckbox5"
-                checked={bffLegendCbx[5]}
-                onChange={() => handleBffLgCbx(5)}
-              />
-              <div className="bff_chk_item">
-                <div className="bff_chk_word">도로경계</div>
-              </div>
-            </label>
+            <div className="bfflg_clickbox" onClick={() => handleBffLgCbx(5)}>
+              <label className="bff_chk_lb">
+                <input
+                  className="bff_custom_cb"
+                  type="checkbox"
+                  name="bfflgcheckbox5"
+                  checked={bffLegendCbx[5]}
+                  onChange={() => handleBffLgCbx(5)}
+                />
+                <div className="bff_chk_item">
+                  <div className="bff_chk_word">도로경계</div>
+                </div>
+              </label>
+              <div className="bfflg_dashline" />
+            </div>
 
-            <div className="bfflg_dashline" />
             <div
               className="bfflg_color"
               style={{ backgroundColor: '#999999' }}

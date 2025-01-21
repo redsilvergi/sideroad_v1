@@ -29,6 +29,7 @@ const LandingPage = () => {
     bar,
     srvy,
     nfidlst,
+    setPfrPick,
   } = useInfo();
 
   const [basemap, setBasemap] = useState(
@@ -49,11 +50,13 @@ const LandingPage = () => {
   useEffect(() => {
     if (scrn < 1015) {
       return;
+    } else if (bar === 0) {
+      setRight(true);
     } else {
       setLeft(true);
       setRight(true);
     }
-  }, [scrn, setLeft, setRight]);
+  }, [scrn, setLeft, setRight, bar]);
   // useEffect(() => {
   //   if (scrn < 1015) {
   //     setView({
@@ -70,7 +73,8 @@ const LandingPage = () => {
   // }, [scrn, setLeft, setRight, setView]);
   useEffect(() => {
     setPick(null);
-  }, [setPick, info, rnfo]);
+    setPfrPick(null);
+  }, [setPick, setPfrPick, info, rnfo]);
 
   // log ----------------------------------------------------------------------
   // console.log('landingpagelandingpage');
@@ -91,9 +95,10 @@ const LandingPage = () => {
           <Trigger />
         )
       ) : null}
+
       <div className="container">
         {/* {scrn < 1015 ? !left && !right && <Region /> : <Region />} */}
-        <Reg />
+        {bar !== 0 && <Reg />}
 
         {scrn < 1015 ? (
           !left &&
@@ -108,6 +113,7 @@ const LandingPage = () => {
           <Basemap basemap={basemap} setBasemap={setBasemap} />
         )}
         {scrn < 1015 ? !left && !right && <Controls /> : <Controls />}
+
         <Deck basemap={basemap} />
         {LD && (
           <div className="overlay">

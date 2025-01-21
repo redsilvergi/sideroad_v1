@@ -43,8 +43,10 @@ const useDb = () => {
   }, []);
 
   const getCord = useCallback(
-    async (nf_id) => {
-      setLD(true);
+    async (nf_id, setMap) => {
+      if (setMap) {
+        setLD(true);
+      }
       // console.log(nf_id);
       const response = await axios.get(
         `${REACT_APP_SERVER_URL}/getCord/${nf_id}`
@@ -55,17 +57,19 @@ const useDb = () => {
       const response3 = await axios.get(
         `${REACT_APP_SERVER_URL}/getShap/${nf_id}`
       );
-      // console.log("getCord response at use-de.js: ", response);
+      // console.log("getCord response at use-db.js: ", response);
       bar === 3 ? setPfrPick(nf_id) : setPick(nf_id);
       if (response.data) {
         const data = response.data;
         const data2 = response2.data;
         const data3 = response3.data;
-        setView({
-          longitude: data.long,
-          latitude: data.lat,
-          zoom: 16.5,
-        });
+        if (setMap) {
+          setView({
+            longitude: data.long,
+            latitude: data.lat,
+            zoom: 16.5,
+          });
+        }
         setPnfo({
           road_se: data2.road_se,
           cartrk_co: data2.cartrk_co,
@@ -109,6 +113,11 @@ const useDb = () => {
   /////////////////////////////////////////////////////////
   const getCsv = useCallback(
     async (nfList) => {
+      if (!nfList || nfList.length === 0) {
+        console.error('선택된 list가 없습니다.');
+        return;
+      }
+
       setLD(true);
       const nf_ids = nfList.map((item) => `'${item.nf_id}'`).join(',');
       const query = `select * from public.side1r where NF_ID in (${nf_ids})`;
@@ -163,7 +172,7 @@ const useDb = () => {
           <div
             key={id}
             className="rsrch_nfid_row"
-            onClick={async () => await getCord(item.nf_id)}
+            onClick={async () => await getCord(item.nf_id, true)}
           >
             <div className="rsrch_nfid1">{`${id + 1}`}</div>
             <div className="rsrch_nfid2">{item.nf_id}</div>
@@ -577,6 +586,16 @@ const useDb = () => {
     [setLD]
   );
 
+  const getRiskPrcnt = useCallback(async (obj) => {
+    // setLD(true);
+    const response = await axios.post(
+      `${REACT_APP_SERVER_URL}/getRiskPrcnt`,
+      obj
+    );
+    // setLD(false);
+    return response.data;
+  }, []);
+
   /////////////////////////////////////////////////////////
   const getpfrjs = async () => {
     try {
@@ -748,12 +767,10 @@ const useDb = () => {
         return {
           cartrk_co: null,
           road_bt: null,
-          sdwk_se: null,
           rdnet_ac: null,
           pbuld_fa: null,
           bulde_de: null,
           pubtr_ac: null,
-          stair_at: null,
         };
       }
     } catch (err) {
@@ -761,15 +778,57 @@ const useDb = () => {
       return {
         cartrk_co: null,
         road_bt: null,
-        sdwk_se: null,
         rdnet_ac: null,
         pbuld_fa: null,
         bulde_de: null,
         pubtr_ac: null,
-        stair_at: null,
       };
     }
   }, []);
+
+  const getNfidLstByRoadnm = useCallback(
+    async (road_nm) => {
+      if (!road_nm || road_nm.length === 0) return [];
+      setLD(true);
+      try {
+        setLD(true);
+        const response = await axios.get(
+          `${REACT_APP_SERVER_URL}/getNfidLstByRoadnm/${road_nm}`
+        );
+        const rtrvdLst = response.data;
+        setLD(false);
+        return rtrvdLst;
+      } catch (error) {
+        console.error('Error fetching nfidlst by roadnm:', error);
+        setLD(false);
+      }
+    },
+    [setLD]
+  );
+
+  const fetchManual = async () => {
+    setLD(true);
+    try {
+      const res = await axios.get(`${REACT_APP_SERVER_URL}/manual`, {
+        responseType: 'blob', // binary file handling
+      });
+
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement('a');
+
+      link.href = url;
+      link.setAttribute('download', '이면도로_활용_메뉴얼_2025_v1.pdf');
+      document.body.appendChild(link);
+      link.click();
+
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Error fetching manual:', err);
+    } finally {
+      setLD(false);
+    }
+  };
 
   /////////////////////////////////////////////////////////
   return {
@@ -793,6 +852,7 @@ const useDb = () => {
     editSrvy,
     getCordOnly,
     getCsvGen1,
+    getRiskPrcnt,
     ////////////////////////////////////
     getpfrjs,
     getPfrdata,
@@ -802,6 +862,8 @@ const useDb = () => {
     getSrvData,
     getLstLength,
     getPfrProps,
+    getNfidLstByRoadnm,
+    fetchManual,
   };
 };
 

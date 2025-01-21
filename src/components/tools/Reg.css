@@ -1,3 +1,4 @@
+/*  */
 .region {
   position: fixed;
   top: 12.5px;
@@ -5,7 +6,6 @@
   width: 92px;
   height: 41px;
   background: #fff;
-  /* background: #f2f7fb 0% 0% no-repeat padding-box; */
   z-index: 1;
   display: flex;
   justify-content: center;
@@ -140,3 +140,111 @@
     top: 85px;
   }
 }
+
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/* .region {
+  position: fixed;
+  top: 12.5px;
+  left: 290px;
+  width: 92px;
+  height: 41px;
+  background: #fff;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 13px;
+  border: 2px solid #0062af;
+  border-radius: 9px;
+  color: #0062af;
+  font: normal normal 800 14px/17px NanumSquare;
+}
+.region:hover {
+  background-color: #e5ebef;
+}
+.regionExp {
+  position: fixed;
+  top: 8px;
+  left: 285px;
+  width: 140px;
+  height: 295px;
+  background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #707070;
+  border-radius: 9px;
+  z-index: 1;
+  font-size: 13px;
+  border: 2px solid #0062af;
+}
+.rmv_region {
+  left: 70px;
+}
+.rmv_regionExp {
+  left: 65px;
+}
+.dropdown.city_dd {
+  margin: 10px 10px 5px 10px;
+}
+.regionExp.exp1 {
+  width: 140px;
+  height: 535px;
+}
+.regionExp.exp2 {
+  height: 50px;
+}
+.city {
+  position: absolute;
+  top: 60px;
+  left: 22px;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 30px 0;
+}
+.dropdown.coun_dd {
+  width: 100px;
+  margin: 10px 10px 5px 10px;
+}
+.reg_ttl {
+  background-color: white;
+  border-radius: 10px;
+  padding: 3px;
+  margin-right: 8px;
+}
+.county {
+  position: absolute;
+  top: 300px;
+  left: 17px;
+  width: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.close {
+  position: absolute;
+  top: 11px;
+  left: 105px;
+  font-size: 15px;
+  color: #707070;
+  padding: 5px;
+  border-radius: 9px;
+}
+.close.exp1 {
+  left: 105px;
+}
+.close:hover {
+  background-color: #e5ebef;
+  cursor: pointer;
+}
+.scrnSmll {
+  top: 85px;
+} */

@@ -11,13 +11,12 @@ function UserPage() {
   // const { username } = useParams();
   const [srvydata, setSrvydata] = useState(null);
   const [editmode, setEditmode] = useState(false);
-  const { setPfrPick, setExp } = useInfo();
+  const { setPfrPick } = useInfo();
 
   // useeffect ------------------------------------------------------------------
   useEffect(() => {
     setPfrPick(null);
-    setExp(2);
-  }, [setPfrPick, setExp]);
+  }, [setPfrPick]);
 
   return (
     <div className="userpage_wrap">

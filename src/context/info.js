@@ -166,7 +166,7 @@ const InfoProvider = ({ children }) => {
   //   county: { cd: null, name: null },
   // });
   const [istgl, setIstgl] = useState(false);
-  const [bar, setBar] = useState(1);
+  const [bar, setBar] = useState(0);
   const [left, setLeft] = useState(false);
   const [right, setRight] = useState(false);
   const [pick, setPick] = useState(null);

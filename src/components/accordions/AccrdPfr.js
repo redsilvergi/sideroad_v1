@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import useInfo from '../../hooks/use-info';
 import useDb from '../../hooks/use-db';
 import '../auxiliary/CbxGen1.css';
@@ -9,7 +9,6 @@ import { useViewUpdate } from '../../context/view';
 
 const AccrdPfr = () => {
   const {
-    reset,
     pfrjs,
     ldcuid,
     checkedPfr,
@@ -23,10 +22,15 @@ const AccrdPfr = () => {
   const setView = useViewUpdate();
   const [expandedIndex, setExpandedIndex] = useState([]);
   const [expInner, setExpInner] = useState([true, true]);
+  const isFirstFetch = useRef(false);
 
   useEffect(() => {
-    if (ldcuid) setExpandedIndex([0, 1]);
-  }, [ldcuid]);
+    if (ldcuid) {
+      setExpandedIndex([0, 1]);
+      isFirstFetch.current = false;
+      setPfrLegendCbx([true, true, true, true, true]);
+    }
+  }, [ldcuid, setPfrLegendCbx]);
 
   const { roadNames, roadIds } = useMemo(() => {
     if (pfrjs?.features && ldcuid?.[0]) {
@@ -50,13 +54,13 @@ const AccrdPfr = () => {
     setCheckedPfr(roadIds);
   }, [roadIds, setCheckedPfr]);
 
-  // const handleCheck = (index) => {
-  //   setCheckedPfr((prev) =>
-  //     prev.map((state, i) =>
-  //       i === index ? (state === false ? roadIds[index] : false) : state
-  //     )
-  //   );
-  // };
+  const handleCheck = (index) => {
+    setCheckedPfr((prev) =>
+      prev.map((state, i) =>
+        i === index ? (state === false ? roadIds[index] : false) : state
+      )
+    );
+  };
 
   const handlePfrLgCbx = (index) => {
     setPfrLegendCbx((prev) =>
@@ -87,50 +91,54 @@ const AccrdPfr = () => {
 
               <form>
                 {roadNames.map((item, index) => (
-                  <div key={`pfrcheckbox${index + 1}`}>
+                  <div
+                    key={`pfrcheckbox${index + 1}`}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
                     <label className="pfrlist_chk_lb">
                       <input
                         className="pfr_custom_cb"
                         type="checkbox"
                         name={`pfrcheckbox${index + 1}`}
                         checked={checkedPfr[index] ?? true}
-                        onChange={() => ''}
+                        onChange={() => handleCheck(index)}
                       />
-                      <div
-                        className="pfr_chk_item"
-                        onClick={(e) => {
-                          e.stopPropagation();
-
-                          const feature = pfrjs.features.find(
-                            (f) => f.properties?.id === roadIds[index]
-                          );
-
-                          if (feature) {
-                            const g = feature.geometry.coordinates;
-                            const length = Math.floor(g.length / 2);
-
-                            setPfrInfo(feature.properties);
-                            setPfrPick(null);
-                            setView((prev) => ({
-                              ...prev,
-                              longitude:
-                                g[length][Math.floor(g[length].length / 2)][0],
-                              latitude:
-                                g[length][Math.floor(g[length].length / 2)][1],
-                              zoom: 16,
-                            }));
-                            console.log('Selected feature: ', feature);
-                          } else {
-                            console.error(
-                              'Feature not found for road ID in pfrjs:',
-                              roadIds[index]
-                            );
-                          }
-                        }}
-                      >
-                        <div className="pfr_chk_word">{item}</div>
-                      </div>
+                      <div className="pfr_chk_item"></div>
                     </label>
+                    <div
+                      className="pfr_chk_word"
+                      onClick={() => {
+                        const feature = pfrjs.features.find(
+                          (f) => f.properties?.id === roadIds[index]
+                        );
+
+                        if (feature) {
+                          const g = feature.geometry.coordinates;
+                          const length = Math.floor(g.length / 2);
+
+                          setPfrInfo(feature.properties);
+                          setPfrPick(null);
+                          setView((prev) => ({
+                            ...prev,
+                            longitude:
+                              g[length][Math.floor(g[length].length / 2)][0],
+                            latitude:
+                              g[length][Math.floor(g[length].length / 2)][1],
+                            zoom: 16,
+                          }));
+                        } else {
+                          console.error(
+                            'Feature not found for road ID in pfrjs:',
+                            roadIds[index]
+                          );
+                        }
+                      }}
+                    >
+                      {item}
+                    </div>
                   </div>
                 ))}
               </form>
@@ -168,19 +176,25 @@ const AccrdPfr = () => {
 
               {expInner[0] && (
                 <div className="pfrlg_content">
-                  <label className="pfr_chk_lb">
-                    <input
-                      className="pfr_custom_cb"
-                      type="checkbox"
-                      name="pfrlgcheckbox1"
-                      checked={pfrLegendCbx[0]}
-                      onChange={() => handlePfrLgCbx(0)}
-                    />
-                    <div className="pfr_chk_item">
-                      <div className="pfrlg_chk_word">어린이 보호구역</div>
-                    </div>
-                  </label>
-                  <div className="pfrlg_dashline" />
+                  <div
+                    className="pfrlg_clickbox"
+                    onClick={() => handlePfrLgCbx(0)}
+                  >
+                    <label className="pfr_chk_lb">
+                      <input
+                        className="pfr_custom_cb"
+                        type="checkbox"
+                        name="pfrlgcheckbox1"
+                        checked={pfrLegendCbx[0]}
+                        onChange={() => handlePfrLgCbx(0)}
+                      />
+                      <div className="pfr_chk_item">
+                        <div className="pfrlg_chk_word">어린이 보호구역</div>
+                      </div>
+                    </label>
+                    <div className="pfrlg_dashline" />
+                  </div>
+
                   <div
                     className="pfrlg_color"
                     style={{ backgroundColor: '#FFFF75' }}
@@ -190,20 +204,25 @@ const AccrdPfr = () => {
 
               {expInner[0] && (
                 <div className="pfrlg_content">
-                  <label className="pfr_chk_lb">
-                    <input
-                      className="pfr_custom_cb"
-                      type="checkbox"
-                      name="pfrlgcheckbox2"
-                      checked={pfrLegendCbx[1]}
-                      onChange={() => handlePfrLgCbx(1)}
-                    />
-                    <div className="pfr_chk_item">
-                      <div className="pfr_chk_word">노인 보호구역</div>
-                    </div>
-                  </label>
+                  <div
+                    className="pfrlg_clickbox"
+                    onClick={() => handlePfrLgCbx(1)}
+                  >
+                    <label className="pfr_chk_lb">
+                      <input
+                        className="pfr_custom_cb"
+                        type="checkbox"
+                        name="pfrlgcheckbox2"
+                        checked={pfrLegendCbx[1]}
+                        onChange={() => handlePfrLgCbx(1)}
+                      />
+                      <div className="pfr_chk_item">
+                        <div className="pfrlg_chk_word">노인 보호구역</div>
+                      </div>
+                    </label>
+                    <div className="pfrlg_dashline" />
+                  </div>
 
-                  <div className="pfrlg_dashline" />
                   <div
                     className="pfrlg_color"
                     style={{ backgroundColor: '#FFC400' }}
@@ -220,20 +239,25 @@ const AccrdPfr = () => {
 
               {expInner[1] && (
                 <div className="pfrlg_content">
-                  <label className="pfr_chk_lb">
-                    <input
-                      className="pfr_custom_cb"
-                      type="checkbox"
-                      name="pfrlgcheckbox3"
-                      checked={pfrLegendCbx[2]}
-                      onChange={() => handlePfrLgCbx(2)}
-                    />
-                    <div className="pfr_chk_item">
-                      <div className="pfr_chk_word">학교</div>
-                    </div>
-                  </label>
+                  <div
+                    className="pfrlg_clickbox"
+                    onClick={() => handlePfrLgCbx(2)}
+                  >
+                    <label className="pfr_chk_lb">
+                      <input
+                        className="pfr_custom_cb"
+                        type="checkbox"
+                        name="pfrlgcheckbox3"
+                        checked={pfrLegendCbx[2]}
+                        onChange={() => handlePfrLgCbx(2)}
+                      />
+                      <div className="pfr_chk_item">
+                        <div className="pfrlg_chk_word">학교</div>
+                      </div>
+                    </label>
+                    <div className="pfrlg_dashline" />
+                  </div>
 
-                  <div className="pfrlg_dashline" />
                   <div
                     className="pfrlg_color"
                     style={{ backgroundColor: '#C0EEFA' }}
@@ -243,20 +267,25 @@ const AccrdPfr = () => {
 
               {expInner[1] && (
                 <div className="pfrlg_content">
-                  <label className="pfr_chk_lb">
-                    <input
-                      className="pfr_custom_cb"
-                      type="checkbox"
-                      name="pfrlgcheckbox4"
-                      checked={pfrLegendCbx[3]}
-                      onChange={() => handlePfrLgCbx(3)}
-                    />
-                    <div className="pfr_chk_item">
-                      <div className="pfr_chk_word">공원</div>
-                    </div>
-                  </label>
+                  <div
+                    className="pfrlg_clickbox"
+                    onClick={() => handlePfrLgCbx(3)}
+                  >
+                    <label className="pfr_chk_lb">
+                      <input
+                        className="pfr_custom_cb"
+                        type="checkbox"
+                        name="pfrlgcheckbox4"
+                        checked={pfrLegendCbx[3]}
+                        onChange={() => handlePfrLgCbx(3)}
+                      />
+                      <div className="pfr_chk_item">
+                        <div className="pfrlg_chk_word">공원</div>
+                      </div>
+                    </label>
+                    <div className="pfrlg_dashline" />
+                  </div>
 
-                  <div className="pfrlg_dashline" />
                   <div
                     className="pfrlg_color"
                     style={{ backgroundColor: '#2DC400' }}
@@ -266,19 +295,25 @@ const AccrdPfr = () => {
 
               {expInner[1] && (
                 <div className="pfrlg_content">
-                  <label className="pfr_chk_lb">
-                    <input
-                      className="pfr_custom_cb"
-                      type="checkbox"
-                      name="pfrlgcheckbox5"
-                      checked={pfrLegendCbx[4]}
-                      onChange={() => handlePfrLgCbx(4)}
-                    />
-                    <div className="pfr_chk_item">
-                      <div className="pfr_chk_word">다중이용시설</div>
-                    </div>
-                  </label>
-                  <div className="pfrlg_dashline" />
+                  <div
+                    className="pfrlg_clickbox"
+                    onClick={() => handlePfrLgCbx(4)}
+                  >
+                    <label className="pfr_chk_lb">
+                      <input
+                        className="pfr_custom_cb"
+                        type="checkbox"
+                        name="pfrlgcheckbox5"
+                        checked={pfrLegendCbx[4]}
+                        onChange={() => handlePfrLgCbx(4)}
+                      />
+                      <div className="pfr_chk_item">
+                        <div className="pfrlg_chk_word">다중이용시설</div>
+                      </div>
+                    </label>
+                    <div className="pfrlg_dashline" />
+                  </div>
+
                   <div className="pfrlg_color_toggle">
                     ?
                     <div className="pfrlg_mfac_tooltip">
@@ -315,18 +350,24 @@ const AccrdPfr = () => {
   ];
 
   const handleClick = async (nextIndex) => {
-    if (nextIndex === 2 && ldcuid && ldcuid[0]) {
-      await getPfrdata();
-    }
     setExpandedIndex((currentExpandedIndex) => {
       if (currentExpandedIndex.includes(nextIndex)) {
+        if (nextIndex === 2) {
+          setPfrLegendCbx([false, false, false, false, false]);
+        }
         return currentExpandedIndex.filter((item) => item !== nextIndex);
       } else {
         return [...currentExpandedIndex, nextIndex];
       }
     });
-    if (nextIndex === 1) {
-      reset();
+
+    if (nextIndex === 2 && ldcuid && ldcuid[0]) {
+      if (!isFirstFetch.current) {
+        await getPfrdata();
+        isFirstFetch.current = true;
+      } else {
+        setPfrLegendCbx([true, true, true, true, true]);
+      }
     }
   };
 
