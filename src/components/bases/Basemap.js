@@ -1,7 +1,7 @@
-import "./Basemap.css";
-import React, { useState, useEffect, useRef } from "react";
-import { GoTriangleUp, GoTriangleDown } from "react-icons/go";
-import useInfo from "../../hooks/use-info";
+import './Basemap.css';
+import React, { useState, useEffect, useRef } from 'react';
+import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
+import useInfo from '../../hooks/use-info';
 
 const Basemap = ({ basemap, setBasemap }) => {
   const { setIstgl, right } = useInfo();
@@ -16,32 +16,32 @@ const Basemap = ({ basemap, setBasemap }) => {
         setMapExp(false);
       }
     };
-    document.addEventListener("click", handler, true);
+    document.addEventListener('click', handler, true);
     return () => {
-      document.removeEventListener("click", handler);
+      document.removeEventListener('click', handler);
     };
   }, []);
   const getBaseName = () => {
     switch (basemap) {
-      case "mapbox://styles/redsilver522/clmp6c5lw01xs01r64d5v09jn":
-        return "일반지도";
-      case "mapbox://styles/redsilver522/cll63rilr00aj01q08hjfa03s":
-        return "위성사진";
-      case "mapbox://styles/redsilver522/cll6424pf00al01q0c5kz3w07":
-        return "위성흑백";
+      case 'mapbox://styles/redsilver522/clmp6c5lw01xs01r64d5v09jn':
+        return '일반지도';
+      case 'mapbox://styles/redsilver522/cll63rilr00aj01q08hjfa03s':
+        return '위성사진';
+      case 'mapbox://styles/redsilver522/cll6424pf00al01q0c5kz3w07':
+        return '위성흑백';
       case null: //"mapbox://styles/redsilver522/cll63rilr00aj01q08hjfa03s"
-        return "브이월드";
-      case "mapbox://styles/redsilver522/clmp8ra0e01wd01ra0k0731dw":
-        return "토지이용계획도";
+        return '브이월드';
+      case 'mapbox://styles/redsilver522/clmp8ra0e01wd01ra0k0731dw':
+        return '토지이용계획도';
       default:
-        return "N/A";
+        return 'N/A';
     }
   };
   return (
     <div>
       <div
         ref={divEl}
-        className={`map_toggle_button ${right ? "" : "rmv_basemap"}`}
+        className={`map_toggle_button ${right ? '' : 'rmv_basemap'}`}
         onClick={() => setMapExp(true)}
       >
         <div id="map_tg_name">{getBaseName()}</div>
@@ -52,13 +52,13 @@ const Basemap = ({ basemap, setBasemap }) => {
       {mapExp && (
         <div
           ref={divEl}
-          className={`basemap_exp ${right ? "" : "rmv_basemap_exp"}`}
+          className={`basemap_exp ${right ? '' : 'rmv_basemap_exp'}`}
         >
           <ul>
             <li
               onClick={() => {
                 setBasemap(
-                  "mapbox://styles/redsilver522/clmp6c5lw01xs01r64d5v09jn"
+                  'mapbox://styles/redsilver522/clmp6c5lw01xs01r64d5v09jn'
                 );
                 setIstgl(false);
               }}
@@ -68,7 +68,7 @@ const Basemap = ({ basemap, setBasemap }) => {
             <li
               onClick={() => {
                 setBasemap(
-                  "mapbox://styles/redsilver522/cll63rilr00aj01q08hjfa03s"
+                  'mapbox://styles/redsilver522/cll63rilr00aj01q08hjfa03s'
                 );
                 setIstgl(false);
               }}
@@ -79,7 +79,7 @@ const Basemap = ({ basemap, setBasemap }) => {
             <li
               onClick={() => {
                 setBasemap(
-                  "mapbox://styles/redsilver522/cll6424pf00al01q0c5kz3w07"
+                  'mapbox://styles/redsilver522/cll6424pf00al01q0c5kz3w07'
                 );
                 setIstgl(false);
               }}
@@ -89,7 +89,7 @@ const Basemap = ({ basemap, setBasemap }) => {
             <li
               onClick={() => {
                 setBasemap(
-                  null // "mapbox://styles/redsilver522/cll63rilr00aj01q08hjfa03s"
+                  null // "mapbox://styles/redsilver522/cll63rilr00aj01q08hjfa03s" // E3F693A4-0F13-3470-8014-5E7D0DA2A484
                 );
                 setIstgl(false);
               }}

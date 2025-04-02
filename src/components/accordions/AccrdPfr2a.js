@@ -117,6 +117,23 @@ const AccrdPfr2a = React.memo(() => {
     },
   ];
 
+  // handlers ----------------------------------------------------------------------
+  const handleCsv = async () => {
+    if (user && user.role === 'admin') {
+      await getCsv(topPfrList);
+    } else {
+      alert('관리자 권한이 필요합니다.');
+    }
+  };
+
+  const handleSrvy = async () => {
+    if (user && user.role === 'admin') {
+      startSurvey();
+    } else {
+      alert('관리자 권한이 필요합니다.');
+    }
+  };
+
   // renderfunc ----------------------------------------------------------------------
   const renderedItems = items.map((item, index) => {
     return ldcuid ? (
@@ -136,20 +153,14 @@ const AccrdPfr2a = React.memo(() => {
           <div className={`pfr2a_expanded ${item.id + '_pfr2a_exp'}`}>
             {item.content}
           </div>
-          {user && user.role === 'admin' && (
-            <React.Fragment>
-              <div
-                className="pfr2a_dwnld"
-                onClick={async () => await getCsv(topPfrList)}
-              >
-                CSV 데이터 다운로드
-              </div>
 
-              <div className="pfr2a_input" onClick={() => startSurvey()}>
-                실태조사 시작
-              </div>
-            </React.Fragment>
-          )}
+          <div className="pfr2a_dwnld" onClick={handleCsv}>
+            CSV 데이터 다운로드
+          </div>
+
+          <div className="pfr2a_input" onClick={handleSrvy}>
+            실태조사 시작
+          </div>
         </div>
       )
     ) : null;

@@ -9,7 +9,7 @@ const Sgg = ({ options, tmpldc, setTmpldc }) => {
   const filteredOps = !tmpldc
     ? options
     : options.filter((item, id) => {
-        return item[4].slice(0, 2) === tmpldc[4].slice(0, 2);
+        return item[0].slice(0, 2) === tmpldc[0].slice(0, 2);
       });
 
   const handleCounty = (sggitem) => {
@@ -40,14 +40,14 @@ const Sgg = ({ options, tmpldc, setTmpldc }) => {
         {filteredOps &&
           filteredOps.map((item, id) => {
             // item[x] where x = 0,1,2,3,4,5,6,7,8  => ldc, sido, sigungu, inuse, uid, long, lat, zm, zmsm in DB
-            const ldcuidfet = item[4];
+            const ldcuidfet = item[0];
             const sigungufet = item[2];
 
             return (
               <li
                 key={id}
                 className={`sggdd_option_label ${
-                  ldcuidfet === tmpldc[4] ? 'selected' : ''
+                  ldcuidfet === tmpldc[0] ? 'selected' : ''
                 }`}
                 onClick={() => handleCounty(item)}
               >

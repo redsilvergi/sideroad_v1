@@ -683,7 +683,7 @@ const useDb = () => {
   const getTopPfr = useCallback(async () => {
     setLD(true);
     const response = await axios.get(
-      `${REACT_APP_SERVER_URL}/getTopPfr/${ldcuid && ldcuid[0]}`
+      `${REACT_APP_SERVER_URL}/getTopPfr/${ldcuid && ldcuid[4]}`
     );
     const rtrvdLst = response.data;
     setLD(false);

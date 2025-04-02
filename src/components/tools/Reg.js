@@ -87,14 +87,14 @@ const Reg = () => {
       regfet.current = dataF;
     }
 
-    const ctlist = regfet.current.filter((item) => item.uid.slice(2) === '000');
+    const ctlist = regfet.current.filter((item) => item.ldc.slice(2) === '000');
     const ctlist2 =
       ctlist &&
       ctlist.map((item, id) => {
         return Object.values(item);
       });
     const sgglist = regfet.current.filter(
-      (item) => item.uid.slice(2) !== '000'
+      (item) => item.ldc.slice(2) !== '000'
     );
     const sgglist2 =
       sgglist &&
@@ -166,7 +166,7 @@ const Reg = () => {
       rendered = (
         <div
           className={`regionExp ${left ? '' : 'rmv_regionExp'} ${
-            ldcuid && ldcuid[4].slice(2) !== '000' && scrn > 1015 ? 'exp1' : ''
+            ldcuid && ldcuid[0].slice(2) !== '000' && scrn > 1015 ? 'exp1' : ''
           } exp2`}
         >
           <div
@@ -184,14 +184,14 @@ const Reg = () => {
             <div className="reg_ttl">{ldcuid ? ldcuid[1] : '시/도'}</div>
           </div>
 
-          {ldcuid && ldcuid[4].slice(2) !== '000' && (
+          {ldcuid && ldcuid[0].slice(2) !== '000' && (
             <div className="county scrnSmll">
               <div className="reg_ttl ">{ldcuid[2]}</div>
             </div>
           )}
           <FaCheck
             className={`close ${
-              ldcuid && ldcuid[4].slice(2) !== '000' ? 'exp1' : ''
+              ldcuid && ldcuid[0].slice(2) !== '000' ? 'exp1' : ''
             }`}
             onClick={handleConfirm}
           />

@@ -33,14 +33,14 @@ const Ct = ({ options, tmpldc, setTmpldc }) => {
         {options &&
           options.map((item, id) => {
             // item[x] where x = 0,1,2,3,4,5,6,7,8  => ldc, sido, sigungu, inuse, uid, long, lat, zm, zmsm in DB
-            const ldcuidfet = item[4];
+            const ldcuidfet = item[0];
             const sidofet = item[2];
 
             return (
               <li
                 key={id}
                 className={`ctdd_option_label ${
-                  tmpldc && ldcuidfet.slice(0, 2) === tmpldc[4].slice(0, 2)
+                  tmpldc && ldcuidfet.slice(0, 2) === tmpldc[0].slice(0, 2)
                     ? 'selected'
                     : ''
                 }`}

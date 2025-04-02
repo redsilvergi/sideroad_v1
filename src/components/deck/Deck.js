@@ -1116,7 +1116,7 @@ const Deck = React.memo(({ basemap }) => {
       !basemap &&
       new TileLayer({
         id: 'baselayer',
-        data: 'https://api.vworld.kr/req/wmts/1.0.0/EE923334-C29E-3907-BCA8-15D3CF0A5B3B/Satellite/{z}/{y}/{x}.jpeg',
+        data: 'https://api.vworld.kr/req/wmts/1.0.0/E3F693A4-0F13-3470-8014-5E7D0DA2A484/Satellite/{z}/{y}/{x}.jpeg',
         minZoom: 0,
         maxZoom: 19,
         tileSize: 256,

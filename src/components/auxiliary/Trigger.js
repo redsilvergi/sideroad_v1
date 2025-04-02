@@ -28,7 +28,7 @@ const Trigger = () => {
       if (srvy) {
         return (
           <div className="trig_cont trig_cont_x">
-            {'싵태조사할 도로링크를 최소 1개 선택하세요'}
+            {'실태조사할 도로링크를 최소 1개 선택하세요'}
           </div>
         );
       } else {
