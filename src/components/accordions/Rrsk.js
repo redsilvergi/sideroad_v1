@@ -76,14 +76,14 @@ const Rrsk = () => {
       <div className="rrsk_d1">
         {!pick ? (
           <div className="rrsk_d2_x">
-            <div className="rrsk_lbl">개별 구간 사고위험도</div>
+            <div className="rrsk_lbl">개별 구간 보행환경개선 사업 적합도</div>
             <div className="rrsk_icon">
               <FiPlus />
             </div>
           </div>
         ) : (
           <div className="rrsk_d2" onClick={() => setOpen(!open)}>
-            <div className="rrsk_lbl">개별 구간 사고위험도</div>
+            <div className="rrsk_lbl">개별 구간 보행환경개선 사업 적합도</div>
             <div className="rrsk_icon">{open ? <FiMinus /> : <FiPlus />}</div>
           </div>
         )}
@@ -99,7 +99,7 @@ const Rrsk = () => {
                     setAcc((prev) => ({ ...prev, acc1: !acc.acc1 }))
                   }
                 >
-                  <div className="rrsk_acc_lbl">교통사고 위험도</div>
+                  <div className="rrsk_acc_lbl">보행환경개선 사업 적합도</div>
                   <div className="rrsk_acc_icon">
                     {acc.acc1 ? <FiMinus /> : <FiPlus />}
                   </div>
@@ -134,7 +134,7 @@ const Rrsk = () => {
                                     <div className="indcatr_inwrap">
                                       <RxTriangleUp className="indcatr_trngl_down" />
                                       <div className="indcatr_lbl_down">
-                                        예측
+                                        평가
                                       </div>
                                     </div>
                                   )}
@@ -167,7 +167,7 @@ const Rrsk = () => {
                     setAcc((prev) => ({ ...prev, acc2: !acc.acc2 }))
                   }
                 >
-                  <div className="rrsk_acc_lbl">위험도 요인분석</div>
+                  <div className="rrsk_acc_lbl">사업 적합도 요인 분석</div>
                   <div className="rrsk_acc_icon">
                     {acc.acc2 ? <FiMinus /> : <FiPlus />}
                   </div>
@@ -178,10 +178,10 @@ const Rrsk = () => {
                 {acc.acc2 && (
                   <div className="rrsk_acc1_exp">
                     <div className="rrsk_anlys_mean">
-                      이 차트는 각 구간의 교통사고 위험도에 기여한 요인을
-                      설명합니다. 적색막대는 위험에 기여한 요인을, 청색막대는
-                      안전에 기여한 요인을 의미합니다. 막대 차트의 길이는 해당
-                      요인이 위험도에 기여한 정도를 나타냅니다.
+                      이 차트는 보행환경 양호도 평가결과를 바탕으로 구간별
+                      보행환경개선 사업의 방향을 설명합니다. 적색막대는
+                      보행환경개선 사업에서 우선순위로 검토할 필요가 있는 요인을
+                      의미합니다. 막대의 길이는 요인별 중요성을 나타냅니다.
                     </div>
                     <div className="rrsk_anlys">
                       <Bar4 />

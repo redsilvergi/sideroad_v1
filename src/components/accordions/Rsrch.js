@@ -1,18 +1,18 @@
-import "./Rsrch.css";
-import { useState, useRef, useEffect } from "react";
-import data from "../../data/rdnm.json";
-import { FiPlus, FiMinus } from "react-icons/fi";
-import { AiOutlineEnter } from "react-icons/ai";
-import { IoCloseSharp } from "react-icons/io5";
-import useInfo from "../../hooks/use-info";
-import useDb from "../../hooks/use-db";
+import './Rsrch.css';
+import { useState, useRef, useEffect } from 'react';
+import data from '../../data/rdnm.json';
+import { FiPlus, FiMinus } from 'react-icons/fi';
+import { AiOutlineEnter } from 'react-icons/ai';
+import { IoCloseSharp } from 'react-icons/io5';
+import useInfo from '../../hooks/use-info';
+import useDb from '../../hooks/use-db';
 
 const Rsrch = () => {
   const { setLD } = useInfo();
   const { getSrchId } = useDb();
   const [open, setOpen] = useState(true);
-  const [sval, setSval] = useState("");
-  const [svaltmp, setSvaltmp] = useState("");
+  const [sval, setSval] = useState('');
+  const [svaltmp, setSvaltmp] = useState('');
   const [isDrop, setIsDrop] = useState(false);
   const [sid, setSid] = useState(-1);
   const [fltItms, setFltItms] = useState([]);
@@ -30,9 +30,9 @@ const Rsrch = () => {
         setIsDrop(false);
       }
     };
-    document.addEventListener("click", handler, true);
+    document.addEventListener('click', handler, true);
     return () => {
-      document.removeEventListener("click", handler);
+      document.removeEventListener('click', handler);
     };
   }, []);
   useEffect(() => {
@@ -68,11 +68,11 @@ const Rsrch = () => {
     setSid(-1);
   };
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       e.preventDefault();
       onSearch(sval);
       inputRef.current.blur(); // Blur the input field
-    } else if (e.key === "ArrowDown") {
+    } else if (e.key === 'ArrowDown') {
       e.preventDefault();
       // console.log("arrowdown: ", sid);
       if (sid < fltItms.length - 1) {
@@ -81,7 +81,7 @@ const Rsrch = () => {
         setSval(svaltmp);
       }
       setSid((prvid) => (prvid < fltItms.length - 1 ? prvid + 1 : -1));
-    } else if (e.key === "ArrowUp") {
+    } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       // console.log("arrowup: ", sid);
       if (sid === -1) {
@@ -106,30 +106,30 @@ const Rsrch = () => {
     setLD(false);
   };
   const handleCloseInput = () => {
-    setSval("");
-    setSvaltmp("");
+    setSval('');
+    setSvaltmp('');
     setNfidLst([]);
   };
   const handleFocus = () => {
     const parentDiv = inputRef.current.parentNode;
-    parentDiv.classList.add("input-focused");
+    parentDiv.classList.add('input-focused');
   };
 
   const handleBlur = () => {
     const parentDiv = inputRef.current.parentNode;
-    parentDiv.classList.remove("input-focused");
+    parentDiv.classList.remove('input-focused');
   };
   return (
     <div className="rsrch_accitem">
-      <div className={`rsrch_d1 ${open && "rsrch_d1_expanded"}`}>
+      <div className={`rsrch_d1 ${open && 'rsrch_d1_expanded'}`}>
         <div className="rsrch_d2" onClick={() => setOpen(!open)}>
-          <div className="rsrch_lbl">도로 ID 검색</div>
+          <div className="rsrch_lbl">도로 검색</div>
           <div className="rsrch_icon">{open ? <FiMinus /> : <FiPlus />}</div>
         </div>
         {open && (
           <div className="rsrch_expanded">
             <div className="rsrch_srch">
-              <div className="test333">
+              <div className="rsrch_srchbox">
                 <input
                   ref={inputRef}
                   className="rsrch_input"
@@ -163,7 +163,7 @@ const Rsrch = () => {
                     <div
                       key={item}
                       className={`rsrch_drpd_row ${
-                        index === sid ? "rsrch_selected" : ""
+                        index === sid ? 'rsrch_selected' : ''
                       }`}
                       onClick={() => onSearch(item)}
                       onMouseMove={() => setSid(index)}

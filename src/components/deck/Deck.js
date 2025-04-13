@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useRef,
+} from 'react';
 import useInfo from '../../hooks/use-info';
 import useTooltip from '../../hooks/use-tooltip';
 import useColor from '../../hooks/use-color';
@@ -19,7 +25,7 @@ import useDb from '../../hooks/use-db';
 // import { debounce } from 'lodash';
 import { PathStyleExtension } from '@deck.gl/extensions';
 
-const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL || '';
+// const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL || '';
 
 const get_p_rad = (zoom) => {
   if (zoom < 12) {
@@ -47,8 +53,6 @@ const get_p_rad = (zoom) => {
 
 const Deck = React.memo(({ basemap }) => {
   // setup ----------------------------------------------------------------------
-  const MAPBOX_ACCESS_TOKEN =
-    'pk.eyJ1IjoicmVkc2lsdmVyNTIyIiwiYSI6ImNsbTYwaHVoazJ1ZHgza3M2ZWJpYXdueXQifQ.vg0BobV69pbNLJdKAv856Q';
   const {
     isFilter,
     setLength,
@@ -101,26 +105,40 @@ const Deck = React.memo(({ basemap }) => {
   const [tile2, setTile2] = useState(null);
   const [sgggjs, setSgggjs] = useState(null);
   const [hvid, setHvid] = useState(null);
-  const { getLdc, getCord, getpfrjs } = useDb();
+  const { getMbkey, getLdc, getCord, getpfrjs } = useDb();
 
   // useeffect ----------------------------------------------------------------------
+  const mapbox_token_ref = useRef(null);
+
+  useEffect(() => {
+    const getkey = async () => {
+      try {
+        const res = await getMbkey();
+        mapbox_token_ref.current = res;
+        // console.log('getmbkey:', mapbox_token_ref.current);
+      } catch (e) {
+        console.error('err deck useeffect:\n', e);
+      }
+    };
+    getkey();
+  }, [getMbkey]);
   useEffect(() => {
     const getsdgjs = async () => {
       try {
-        setLD(true);
-        const res = await axios.get(`${REACT_APP_SERVER_URL}/getSidogjs`);
+        // setLD(true);
+        const res = await axios.get(`/getSidogjs`);
         setSdgjs(res.data);
-        setLD(false);
+        // setLD(false);
       } catch (e) {
         console.error('err getsdgjs:\n', e);
       }
     };
     const getsgggjs = async () => {
       try {
-        setLD(true);
-        const res = await axios.get(`${REACT_APP_SERVER_URL}/getSgggjs`);
+        // setLD(true);
+        const res = await axios.get(`/getSgggjs`);
         setSgggjs(res.data);
-        setLD(false);
+        // setLD(false);
       } catch (e) {
         console.error('Failed to get sggGjs:\n', e);
       }
@@ -128,7 +146,7 @@ const Deck = React.memo(({ basemap }) => {
     // const getsidesmp = async () => {
     //   try {
     //     setLD(true);
-    //     const res = await axios.get(`${REACT_APP_SERVER_URL}/getSidesmp`);
+    //     const res = await axios.get(`/getSidesmp`);
     //     setSidesmp(res.data);
     //     setLD(false);
     //   } catch (e) {
@@ -143,12 +161,14 @@ const Deck = React.memo(({ basemap }) => {
       getsgggjs();
     }
     if (!tile) {
+      // setTile(`http://localhost:8080/data/side1r/{z}/{x}/{y}.pbf`);
       setTile(`https://n-streets.kr/tiles/data/side1r/{z}/{x}/{y}.pbf`);
     }
     // if (!sidesmp & (view.zoom >= 11)) {
     //   getsidesmp();
     // }
     if (!tile2 & (view.zoom >= 11)) {
+      // setTile2(`http://localhost:8080/data/side_acc_p/{z}/{x}/{y}.pbf`);
       setTile2(`https://n-streets.kr/tiles/data/side_acc_p/{z}/{x}/{y}.pbf`);
     }
     if (view.zoom < 11) {
@@ -215,7 +235,7 @@ const Deck = React.memo(({ basemap }) => {
   //     try {
   //       // setLD(true);
   //       const res = await axios.get(
-  //         `${REACT_APP_SERVER_URL}/getSide1r/${bbx[0]}/${bbx[1]}/${bbx[2]}/${bbx[3]}`
+  //         `/getSide1r/${bbx[0]}/${bbx[1]}/${bbx[2]}/${bbx[3]}`
   //       );
   //       setSide1r(res.data);
   //       console.log('getside1r\n', res.data);
@@ -813,14 +833,12 @@ const Deck = React.memo(({ basemap }) => {
           view.zoom > 15
             ? (d) => {
                 const prp = d.object.properties;
-                console.log(prp);
-                setPick(prp.NF_ID);
+                console.log('layer6 prop:', prp);
                 setView((prev) => ({
                   ...prev,
                   longitude: d.coordinate[0],
                   latitude: d.coordinate[1],
                 }));
-                // console.log(prp);
               }
             : null,
         onHover:
@@ -837,7 +855,7 @@ const Deck = React.memo(({ basemap }) => {
         // onHover:
         //   view.zoom > 15
         //     ? (d) => {
-        //         d.object ? setHov(d.object.properties.NF_ID) : setHov(null);
+        //         d.object ? setHov(d.object.properties.nf_id) : setHov(null);
         //       }
         //     : null,
         updateTriggers: {
@@ -854,7 +872,6 @@ const Deck = React.memo(({ basemap }) => {
     isFilter,
     ldcuid,
     pick,
-    setPick,
     setView,
     getTooltip6,
     hvid,
@@ -1023,10 +1040,10 @@ const Deck = React.memo(({ basemap }) => {
             ? 3
             : 10,
         getLineWidth: (obj) =>
-          obj.properties.NF_ID ? 7 : view.zoom < 15 ? 1 : 4,
+          obj.properties.nf_id ? 7 : view.zoom < 15 ? 1 : 4,
         getPointRadius: 0,
         // (obj) => {
-        //   return obj.properties.NF_ID && hov === obj.properties.NF_ID ? 10 : 6;
+        //   return obj.properties.nf_id && hov === obj.properties.nf_id ? 10 : 6;
         // },
         pickable: true,
         visible: isFilter && ldcuid ? true : view.zoom >= 11 && view.zoom <= 20,
@@ -1044,22 +1061,22 @@ const Deck = React.memo(({ basemap }) => {
           view.zoom > 15 && bar !== 3 && !bufferExp
             ? (d) => {
                 const prp = d.object.properties;
-                console.log(prp);
+                console.log('layer1 prop', prp);
                 /////////////////////////////////////
                 if (srvy) {
                   setSrvyid(null);
                   setNfidlst((prev) => {
-                    if (prev.includes(prp.NF_ID)) {
-                      return prev.filter((id) => id !== prp.NF_ID);
+                    if (prev.includes(prp.nf_id)) {
+                      return prev.filter((id) => id !== prp.nf_id);
                     } else {
-                      return [...prev, prp.NF_ID];
+                      return [...prev, prp.nf_id];
                     }
                   });
                 }
                 /////////////////////////////////////
                 else {
-                  setPick(prp.NF_ID);
-                  getCord(prp.NF_ID, true);
+                  setPick(prp.nf_id);
+                  getCord(prp.nf_id, true);
                   setRight(true);
                 }
               }
@@ -1165,7 +1182,7 @@ const Deck = React.memo(({ basemap }) => {
     // layer19_wb,
     iconLayer1,
     layer6,
-    baselayer,
+    // baselayer,
   ];
 
   // tooltip ----------------------------------------------------------------------
@@ -1207,7 +1224,7 @@ const Deck = React.memo(({ basemap }) => {
       //   view.zoom >= 16
       //     ? (info) => {
       //         if (info.object) {
-      //           setHov(info.object.properties.NF_ID)
+      //           setHov(info.object.properties.nf_id)
       //         } else {
       //           setHov(null);
       //         }
@@ -1216,7 +1233,7 @@ const Deck = React.memo(({ basemap }) => {
       // }
     >
       {basemap && (
-        <Map mapStyle={basemap} mapboxAccessToken={MAPBOX_ACCESS_TOKEN} />
+        <Map mapStyle={basemap} mapboxAccessToken={mapbox_token_ref.current} />
       )}
       <div className="custom-tooltip"></div>
     </DeckGL>

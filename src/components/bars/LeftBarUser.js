@@ -30,7 +30,7 @@ const LeftBarUser = () => {
     setRight,
     reset,
     // allset,
-    setPrpall,
+    // setPrpall,
     scrn,
     setSrvy,
     setExp,
@@ -64,15 +64,16 @@ const LeftBarUser = () => {
   }, [scrn, setLeft, setRight]);
 
   const handleSetBar = useCallback(
-    (newBar, propAll = false) => {
+    (newBar) => {
+      //newBar, propAll = false
       if (bar !== newBar) {
         setBar(newBar);
         reset();
-        if (propAll) setPrpall(true);
+        // if (propAll) setPrpall(true);
       }
       navigate('/');
     },
-    [bar, reset, setBar, setPrpall, navigate]
+    [bar, reset, setBar, navigate] //setPrpall
   );
 
   const handleLogout = useCallback(() => {
@@ -132,7 +133,7 @@ const LeftBarUser = () => {
             <div
               className={`priorBT ${bar === 3 ? 'active' : ''}`}
               onClick={() => {
-                handleSetBar(3, true);
+                handleSetBar(3);
               }}
             >
               <div className="hvd">보행자 우선도로</div>
@@ -143,7 +144,7 @@ const LeftBarUser = () => {
 
             <div
               className={`propBT ${bar === 4 ? 'active' : ''}`}
-              onClick={() => handleSetBar(4, true)}
+              onClick={() => handleSetBar(4)}
             >
               <div className="hvd">이면도로 실태조사</div>
               <div className="topicons">

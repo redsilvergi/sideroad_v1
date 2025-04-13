@@ -81,28 +81,21 @@ const Reg = () => {
       setRight(false);
       setLeft(false);
     }
-
     if (!regfet.current) {
       const dataF = await getReg();
+      // console.log('asdlfknasdkfjasn:', dataF);
       regfet.current = dataF;
     }
-
+    if (exp === 1) {
+      setExp(0);
+      return;
+    }
     const ctlist = regfet.current.filter((item) => item.ldc.slice(2) === '000');
-    const ctlist2 =
-      ctlist &&
-      ctlist.map((item, id) => {
-        return Object.values(item);
-      });
     const sgglist = regfet.current.filter(
       (item) => item.ldc.slice(2) !== '000'
     );
-    const sgglist2 =
-      sgglist &&
-      sgglist.map((item, id) => {
-        return Object.values(item);
-      });
-    ctrf.current = ctlist2;
-    sggrf.current = sgglist2;
+    ctrf.current = ctlist;
+    sggrf.current = sgglist;
 
     setTmpldc(null);
     setLdcuid(null);
@@ -139,7 +132,7 @@ const Reg = () => {
           </button> */}
           <div className="city">
             <div className="reg_ttl">{tmpldc ? tmpldc[1] : '시/도'}</div>
-            <Ct options={ctrf.current} tmpldc={tmpldc} setTmpldc={setTmpldc} />
+            <Ct ctrf={ctrf.current} tmpldc={tmpldc} setTmpldc={setTmpldc} />
           </div>
           {tmpldc && (
             <div className="county">
@@ -149,7 +142,7 @@ const Reg = () => {
                   : '시/군/구'}
               </div>
               <Sgg
-                options={sggrf.current}
+                sggrf={sggrf.current}
                 tmpldc={tmpldc}
                 setTmpldc={setTmpldc}
               />

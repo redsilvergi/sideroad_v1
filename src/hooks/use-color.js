@@ -11,7 +11,7 @@ const useColor = () => {
     rnfo0,
     rnfo1,
     pfrPick,
-    topPfrList,
+    // topPfrList,
     srvy,
     nfidlst,
   } = useInfo();
@@ -37,23 +37,23 @@ const useColor = () => {
           if (rdbtOp) {
             switch (index) {
               case 0:
-                return (feature) => feature.properties.ROAD_BT < 3;
+                return (feature) => feature.properties.road_bt < 3;
               case 1:
                 return (feature) =>
-                  feature.properties.ROAD_BT >= 3 &&
-                  feature.properties.ROAD_BT < 8;
+                  feature.properties.road_bt >= 3 &&
+                  feature.properties.road_bt < 8;
               case 2:
                 return (feature) =>
-                  feature.properties.ROAD_BT >= 8 &&
-                  feature.properties.ROAD_BT < 9;
+                  feature.properties.road_bt >= 8 &&
+                  feature.properties.road_bt < 9;
               case 3:
                 return (feature) =>
-                  feature.properties.ROAD_BT >= 9 &&
-                  feature.properties.ROAD_BT < 10;
+                  feature.properties.road_bt >= 9 &&
+                  feature.properties.road_bt < 10;
               case 4:
                 return (feature) =>
-                  feature.properties.ROAD_BT >= 10 &&
-                  feature.properties.ROAD_BT < 12;
+                  feature.properties.road_bt >= 10 &&
+                  feature.properties.road_bt < 12;
               default:
                 return null;
             }
@@ -71,23 +71,23 @@ const useColor = () => {
           if (slopeOp) {
             switch (index) {
               case 0:
-                return (feature) => feature.properties.SLOPE_LG >= 10;
+                return (feature) => feature.properties.slope_lg >= 10;
               case 1:
                 return (feature) =>
-                  feature.properties.SLOPE_LG >= 6 &&
-                  feature.properties.SLOPE_LG < 10;
+                  feature.properties.slope_lg >= 6 &&
+                  feature.properties.slope_lg < 10;
               case 2:
                 return (feature) =>
-                  feature.properties.SLOPE_LG >= 3 &&
-                  feature.properties.SLOPE_LG < 6;
+                  feature.properties.slope_lg >= 3 &&
+                  feature.properties.slope_lg < 6;
               case 3:
                 return (feature) =>
-                  feature.properties.SLOPE_LG >= 1 &&
-                  feature.properties.SLOPE_LG < 3;
+                  feature.properties.slope_lg >= 1 &&
+                  feature.properties.slope_lg < 3;
               case 4:
                 return (feature) =>
-                  feature.properties.SLOPE_LG >= 0 &&
-                  feature.properties.SLOPE_LG < 1;
+                  feature.properties.slope_lg >= 0 &&
+                  feature.properties.slope_lg < 1;
               default:
                 return null;
             }
@@ -105,19 +105,19 @@ const useColor = () => {
           if (pmtrOp) {
             switch (index) {
               case 0:
-                return (feature) => feature.properties.PMTR_SE === 1;
+                return (feature) => feature.properties.pmtr_se === 1;
               case 1:
-                return (feature) => feature.properties.PMTR_SE === 3;
+                return (feature) => feature.properties.pmtr_se === 3;
               case 2:
-                return (feature) => feature.properties.PMTR_SE === 4;
+                return (feature) => feature.properties.pmtr_se === 4;
               case 3:
-                return (feature) => feature.properties.PMTR_SE === 5;
+                return (feature) => feature.properties.pmtr_se === 5;
               case 4:
                 return (feature) =>
-                  feature.properties.PMTR_SE !== 1 &&
-                  feature.properties.PMTR_SE !== 3 &&
-                  feature.properties.PMTR_SE !== 4 &&
-                  feature.properties.PMTR_SE !== 5;
+                  feature.properties.pmtr_se !== 1 &&
+                  feature.properties.pmtr_se !== 3 &&
+                  feature.properties.pmtr_se !== 4 &&
+                  feature.properties.pmtr_se !== 5;
               default:
                 return null;
             }
@@ -135,23 +135,23 @@ const useColor = () => {
           if (rdnetOp) {
             switch (index) {
               case 0:
-                return (feature) => feature.properties.RDNET_AC >= 1.35;
+                return (feature) => feature.properties.rdnet_ac >= 1.35;
               case 1:
                 return (feature) =>
-                  feature.properties.RDNET_AC >= 1.14 &&
-                  feature.properties.RDNET_AC < 1.35;
+                  feature.properties.rdnet_ac >= 1.14 &&
+                  feature.properties.rdnet_ac < 1.35;
               case 2:
                 return (feature) =>
-                  feature.properties.RDNET_AC >= 0.98 &&
-                  feature.properties.RDNET_AC < 1.14;
+                  feature.properties.rdnet_ac >= 0.98 &&
+                  feature.properties.rdnet_ac < 1.14;
               case 3:
                 return (feature) =>
-                  feature.properties.RDNET_AC >= 0.82 &&
-                  feature.properties.RDNET_AC < 0.98;
+                  feature.properties.rdnet_ac >= 0.82 &&
+                  feature.properties.rdnet_ac < 0.98;
               case 4:
                 return (feature) =>
-                  feature.properties.RDNET_AC >= 0.0 &&
-                  feature.properties.RDNET_AC < 0.82;
+                  feature.properties.rdnet_ac >= 0.0 &&
+                  feature.properties.rdnet_ac < 0.82;
               default:
                 return null;
             }
@@ -169,23 +169,23 @@ const useColor = () => {
           if (pubtrOp) {
             switch (index) {
               case 0:
-                return (feature) => feature.properties.PUBTR_AC >= 500;
+                return (feature) => feature.properties.pubtr_ac >= 500;
               case 1:
                 return (feature) =>
-                  feature.properties.PUBTR_AC >= 350 &&
-                  feature.properties.PUBTR_AC < 500;
+                  feature.properties.pubtr_ac >= 350 &&
+                  feature.properties.pubtr_ac < 500;
               case 2:
                 return (feature) =>
-                  feature.properties.PUBTR_AC >= 200 &&
-                  feature.properties.PUBTR_AC < 350;
+                  feature.properties.pubtr_ac >= 200 &&
+                  feature.properties.pubtr_ac < 350;
               case 3:
                 return (feature) =>
-                  feature.properties.PUBTR_AC >= 100 &&
-                  feature.properties.PUBTR_AC < 200;
+                  feature.properties.pubtr_ac >= 100 &&
+                  feature.properties.pubtr_ac < 200;
               case 4:
                 return (feature) =>
-                  feature.properties.PUBTR_AC >= 0 &&
-                  feature.properties.PUBTR_AC < 100;
+                  feature.properties.pubtr_ac >= 0 &&
+                  feature.properties.pubtr_ac < 100;
               default:
                 return null;
             }
@@ -203,23 +203,23 @@ const useColor = () => {
           if (pbuldOp) {
             switch (index) {
               case 0:
-                return (feature) => feature.properties.PBULD_FA >= 2000;
+                return (feature) => feature.properties.pbuld_fa >= 2000;
               case 1:
                 return (feature) =>
-                  feature.properties.PBULD_FA >= 1000 &&
-                  feature.properties.PBULD_FA < 2000;
+                  feature.properties.pbuld_fa >= 1000 &&
+                  feature.properties.pbuld_fa < 2000;
               case 2:
                 return (feature) =>
-                  feature.properties.PBULD_FA >= 500 &&
-                  feature.properties.PBULD_FA < 1000;
+                  feature.properties.pbuld_fa >= 500 &&
+                  feature.properties.pbuld_fa < 1000;
               case 3:
                 return (feature) =>
-                  feature.properties.PBULD_FA >= 100 &&
-                  feature.properties.PBULD_FA < 500;
+                  feature.properties.pbuld_fa >= 100 &&
+                  feature.properties.pbuld_fa < 500;
               case 4:
                 return (feature) =>
-                  feature.properties.PBULD_FA >= 0 &&
-                  feature.properties.PBULD_FA < 100;
+                  feature.properties.pbuld_fa >= 0 &&
+                  feature.properties.pbuld_fa < 100;
               default:
                 return null;
             }
@@ -237,21 +237,21 @@ const useColor = () => {
           if (buldeOp) {
             switch (index) {
               case 0:
-                return (feature) => feature.properties.BULDE_DE >= 20;
+                return (feature) => feature.properties.bulde_de >= 20;
               case 1:
                 return (feature) =>
-                  feature.properties.BULDE_DE >= 11 &&
-                  feature.properties.BULDE_DE < 20;
+                  feature.properties.bulde_de >= 11 &&
+                  feature.properties.bulde_de < 20;
               case 2:
                 return (feature) =>
-                  feature.properties.BULDE_DE >= 6 &&
-                  feature.properties.BULDE_DE < 11;
+                  feature.properties.bulde_de >= 6 &&
+                  feature.properties.bulde_de < 11;
               case 3:
                 return (feature) =>
-                  feature.properties.BULDE_DE >= 1 &&
-                  feature.properties.BULDE_DE < 6;
+                  feature.properties.bulde_de >= 1 &&
+                  feature.properties.bulde_de < 6;
               case 4:
-                return (feature) => feature.properties.BULDE_DE < 1;
+                return (feature) => feature.properties.bulde_de < 1;
               default:
                 return null;
             }
@@ -269,9 +269,9 @@ const useColor = () => {
           if (stairOp) {
             switch (index) {
               case 0:
-                return (feature) => feature.properties.STAIR_AT === '1';
+                return (feature) => feature.properties.stair_at === '1';
               case 1:
-                return (feature) => feature.properties.STAIR_AT === '0';
+                return (feature) => feature.properties.stair_at === '0';
               default:
                 return null;
             }
@@ -289,11 +289,11 @@ const useColor = () => {
           if (sdwkOp) {
             switch (index) {
               case 0:
-                return (feature) => feature.properties.SDWK_SE === 2;
+                return (feature) => feature.properties.sdwk_se === 2;
               case 1:
-                return (feature) => feature.properties.SDWK_SE === 3;
+                return (feature) => feature.properties.sdwk_se === 3;
               case 2:
-                return (feature) => feature.properties.SDWK_SE === 1;
+                return (feature) => feature.properties.sdwk_se === 1;
               default:
                 return null;
             }
@@ -307,29 +307,29 @@ const useColor = () => {
     }
 
     return pick
-      ? pick === obj.properties.NF_ID
-      : rdbtConditions.length !== 0 &&
-          rdbtConditions.some((condition) => condition(obj)) &&
-          slopeConditions.length !== 0 &&
-          slopeConditions.some((condition) => condition(obj)) &&
-          pmtrConditions.length !== 0 &&
-          pmtrConditions.some((condition) => condition(obj)) &&
-          rdnetConditions.length !== 0 &&
-          rdnetConditions.some((condition) => condition(obj)) &&
-          pubtrConditions.length !== 0 &&
-          pubtrConditions.some((condition) => condition(obj)) &&
-          pbuldConditions.length !== 0 &&
-          pbuldConditions.some((condition) => condition(obj)) &&
-          buldeConditions.length !== 0 &&
-          buldeConditions.some((condition) => condition(obj)) &&
-          stairConditions.length !== 0 &&
-          stairConditions.some((condition) => condition(obj)) &&
-          sdwkConditions.length !== 0 &&
-          sdwkConditions.some((condition) => condition(obj)) &&
+      ? pick === obj.properties.nf_id
+      : (rdbtConditions.length === 0 ||
+          rdbtConditions.some((condition) => condition(obj))) &&
+          (slopeConditions.length === 0 ||
+            slopeConditions.some((condition) => condition(obj))) &&
+          (pmtrConditions.length === 0 ||
+            pmtrConditions.some((condition) => condition(obj))) &&
+          (rdnetConditions.length === 0 ||
+            rdnetConditions.some((condition) => condition(obj))) &&
+          (pubtrConditions.length === 0 ||
+            pubtrConditions.some((condition) => condition(obj))) &&
+          (pbuldConditions.length === 0 ||
+            pbuldConditions.some((condition) => condition(obj))) &&
+          (buldeConditions.length === 0 ||
+            buldeConditions.some((condition) => condition(obj))) &&
+          (stairConditions.length === 0 ||
+            stairConditions.some((condition) => condition(obj))) &&
+          (sdwkConditions.length === 0 ||
+            sdwkConditions.some((condition) => condition(obj))) &&
           (ldcuid && ldcuid[4].slice(2) !== '000'
-            ? obj.properties.LEGLCD_SE === `${ldcuid[4]}`
+            ? obj.properties.leglcd_se === `${ldcuid[4]}`
             : ldcuid && ldcuid[4].slice(2) === '000'
-            ? obj.properties.LEGLCD_SE.slice(0, 2) === ldcuid[4].slice(0, 2)
+            ? obj.properties.leglcd_se.slice(0, 2) === ldcuid[4].slice(0, 2)
             : true);
   };
 
@@ -340,14 +340,14 @@ const useColor = () => {
     const check = mode === '사고' ? rnfo0 : mode === '예측' ? rnfo1 : [];
     const rskVal =
       mode === '사고'
-        ? Number(4 - obj.properties.PEDAC_RK) //PEDAC_RK: 0 안전 4 위험
+        ? Number(4 - obj.properties.pedac_rk) //pedac_rk: 0 안전 4 위험
         : mode === '예측'
-        ? Number(4 - obj.properties.PRED) //PRED: 0 안전 4 위험
-        : Number(4 - obj.properties.PEDAC_RK);
+        ? Number(4 - obj.properties.pred) //pred: 0 안전 4 위험
+        : Number(4 - obj.properties.pedac_rk);
 
     // case pick ----------------------------------------
     if (pick) {
-      if (obj.properties.NF_ID === pick) {
+      if (obj.properties.nf_id === pick) {
         if (rskVal === 0) {
           return [221, 0, 22, 255 * 0.8];
         } else if (rskVal === 1) {
@@ -372,15 +372,15 @@ const useColor = () => {
           if (item) {
             switch (id) {
               case 0:
-                return (d) => d.properties.PEDAC_RK === 4;
+                return (d) => d.properties.pedac_rk === 4;
               case 1:
-                return (d) => d.properties.PEDAC_RK === 3;
+                return (d) => d.properties.pedac_rk === 3;
               case 2:
-                return (d) => d.properties.PEDAC_RK === 2;
+                return (d) => d.properties.pedac_rk === 2;
               case 3:
-                return (d) => d.properties.PEDAC_RK === 1;
+                return (d) => d.properties.pedac_rk === 1;
               case 4:
-                return (d) => d.properties.PEDAC_RK === 0;
+                return (d) => d.properties.pedac_rk === 0;
               default:
                 return null;
             }
@@ -395,15 +395,15 @@ const useColor = () => {
           if (item) {
             switch (id) {
               case 0:
-                return (d) => d.properties.PRED === 4;
+                return (d) => d.properties.pred === 4;
               case 1:
-                return (d) => d.properties.PRED === 3;
+                return (d) => d.properties.pred === 3;
               case 2:
-                return (d) => d.properties.PRED === 2;
+                return (d) => d.properties.pred === 2;
               case 3:
-                return (d) => d.properties.PRED === 1;
+                return (d) => d.properties.pred === 1;
               case 4:
-                return (d) => d.properties.PRED === 0;
+                return (d) => d.properties.pred === 0;
               default:
                 return null;
             }
@@ -419,9 +419,9 @@ const useColor = () => {
         cond1.length !== 0 &&
         cond1.some((condition) => condition(obj)) &&
         (ldcuid && ldcuid[4].slice(2) !== '000'
-          ? obj.properties.LEGLCD_SE === `${ldcuid[4]}`
+          ? obj.properties.leglcd_se === `${ldcuid[4]}`
           : ldcuid && ldcuid[4].slice(2) === '000'
-          ? obj.properties.LEGLCD_SE.slice(0, 2) === ldcuid[4].slice(0, 2)
+          ? obj.properties.leglcd_se.slice(0, 2) === ldcuid[4].slice(0, 2)
           : true);
 
       return finalcheck ? [0, 98, 175, 255 * 0.75] : [0, 0, 0, 255 * 0.05];
@@ -430,7 +430,7 @@ const useColor = () => {
     else {
       // case 시군구 ----------------------------------------
       if (ldcuid && ldcuid[4].slice(2) !== '000') {
-        if (obj.properties.LEGLCD_SE === `${ldcuid[4]}`) {
+        if (obj.properties.leglcd_se === `${ldcuid[4]}`) {
           if (rskVal === 0) {
             return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
           } else if (rskVal === 1) {
@@ -456,7 +456,7 @@ const useColor = () => {
       }
       // case 시도 ----------------------------------------
       else if (ldcuid && ldcuid[4].slice(2) === '000') {
-        if (obj.properties.LEGLCD_SE.slice(0, 2) === ldcuid[4].slice(0, 2)) {
+        if (obj.properties.leglcd_se.slice(0, 2) === ldcuid[4].slice(0, 2)) {
           if (rskVal === 0) {
             return check[0] ? [221, 0, 22, 255 * 0.8] : [0, 0, 0, 255 * 0.05];
           } else if (rskVal === 1) {
@@ -501,7 +501,7 @@ const useColor = () => {
 
   // getroadcolor ----------------------------------------------------------------------
   const getRoadColor = (obj) => {
-    if (!obj.properties.NF_ID) {
+    if (!obj.properties.nf_id) {
       //for int points
       if (view.zoom < 11) {
         return [255, 255, 255, 0];
@@ -509,18 +509,18 @@ const useColor = () => {
         return [255, 255, 255];
       }
     }
-    // if (hvid === obj.properties.NF_ID) {
+    // if (hvid === obj.properties.nf_id) {
     //   return [255, 255, 0];
     // }
     if (bar === 1) {
       if (ldcuid && ldcuid[4].slice(2) === '000') {
-        if (obj.properties.LEGLCD_SE.slice(0, 2) === ldcuid[4].slice(0, 2)) {
+        if (obj.properties.leglcd_se.slice(0, 2) === ldcuid[4].slice(0, 2)) {
           return [0, 98, 175, 255 * 0.75];
         } else {
           return [102, 135, 160, 255 * 0.35];
         }
       } else if (ldcuid && ldcuid[4].slice(2) !== '000') {
-        if (obj.properties.LEGLCD_SE === ldcuid[4]) {
+        if (obj.properties.leglcd_se === ldcuid[4]) {
           return [0, 98, 175, 255 * 0.75];
         } else {
           return [102, 135, 160, 255 * 0.35];
@@ -532,26 +532,27 @@ const useColor = () => {
       //for selected info(filter)
       return getRskClr(obj);
     } else if (bar === 3 && pfrPick) {
-      const selectedRank = topPfrList.find(
-        (item) => item.nf_id === pfrPick
-      )?.ped_fitr_rank;
+      // const selectedRank = topPfrList.find(
+      //   (item) => item.nf_id === pfrPick
+      // )?.ped_fitr_rank;
 
-      const matchingIds = topPfrList
-        .filter((item) => item.ped_fitr_rank === selectedRank)
-        .map((item) => item.nf_id);
+      // const matchingIds = topPfrList
+      //   .filter((item) => item.ped_fitr_rank === selectedRank)
+      //   .map((item) => item.nf_id);
 
-      if (
-        matchingIds.includes(obj.properties.NF_ID) ||
-        obj.properties?.ROAD_NM ===
-          topPfrList.find((item) => item.nf_id === pfrPick)?.road_nm
-      ) {
+      // if (
+      //   matchingIds.includes(obj.properties.nf_id) ||
+      //   obj.properties?.ROAD_NM ===
+      //     topPfrList.find((item) => item.nf_id === pfrPick)?.road_nm
+      // ) {
+      if (nfidlst.includes(obj.properties.nf_id)) {
         return [245, 167, 212];
       } else {
         return [0, 0, 0, 255 * 0.05];
       }
     } else if (bar === 4) {
       if (srvy) {
-        if (nfidlst.includes(obj.properties.NF_ID)) {
+        if (nfidlst.includes(obj.properties.nf_id)) {
           return [0, 98, 175, 255 * 0.75];
         } else {
           return [102, 135, 160, 255 * 0.35];
@@ -559,14 +560,14 @@ const useColor = () => {
       } else {
         if (conditionF(obj)) {
           //for selected info(filter)
-          // if (hov === obj.properties.NF_ID) {
+          // if (hov === obj.properties.nf_id) {
           //   return [0, 255, 0];
           // } else {
           return [0, 98, 175, 255 * 0.75];
           // }
         } else {
           //for unselected info(filter)
-          // if (hov === obj.properties.NF_ID) {
+          // if (hov === obj.properties.nf_id) {
           //   return [0, 255, 0];
           // } else {
           return [102, 135, 160, 255 * 0.35];

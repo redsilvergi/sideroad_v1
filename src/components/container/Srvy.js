@@ -1,11 +1,12 @@
 import './Srvy.css';
-import React from 'react';
+import React, { useState } from 'react';
 import AccrdPrp from '../accordions/AccrdPrp';
 import AccrdPrpBff from '../accordions/AccrdPrpBff';
 // import Table2 from '../table/Table2';
 // import NewComponent from './NewComponent';
 import useInfo from '../../hooks/use-info';
 import { useAuth } from '../../context/auth';
+import { FiPlus, FiMinus } from 'react-icons/fi';
 
 const Srvy = () => {
   // setup ----------------------------------------------------------------------
@@ -24,6 +25,7 @@ const Srvy = () => {
     setSrvyid,
   } = useInfo();
   const { user } = useAuth();
+  const [pickExp, setPickExp] = useState(true);
 
   // handle ----------------------------------------------------------------------
   const handleSrvyRes = () => {
@@ -66,7 +68,7 @@ const Srvy = () => {
     <div className="srvy_wrap">
       <div className="srvy_res_wrap">
         <div className="srvy_res" onClick={handleSrvyRes}>
-          {srvy ? '실태조사 종료' : '실태조사 시작'}
+          실태조사 결과 입력
         </div>
       </div>
 
@@ -76,16 +78,26 @@ const Srvy = () => {
           <div className="srvy_nfidlst_rm" onClick={() => handleDeleteLst()}>
             선택구간삭제
           </div>
-          <div className="srvy_nfidlst_lbl">선택구간</div>
-          <div className="srvy_nfidlst_items">
-            {nfidlst.map((item, id) => {
-              return (
-                <div key={id} className="srvy_nfidlst_item">
-                  {item}
-                </div>
-              );
-            })}
+          <div
+            className="srvy_nfidlst_lbl"
+            onClick={() => setPickExp(!pickExp)}
+          >
+            <div className="srvy_nfidlst_lbl_dep1">{`선택구간 (${nfidlst.length})`}</div>
+            <div className="srvy_fiicon">
+              {pickExp ? <FiMinus /> : <FiPlus />}
+            </div>
           </div>
+          {pickExp && (
+            <div className="srvy_nfidlst_items">
+              {nfidlst.map((item, id) => {
+                return (
+                  <div key={id} className="srvy_nfidlst_item">
+                    {item}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
       {/* {srvy && (

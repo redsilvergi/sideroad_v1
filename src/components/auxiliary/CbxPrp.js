@@ -1,45 +1,45 @@
 import './CbxPrp.css';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import useInfo from '../../hooks/use-info';
+// import useInfo from '../../hooks/use-info';
 
 const CbxPrp = ({ name, checklist }) => {
   const objRef = useRef(checklist.filter((item) => item.name === name)[0]);
   const obj = objRef.current;
   const list = obj.options;
-  const { prpall } = useInfo();
+  // const { prpall } = useInfo();
   const [prpcbxes, setPrpcbxes] = useState(() => {
     const initialprpcbxes = {};
 
-    for (let i = 0; i < list.length; i++) {
-      initialprpcbxes[`checkbox${i + 1}`] = true;
-    }
+    // for (let i = 0; i < list.length; i++) {
+    //   initialprpcbxes[`checkbox${i + 1}`] = true;
+    // }
 
     return initialprpcbxes;
   });
 
-  useEffect(() => {
-    if (prpall) {
-      setPrpcbxes(() => {
-        const boxes = {};
+  // useEffect(() => {
+  //   if (prpall) {
+  //     setPrpcbxes(() => {
+  //       const boxes = {};
 
-        for (let i = 0; i < list.length; i++) {
-          boxes[`checkbox${i + 1}`] = true;
-        }
+  //       for (let i = 0; i < list.length; i++) {
+  //         boxes[`checkbox${i + 1}`] = true;
+  //       }
 
-        return boxes;
-      });
-    } else {
-      setPrpcbxes(() => {
-        const boxes = {};
+  //       return boxes;
+  //     });
+  //   } else {
+  //     setPrpcbxes(() => {
+  //       const boxes = {};
 
-        for (let i = 0; i < list.length; i++) {
-          boxes[`checkbox${i + 1}`] = false;
-        }
+  //       for (let i = 0; i < list.length; i++) {
+  //         boxes[`checkbox${i + 1}`] = false;
+  //       }
 
-        return boxes;
-      });
-    }
-  }, [prpall, list.length]);
+  //       return boxes;
+  //     });
+  //   }
+  // }, [prpall, list.length]);
 
   const updateF = useCallback(() => {
     const sortedItems = Object.values(prpcbxes).reduce((acc, val, i) => {

@@ -6,7 +6,7 @@ import useDb from '../../hooks/use-db';
 import { useAuth } from '../../context/auth';
 import Trigger from '../auxiliary/Trigger';
 
-const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL || '';
+// const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL || '';
 
 // config ----------------------------------------------------------------------
 const config = {
@@ -454,7 +454,7 @@ const Table1 = () => {
         );
 
         // console.log(payload);
-        const res = await axios.post(`${REACT_APP_SERVER_URL}/submit-table`, {
+        const res = await axios.post(`/submit-table`, {
           data: payload,
         });
 

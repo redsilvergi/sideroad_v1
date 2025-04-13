@@ -41,7 +41,7 @@ const LeftBar = () => {
     setRight,
     reset,
     // allset,
-    setPrpall,
+    // setPrpall,
     scrn,
     setExp,
     setIstgl,
@@ -74,14 +74,15 @@ const LeftBar = () => {
   }, [scrn, setLeft, setRight]);
 
   const handleSetBar = useCallback(
-    (newBar, propAll = false) => {
+    (newBar) => {
+      //newBar, propAll = false
       if (bar !== newBar) {
         setBar(newBar);
         reset();
-        if (propAll) setPrpall(true);
+        // if (propAll) setPrpall(true);
       }
     },
-    [bar, reset, setBar, setPrpall]
+    [bar, reset, setBar] //setPrpall
   );
 
   const handleLogin = useCallback(() => {
@@ -124,7 +125,7 @@ const LeftBar = () => {
               className={`riskBT ${bar === 2 ? 'active' : ''}`}
               onClick={() => handleSetBar(2)}
             >
-              <div className="hvd">교통사고 위험도</div>
+              <div className="hvd">보행자 교통사고</div>
               <div className="topicons">
                 <img src={risk} alt="risk" className="lb_icon2" />
               </div>
@@ -133,7 +134,7 @@ const LeftBar = () => {
             <div
               className={`priorBT ${bar === 3 ? 'active' : ''}`}
               onClick={() => {
-                handleSetBar(3, true);
+                handleSetBar(3);
               }}
             >
               <div className="hvd">보행자 우선도로</div>
@@ -144,7 +145,7 @@ const LeftBar = () => {
 
             <div
               className={`propBT ${bar === 4 ? 'active' : ''}`}
-              onClick={() => handleSetBar(4, true)}
+              onClick={() => handleSetBar(4)}
             >
               <div className="hvd">이면도로 실태조사</div>
               <div className="topicons">
@@ -235,7 +236,7 @@ const LeftBar = () => {
 
       {left && bar === 2 && (
         <div className="detail_div">
-          <div className="dtl_ttl">교통사고 위험도</div>
+          <div className="dtl_ttl">보행자 교통사고</div>
           <div className="accordion_div">
             <AccrdRsk1 />
             <Txtballoon />

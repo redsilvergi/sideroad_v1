@@ -18,7 +18,7 @@ const AccrdPfr2a = React.memo(() => {
     setSrvyid,
   } = useInfo();
   const [csvDiv, setCsvDiv] = useState(null);
-  const { getCord, getCsv, getTopPfr, getNfidLstByRoadnm } = useDb();
+  const { getCord, getCsvPfr, getTopPfr, getConnectedLinks } = useDb();
   const { user } = useAuth();
 
   // auxiliary ----------------------------------------------------------------------
@@ -46,7 +46,10 @@ const AccrdPfr2a = React.memo(() => {
           key={id}
           className="pfr2a_csvdwn"
           onClick={async () => {
-            await getCord(item['nf_id'], true);
+            await Promise.all([
+              getCord(item['nf_id'], true),
+              getConnectedLinks(item['nf_id']),
+            ]);
             setPfrInfo(null);
           }}
         >
@@ -61,7 +64,7 @@ const AccrdPfr2a = React.memo(() => {
     });
 
     setCsvDiv(top10Data);
-  }, [getTopPfr, getCord, setPfrInfo, setTopPfrList]);
+  }, [getTopPfr, getCord, setPfrInfo, setTopPfrList, getConnectedLinks]);
 
   const fetchTopPfr = async () => {
     handleCsvList();
@@ -70,32 +73,36 @@ const AccrdPfr2a = React.memo(() => {
   useEffect(() => {
     const fetchNfidlst = async () => {
       if (pfrPick) {
-        const selectedRank = topPfrList.find(
-          (item) => item.nf_id === pfrPick
-        )?.ped_fitr_rank;
-        const selectedRoadnm = topPfrList.find(
-          (item) => item.nf_id === pfrPick
-        )?.road_nm;
+        // const selectedRank = topPfrList.find(
+        //   (item) => item.nf_id === pfrPick
+        // )?.ped_fitr_rank;
+        // const selectedRoadnm = topPfrList.find(
+        //   (item) => item.nf_id === pfrPick
+        // )?.road_nm;
 
-        const matchingIds = topPfrList
-          .filter((item) => item.ped_fitr_rank === selectedRank)
-          .map((item) => item.nf_id);
+        // const matchingIds = topPfrList
+        //   .filter((item) => item.ped_fitr_rank === selectedRank)
+        //   .map((item) => item.nf_id);
 
-        const rdnmlst = (await getNfidLstByRoadnm(selectedRoadnm)) || [];
+        // const rdnmlst = (await getNfidLstByRoadnm(selectedRoadnm)) || [];
 
-        const combinedIds = Array.from(
-          new Set([
-            ...matchingIds,
-            ...(rdnmlst.length > 0 ? rdnmlst.map((item) => item.nf_id) : []),
-          ])
-        );
+        // const combinedIds = Array.from(
+        //   new Set([
+        //     ...matchingIds,
+        //     ...(rdnmlst.length > 0 ? rdnmlst.map((item) => item.nf_id) : []),
+        //   ])
+        // );
 
-        setNfidlst(combinedIds);
+        // setNfidlst(combinedIds);
+        const res = await getConnectedLinks(pfrPick);
+        const connectedLinks = Object.values(res).map((item) => item.nf_id);
+
+        setNfidlst(connectedLinks);
       }
     };
 
     fetchNfidlst();
-  }, [pfrPick, getNfidLstByRoadnm, setNfidlst, topPfrList]);
+  }, [pfrPick, getConnectedLinks, setNfidlst]);
 
   const startSurvey = async () => {
     setBar(4);
@@ -118,21 +125,21 @@ const AccrdPfr2a = React.memo(() => {
   ];
 
   // handlers ----------------------------------------------------------------------
-  const handleCsv = async () => {
-    if (user && user.role === 'admin') {
-      await getCsv(topPfrList);
-    } else {
-      alert('관리자 권한이 필요합니다.');
-    }
-  };
+  // const handleCsv = async () => {
+  //   if (user && user.role === 'admin') {
+  //     await getCsvPfr(topPfrList);
+  //   } else {
+  //     alert('관리자 권한이 필요합니다.');
+  //   }
+  // };
 
-  const handleSrvy = async () => {
-    if (user && user.role === 'admin') {
-      startSurvey();
-    } else {
-      alert('관리자 권한이 필요합니다.');
-    }
-  };
+  // const handleSrvy = async () => {
+  //   if (user && user.role === 'admin') {
+  //     startSurvey();
+  //   } else {
+  //     alert('관리자 권한이 필요합니다.');
+  //   }
+  // };
 
   // renderfunc ----------------------------------------------------------------------
   const renderedItems = items.map((item, index) => {
@@ -153,14 +160,28 @@ const AccrdPfr2a = React.memo(() => {
           <div className={`pfr2a_expanded ${item.id + '_pfr2a_exp'}`}>
             {item.content}
           </div>
+          {user && user.role === 'admin' && (
+            <React.Fragment>
+              <div
+                className="pfr2a_dwnld"
+                onClick={async () => await getCsvPfr(topPfrList)}
+              >
+                CSV 데이터 다운로드
+              </div>
 
+              <div className="pfr2a_input" onClick={() => startSurvey()}>
+                실태조사 결과 입력
+              </div>
+            </React.Fragment>
+          )}
+          {/* 
           <div className="pfr2a_dwnld" onClick={handleCsv}>
             CSV 데이터 다운로드
           </div>
 
           <div className="pfr2a_input" onClick={handleSrvy}>
             실태조사 시작
-          </div>
+          </div> */}
         </div>
       )
     ) : null;

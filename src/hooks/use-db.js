@@ -4,7 +4,7 @@ import axios from 'axios';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { useViewUpdate } from '../../src/context/view';
 
-const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL || '';
+// const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL || '';
 
 const useDb = () => {
   const {
@@ -31,34 +31,42 @@ const useDb = () => {
 
   const setView = useViewUpdate();
   /////////////////////////////////////////////////////////
+  const getMbkey = useCallback(async () => {
+    const response = await axios.get(`/getMbkey`);
+    // console.log('getMbkey response at use-db.js: ', response);
+    return response.data;
+  }, []);
+
   const getProp = useCallback(async (nf_id) => {
     // setLD(true);
-    const response = await axios.get(
-      `${REACT_APP_SERVER_URL}/getProp/${nf_id}`
-    );
+    const response = await axios.get(`/getProp/${nf_id}`);
     return response.data;
     // console.log('getProp response at use-db.js: ', response);
     // setPnfo(response.data);
     // setLD(false);
   }, []);
 
+  const getConnectedLinks = useCallback(async (nf_id) => {
+    const response = await axios.get(`/getTouchedLinks/${nf_id}`);
+    if (response.data) {
+      return response.data;
+    } else {
+      console.log('no data fetched from getConnectedLinks at use-db.js');
+    }
+  }, []);
+
   const getCord = useCallback(
     async (nf_id, setMap) => {
       if (setMap) {
-        setLD(true);
+        // setLD(true);
       }
       // console.log(nf_id);
-      const response = await axios.get(
-        `${REACT_APP_SERVER_URL}/getCord/${nf_id}`
-      );
-      const response2 = await axios.get(
-        `${REACT_APP_SERVER_URL}/getProp/${nf_id}`
-      );
-      const response3 = await axios.get(
-        `${REACT_APP_SERVER_URL}/getShap/${nf_id}`
-      );
+      const response = await axios.get(`/getCord/${nf_id}`);
+      const response2 = await axios.get(`/getProp/${nf_id}`);
+      const response3 = await axios.get(`/getShap/${nf_id}`);
       // console.log("getCord response at use-db.js: ", response);
       bar === 3 ? setPfrPick(nf_id) : setPick(nf_id);
+
       if (response.data) {
         const data = response.data;
         const data2 = response2.data;
@@ -106,12 +114,12 @@ const useDb = () => {
         setRight(false);
       }
       // setLength(Math.round(data.road_lt * 1000) / 1000000);
-      setLD(false);
+      // setLD(false);
     },
-    [setPick, setView, setLD, setPnfo, setRight, setLeft, scrn, bar, setPfrPick]
+    [setPick, setView, setPnfo, setRight, setLeft, scrn, bar, setPfrPick]
   );
   /////////////////////////////////////////////////////////
-  const getCsv = useCallback(
+  const getCsvPfr = useCallback(
     async (nfList) => {
       if (!nfList || nfList.length === 0) {
         console.error('선택된 list가 없습니다.');
@@ -119,11 +127,9 @@ const useDb = () => {
       }
 
       setLD(true);
-      const nf_ids = nfList.map((item) => `'${item.nf_id}'`).join(',');
-      const query = `select * from public.side1r where NF_ID in (${nf_ids})`;
-      const response = await axios.get(
-        `${REACT_APP_SERVER_URL}/getCsv/${query}`
-      );
+      // const nf_ids = nfList.map((item) => item.nf_id);
+      // const query = `select * from public.side1r where NF_ID in (${nf_ids})`;
+      const response = await axios.get(`/getCsvPfr/${ldcuid && ldcuid[4]}`);
       // console.log("csvlistdwn: ", response.data);
       // Construct CSV string and Adding BOM(Byte Order Mark) for UTF-8 Encoding
       const BOM = '\uFEFF';
@@ -148,7 +154,9 @@ const useDb = () => {
       link.setAttribute(
         'download',
         bar === 3 &&
-          `보행자우선도로후보_${ldcuid ? ldcuid[2] : '전국'}_top20.csv`
+          `보행자우선도로후보_${
+            ldcuid ? `${ldcuid[1]}_${ldcuid[2]}` : '전국'
+          }_top20.csv`
       );
       document.body.appendChild(link); //required for firefox
       link.click();
@@ -162,9 +170,7 @@ const useDb = () => {
   const getSrchId = useCallback(
     async (rdnm) => {
       var qry = `select NF_ID from public.side1r where ROAD_NM = '${rdnm}'`;
-      const response = await axios.get(
-        `${REACT_APP_SERVER_URL}/getSrchId/${qry}`
-      );
+      const response = await axios.get(`/getSrchId/${qry}`);
       // console.log("rsrch getsrchid: ", response.data);
       const rtrvdLst = response.data;
       const nfidLst = rtrvdLst.map((item, id) => {
@@ -188,7 +194,7 @@ const useDb = () => {
   );
   /////////////////////////////////////////////////////////////////
   const getLstLength = useCallback(async (lst) => {
-    const response = await axios.get(`${REACT_APP_SERVER_URL}/getLstLength`, {
+    const response = await axios.get(`/getLstLength`, {
       params: { ids: lst },
     });
     return response.data.total_length;
@@ -200,7 +206,7 @@ const useDb = () => {
       console.log('now bar1');
     } else if (bar === 2) {
       const ldc = ldcuid ? ldcuid[4] : null;
-      const response = await axios.post(`${REACT_APP_SERVER_URL}/getLength2`, {
+      const response = await axios.post(`/getLength2`, {
         rnfo0,
         rnfo1,
         ldc,
@@ -213,7 +219,7 @@ const useDb = () => {
     } else if (bar === 4) {
       console.log('info and ldcuid\n', info, ldcuid);
       const ldc = ldcuid ? ldcuid[4] : null;
-      const response = await axios.post(`${REACT_APP_SERVER_URL}/getLength4`, {
+      const response = await axios.post(`/getLength4`, {
         info,
         ldc,
       });
@@ -258,7 +264,7 @@ const useDb = () => {
   //   // console.log('getTop5 query usedb:\n', qryF());
 
   //   const response = await axios.get(
-  //     `${REACT_APP_SERVER_URL}/getTop5/${ldcuid && ldcuid[4]}/${rskType()}`
+  //     `/getTop5/${ldcuid && ldcuid[4]}/${rskType()}`
   //   );
   //   const rtrvdLst = response.data;
   //   // console.log("rsrch getTop5: ", rtrvdLst);
@@ -269,9 +275,7 @@ const useDb = () => {
   const getEcon = useCallback(
     async (citem, ldc, yr) => {
       setLD(true);
-      const response = await axios.get(
-        `${REACT_APP_SERVER_URL}/getEcon/${citem}/${ldc}/${yr}`
-      );
+      const response = await axios.get(`/getEcon/${citem}/${ldc}/${yr}`);
       // console.log('getEcon at use-db', response.data);
       // const lst = response.data;
       // const lst2 = lst.map((item, id, arr) => {
@@ -296,7 +300,7 @@ const useDb = () => {
 
   const getReg = useCallback(async () => {
     setLD(true);
-    const response = await axios.get(`${REACT_APP_SERVER_URL}/getReg`);
+    const response = await axios.get(`/getReg`);
     // console.log('getReg at use-db', response.data);
     setLD(false);
     return response.data;
@@ -307,12 +311,10 @@ const useDb = () => {
       setLD(true);
       // console.log(
       //   'getbar2sido axios at use-db',
-      //   `${REACT_APP_SERVER_URL}/getBar2sido/${tablenm}/${yr}`
+      //   `/getBar2sido/${tablenm}/${yr}`
       // );
 
-      const response = await axios.get(
-        `${REACT_APP_SERVER_URL}/getBar2sido/${tablenm}/${yr}`
-      );
+      const response = await axios.get(`/getBar2sido/${tablenm}/${yr}`);
       // console.log('getBar2sido at use-db', response.data);
       setLD(false);
       return response.data;
@@ -324,7 +326,7 @@ const useDb = () => {
     async (tablenm, sidotmp, yr) => {
       setLD(true);
       const response = await axios.get(
-        `${REACT_APP_SERVER_URL}/getBar2sgg/${tablenm}/${sidotmp}/${yr}`
+        `/getBar2sgg/${tablenm}/${sidotmp}/${yr}`
       );
       // console.log('getBar2sgg at use-db', response.data);
       setLD(false);
@@ -336,7 +338,7 @@ const useDb = () => {
   const getLdc = useCallback(
     async (ldc) => {
       setLD(true);
-      const response = await axios.get(`${REACT_APP_SERVER_URL}/getLdc/${ldc}`);
+      const response = await axios.get(`/getLdc/${ldc}`);
       // console.log('getLdc arrayarrayarray:\n', Object.values(response.data[0]));
       const arraydata = Object.values(response.data[0]);
       setLdcuid(arraydata);
@@ -355,9 +357,7 @@ const useDb = () => {
   const getPie1 = useCallback(
     async (col, ldc) => {
       setLD(true);
-      const response = await axios.get(
-        `${REACT_APP_SERVER_URL}/getPie1/${col}/${ldc}`
-      );
+      const response = await axios.get(`/getPie1/${col}/${ldc}`);
       setLD(false);
       return response.data;
     },
@@ -367,10 +367,7 @@ const useDb = () => {
   const postSrvy = useCallback(
     async (tmp1) => {
       setLD(true);
-      const response = await axios.post(
-        `${REACT_APP_SERVER_URL}/postSrvy`,
-        tmp1
-      );
+      const response = await axios.post(`/postSrvy`, tmp1);
       console.log('postSrvy response\n', response);
 
       setLD(false);
@@ -381,10 +378,7 @@ const useDb = () => {
   const getSrvyhist = useCallback(
     async (obj) => {
       setLD(true);
-      const response = await axios.post(
-        `${REACT_APP_SERVER_URL}/getSrvyhist`,
-        obj
-      );
+      const response = await axios.post(`/getSrvyhist`, obj);
       console.log('getSrvyhist response\n', response.data);
 
       setLD(false);
@@ -395,7 +389,7 @@ const useDb = () => {
 
   // const postSrvyuser = useCallback(async () => {
   //   setLD(true);
-  //   const response = await axios.post(`${REACT_APP_SERVER_URL}/postSrvyuser`);
+  //   const response = await axios.post(`/postSrvyuser`);
   //   console.log('postSrvyuser response\n', response);
 
   //   setLD(false);
@@ -404,10 +398,7 @@ const useDb = () => {
   const getCsvSrvy = useCallback(
     async (obj) => {
       setLD(true);
-      const response = await axios.post(
-        `${REACT_APP_SERVER_URL}/getCsvSrvy`,
-        obj
-      );
+      const response = await axios.post(`/getCsvSrvy`, obj);
       console.log('csvlistdwn: ', response.data, '\nobj', obj);
 
       // Construct CSV string and Adding BOM(Byte Order Mark) for UTF-8 Encoding
@@ -463,10 +454,7 @@ const useDb = () => {
   const getSrvyItem = useCallback(
     async (obj) => {
       setLD(true);
-      const response = await axios.post(
-        `${REACT_APP_SERVER_URL}/getSrvyItem`,
-        obj
-      );
+      const response = await axios.post(`/getSrvyItem`, obj);
 
       if (response.data) {
         console.log('getSrvyItem response.data\n', response.data);
@@ -480,10 +468,7 @@ const useDb = () => {
   const delSrvyItem = useCallback(
     async (obj) => {
       setLD(true);
-      const response = await axios.post(
-        `${REACT_APP_SERVER_URL}/delSrvyItem`,
-        obj
-      );
+      const response = await axios.post(`/delSrvyItem`, obj);
 
       if (response.data) {
         console.log('delSrvyItem response\n', response.data);
@@ -498,10 +483,7 @@ const useDb = () => {
   const editSrvy = useCallback(
     async (obj) => {
       setLD(true);
-      const response = await axios.post(
-        `${REACT_APP_SERVER_URL}/editSrvy`,
-        obj
-      );
+      const response = await axios.post(`/editSrvy`, obj);
       console.log('editSrvy response\n', response);
 
       setLD(false);
@@ -513,10 +495,7 @@ const useDb = () => {
     async (obj) => {
       setLD(true);
       // console.log(nf_id);
-      const response = await axios.post(
-        `${REACT_APP_SERVER_URL}/getCordOnly`,
-        obj
-      );
+      const response = await axios.post(`/getCordOnly`, obj);
       // console.log("getCordOnly response at use-de.js: ", response);
 
       if (response.data) {
@@ -539,10 +518,7 @@ const useDb = () => {
   const getCsvGen1 = useCallback(
     async (obj) => {
       setLD(true);
-      const response = await axios.post(
-        `${REACT_APP_SERVER_URL}/getCsvGen1`,
-        obj
-      );
+      const response = await axios.post(`/getCsvGen1`, obj);
       console.log('csvlistdwn: ', response.data, '\nobj', obj);
 
       // Construct CSV string and Adding BOM(Byte Order Mark) for UTF-8 Encoding
@@ -588,10 +564,7 @@ const useDb = () => {
 
   const getRiskPrcnt = useCallback(async (obj) => {
     // setLD(true);
-    const response = await axios.post(
-      `${REACT_APP_SERVER_URL}/getRiskPrcnt`,
-      obj
-    );
+    const response = await axios.post(`/getRiskPrcnt`, obj);
     // setLD(false);
     return response.data;
   }, []);
@@ -600,7 +573,7 @@ const useDb = () => {
   const getpfrjs = async () => {
     try {
       setLD(true);
-      const res = await axios.get(`${REACT_APP_SERVER_URL}/getPfrjs`);
+      const res = await axios.get(`/getPfrjs`);
       setPfrjs(res.data);
       setLD(false);
     } catch (e) {
@@ -622,43 +595,15 @@ const useDb = () => {
         schl_buffer,
         schl_entr,
       ] = await Promise.all([
-        axios.get(
-          `${REACT_APP_SERVER_URL}/getPfrdata/parks/${ldcuid && ldcuid[0]}`
-        ),
-        axios.get(
-          `${REACT_APP_SERVER_URL}/getPfrdata/parks_buffer/${
-            ldcuid && ldcuid[0]
-          }`
-        ),
-        axios.get(
-          `${REACT_APP_SERVER_URL}/getPfrdata/ch_safe_zone/${
-            ldcuid && ldcuid[0]
-          }`
-        ),
-        axios.get(
-          `${REACT_APP_SERVER_URL}/getPfrdata/sn_safe_zone/${
-            ldcuid && ldcuid[0]
-          }`
-        ),
-        axios.get(
-          `${REACT_APP_SERVER_URL}/getPfrdata/multfac/${ldcuid && ldcuid[0]}`
-        ),
-        axios.get(
-          `${REACT_APP_SERVER_URL}/getPfrdata/multfac_entr/${
-            ldcuid && ldcuid[0]
-          }`
-        ),
-        axios.get(
-          `${REACT_APP_SERVER_URL}/getPfrdata/schl_bld/${ldcuid && ldcuid[0]}`
-        ),
-        axios.get(
-          `${REACT_APP_SERVER_URL}/getPfrdata/schl_buffer/${
-            ldcuid && ldcuid[0]
-          }`
-        ),
-        axios.get(
-          `${REACT_APP_SERVER_URL}/getPfrdata/schl_entr/${ldcuid && ldcuid[0]}`
-        ),
+        axios.get(`/getPfrdata/parks/${ldcuid && ldcuid[0]}`),
+        axios.get(`/getPfrdata/parks_buffer/${ldcuid && ldcuid[0]}`),
+        axios.get(`/getPfrdata/ch_safe_zone/${ldcuid && ldcuid[0]}`),
+        axios.get(`/getPfrdata/sn_safe_zone/${ldcuid && ldcuid[0]}`),
+        axios.get(`/getPfrdata/multfac/${ldcuid && ldcuid[0]}`),
+        axios.get(`/getPfrdata/multfac_entr/${ldcuid && ldcuid[0]}`),
+        axios.get(`/getPfrdata/schl_bld/${ldcuid && ldcuid[0]}`),
+        axios.get(`/getPfrdata/schl_buffer/${ldcuid && ldcuid[0]}`),
+        axios.get(`/getPfrdata/schl_entr/${ldcuid && ldcuid[0]}`),
       ]);
       setPfrdata((prev) => ({
         ...prev,
@@ -682,9 +627,7 @@ const useDb = () => {
 
   const getTopPfr = useCallback(async () => {
     setLD(true);
-    const response = await axios.get(
-      `${REACT_APP_SERVER_URL}/getTopPfr/${ldcuid && ldcuid[4]}`
-    );
+    const response = await axios.get(`/getTopPfr/${ldcuid && ldcuid[4]}`);
     const rtrvdLst = response.data;
     setLD(false);
     return rtrvdLst;
@@ -694,10 +637,9 @@ const useDb = () => {
     async (nfidlst) => {
       setLD(true);
       try {
-        const response = await axios.get(
-          `${REACT_APP_SERVER_URL}/getSurveyBuffer`,
-          { params: { ids: nfidlst } }
-        );
+        const response = await axios.get(`/getSurveyBuffer`, {
+          params: { ids: nfidlst },
+        });
         const rtrvd = response.data;
         setLD(false);
         return rtrvd;
@@ -713,10 +655,9 @@ const useDb = () => {
     async (nfidlst) => {
       setLD(true);
       try {
-        const response = await axios.get(
-          `${REACT_APP_SERVER_URL}/getSurveyBufferMask`,
-          { params: { ids: nfidlst } }
-        );
+        const response = await axios.get(`/getSurveyBufferMask`, {
+          params: { ids: nfidlst },
+        });
         const rtrvd = response.data;
         setLD(false);
         return rtrvd;
@@ -732,7 +673,7 @@ const useDb = () => {
     async (nfidlst) => {
       setLD(true);
       try {
-        const response = await axios.get(`${REACT_APP_SERVER_URL}/getSrvData`, {
+        const response = await axios.get(`/getSrvData`, {
           params: { ids: nfidlst },
         });
 
@@ -756,7 +697,7 @@ const useDb = () => {
 
   const getPfrProps = useCallback(async (nfidlst) => {
     try {
-      const response = await axios.get(`${REACT_APP_SERVER_URL}/getPfrProps`, {
+      const response = await axios.get(`/getPfrProps`, {
         params: { ids: nfidlst },
       });
       const data = response.data;
@@ -786,30 +727,10 @@ const useDb = () => {
     }
   }, []);
 
-  const getNfidLstByRoadnm = useCallback(
-    async (road_nm) => {
-      if (!road_nm || road_nm.length === 0) return [];
-      setLD(true);
-      try {
-        setLD(true);
-        const response = await axios.get(
-          `${REACT_APP_SERVER_URL}/getNfidLstByRoadnm/${road_nm}`
-        );
-        const rtrvdLst = response.data;
-        setLD(false);
-        return rtrvdLst;
-      } catch (error) {
-        console.error('Error fetching nfidlst by roadnm:', error);
-        setLD(false);
-      }
-    },
-    [setLD]
-  );
-
   const fetchManual = async () => {
     setLD(true);
     try {
-      const res = await axios.get(`${REACT_APP_SERVER_URL}/manual`, {
+      const res = await axios.get(`/manual`, {
         responseType: 'blob', // binary file handling
       });
 
@@ -832,9 +753,11 @@ const useDb = () => {
 
   /////////////////////////////////////////////////////////
   return {
+    getMbkey,
     getProp,
+    getConnectedLinks,
     getCord,
-    getCsv,
+    getCsvPfr,
     getSrchId,
     getLength,
     // getTop5,
@@ -862,7 +785,6 @@ const useDb = () => {
     getSrvData,
     getLstLength,
     getPfrProps,
-    getNfidLstByRoadnm,
     fetchManual,
   };
 };

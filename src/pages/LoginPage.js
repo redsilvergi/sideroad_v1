@@ -4,7 +4,7 @@ import { useAuth } from '../context/auth';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL || '';
+// const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL || '';
 
 const LoginPage = () => {
   // setup ----------------------------------------------------------------------
@@ -17,7 +17,7 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${REACT_APP_SERVER_URL}/api/login`, {
+      const response = await axios.post(`/auth/login`, {
         username,
         password,
       });

@@ -1,46 +1,29 @@
 import './Ct.css';
 import React from 'react';
-// import useInfo from '../../hooks/use-info';
-// import { useViewUpdate } from '../../context/view';
 
-const Ct = ({ options, tmpldc, setTmpldc }) => {
-  // const { ldcuid, setLdcuid, scrn } = useInfo();
-  // const setView = useViewUpdate();
-
+const Ct = ({ ctrf, tmpldc, setTmpldc }) => {
   const handleCity = (ctitem) => {
-    // const long = ctitem[5];
-    // const lat = ctitem[6];
-    // const zm = ctitem[7];
-    // const zmsm = ctitem[8];
-    setTmpldc(ctitem);
-    // setLdcuid((prev) => {
-    //   if (prev === ctitem) {
-    //     return null;
-    //   } else {
-    //     setView({
-    //       longitude: long,
-    //       latitude: lat,
-    //       zoom: scrn < 1015 ? zmsm : zm,
-    //     });
-    //     return ctitem;
-    //   }
-    // });
+    // console.log('ctitem', ctitem);
+    // console.log('after listise', Object.values(ctitem));
+    setTmpldc(Object.values(ctitem));
   };
+
+  ctrf.sort((a, b) => a.sido.localeCompare(b.sido, 'ko'));
 
   return (
     <div className="ctdd">
       <ul>
-        {options &&
-          options.map((item, id) => {
-            // item[x] where x = 0,1,2,3,4,5,6,7,8  => ldc, sido, sigungu, inuse, uid, long, lat, zm, zmsm in DB
-            const ldcuidfet = item[0];
-            const sidofet = item[2];
+        {ctrf &&
+          ctrf.map((item, id) => {
+            // order => ldc, sido, sigungu, inuse, uid, long, lat, zm, zmsm in DB
+            const ldcfet = item.ldc;
+            const sidofet = item.sigungu;
 
             return (
               <li
                 key={id}
                 className={`ctdd_option_label ${
-                  tmpldc && ldcuidfet.slice(0, 2) === tmpldc[0].slice(0, 2)
+                  tmpldc && ldcfet.slice(0, 2) === tmpldc[0].slice(0, 2)
                     ? 'selected'
                     : ''
                 }`}

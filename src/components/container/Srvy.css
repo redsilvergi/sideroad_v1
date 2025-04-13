@@ -1,6 +1,3 @@
-.srvy_wrap {
-}
-
 /* srvy_res */
 .srvy_res_wrap {
   display: flex;
@@ -51,6 +48,23 @@
   width: 170px;
   height: 30px;
   /* padding: 10px 30px; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.srvy_nfidlst_lbl:hover {
+  background-color: #e1e1e1;
+  cursor: pointer;
+}
+.srvy_nfidlst_lbl_dep1 {
+  margin: 0 0 0 20px;
+}
+.srvy_fiicon {
+  font-size: 17px;
+  margin: 0 7px 0 0;
+  width: 30px;
+  height: 30px;
+
   display: flex;
   justify-content: center;
   align-items: center;
