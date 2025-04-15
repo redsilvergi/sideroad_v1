@@ -161,8 +161,10 @@ const Deck = React.memo(({ basemap }) => {
       getsgggjs();
     }
     if (!tile) {
+      setTile('https://d2df0jiv553vbg.cloudfront.net/{z}/{x}/{y}.pbf');
+      // setTile(`http://localhost:8008/{z}/{x}/{y}.pbf`);
       // setTile(`http://localhost:8080/data/side1r/{z}/{x}/{y}.pbf`);
-      setTile(`https://n-streets.kr/tiles/data/side1r/{z}/{x}/{y}.pbf`);
+      // setTile(`https://n-streets.kr/tiles/data/side1r/{z}/{x}/{y}.pbf`);
     }
     // if (!sidesmp & (view.zoom >= 11)) {
     //   getsidesmp();
@@ -973,10 +975,10 @@ const Deck = React.memo(({ basemap }) => {
         autoHighlight: true,
         highlightColor: [0, 98, 175, 128],
         onClick: async (d) => {
-          // console.log(
-          //   'gjs picked and d: \n',
-          //   d.object.properties.ctprvn_cd + '000'
-          // );
+          console.log(
+            'gjs picked and d: \n',
+            d.object.properties.ctprvn_cd + '000'
+          );
           const ldc = d.object.properties.ctprvn_cd + '000';
           await getLdc(ldc);
         },
@@ -1152,13 +1154,27 @@ const Deck = React.memo(({ basemap }) => {
     );
   }, [basemap]);
 
+  // const testpbflayer = useMemo(() => {
+  //   return new MVTLayer({
+  //     id: 'roads-layer',
+  //     data: 'https://d2df0jiv553vbg.cloudfront.net/{z}/{x}/{y}.pbf',
+  //     layerName: 'side1rndjson',
+  //     getLineWidth: 2,
+  //     lineWidthMinPixels: 1,
+  //     getLineColor: [255, 0, 0, 255],
+  //     pickable: true,
+  //     visible: view.zoom >= 11 && view.zoom <= 19.4,
+  //     onClick: (info) => console.log(info),
+  //   });
+  // }, [view.zoom]);
+
   const layers = [
     baselayer,
     //
     layer6_wb,
     layer12_wb,
     //
-    layer1,
+
     // layer6,
     layer2,
     layer3,
@@ -1172,17 +1188,18 @@ const Deck = React.memo(({ basemap }) => {
     layer13_wb,
     layer4_wb,
     //
+    layer17_wb,
     layer15_wb,
     layer14_wb,
     layer16_wb,
-    layer17_wb,
     layer18_wb,
     // layer20_wb,
     iconLayer2,
     // layer19_wb,
     iconLayer1,
+    layer1,
     layer6,
-    // baselayer,
+    // testpbflayer,
   ];
 
   // tooltip ----------------------------------------------------------------------
@@ -1201,7 +1218,14 @@ const Deck = React.memo(({ basemap }) => {
       initialViewState={view}
       onViewStateChange={handleViewStateChange}
       // onViewStateChange={({ viewState }) => setView(viewState)}
-      controller={true}
+      controller={{
+        dragPan: true,
+        dragRotate: true,
+        scrollZoom: true,
+        maxZoom: 19.4,
+        minZoom: 4,
+      }}
+      // controller={true}
       layers={layers}
       // getTooltip={renderTooltip}
       // getTooltip={view.zoom >= 15 ? getTooltip : getTooltip2}
@@ -1233,7 +1257,12 @@ const Deck = React.memo(({ basemap }) => {
       // }
     >
       {basemap && (
-        <Map mapStyle={basemap} mapboxAccessToken={mapbox_token_ref.current} />
+        <Map
+          mapStyle={basemap}
+          mapboxAccessToken={mapbox_token_ref.current}
+          minZoom={4}
+          maxZoom={19.4}
+        />
       )}
       <div className="custom-tooltip"></div>
     </DeckGL>

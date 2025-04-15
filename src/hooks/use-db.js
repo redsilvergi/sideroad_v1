@@ -127,9 +127,11 @@ const useDb = () => {
       }
 
       setLD(true);
-      // const nf_ids = nfList.map((item) => item.nf_id);
-      // const query = `select * from public.side1r where NF_ID in (${nf_ids})`;
-      const response = await axios.get(`/getCsvPfr/${ldcuid && ldcuid[4]}`);
+      const response = await axios.get(
+        `/getCsvPfr/${
+          ldcuid && ldcuid[0] !== ldcuid[4] ? ldcuid[4] : ldcuid[0]
+        }`
+      );
       // console.log("csvlistdwn: ", response.data);
       // Construct CSV string and Adding BOM(Byte Order Mark) for UTF-8 Encoding
       const BOM = '\uFEFF';
@@ -335,6 +337,7 @@ const useDb = () => {
     [setLD]
   );
 
+  //getLdcuid state set from ldctable using new ldc not uid - to access uid using new ldc
   const getLdc = useCallback(
     async (ldc) => {
       setLD(true);
@@ -627,7 +630,9 @@ const useDb = () => {
 
   const getTopPfr = useCallback(async () => {
     setLD(true);
-    const response = await axios.get(`/getTopPfr/${ldcuid && ldcuid[4]}`);
+    const response = await axios.get(
+      `/getTopPfr/${ldcuid && ldcuid[0] !== ldcuid[4] ? ldcuid[4] : ldcuid[0]}`
+    );
     const rtrvdLst = response.data;
     setLD(false);
     return rtrvdLst;

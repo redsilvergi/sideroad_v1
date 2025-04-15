@@ -19,9 +19,9 @@ const Srvy = () => {
     setNfidlst,
     setBufferData,
     setBufferExp,
-    pfrPick,
+    // pfrPick,
     setPfrPick,
-    topPfrList,
+    // topPfrList,
     setSrvyid,
   } = useInfo();
   const { user } = useAuth();
@@ -40,16 +40,17 @@ const Srvy = () => {
         setNfidlst([]);
         setBufferData([null, null]);
         setSrvyid(null);
-      } else if (pfrPick && nfidlst.length === 0) {
-        const selectedRank = topPfrList.find(
-          (item) => item.nf_id === pfrPick
-        )?.ped_fitr_rank;
-
-        const matchingIds = topPfrList
-          .filter((item) => item.ped_fitr_rank === selectedRank)
-          .map((item) => item.nf_id);
-        setNfidlst(matchingIds);
       }
+      // else if (pfrPick && nfidlst.length === 0) {
+      //   const selectedRank = topPfrList.find(
+      //     (item) => item.nf_id === pfrPick
+      //   )?.ped_fitr_rank;
+
+      //   const matchingIds = topPfrList
+      //     .filter((item) => item.ped_fitr_rank === selectedRank)
+      //     .map((item) => item.nf_id);
+      //   setNfidlst(matchingIds);
+      // }
       setSrvy(!srvy);
       setLength(null);
       setPick(null);
