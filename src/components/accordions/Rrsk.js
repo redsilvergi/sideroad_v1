@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import useInfo from '../../hooks/use-info';
 import { FiPlus, FiMinus } from 'react-icons/fi';
 import { RxTriangleDown, RxTriangleUp } from 'react-icons/rx';
-// import { BsQuestionCircleFill } from 'react-icons/bs';
 import Bar4 from '../charts/Bar4';
 
 const Rrsk = () => {
@@ -17,7 +16,6 @@ const Rrsk = () => {
     scr1: null,
     scr2: null,
   });
-  // const [tmpDv, setTmpDv] = useState(false);
 
   const labels = ['매우좋음', '좋음', '보통', '나쁨', '매우나쁨'];
 
@@ -64,12 +62,6 @@ const Rrsk = () => {
         break;
     }
   };
-  // const mover = () => {
-  //   setTmpDv(true);
-  // };
-  // const mout = () => {
-  //   setTmpDv(false);
-  // };
   ////////////////////////////////////////////////////////////
   return (
     <div className="rrsk_accitem">
@@ -126,7 +118,6 @@ const Rrsk = () => {
                               </div>
                               <div className={`rrsk_scr_item ritem${id + 1}`}>
                                 {id + 1}
-                                {/* <div className="rrsk_scr_number">{id + 1}</div> */}
                               </div>
                               <div className="indctr_wrap">
                                 <div className="indcatr">
@@ -186,168 +177,10 @@ const Rrsk = () => {
                     <div className="rrsk_anlys">
                       <Bar4 />
                     </div>
-                    {/* <div className="rrsk_scr_wrap_x">
-                      <div className="rrsk_scr_container">
-                        {labels.map((label, index) => (
-                          <div key={index} className="rrsk_scr_no_lbl">
-                            <div className="indctr_wrap">
-                              <div className="indcatr">
-                                {cnvrtRate(scr.scr2) === index + 1 && (
-                                  <RxTriangleDown className="indcatr_trngl" />
-                                )}
-                              </div>
-                            </div>
-                            <div className={`rrsk_scr_item ritem${index + 1}`}>
-                              <div className="rrsk_scr_number">{index + 1}</div>
-                            </div>
-                            <div
-                              className={`rrsk_scr_lbl rrsk_scrlbl${index + 1}`}
-                            >
-                              {label}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div> */}
                   </div>
                 )}
                 <div className="rrsk_line"></div>
               </div>
-              {/* <div className="rrsk_acc_d1">
-                <div className="rrsk_line"></div>
-
-                <div
-                  className="rrsk_acc_d2"
-                  onClick={() =>
-                    setAcc((prev) => ({ ...prev, acc3: !acc.acc3 }))
-                  }
-                >
-                  <div className="rrsk_acc_lbl">재해사고</div>
-                  <div className="rrsk_acc_icon">
-                    {acc.acc3 ? <FiMinus /> : <FiPlus />}
-                  </div>
-                </div>
-
-                {acc.acc3 && <div className="rrsk_line"></div>}
-
-                {acc.acc3 && (
-                  <div className="rrsk_acc1_exp">
-                    <div className="rrsk_scr_wrap_x">
-                      <div className="rrsk_scr_container">
-                        {labels.map((label, index) => (
-                          <div key={index} className="rrsk_scr_no_lbl">
-                            <div className="indctr_wrap">
-                              <div className="indcatr">
-                                {cnvrtRate(scr.scr3) === index + 1 && (
-                                  <RxTriangleDown className="indcatr_trngl" />
-                                )}
-                              </div>
-                            </div>
-                            <div className={`rrsk_scr_item ritem${index + 1}`}>
-                              <div className="rrsk_scr_number">{index + 1}</div>
-                            </div>
-                            <div
-                              className={`rrsk_scr_lbl rrsk_scrlbl${index + 1}`}
-                            >
-                              {label}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div className="rrsk_acc_d1">
-                <div className="rrsk_line"></div>
-
-                <div
-                  className="rrsk_acc_d2"
-                  onClick={() =>
-                    setAcc((prev) => ({ ...prev, acc4: !acc.acc4 }))
-                  }
-                >
-                  <div className="rrsk_acc_lbl">밀집사고</div>
-                  <div className="rrsk_acc_icon">
-                    {acc.acc4 ? <FiMinus /> : <FiPlus />}
-                  </div>
-                </div>
-
-                {acc.acc4 && <div className="rrsk_line"></div>}
-
-                {acc.acc4 && (
-                  <div className="rrsk_acc1_exp">
-                    <div className="rrsk_scr_wrap_x">
-                      <div className="rrsk_scr_container">
-                        {labels.map((label, index) => (
-                          <div key={index} className="rrsk_scr_no_lbl">
-                            <div className="indctr_wrap">
-                              <div className="indcatr">
-                                {cnvrtRate(scr.scr4) === index + 1 && (
-                                  <RxTriangleDown className="indcatr_trngl" />
-                                )}
-                              </div>
-                            </div>
-                            <div className={`rrsk_scr_item ritem${index + 1}`}>
-                              <div className="rrsk_scr_number">{index + 1}</div>
-                            </div>
-                            <div
-                              className={`rrsk_scr_lbl rrsk_scrlbl${index + 1}`}
-                            >
-                              {label}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div className="rrsk_acc_d1">
-                <div className="rrsk_line"></div>
-
-                <div
-                  className="rrsk_acc_d2"
-                  onClick={() =>
-                    setAcc((prev) => ({ ...prev, acc5: !acc.acc5 }))
-                  }
-                >
-                  <div className="rrsk_acc_lbl">낙상사고</div>
-                  <div className="rrsk_acc_icon">
-                    {acc.acc5 ? <FiMinus /> : <FiPlus />}
-                  </div>
-                </div>
-
-                <div className="rrsk_line"></div>
-
-                {acc.acc5 && (
-                  <div className="rrsk_acc1_exp">
-                    <div className="rrsk_scr_wrap_x">
-                      <div className="rrsk_scr_container">
-                        {labels.map((label, index) => (
-                          <div key={index} className="rrsk_scr_no_lbl">
-                            <div className="indctr_wrap">
-                              <div className="indcatr">
-                                {cnvrtRate(scr.scr5) === index + 1 && (
-                                  <RxTriangleDown className="indcatr_trngl" />
-                                )}
-                              </div>
-                            </div>
-                            <div className={`rrsk_scr_item ritem${index + 1}`}>
-                              <div className="rrsk_scr_number">{index + 1}</div>
-                            </div>
-                            <div
-                              className={`rrsk_scr_lbl rrsk_scrlbl${index + 1}`}
-                            >
-                              {label}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div> */}
             </div>
           </div>
         )}
@@ -357,38 +190,3 @@ const Rrsk = () => {
 };
 
 export default Rrsk;
-
-//  <div className="rrsk_emid">
-//                       <div className="rrsk_emid_lbl">
-//                         교통사고 사망지수 환산값 EMId&nbsp;
-//                         <div
-//                           className="rrsk_qmrk"
-//                           onMouseOver={mover}
-//                           onMouseOut={mout}
-//                         >
-//                           <BsQuestionCircleFill />
-//                         </div>
-//                         {tmpDv && (
-//                           <div className="rrsk_qmrk_div">
-//                             <div className="rrsk_qmrk_txt1">
-//                               ※ 교통사고 위험도 산출 방식
-//                             </div>
-//                             <div className="rrsk_qmrk_txt2">
-//                               각 도로구간에서 발생한 보행자 교통사고 심각도에
-//                               기반, '최소인명피해환산계수' EMI (Equivalent
-//                               Minor Injuries)를 산출하고 이를 다시 사망자
-//                               계수(70.2)로 나눈{' '}
-//                               <span>'총 사망자수 환산값'</span>을 사고위험도
-//                               지표로 활용하였습니다.
-//                             </div>
-//                             <div className="rrsk_qmrk_txt3">
-//                               교통사고 위험도(EMId) = (사망자수 × 70.2 +
-//                               중상자수 × 13.46 + 경상자수 × 1.26 +
-//                               부상신고자수 × 1) ÷ 70.2
-//                             </div>
-//                           </div>
-//                         )}
-//                       </div>
-
-//                       <div className="rrsk_emid_v">{showEMI()}</div>
-//                     </div>

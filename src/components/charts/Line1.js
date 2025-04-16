@@ -74,7 +74,7 @@ const getTransformFunction = (genitem) => {
         전시장: item.exhibit,
         집회장: item.hall,
       });
-    case '유통시설':
+    case '유통시설 개소':
       return (item) => ({
         year: item.yr,
         백화점: item.dpt_no,
@@ -90,7 +90,7 @@ const getTransformFunction = (genitem) => {
         대형점: item.store_tfa,
         대규모소매점: item.retail_tfa,
       });
-    case '공원시설':
+    case '공원시설 개소':
       return (item) => ({
         year: item.yr,
         근린공원: item.neigh_no,

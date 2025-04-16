@@ -59,7 +59,7 @@ const config = {
     unit: '개',
     tablenm: 'culture',
   },
-  유통시설: {
+  '유통시설 개소': {
     colname: ['계/증감률', '백화점', '대형판매점', '대형점', '대규모소매점'],
     keys: ['dpt_no', 'sales_no', 'store_no', 'retail_no'],
     minmax: [0, 0],
@@ -73,7 +73,7 @@ const config = {
     unit: 'km²',
     tablenm: 'dist',
   },
-  공원시설: {
+  '공원시설 개소': {
     colname: ['계/증감률', '근린공원', '소공원', '어린이공원'],
     keys: ['neigh_no', 'small_no', 'child_no'],
     minmax: [0, 0],

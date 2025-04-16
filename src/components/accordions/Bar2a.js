@@ -43,7 +43,7 @@ const config = {
     keys: ['theater', 'auditorium', 'zoo', 'exhibit', 'hall'],
     tablenm: 'culture',
   },
-  유통시설: {
+  '유통시설 개소': {
     colname: ['백화점', '대형판매점', '대형점', '대규모소매점'],
     keys: ['dpt_no', 'sales_no', 'store_no', 'retail_no'],
     tablenm: 'dist',
@@ -53,7 +53,7 @@ const config = {
     keys: ['dpt_tfa', 'sales_tfa', 'store_tfa', 'retail_tfa'],
     tablenm: 'dist',
   },
-  공원시설: {
+  '공원시설 개소': {
     colname: ['근린공원', '소공원', '어린이공원'],
     keys: ['neigh_no', 'small_no', 'child_no'],
     tablenm: 'park',

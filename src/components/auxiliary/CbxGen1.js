@@ -53,13 +53,13 @@ const CbxGen1 = ({ list }) => {
       case '문화집회시설':
         genitem2 = 'culture';
         break;
-      case '유통시설':
+      case '유통시설 개소':
         genitem2 = 'dist';
         break;
       case '유통시설면적':
         genitem2 = 'dist';
         break;
-      case '공원시설':
+      case '공원시설 개소':
         genitem2 = 'park';
         break;
       case '공원시설면적':
