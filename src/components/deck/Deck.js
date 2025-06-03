@@ -57,7 +57,7 @@ const Deck = React.memo(({ basemap }) => {
     isFilter,
     setLength,
     pick,
-    hov,
+    // hov,
     info,
     setPick,
     rnfo0,
@@ -161,7 +161,7 @@ const Deck = React.memo(({ basemap }) => {
       getsgggjs();
     }
     if (!tile) {
-      setTile('https://d2df0jiv553vbg.cloudfront.net/{z}/{x}/{y}.pbf');
+      setTile('https://d2df0jiv553vbg.cloudfront.net/tiles_v2/{z}/{x}/{y}.pbf');
       // setTile(`http://localhost:8008/{z}/{x}/{y}.pbf`);
       // setTile(`http://localhost:8080/data/side1r/{z}/{x}/{y}.pbf`);
       // setTile(`https://n-streets.kr/tiles/data/side1r/{z}/{x}/{y}.pbf`);
@@ -170,8 +170,11 @@ const Deck = React.memo(({ basemap }) => {
     //   getsidesmp();
     // }
     if (!tile2 & (view.zoom >= 11)) {
+      setTile2(
+        `https://d2df0jiv553vbg.cloudfront.net/tiles_acc_p/{z}/{x}/{y}.pbf`
+      );
       // setTile2(`http://localhost:8080/data/side_acc_p/{z}/{x}/{y}.pbf`);
-      setTile2(`https://n-streets.kr/tiles/data/side_acc_p/{z}/{x}/{y}.pbf`);
+      // setTile2(`https://n-streets.kr/tiles/data/side_acc_p/{z}/{x}/{y}.pbf`);
     }
     if (view.zoom < 11) {
       setPick(null);
@@ -1023,6 +1026,73 @@ const Deck = React.memo(({ basemap }) => {
   //   );
   // }, [bar, getLdc, isFilter, ldcuid, sdgjs, view.zoom]);
 
+  // hover highlight logic test ----------------------------------------------------------------------
+  // hover highlight logic test ----------------------------------------------------------------------
+  // hover highlight logic test ----------------------------------------------------------------------
+  // hover highlight logic test ----------------------------------------------------------------------
+  // hover highlight logic test ----------------------------------------------------------------------
+  // const [hoveredObject, setHoveredObject] = useState(null);
+
+  // const layer1 = useMemo(() => {
+  //   return (
+  //     tile &&
+  //     new MVTLayer({
+  //       id: 'mvt-layer1',
+  //       data: tile,
+  //       pickable: true,
+  //       visible: isFilter && ldcuid ? true : view.zoom >= 11 && view.zoom <= 20,
+  //       getLineColor: (obj) => getRoadColor(obj), // No hover logic here
+  //       onClick: (d) => {
+  //         console.log('d object:', d.object);
+  //       },
+  //       onHover:
+  //         view.zoom > 15
+  //           ? (d) => {
+  //               setHoveredObject(d.object);
+  //               getTooltip1(d);
+  //             }
+  //           : (d) => {
+  //               setHoveredObject(null);
+  //               // ...
+  //             },
+  //     })
+  //   );
+  // }, [
+  //   bar,
+  //   tile,
+  //   view.zoom,
+  //   isFilter,
+  //   info,
+  //   getRoadColor,
+  //   ldcuid,
+  //   pick,
+  //   setPick,
+  //   rnfo0,
+  //   rnfo1,
+  //   setRight,
+  //   getTooltip1,
+  //   pfrPick,
+  //   getCord,
+  //   srvy,
+  //   nfidlst,
+  //   setNfidlst,
+  //   bufferExp,
+  //   setSrvyid,
+  // ]);
+
+  // const highlightLayer = useMemo(() => {
+  //   return (
+  //     hoveredObject &&
+  //     new GeoJsonLayer({
+  //       id: 'highlight-layer',
+  //       data: [hoveredObject], // Only the hovered feature
+  //       getLineColor: [255, 255, 0, 255],
+  //       getLineWidth: 1,
+  //       pickable: false, // Don't interfere with main layer
+  //     })
+  //   );
+  // }, [hoveredObject]);
+
   const layer1 = useMemo(() => {
     return (
       tile &&
@@ -1059,6 +1129,8 @@ const Deck = React.memo(({ basemap }) => {
         //   });
         // },
         // autoHighlight: true,
+        autoHighlight: true,
+        highlightColor: [255, 255, 0, 128],
         onClick:
           view.zoom > 15 && bar !== 3 && !bufferExp
             ? (d) => {
@@ -1096,7 +1168,7 @@ const Deck = React.memo(({ basemap }) => {
             info,
             ldcuid,
             pick,
-            hov,
+            // hov,
             rnfo0,
             rnfo1,
             pfrPick,
@@ -1116,7 +1188,7 @@ const Deck = React.memo(({ basemap }) => {
     ldcuid,
     pick,
     setPick,
-    hov,
+    // hov,
     rnfo0,
     rnfo1,
     setRight,
@@ -1129,6 +1201,12 @@ const Deck = React.memo(({ basemap }) => {
     bufferExp,
     setSrvyid,
   ]);
+
+  // hover highlight logic test ----------------------------------------------------------------------
+  // hover highlight logic test ----------------------------------------------------------------------
+  // hover highlight logic test ----------------------------------------------------------------------
+  // hover highlight logic test ----------------------------------------------------------------------
+  // hover highlight logic test ----------------------------------------------------------------------
 
   const baselayer = useMemo(() => {
     return (
@@ -1198,6 +1276,7 @@ const Deck = React.memo(({ basemap }) => {
     // layer19_wb,
     iconLayer1,
     layer1,
+    // highlightLayer,
     layer6,
     // testpbflayer,
   ];
@@ -1256,7 +1335,7 @@ const Deck = React.memo(({ basemap }) => {
       //     : null
       // }
     >
-      {basemap && (
+      {basemap && mapbox_token_ref.current && (
         <Map
           mapStyle={basemap}
           mapboxAccessToken={mapbox_token_ref.current}

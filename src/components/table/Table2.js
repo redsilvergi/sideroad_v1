@@ -218,7 +218,7 @@ const Table2 = () => {
 
   const handleNfid = async (received_srvydata) => {
     const tmp = received_srvydata;
-    console.log('tmptmptmptmptmp', tmp, tmp.nfidlst, tmp.srvyid);
+    // console.log('tmptmptmptmptmp', tmp, tmp.nfidlst, tmp.srvyid);
     setNfidlst(tmp.nfidlst);
 
     setSrvyid(tmp.srvyid);

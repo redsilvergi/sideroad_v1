@@ -82,7 +82,6 @@ const LandingPage = () => {
   // render ----------------------------------------------------------------------
   return (
     <div className="testc">
-      {/* <Test1 /> */}
       <LeftBar />
       {right && <RightBar />}
       {bar === 1 && <Table1 />}

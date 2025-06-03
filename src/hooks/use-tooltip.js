@@ -174,9 +174,12 @@ const useTooltip = () => {
     const tooltip = document.querySelector('.custom-tooltip');
     if (d.object && tooltip) {
       tooltip.style.display = 'block';
+      //<div style="font-weight: bold; font-size: 14px; margin-bottom: 5px;">
+      //   사고 발생지점 (${op.acdnt_no || '정보 없음'})
+      // </div>
       tooltip.innerHTML = `
         <div style="font-weight: bold; font-size: 14px; margin-bottom: 5px;">
-          사고 발생지점 (${op.acdnt_no || '정보 없음'})
+          사고 발생지점
         </div>
         <div style="color: #666666; font-size: 12px;">
           · 내용: ${op.acdnt_sev || '정보 없음'}
@@ -185,7 +188,7 @@ const useTooltip = () => {
           · 유형: ${op.acdnt_type || '정보 없음'}
         </div>
         <div style="color: #666666; font-size: 12px;">
-          · 시간: ${op.acdnt_time || '정보 없음'}
+          · 연도: ${op.acdnt_year || '정보 없음'}
         </div>
         <div style="color: #666666; font-size: 12px;">
           · 날씨: ${op.weather || '정보 없음'}

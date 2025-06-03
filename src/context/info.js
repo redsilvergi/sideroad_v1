@@ -154,7 +154,7 @@ const InfoProvider = ({ children }) => {
   const [left, setLeft] = useState(false);
   const [right, setRight] = useState(false);
   const [pick, setPick] = useState(null);
-  const [hov, setHov] = useState(null);
+  // const [hov, setHov] = useState(null);
   const [accRsk2a, setAccRsk2a] = useState(true);
   const [nfid, setNfid] = useState(null);
   // const [prpall, setPrpall] = useState(false);
@@ -239,8 +239,8 @@ const InfoProvider = ({ children }) => {
       setRight,
       pick,
       setPick,
-      hov,
-      setHov,
+      // hov,
+      // setHov,
       accRsk2a,
       setAccRsk2a,
       nfid,
@@ -314,7 +314,7 @@ const InfoProvider = ({ children }) => {
       left,
       right,
       pick,
-      hov,
+      // hov,
       accRsk2a,
       nfid,
       pnfo,

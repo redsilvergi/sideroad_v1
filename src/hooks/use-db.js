@@ -37,14 +37,14 @@ const useDb = () => {
     return response.data;
   }, []);
 
-  const getProp = useCallback(async (nf_id) => {
-    // setLD(true);
-    const response = await axios.get(`/getProp/${nf_id}`);
-    return response.data;
-    // console.log('getProp response at use-db.js: ', response);
-    // setPnfo(response.data);
-    // setLD(false);
-  }, []);
+  // const getProp = useCallback(async (nf_id) => {
+  //   // setLD(true);
+  //   const response = await axios.get(`/getProp/${nf_id}`);
+  //   return response.data;
+  //   // console.log('getProp response at use-db.js: ', response);
+  //   // setPnfo(response.data);
+  //   // setLD(false);
+  // }, []);
 
   const getConnectedLinks = useCallback(async (nf_id) => {
     const response = await axios.get(`/getTouchedLinks/${nf_id}`);
@@ -759,7 +759,7 @@ const useDb = () => {
   /////////////////////////////////////////////////////////
   return {
     getMbkey,
-    getProp,
+    // getProp,
     getConnectedLinks,
     getCord,
     getCsvPfr,
