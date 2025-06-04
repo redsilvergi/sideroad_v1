@@ -4,6 +4,12 @@ import useInfo from '../../hooks/use-info';
 import useDb from '../../hooks/use-db';
 import { useAuth } from '../../context/auth';
 
+// auth_tier ----------------------------------------------------------------------
+const auth_tier_1 = ['admin'];
+const auth_tier_2 = [auth_tier_1, 'gov', 'partner'].flat();
+// const auth_tier_3 = [auth_tier_2, 'guest'].flat();
+// const auth_tier_4 = [auth_tier_3, 'user', 'user2', 'user3'].flat();
+
 const AccrdPfr2a = React.memo(() => {
   // setup ----------------------------------------------------------------------
   const {
@@ -124,23 +130,6 @@ const AccrdPfr2a = React.memo(() => {
     },
   ];
 
-  // handlers ----------------------------------------------------------------------
-  // const handleCsv = async () => {
-  //   if (user && user.role === 'admin') {
-  //     await getCsvPfr(topPfrList);
-  //   } else {
-  //     alert('관리자 권한이 필요합니다.');
-  //   }
-  // };
-
-  // const handleSrvy = async () => {
-  //   if (user && user.role === 'admin') {
-  //     startSurvey();
-  //   } else {
-  //     alert('관리자 권한이 필요합니다.');
-  //   }
-  // };
-
   // renderfunc ----------------------------------------------------------------------
   const renderedItems = items.map((item, index) => {
     return ldcuid ? (
@@ -160,7 +149,7 @@ const AccrdPfr2a = React.memo(() => {
           <div className={`pfr2a_expanded ${item.id + '_pfr2a_exp'}`}>
             {item.content}
           </div>
-          {user && user.role === 'admin' && (
+          {user && auth_tier_2.includes(user.role) && (
             <React.Fragment>
               <div
                 className="pfr2a_dwnld"

@@ -159,6 +159,12 @@ const config = {
   },
 };
 
+// auth_tier ----------------------------------------------------------------------
+const auth_tier_1 = ['admin'];
+const auth_tier_2 = [auth_tier_1, 'gov', 'partner'].flat();
+// const auth_tier_3 = [auth_tier_2, 'guest'].flat();
+// const auth_tier_4 = [auth_tier_3, 'user', 'user2', 'user3'].flat();
+
 // Table1 ----------------------------------------------------------------------
 const Table1 = () => {
   const { genitem, genfo, yr, ldcuid } = useInfo();
@@ -383,9 +389,9 @@ const Table1 = () => {
   const handleEdit = () => {
     if (!user) {
       alert('로그인이 필요합니다.');
-    } else if (user.role !== 'admin') {
+    } else if (!auth_tier_2.includes(user.role)) {
       alert('관리자 권한이 필요합니다.');
-    } else if (user.role === 'admin') {
+    } else if (auth_tier_2.includes(user.role)) {
       const editedRows = editData.filter(
         ({ mod_value, og_value }) => mod_value !== og_value
       );
@@ -407,7 +413,7 @@ const Table1 = () => {
   // console.log('editData\n', editData);
 
   const saveTableEdit = async () => {
-    if (user && user.role === 'admin') {
+    if (user && auth_tier_2.includes(user.role)) {
       try {
         const editedRows = editData.filter(
           ({ mod_value, og_value }) => mod_value !== og_value

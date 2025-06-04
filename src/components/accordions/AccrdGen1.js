@@ -158,6 +158,12 @@ const config = {
   },
 };
 
+// auth_tier ----------------------------------------------------------------------
+const auth_tier_1 = ['admin'];
+const auth_tier_2 = [auth_tier_1, 'gov', 'partner'].flat();
+// const auth_tier_3 = [auth_tier_2, 'guest'].flat();
+// const auth_tier_4 = [auth_tier_3, 'user', 'user2', 'user3'].flat();
+
 const AccrdGen1 = () => {
   // setup ----------------------------------------------------------------------
   const { gen, setGen, yr, ldcuid, genitem } = useInfo();
@@ -239,10 +245,10 @@ const AccrdGen1 = () => {
     if (!user) {
       alert('로그인이 필요합니다.');
       return;
-    } else if (user.role !== 'admin') {
+    } else if (!auth_tier_2.includes(user.role)) {
       alert('관리자만 다운로드 가능합니다.');
       return;
-    } else if (user.role === 'admin') {
+    } else if (auth_tier_2.includes(user.role)) {
       const tablename = config[genitem].tablenm;
       getCsvGen1({
         yr: yr && yr.slice(0, 4),

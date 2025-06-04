@@ -8,6 +8,12 @@ import useInfo from '../../hooks/use-info';
 import { useAuth } from '../../context/auth';
 import { FiPlus, FiMinus } from 'react-icons/fi';
 
+// auth_tier ----------------------------------------------------------------------
+const auth_tier_1 = ['admin'];
+const auth_tier_2 = [auth_tier_1, 'gov', 'partner'].flat();
+// const auth_tier_3 = [auth_tier_2, 'guest'].flat();
+// const auth_tier_4 = [auth_tier_3, 'user', 'user2', 'user3'].flat();
+
 const Srvy = () => {
   // setup ----------------------------------------------------------------------
   const {
@@ -32,10 +38,10 @@ const Srvy = () => {
     if (!user) {
       alert('로그인이 필요합니다.');
       return;
-    } else if (user.role !== 'admin') {
+    } else if (!auth_tier_2.includes(user.role)) {
       alert('관리자 권한이 필요합니다.');
       return;
-    } else if (user.role === 'admin') {
+    } else if (auth_tier_2.includes(user.role)) {
       if (srvy) {
         setNfidlst([]);
         setBufferData([null, null]);

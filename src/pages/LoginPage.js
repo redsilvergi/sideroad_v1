@@ -128,7 +128,7 @@ const LoginPage = () => {
 
       if (response.status === 200) {
         const data = await response.json();
-        login(data.user);
+        login(data.user); // data = { token, user: {id: user.id, username: user.username, role: user.role } }
         navigate('/');
       } else {
         setError(
