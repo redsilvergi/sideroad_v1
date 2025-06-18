@@ -12,7 +12,7 @@ const Table2 = () => {
   // setup ----------------------------------------------------------------------
   const { nfidlst, srvyid, setNfidlst, setBar, setSrvy, setSrvyid } = useInfo();
   const { user } = useAuth();
-  const { postSrvy, getSrvyItem, editSrvy, getCordOnly } = useDb();
+  const { postSrvy, getSrvyItem, editSrvy, getCordNView } = useDb();
   const [extend, setExtend] = useState(1);
   const [srvydata, setSrvydata] = useState(null);
   const [formData, setFormData] = useState({
@@ -224,7 +224,7 @@ const Table2 = () => {
     setSrvyid(tmp.srvyid);
     setBar(4);
     setSrvy(true);
-    await getCordOnly({ nfid: tmp.nfidlst[0] });
+    await getCordNView(tmp.nfidlst[0]);
     navigate('/');
   };
 

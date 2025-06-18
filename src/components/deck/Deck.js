@@ -105,7 +105,7 @@ const Deck = React.memo(({ basemap }) => {
   const [tile2, setTile2] = useState(null);
   const [sgggjs, setSgggjs] = useState(null);
   const [hvid, setHvid] = useState(null);
-  const { getMbkey, getLdc, getCord, getpfrjs } = useDb();
+  const { getMbkey, getLdc, getLinkProp, getpfrjs } = useDb();
 
   // useeffect ----------------------------------------------------------------------
   const mapbox_token_ref = useRef(null);
@@ -224,9 +224,9 @@ const Deck = React.memo(({ basemap }) => {
 
   useEffect(() => {
     if (srvy && nfidlst.length === 1) {
-      getCord(nfidlst[0], false);
+      getLinkProp(nfidlst[0], false);
     }
-  }, [srvy, nfidlst, getCord]);
+  }, [srvy, nfidlst, getLinkProp]);
 
   // useEffect(() => {
   //   setSrvy(false);
@@ -1072,7 +1072,7 @@ const Deck = React.memo(({ basemap }) => {
   //   setRight,
   //   getTooltip1,
   //   pfrPick,
-  //   getCord,
+  //   getLinkProp,
   //   srvy,
   //   nfidlst,
   //   setNfidlst,
@@ -1135,7 +1135,7 @@ const Deck = React.memo(({ basemap }) => {
           view.zoom > 15 && bar !== 3 && !bufferExp
             ? (d) => {
                 const prp = d.object.properties;
-                console.log('layer1 prop', prp);
+                // console.log('layer1 prop', prp);
                 /////////////////////////////////////
                 if (srvy) {
                   setSrvyid(null);
@@ -1150,7 +1150,7 @@ const Deck = React.memo(({ basemap }) => {
                 /////////////////////////////////////
                 else {
                   setPick(prp.nf_id);
-                  getCord(prp.nf_id, true);
+                  getLinkProp(prp.nf_id, true);
                   setRight(true);
                 }
               }
@@ -1194,7 +1194,7 @@ const Deck = React.memo(({ basemap }) => {
     setRight,
     getTooltip1,
     pfrPick,
-    getCord,
+    getLinkProp,
     srvy,
     nfidlst,
     setNfidlst,

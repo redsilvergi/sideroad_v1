@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 const Table3 = ({ srvydata, setSrvydata, editmode, setEditmode }) => {
   // setup ----------------------------------------------------------------------
   const { user } = useAuth();
-  const { editSrvy, getCordOnly } = useDb();
+  const { editSrvy, getCordNView } = useDb();
   const { setNfidlst, setBar, setSrvy, setSrvyid } = useInfo();
   const navigate = useNavigate();
 
@@ -88,7 +88,7 @@ const Table3 = ({ srvydata, setSrvydata, editmode, setEditmode }) => {
     setSrvyid(tmp.srvyid);
     setBar(4);
     setSrvy(true);
-    await getCordOnly({ nfid: tmp.nfidlst[0] });
+    await getCordNView(tmp.nfidlst[0]);
     navigate('/');
   };
 

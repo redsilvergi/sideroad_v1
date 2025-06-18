@@ -6,7 +6,7 @@ import { GiExpand } from 'react-icons/gi';
 import { BiHide } from 'react-icons/bi';
 // import axios from 'axios';
 import { useViewUpdate } from '../../context/view';
-// import { useAuth } from '../../context/auth'; // comment out when deploying
+import { useAuth } from '../../context/auth'; // comment out when deploying
 
 const Controls = () => {
   const {
@@ -14,26 +14,26 @@ const Controls = () => {
     setIsFilter,
     right,
     scrn,
-    // info, // comment out when deploying
-    // pick, // comment out when deploying
-    // view, // comment out when deploying
-    // length, // comment out when deploying
-    // region, // comment out when deploying
-    // rsk, // comment out when deploying
-    // rnfo, // comment out when deploying
-    // gen, // comment out when deploying
-    // genitem, // comment out when deploying
-    // genfo, // comment out when deploying
-    // ldcuid, // comment out when deploying
-    // yr, // comment out when deploying
-    // rnfo0, // comment out when deploying
-    // rnfo1, // comment out when deploying
-    // pnfo, // comment out when deploying
-    // nfidlst, // comment out when deploying
-    // pfrPick, // comment out when deploying
-    // exp, // comment out when deploying
+    info, // comment out when deploying
+    pick, // comment out when deploying
+    view, // comment out when deploying
+    length, // comment out when deploying
+    region, // comment out when deploying
+    rsk, // comment out when deploying
+    rnfo, // comment out when deploying
+    gen, // comment out when deploying
+    genitem, // comment out when deploying
+    genfo, // comment out when deploying
+    ldcuid, // comment out when deploying
+    yr, // comment out when deploying
+    rnfo0, // comment out when deploying
+    rnfo1, // comment out when deploying
+    pnfo, // comment out when deploying
+    nfidlst, // comment out when deploying
+    pfrPick, // comment out when deploying
+    exp, // comment out when deploying
   } = useInfo();
-  // const { user } = useAuth(); // comment out when deploying
+  const { user } = useAuth(); // comment out when deploying
   const setView = useViewUpdate();
   // const { queryF } = useQuery();
 
@@ -113,7 +113,7 @@ const Controls = () => {
       <button className="toggle_button" onClick={() => setIsFilter(!isFilter)}>
         <BiHide />
       </button>
-      {/* <button // comment out when deploying
+      <button // comment out when deploying
         className="toggle_button toggle_button_vs"
         onClick={() =>
           console.log(
@@ -165,7 +165,7 @@ const Controls = () => {
         }
       >
         VS
-      </button> */}
+      </button>
       {/* <button className="toggle_button" onClick={handlegjs}>
         gjs
       </button> */}

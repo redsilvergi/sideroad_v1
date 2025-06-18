@@ -24,7 +24,7 @@ const AccrdPfr2a = React.memo(() => {
     setSrvyid,
   } = useInfo();
   const [csvDiv, setCsvDiv] = useState(null);
-  const { getCord, getCsvPfr, getTopPfr, getConnectedLinks } = useDb();
+  const { getLinkProp, getCsvPfr, getTopPfr, getConnectedLinks } = useDb();
   const { user } = useAuth();
 
   // auxiliary ----------------------------------------------------------------------
@@ -53,7 +53,7 @@ const AccrdPfr2a = React.memo(() => {
           className="pfr2a_csvdwn"
           onClick={async () => {
             await Promise.all([
-              getCord(item['nf_id'], true),
+              getLinkProp(item['nf_id'], true),
               getConnectedLinks(item['nf_id']),
             ]);
             setPfrInfo(null);
@@ -70,7 +70,7 @@ const AccrdPfr2a = React.memo(() => {
     });
 
     setCsvDiv(top10Data);
-  }, [getTopPfr, getCord, setPfrInfo, setTopPfrList, getConnectedLinks]);
+  }, [getTopPfr, getLinkProp, setPfrInfo, setTopPfrList, getConnectedLinks]);
 
   const fetchTopPfr = async () => {
     handleCsvList();

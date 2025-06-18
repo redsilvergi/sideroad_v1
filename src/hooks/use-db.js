@@ -37,14 +37,28 @@ const useDb = () => {
     return response.data;
   }, []);
 
-  // const getProp = useCallback(async (nf_id) => {
-  //   // setLD(true);
-  //   const response = await axios.get(`/getProp/${nf_id}`);
-  //   return response.data;
-  //   // console.log('getProp response at use-db.js: ', response);
-  //   // setPnfo(response.data);
-  //   // setLD(false);
-  // }, []);
+  //getLdcuid state set from ldctable using new ldc not uid - to access uid using new ldc
+  const getLdc = useCallback(
+    async (ldc, isSetView = true) => {
+      // setLD(true);
+      // console.log('getLdc called with ldc: ', ldc);
+      const response = await axios.get(`/getLdc/${ldc}`);
+      // console.log('getLdc arrayarrayarray:\n', Object.values(response.data[0]));
+      const arraydata = Object.values(response.data[0]);
+      setLdcuid(arraydata);
+      if (isSetView) {
+        setView({
+          longitude: arraydata[5],
+          latitude: arraydata[6],
+          zoom: scrn < 1015 ? arraydata[8] : arraydata[7],
+        });
+      }
+      setExp(2);
+      // setLD(false);
+      return response.data;
+    },
+    [setLdcuid, setView, scrn, setExp]
+  );
 
   const getConnectedLinks = useCallback(async (nf_id) => {
     const response = await axios.get(`/getTouchedLinks/${nf_id}`);
@@ -55,16 +69,18 @@ const useDb = () => {
     }
   }, []);
 
-  const getCord = useCallback(
+  const getLinkProp = useCallback(
     async (nf_id, setMap) => {
       if (setMap) {
         // setLD(true);
       }
       // console.log(nf_id);
-      const response = await axios.get(`/getCord/${nf_id}`);
+      const response = await axios.get(`/getCordOnly/${nf_id}`);
       const response2 = await axios.get(`/getProp/${nf_id}`);
       const response3 = await axios.get(`/getShap/${nf_id}`);
-      // console.log("getCord response at use-db.js: ", response);
+      // console.log('getLinkProp response.data at use-db.js: ', response.data);
+      // console.log('getLinkProp response2.data at use-db.js: ', response2.data);
+      // console.log('getLinkProp response3.data at use-db.js: ', response3.data);
       bar === 3 ? setPfrPick(nf_id) : setPick(nf_id);
 
       if (response.data) {
@@ -106,8 +122,11 @@ const useDb = () => {
           slopelgs: data3.slopelgs,
           subway400s: data3.subway400s,
         });
+        getLdc(data2.leglcd_se, false);
       } else {
-        console.log('no data fetched from getCord at use-db.js');
+        console.log(
+          'no response.data fetched from getCordOnly, getProp, getShap at use-db.js'
+        );
       }
       if (scrn < 1015) {
         setLeft(false);
@@ -116,7 +135,17 @@ const useDb = () => {
       // setLength(Math.round(data.road_lt * 1000) / 1000000);
       // setLD(false);
     },
-    [setPick, setView, setPnfo, setRight, setLeft, scrn, bar, setPfrPick]
+    [
+      setPick,
+      setView,
+      setPnfo,
+      setRight,
+      setLeft,
+      scrn,
+      bar,
+      setPfrPick,
+      getLdc,
+    ]
   );
   /////////////////////////////////////////////////////////
   const getCsvPfr = useCallback(
@@ -171,16 +200,16 @@ const useDb = () => {
   /////////////////////////////////////////////////////////
   const getSrchId = useCallback(
     async (rdnm) => {
-      var qry = `select NF_ID from public.side1r where ROAD_NM = '${rdnm}'`;
-      const response = await axios.get(`/getSrchId/${qry}`);
-      // console.log("rsrch getsrchid: ", response.data);
+      // console.log('getSrchId params usedb:\n', rdnm);
+      const response = await axios.get(`/getSrchId/${rdnm}`);
+      // console.log('rsrch getsrchid: ', response.data);
       const rtrvdLst = response.data;
       const nfidLst = rtrvdLst.map((item, id) => {
         return (
           <div
             key={id}
             className="rsrch_nfid_row"
-            onClick={async () => await getCord(item.nf_id, true)}
+            onClick={async () => await getLinkProp(item.nf_id, true)}
           >
             <div className="rsrch_nfid1">{`${id + 1}`}</div>
             <div className="rsrch_nfid2">{item.nf_id}</div>
@@ -192,7 +221,7 @@ const useDb = () => {
       });
       return nfidLst;
     },
-    [getCord]
+    [getLinkProp]
   );
   /////////////////////////////////////////////////////////////////
   const getLstLength = useCallback(async (lst) => {
@@ -337,26 +366,6 @@ const useDb = () => {
     [setLD]
   );
 
-  //getLdcuid state set from ldctable using new ldc not uid - to access uid using new ldc
-  const getLdc = useCallback(
-    async (ldc) => {
-      setLD(true);
-      const response = await axios.get(`/getLdc/${ldc}`);
-      // console.log('getLdc arrayarrayarray:\n', Object.values(response.data[0]));
-      const arraydata = Object.values(response.data[0]);
-      setLdcuid(arraydata);
-      setView({
-        longitude: arraydata[5],
-        latitude: arraydata[6],
-        zoom: scrn < 1015 ? arraydata[8] : arraydata[7],
-      });
-      setExp(2);
-      setLD(false);
-      return response.data;
-    },
-    [setLD, setLdcuid, setView, scrn, setExp]
-  );
-
   const getPie1 = useCallback(
     async (col, ldc) => {
       setLD(true);
@@ -494,12 +503,12 @@ const useDb = () => {
     [setLD]
   );
 
-  const getCordOnly = useCallback(
-    async (obj) => {
+  const getCordNView = useCallback(
+    async (nf_id) => {
       setLD(true);
       // console.log(nf_id);
-      const response = await axios.post(`/getCordOnly`, obj);
-      // console.log("getCordOnly response at use-de.js: ", response);
+      const response = await axios.get(`/getCordOnly/${nf_id}`);
+      // console.log("getCordNView response at use-de.js: ", response);
 
       if (response.data) {
         const data = response.data;
@@ -510,7 +519,7 @@ const useDb = () => {
           zoom: 15,
         });
       } else {
-        console.log('no data fetched from getCordOnly at use-db.js');
+        console.log('no data fetched from getCordNView at use-db.js');
       }
 
       setLD(false);
@@ -759,9 +768,9 @@ const useDb = () => {
   /////////////////////////////////////////////////////////
   return {
     getMbkey,
-    // getProp,
+    getLdc,
     getConnectedLinks,
-    getCord,
+    getLinkProp,
     getCsvPfr,
     getSrchId,
     getLength,
@@ -770,7 +779,6 @@ const useDb = () => {
     getReg,
     getBar2sido,
     getBar2sgg,
-    getLdc,
     getPie1,
     postSrvy,
     getSrvyhist,
@@ -778,7 +786,7 @@ const useDb = () => {
     getSrvyItem,
     delSrvyItem,
     editSrvy,
-    getCordOnly,
+    getCordNView,
     getCsvGen1,
     getRiskPrcnt,
     ////////////////////////////////////
