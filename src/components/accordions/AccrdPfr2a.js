@@ -29,16 +29,16 @@ const AccrdPfr2a = React.memo(() => {
 
   // auxiliary ----------------------------------------------------------------------
   const handleCsvList = useCallback(async () => {
-    const top10temp = await getTopPfr(); //not actaully 10 items here, will be filtered by unique rank
+    const top20temp = await getTopPfr(); //not actaully 20 items here, will be filtered by unique rank
     setTopPfrList(
-      top10temp.map((item) => ({
+      top20temp.map((item) => ({
         nf_id: item.nf_id,
         road_nm: item.road_nm ?? null,
         ped_fitr_rank: item.ped_fitr_rank,
       }))
     );
     const uniqueRanks = new Set();
-    const filteredData = top10temp.filter((item) => {
+    const filteredData = top20temp.filter((item) => {
       if (!uniqueRanks.has(item.ped_fitr_rank)) {
         uniqueRanks.add(item.ped_fitr_rank);
         return true;
@@ -46,7 +46,7 @@ const AccrdPfr2a = React.memo(() => {
       return false;
     });
 
-    const top10Data = filteredData.map((item, id) => {
+    const top20Data = filteredData.map((item, id) => {
       return (
         <div
           key={id}
@@ -69,7 +69,7 @@ const AccrdPfr2a = React.memo(() => {
       );
     });
 
-    setCsvDiv(top10Data);
+    setCsvDiv(top20Data);
   }, [getTopPfr, getLinkProp, setPfrInfo, setTopPfrList, getConnectedLinks]);
 
   const fetchTopPfr = async () => {
@@ -139,7 +139,7 @@ const AccrdPfr2a = React.memo(() => {
           className="pfr2a_top5req"
           onClick={fetchTopPfr}
         >
-          TOP10 요청
+          TOP20 요청
         </div>
       ) : (
         <div
