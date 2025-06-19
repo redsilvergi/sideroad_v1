@@ -29,16 +29,16 @@ const AccrdPfr2a = React.memo(() => {
 
   // auxiliary ----------------------------------------------------------------------
   const handleCsvList = useCallback(async () => {
-    const top20temp = await getTopPfr(); //not actaully 20 items here, will be filtered by unique rank
+    const top10temp = await getTopPfr(); //not actaully 10 items here, will be filtered by unique rank
     setTopPfrList(
-      top20temp.map((item) => ({
+      top10temp.map((item) => ({
         nf_id: item.nf_id,
         road_nm: item.road_nm ?? null,
         ped_fitr_rank: item.ped_fitr_rank,
       }))
     );
     const uniqueRanks = new Set();
-    const filteredData = top20temp.filter((item) => {
+    const filteredData = top10temp.filter((item) => {
       if (!uniqueRanks.has(item.ped_fitr_rank)) {
         uniqueRanks.add(item.ped_fitr_rank);
         return true;
@@ -46,7 +46,7 @@ const AccrdPfr2a = React.memo(() => {
       return false;
     });
 
-    const top20Data = filteredData.map((item, id) => {
+    const top10Data = filteredData.map((item, id) => {
       return (
         <div
           key={id}
@@ -69,7 +69,7 @@ const AccrdPfr2a = React.memo(() => {
       );
     });
 
-    setCsvDiv(top20Data);
+    setCsvDiv(top10Data);
   }, [getTopPfr, getLinkProp, setPfrInfo, setTopPfrList, getConnectedLinks]);
 
   const fetchTopPfr = async () => {
@@ -124,7 +124,7 @@ const AccrdPfr2a = React.memo(() => {
   // items ----------------------------------------------------------------------
   const items = [
     {
-      id: 'pfrtop20',
+      id: 'pfrtop10',
       label: '필요구간 TOP10',
       content: csvDiv,
     },
@@ -139,7 +139,7 @@ const AccrdPfr2a = React.memo(() => {
           className="pfr2a_top5req"
           onClick={fetchTopPfr}
         >
-          TOP20 요청
+          TOP10 요청
         </div>
       ) : (
         <div
